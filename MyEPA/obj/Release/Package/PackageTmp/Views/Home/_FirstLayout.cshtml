@@ -1,0 +1,39 @@
+﻿@*以下是用戶尚未登入時，所使用的Layout
+包含有Login視窗，*@
+<!DOCTYPE html>
+<html lang="zh-hant">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="Title" content="Emergency Management Information System" />
+    <meta name="keywords" content="EMIS,Taiwan">
+    <meta name=" Accessible_website " content="本網站通過A檢測等級無障礙網頁檢測">
+
+    <title>@ViewBag.Title</title>
+
+    <link href="~/Content/css/stylesheet.css" rel="stylesheet">
+    <link rel="shortcut icon" href="~/Content/images/favicon.ico">
+    <!-- Bootstrap -->
+    <link href="~/Content/css/bootstrap-4.3.1.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="~/Scripts/popper.min.js"></script>
+    <script src="~/Scripts/bootstrap-4.3.1.js"></script>
+    X Frame Options: sameorigin
+
+
+</head>
+<body>
+    <br>
+    @{Html.RenderPartial("~/Views/Components/TopMenu.cshtml");}
+    @{Html.RenderPartial("~/Views/Components/LoginGate.cshtml");}
+    @{Html.RenderPartial("~/Views/Components/MiddleMenu.cshtml");}
+    <section>@RenderBody() </section>
+    @{Html.RenderPartial("~/Views/Home/Contact.cshtml");}
+
+    @RenderSection("scripts", required: false)
+    @{Html.RenderPartial("~/Views/Components/_Bottom.cshtml");}
+</body>
+</html>

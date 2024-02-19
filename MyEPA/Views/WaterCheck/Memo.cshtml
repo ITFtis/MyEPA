@@ -1,0 +1,33 @@
+﻿@model MyEPA.Models.WaterCheckModel
+
+@{
+    ViewBag.Title = "水質檢查-備註";
+    Layout = "~/Views/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("UpdateMemo","WaterCheck"))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.DiasterId, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.HiddenFor(model => model.CheckDate, new { htmlAttributes = new { @class = "form-control" } })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Memo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <textarea name="Memo" rows="10" cols="50">@Model.Memo</textarea>
+                @Html.ValidationMessageFor(model => model.Memo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="儲存" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}

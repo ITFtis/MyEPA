@@ -1,0 +1,172 @@
+﻿@{
+    Layout = "~/Views/_Layout.cshtml";
+
+    ViewBag.Title= "流動廁所";
+}
+
+<div class="text-center">
+    <br />
+    <h5>流動廁所</h5>
+    <br />
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div id="DeleteArea" class="text-center" style="display:none; width:100%">
+            @using (Html.BeginForm("Delete", "CleanerxToilet"))
+            {
+                <br /><br />
+                @Html.TextBox("DeleteId", "", new { @readonly = "readonly", style = "width:0px;color:red;border:none;" })
+                <input type="submit" class="btn btn-warning" style="margin:5px;padding:5px" value="確定刪除" />
+                <br /><span class="text-warning">刪除後無法回復</span>
+                <br /><br /> <br /><br />
+            }
+            <br />
+        </div>
+        <div id="EditArea" class="text-center" style="display:none; padding:0px; width:100%">
+            @using (Html.BeginForm("Update", "CleanerxToilet"))
+            {
+                <table class="table table-bordered table-striped  text-center">
+                    <tr>
+                        <td>編號：</td>
+                        <td>@Html.TextBox("EditId", "", new { @readonly = "readonly" })</td>
+                    </tr>
+                    <tr>
+                        <td>部門：</td>
+                        <td>@Html.TextBox("EditUnit")</td>
+                    </tr>
+                    <tr>
+                        <td>數量：</td>
+                        <td>@Html.TextBox("EditAmount")</td>
+                    </tr>
+                    <tr>
+                        <td>每座便器數：</td>
+                        <td>@Html.TextBox("EditSlotNumber")</td>
+                    </tr>
+                    <tr>
+                        <td>類別：</td>
+                        <td>
+                            @Html.DropDownList("EditToiletType", new List<SelectListItem>
+                           {
+                               new SelectListItem{Text = "一般型", Value = "一般型",Selected=true },
+                               new SelectListItem{Text = "殘障型",Value = "殘障型"}
+                           })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>購買年份</td>
+                        <td>@Html.TextBox("EditROCyear", "", new { style = "width:50%;align:left" })</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <input type="submit" class="btn btn-primary" style="margin:10px" value="確認儲存" />
+                        </td>
+                    </tr>
+                </table>
+                <br /><br />
+            }
+        </div>
+        <div id="AddArea" class="text-center" style="display:none;width:100%">
+            <br />
+            @using (Html.BeginForm("Add", "CleanerxToilet", FormMethod.Post, new { onsubmit = "return ValidateInput();" }))
+            {
+                <table class="table table-bordered table-striped  text-center">
+                    <tr>
+                        <td>縣市</td>
+                        <td>@ViewBag.City</td>
+                    </tr>
+                    <tr>
+                        <td>鄉鎮市</td>
+                        <td>@ViewBag.Town</td>
+                    </tr>
+                    <tr>
+                        <td>單位名稱</td>
+                        <td>@Html.TextBox("Unit", "", new { style = "width:50%" })</td>
+                    </tr>
+                    <tr>
+                        <td>數量</td>
+                        <td>@Html.TextBox("Amount", "", new { style = "width:50%" })</td>
+                    </tr>
+                    <tr>
+                        <td>每座便器數</td>
+                        <td>@Html.TextBox("SlotNumber", "", new { style = "width:50%" })</td>
+                    </tr>
+                    <tr>
+                        <td>類別</td>
+                        <td>
+                            @Html.DropDownList("ToiletType", new List<SelectListItem>
+                     {
+                         new SelectListItem{Text = "一般型", Value = "一般型",Selected=true },
+                         new SelectListItem{Text = "殘障型", Value = "殘障型"}
+                     })
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>購置年份</td>
+                        <td><span>民國</span>@Html.TextBox("ROCyear", "", new { style = "width:50%;align:left" })年</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <input type="submit" class="btn btn-danger" style="margin:10px" value="確認儲存" onsubmit="return ValidateInput();" />
+                        </td>
+                    </tr>
+                </table>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div id="DataArea" style="height:400px;overflow:auto;width:100%">
+            @{Html.RenderPartial("~/Views/Components/ShowToiletForCleaner.cshtml");}
+        </div>
+    </div>
+</div>
+
+<script>
+    function PickItemForEdit(x) {
+        $.post("/CleanerxToilet/Edit", { Id: x }, function (data) {
+            $("#AddArea").hide();
+            $("#DeleteArea").hide();
+            $("#EditArea").show();
+            $("#EditId").val(x);
+            $("#EditCity").val(data.City);
+            $("#EditTown").val(data.Town);
+            $("#EditAmount").val(data.Amount);
+            $("#EditUnit").val(data.Unit);
+            $("#EditSlotNumber").val(data.SlotNumber);
+            $("#EditToiletType").val(data.ToiletType);
+            $("#EditROCyear").val(data.ROCyear);
+        });
+    }
+</script>
+
+<script>
+    function PickItemForDelete(id) {
+        $("#AddArea").hide();
+        $("#EditArea").hide();
+        $("#DeleteArea").show();
+        $("#DeleteId").val(id);
+    }
+</script>
+
+<script>
+    function AddItem() {
+        $("#EditArea").hide(); $("#DeleteArea").hide();
+        $("#AddArea").show();
+    }
+</script>
+
+<script>
+    function ValidateInput() {
+        return true;
+        //以下程式可抓到ContactUnit的值
+        //var x = $("#ContactUnit").val();
+        //alert(x);
+        //return true;
+        //再配合 return false; 以及if else 理論上可在此驗證資料格式
+        //但不知為何字串無法比對？
+    }
+</script>
+
+

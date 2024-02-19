@@ -1,0 +1,183 @@
+﻿@using MyEPA.Models;
+@using MyEPA.Models.SearchViewModel;
+@model PagingResult<MyEPA.Models.UsersViewModel>
+
+@{ ViewBag.Title = "聯絡人資料維護";
+    Layout = "~/Views/_Layout.cshtml";
+    UserSearchPaginationViewModel search = ViewBag.SearchModel;
+}
+
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+    <hr />
+    @using (Html.BeginForm("Index", "Users", new
+    {
+        SearchDepartmentId = Request["SearchDepartmentId"],
+        SearchPositionId = Request["SearchPositionId"],
+        SearchName = Request["SearchName"],
+        PerPage = Request["PerPage"],
+        Page = Request["Page"]
+    }, FormMethod.Get, new { }))
+    {
+        @Html.Hidden("PerPage", Model.Pagination.PerPage, new { })
+        <table border="0">
+            <tbody>
+                <tr>
+                    <td><h5>機關類別(角色)：</h5></td>
+                    <td>
+                        @{
+                            Html.RenderAction("GetSearchSelectListItem", "Duty", new { selectItem = search.SearchDutyId });
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td><h5>機關名稱(單位)：</h5></td>
+                    <td id="citylist">
+                        @{
+                            Html.RenderAction("GetSearchSelectListItem", "City", new { duty = search.SearchDutyId, id = search.SearchCityId });
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td><h5>單位名稱(鄉鎮市區)：</h5></td>
+                    <td id="townlist">
+                        @{
+                            Html.RenderAction("GetSearchSelectListItem", "Town", new { cityId = search.SearchCityId, id = search.SearchTownId });
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        人員類別：
+                    </td>
+                    <td>
+                        @Html.DropDownList("SearchHumanType", new List<SelectListItem>
+                        {
+                            new SelectListItem{Text = "請選擇",Value = "",Selected=true},
+                            new SelectListItem{Text = "災情通報人員",Value = "災情通報人員"},
+                            new SelectListItem{Text = "飲用水緊急應變小組連絡人員",Value = "飲用水緊急應變小組連絡人員"},
+                            new SelectListItem{Text = "災害防救緊急應變連絡人員",Value = "災害防救緊急應變連絡人員"},
+                            new SelectListItem{Text = "中央專責及進駐人員",Value = "中央專責及進駐人員"},
+                            new SelectListItem{Text = "署內進駐人員",Value = "署內進駐人員"},
+                            new SelectListItem{Text = "車輛機具連絡人員",Value = "車輛機具連絡人員"}
+                        })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        是否為該單位主要聯絡人：
+                    </td>
+                    <td>
+                        @Html.DropDownList("SearchMainContacter", new List<SelectListItem>
+                        {
+                            new SelectListItem{Text = "請選擇",Value = "",Selected=true},
+                            new SelectListItem{Text = "是",Value = "是"},
+                            new SelectListItem{Text = "否",Value = "否"}
+                        })
+                    </td>
+                </tr>
+                <tr><td>&nbsp;</td></tr>
+                <tr align="center">
+                    <td colspan="2"><button type="submit" class="btn btn-primary" href=""><i class="fa fa-search"></i>&nbsp;查詢</button></td>
+                </tr>
+            </tbody>
+        </table>}
+    <hr>
+
+    <p>
+        @Html.ActionLink("新增", "Edit", new { }, new { @class = "btn btn-default" })
+    </p>
+    @{
+        Html.RenderPartial("Partials/_UserListPartial", Model.Items);
+    }
+    <div class="container text-center">
+        @Html.PageLink(Model.Pagination)
+    </div>
+
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            getCitys();
+            $("#SearchDutyId").change(function () {
+                getCitys();
+            });
+            function getCitys() {
+                var source = $("#SearchDutyId");
+                var selectedValue = source.val();
+                var datalist = $("#citylist");
+                console.log(selectedValue);
+                if (selectedValue?.length > 0) {
+                    $.ajax({
+                        url: `@Url.Action("GetSearchSelectListItem", "City")`,
+                        type: 'GET',
+                        data: {
+                            id: `@search.SearchCityId`,
+                            duty: selectedValue
+                        },
+                        success: function (respones) {
+                            datalist.html(respones);
+                            getTowns();
+                            $("#SearchCityId").change(function () {
+                                getTowns();
+                            });
+                        }
+                    });
+                }
+                else {
+                    datalist.empty();
+                }
+            }
+            function getTowns() {
+                var source = $("#SearchCityId");
+                var selectedValue = source.val();
+                var datalist = $("#townlist");
+
+                var isTown = false;
+                switch ($("#SearchDutyId").val()) {
+                    case "1":
+                        isTown = true;
+                        break;
+                    case "2":
+                        isTown = false;
+                        break;
+                    default:
+                        isTown = "";
+                        break;
+                }
+                if (selectedValue?.length > 0) {
+                    $.ajax({
+                        url: `@Url.Action("GetSearchSelectListItem", "Town")`,
+                        type: 'GET',
+                        data: {
+                            id: `@search.SearchTownId`,
+                            cityId: selectedValue,
+                            isTown: isTown
+                        },
+                        success: function (respones) {
+                            datalist.html(respones);
+                        }
+                    });
+                }
+                else {
+                    datalist.empty();
+                }
+            }
+        });
+        function deleteItem(id) {
+            if (confirm("是否確定要刪除？")) {
+                $.ajax({
+                    url: '@Url.Action("Delete", "Users")',
+                    type: 'GET',
+                    data: {
+                        Id: id
+                    },
+                    success: function (respones) {
+                        history.go(0);
+                    }
+                });
+            }
+        }
+    </script>
+}

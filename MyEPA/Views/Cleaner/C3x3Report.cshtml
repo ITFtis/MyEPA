@@ -1,0 +1,229 @@
+﻿@{
+    Layout = "~/Views/_Layout.cshtml";
+}
+
+<div class="text-center">
+    <br />
+    <h5>災情通報</h5>
+    <h6 style="color:blue">進行中的災害主題：@ViewBag.DiasterName</h6>
+    <span>@ViewBag.ReportDay</span>
+    <br />
+   <button class="btn btn-basic" id="Btn" style="padding:2px">顯示/隱藏 通報資料</button>
+
+    <div id="DataArea2">
+        @{
+            Html.RenderPartial("~/Views/Components/ShowDamageForEPB.cshtml");
+        }
+    </div>
+</div>
+@{Html.RenderPartial("~/Views/Components/JSforB1c17.cshtml");}
+<br />
+<div id="ReportArea">
+
+    <div class="container-fluid">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#menu1"><span style="font-size:large">災時與環境清理通報</span></a>
+            </li>
+
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#menu3"><span style="font-size:large">照片</span></a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#menu4"><span style="font-size:large">檔案上傳</span></a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="menu1" class="tab-pane fade in show active">
+                @using (Html.BeginForm("Report", "CleanerxDamage"))
+                {
+                    <br />
+                    <h4>主要受災區與環境清理</h4>
+                    <br />
+                    <span>通報日期：</span> @Html.TextBox("ReportDay", (string)ViewBag.ReportDay, new { @readonly = "readonly", @style = "border:none" })
+                    <br />
+                    <span>災害編號：</span> @Html.TextBox("DiasterId", (string)ViewBag.DiasterId, new { @readonly = "readonly", @style = "border:none" })
+                    <br />
+                    <span>災害主題：</span> @Html.TextBox("DiasterName", (string)ViewBag.DiasterName, new { @readonly = "readonly", @style = "border:none" })
+                    <br />
+                    <span>鄉鎮市區：</span> @Html.TextBox("Town", (string)ViewBag.Town, new { @readonly = "readonly", @style = "border:none" })
+
+                    <br />
+                    <span>主要受災(區村里)：</span>@Html.TextBox("DamagePlace")
+                    <br />
+                    <span>災區面積(公頃)：</span>@Html.TextBox("DamageArea")
+                    <br />
+                    <span>消毒面積(公頃)：</span>@Html.TextBox("DisinfectArea")
+                    <br />
+                    <span>預估廢棄物量(公噸)：</span>@Html.TextBox("PR_Garbage")
+                    <br />
+                    <span>清除污泥(公噸):</span>@Html.TextBox("CLE_MUD")
+                    <br />
+                    <span>清除垃圾(公噸)：</span>@Html.TextBox("CLE_Trash")
+                    <br />
+                    <input type="submit" class="btn btn-danger" style="margin:10px" value="確認通報" />
+                }
+            </div>
+
+            <div id="menu3" class="tab-pane fade">
+                @using (Html.BeginForm("Report3", "CleanerxDamage", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <br />
+                    <h3>照片上傳</h3>
+                    <br />
+                    <span>通報日期：</span> @Html.TextBox("ReportDay", (string)ViewBag.ReportDay, new { @readonly = "readonly", @style = "border:none" })
+                    <br />
+                    <span>災害編號：</span> @Html.TextBox("DiasterId3", (string)ViewBag.DiasterId, new { @readonly = "readonly", @style = "border:none" })
+                    <br />
+                    <span>災害主題：</span> @Html.TextBox("DiasterName3", (string)ViewBag.DiasterName, new { @readonly = "readonly", @style = "border:none" })
+                    <br />
+                    <span>鄉鎮市區：</span> @Html.TextBox("Town3", (string)ViewBag.Town, new { @readonly = "readonly", @style = "border:none" })
+                    <br />
+                    <input type="file" name="file" id="file" /><br><br>
+                    <br />
+                    <br />
+                    <br />
+
+                    <input type="submit" class="btn btn-danger" style="margin:10px" value="確認通報" />
+                }
+            </div>
+            <div id="menu4" class="tab-pane fade">
+                @using (Html.BeginForm("Report4", "CleanerxDamage", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <br />
+                    <h3>檔案上傳</h3>
+                    <br />
+                    <span>通報日期：</span> @Html.TextBox("ReportDay", (string)ViewBag.ReportDay, new { @readonly = "readonly", @style = "border:none" })
+                    <br />
+                    <span>災害編號：</span> @Html.TextBox("DiasterId4", (string)ViewBag.DiasterId, new { @readonly = "readonly", @style = "border:none" })
+                    <br />
+                    <span>災害主題：</span> @Html.TextBox("DiasterName4", (string)ViewBag.DiasterName, new { @readonly = "readonly", @style = "border:none" })
+                    <br />
+                    <span>鄉鎮市區：</span> @Html.TextBox("Town4", (string)ViewBag.Town, new { @readonly = "readonly", @style = "border:none" })
+                    <br />
+                    <input type="file" name="file" id="file" /><br><br>
+                    <br />
+                    <br />
+                    <br />
+
+                    <input type="submit" class="btn btn-danger" style="margin:10px" value="確認通報" />
+                }
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<div id="MapDivision" class="Conainter-fluid">
+    <div class="row">
+        <h6>在左側地圖可框出災區面積、右側地圖可框出消毒面積</h6>
+    </div>
+    <div class="row">
+        <div id="MapArea" class="col-12 col-md-5" style="margin:5px">
+
+        </div>
+        <div class="col-0 col-md-2"></div>
+        <div id="MapArea2" class="col-12 col-md-5" style="margin:5px">
+
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#DataArea2').hide();
+        $("#Btn").click(function () {
+            $("#DataArea2").slideToggle();
+        });
+    });
+</script>
+<script>
+    function PickItemForEdit(DiasterId, DiasterName, DiasterType, StartTime, EndTime, Comment, DiasterState) {
+        $("#ReportArea").show();
+        $("#DiasterId").val(DiasterId);
+        $("#DiasterName").val(DiasterName);
+        $("#DiasterId2").val(DiasterId);
+        $("#DiasterName2").val(DiasterName);
+        $("#DiasterId3").val(DiasterId);
+        $("#DiasterName3").val(DiasterName);
+        $("#DiasterId4").val(DiasterId);
+        $("#DiasterName4").val(DiasterName);
+    }
+</script>
+<script>
+    var MapElement = document.getElementById('MapArea');
+    MapElement.style = 'height:500px;';
+    var Map = L.map(MapElement);
+
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+    ).addTo(Map);
+    var MapTarget  = L.latLng(@ViewBag.Xpos, @ViewBag.Ypos);
+    Map.setView(MapTarget , 14);
+
+</script>
+
+<script>
+    function onMapClick(e) {
+        var Xvalue = e.latlng.lat;
+
+        var Yvalue = e.latlng.lng;
+        if (MarkCollection != undefined) {
+            Map.removeLayer(MarkCollection);
+        };
+        MarkCollection = L.marker([Xvalue, Yvalue]).addTo(Map);
+        bounds.push([Xvalue, Yvalue]);
+        L.polyline(bounds, { color: "red", weight: 1 }).addTo(Map);
+        var first = bounds[0];
+        tempbounds = bounds.slice();
+        tempbounds.push(first);
+        var Z = []; Z.push(tempbounds);
+        var polygon = turf.polygon(Z);
+        var area = Math.round(turf.area(polygon) * 100);
+        $("#DamageArea").val(area / 1000000);
+
+    }
+
+    var MarkCollection = {};
+    var bounds = [];
+    var tempbound = [];
+    Map.on('click', onMapClick);
+</script>
+
+
+<script>
+
+    var MapElement2 = document.getElementById('MapArea2');
+    MapElement2.style = 'height:500px;';
+    var Map2 = L.map(MapElement2);
+
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+    ).addTo(Map2);
+    var MapTarget2  = L.latLng(@ViewBag.Xpos, @ViewBag.Ypos);
+    Map2.setView(MapTarget2 , 14);
+
+</script>
+
+<script>
+    function onMapClick2(e) {
+        var Xvalue = e.latlng.lat;
+
+        var Yvalue = e.latlng.lng;
+        if (MarkCollection2 != undefined) {
+            Map2.removeLayer(MarkCollection2);
+        };
+        MarkCollection2 = L.marker([Xvalue, Yvalue]).addTo(Map2);
+        bounds2.push([Xvalue, Yvalue]);
+        L.polyline(bounds2, { color: "blue", weight: 1 }).addTo(Map2);
+        var first2 = bounds2[0];
+        tempbounds2 = bounds2.slice();
+        tempbounds2.push(first2);
+        var Z2 = []; Z2.push(tempbounds2);
+        var polygon2 = turf.polygon(Z2);
+        var area2 = Math.round(turf.area(polygon2) * 100);
+        $("#DisinfectArea").val(area2 / 1000000);
+
+    }
+
+    var MarkCollection2 = {};
+    var bounds2 = [];
+    var tempbound2 = [];
+    Map2.on('click', onMapClick2);
+</script>
+

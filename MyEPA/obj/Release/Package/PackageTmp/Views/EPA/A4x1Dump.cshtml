@@ -1,0 +1,82 @@
+﻿@{
+    Layout = "~/Views/_Layout.cshtml";
+}
+@using MyEPA.Models
+
+@Html.ActionLink("返回", "A4x1", "EPA", "", new { @class= "btn btn-primary fa fa-arrow-circle-left", @style = "color:white;padding:4px" })
+
+
+<br/><br />
+
+     <div class="row">
+         <div class="col-12 col-sm-6" style="height:500px;overflow-y:scroll" ;>
+             <div class="tab-content">
+                 <div id="Dump" class="tab-pane fade in show active">
+                     @foreach (var Place in ViewBag.Data)
+                     {
+                     <table class="table table-bordered table-success">
+                         <tr>
+                             <td>編號：@Place.Id</td>
+                             <td>聯繫單位 @Place.ContactUnit</td>
+                         </tr>
+                         <tr>
+                             <td>縣市：@Place.City</td>
+                             <td><button class="btn btn-success btn-sm" onclick="PutMark(@Place.Xpos,@Place.Ypos)">定位</button></td>
+                         </tr>
+                         <tr>
+                             <td>X位置：@Place.Xpos</td>
+                             <td>Y位置：@Place.Ypos</td>
+                         </tr>
+                         <tr>
+                             <td colspan="2">更新時間：@Place.UpdateTime</td>
+                            
+                         </tr>
+                         <tr>
+                     </table>
+                         <hr />
+                     }
+                 </div>
+             </div>
+         </div>
+         <div id="OpenStreetMap"  class="col-12 col-sm-6"></div>
+     </div>
+        <script>
+            var E = document.getElementById('OpenStreetMap');
+            E.style = 'height:300px;';
+            var map = L.map(E);
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            var target = L.latLng('25.0400458', '121.55859');
+            map.setView(target, 14);
+            var theMarker = {};
+            map.on('click', onMapClick);
+        </script>
+
+
+        <script>
+            function PutMark(x, y) {
+                var target = L.latLng(x, y);
+                map.setView(target, 14);
+                if (theMarker != undefined) {
+                    map.removeLayer(theMarker);
+                };
+                theMarker = L.marker([x, y]).addTo(map);
+            }
+            //function onMapClick(e) {
+            //    var a = e.latlng.lat.toString();
+            //    var b = e.latlng.lng.toString();
+            //    if (theMarker != undefined) {
+            //        map.removeLayer(theMarker);
+            //    };
+            //    theMarker = L.marker([a, b]).addTo(map);
+            //    $("#Xpos").val(a);
+            //    $("#Ypos").val(b);
+            //}
+
+        </script>
+
+
+
+
+

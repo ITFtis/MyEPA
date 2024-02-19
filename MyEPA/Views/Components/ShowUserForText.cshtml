@@ -1,0 +1,62 @@
+﻿<button onclick="SelectAll()">全部選取</button>
+<font size="2">
+    
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th class="text-center">編輯</th>
+            <th>帳號</th>
+            <th>姓名</th>
+            <th>機關類別(角色)</th>
+            <th>機關名稱(縣市)</th>
+            <th>單位名稱(鄉鎮市區)</th>
+            <th>聯絡電話</th>
+            <th>人員類別</th>
+            <th>主要聯絡人</th>
+            <th>通報優先順序</th>
+        </tr>
+        @foreach (var Item in ViewBag.Data)
+        {
+
+        <tr>
+            <td style="text-align:center">
+               <button style="padding:5px;" onclick="PickItemForText('@Item.MobilePhone')">選取</button>
+            </td>
+            <td>@Item.UserName</td>
+            <td>@Item.Name</td>
+
+            <td>@Item.Duty</td>
+            <td>@Item.City</td>
+            <td>@Item.Town</td>
+            <td class="phone">@Item.MobilePhone</td>
+            <td>@Item.HumanType</td>
+            <td>@Item.MainContacter</td>
+            <td>@Item.ReportPriority</td>
+        </tr>
+        }
+    </table>
+    <br /><br />
+</font>
+<script>
+    function SelectAll() {
+        var element = document.getElementsByClassName('phone');
+        var result = '';
+        for (var i = 0; i < element.length; i++) {
+            if (result == "") {
+                result += element[i].innerHTML;
+            }
+            else {
+                 result += "," + element[i].innerHTML;
+            }
+           
+        }
+        $("#PhoneNumber").val(result);
+    }
+    
+</script>
+<script>
+    function PickItemForText(Phone) {
+        var x = $('#PhoneNumber').val();
+        if (x == "") { $("#PhoneNumber").val(Phone); }
+        else { $("#PhoneNumber").val(x + "," + Phone); }
+    }
+</script>

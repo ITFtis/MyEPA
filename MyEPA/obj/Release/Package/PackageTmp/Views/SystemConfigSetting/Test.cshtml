@@ -1,0 +1,331 @@
+﻿@using MyEPA.Models
+@{
+    ViewBag.Title = "Test";
+    Layout = null;
+    List<DiasterModel> diasters = ViewBag.Diasters;
+}
+
+<!--此為環保署首頁地圖-->
+<!DOCTYPE html>
+
+<head>
+    <style>
+        .prompt {
+            float: right;
+            position: absolute;
+            z-index: 1;
+        }
+    </style>
+    <style>
+
+        body {
+            background-color: white;
+            margin: 0;
+            font-family: PingFangTC-Regular, sans-serif, "Microsoft JhengHei";
+        }
+
+        h1 {
+            font-size: 72px;
+        }
+
+        #header,
+        #footer {
+            margin-left: 15%;
+            margin-right: 15%;
+        }
+
+        #legend {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #header a,
+        #footer a {
+            color: black;
+        }
+
+            #header a:hover,
+            #footer a:hover {
+                text-decoration: none;
+                color: #ff5733;
+            }
+
+        #container {
+            position: relative;
+            background-color: white;
+        }
+
+        #map {
+            width: 1000px;
+            height: 1000px;
+            zoom: 35%;
+            position: absolute;
+            left: 10%;
+            top: 200px;
+        }
+
+        .county-borders {
+            fill: none;
+            stroke: black;
+            stroke-width: 1.5px;
+            stroke-linejoin: round;
+            stroke-linecap: round;
+            pointer-events: none;
+        }
+
+        .pretty-select {
+            /*移除箭頭樣式*/
+            appearance: none;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            /*改變右邊箭頭樣式*/
+            background: url("../../tw-family-names-master/arrow.png") no-repeat right center transparent;
+            font-size: 20px;
+            border: 0px;
+            width: 200px;
+            text-align-last: center;
+            position: absolute;
+            top: 20px;
+            left: 25%;
+            padding-left: 2px;
+            padding-right: 40px;
+            background-color: black;
+            color: white;
+            cursor: pointer;
+        }
+
+            /*IE隱藏箭頭樣式*/
+            .pretty-select::-ms-expand {
+                display: none;
+            }
+
+            .pretty-select:focus {
+                box-shadow: 0 0 5px 2px #467BF4;
+            }
+
+        div.tooltip {
+            position: absolute;
+            text-align: center;
+            width: 120px;
+            height: 50px;
+            padding: 2px;
+            font-size: 18px;
+            background: white;
+            border: 0px;
+            border-radius: 8px;
+            pointer-events: none;
+        }
+
+        #footer {
+            font-size: 12px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+
+<body>
+    <h5>災害名稱：</h5>
+    <select id="diasterId" onchange="GetData()">
+        @foreach (var item in diasters)
+        {
+            <option value="@item.Id">@item.DiasterName</option>
+        }
+    </select>
+    <div class="prompt" style="width:70px;height:auto;">
+        <p align="center">數量</p>
+        <div align="right">
+            0<svg height="30" width="30">
+                <circle cx="15" cy="15" r="10" stroke="black" stroke-width="3" fill="#EDEDED" />
+            </svg>
+        </div>
+        <div align="right">
+            1<svg height="30" width="30">
+                <circle cx="15" cy="15" r="10" stroke="black" stroke-width="3" fill="#0264a7" />
+            </svg>
+        </div>
+        <div align="right">
+            20<svg height="30" width="30">
+                <circle cx="15" cy="15" r="10" stroke="black" stroke-width="3" fill="#009fd3" />
+            </svg>
+        </div>
+        <div align="right">
+            40<svg height="30" width="30">
+                <circle cx="15" cy="15" r="10" stroke="black" stroke-width="3" fill="#039998" />
+            </svg>
+        </div>
+        <div align="right">
+            60<svg height="30" width="30">
+                <circle cx="15" cy="15" r="10" stroke="black" stroke-width="3" fill="#5ea24d" />
+            </svg>
+        </div>
+        <div align="right">
+            80<svg height="30" width="30">
+                <circle cx="15" cy="15" r="10" stroke="black" stroke-width="3" fill="#f4ab21" />
+            </svg>
+        </div>
+        <div align="right">
+            100<svg height="30" width="30">
+                <circle cx="15" cy="15" r="10" stroke="black" stroke-width="3" fill="#f84f26" />
+            </svg>
+        </div>
+    </div>
+    <div id="container" class="">
+        <svg id="map"></svg>
+    </div>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/topojson.v2.min.js"></script>
+    <script src="~/Content/assets/js/jquery-2.1.4.min.js"></script>
+    <script src="~/Content/assets/js/jquery-1.11.3.min.js"></script>
+    <script>
+            $(document).ready(function () {
+                GetData();
+            });
+            var name_index = [
+                { index: 10, name: "環境消毒設備" },
+                { index: 11, name: "消毒藥品(液體)" },
+                { index: 12, name: "消毒藥品(固體)" },
+                { index: 13, name: "人員組織" },
+                { index: 14, name: "車輛設備" },
+                { index: 15, name: "病媒防治業" },
+                { index: 16, name: "臨時廢棄物堆置場" },
+                { index: 17, name: "流動廁所" },
+                { index: 18, name: "民間志工服務表" },
+                { index: 19, name: "垃圾掩埋場" },
+                { index: 20, name: "整備通報" }
+
+            ];
+
+            var path = d3.geoPath();
+            function max(num) {
+                return Math.max.apply(null, num);
+            }
+            function GetData() {
+                d3.json("https://imdataman.github.io/tw-family-names/tw_county_topo.json", function (error, su) {
+                    var diasterId = $("#diasterId").val();
+                    console.log(diasterId);
+                    d3.json("@Url.Action("Index")" + `?diasterId=${diasterId}`, function (error, us) {
+                        if (error) throw error;
+
+                        $("#pretty-select").remove();
+                        $(".tooltip").remove();
+                        var div = d3.select("body").append("div")
+                            .attr("class", "tooltip")
+                            .style("opacity", 0);
+                        var select = d3.select("#container").append("select")
+                            .attr("class", "pretty-select")
+                            .attr("Id", "pretty-select")
+                            .on('change', onchange);
+                        select.selectAll("option")
+                            .data(name_index)
+                            .enter().append("option")
+                            .attr("value", function (d) {
+                                return d.index;
+                            })
+                            .text(function (d) {
+                                return d.name;
+                            })
+
+                        var svg = d3.select("#map");
+
+                        var topo = topojson.feature(us, us.objects.tw_mercator).features;
+                        var custom_domain = topo.map(function (item) {
+                            return Object.values(item.properties)[10];
+                        });
+
+                        var town = svg.append("g")
+                            .attr("class", "towns")
+                            .selectAll("path")
+                            .data(topo)
+                            .enter().append("path")
+                            .attr("d", path)
+                            .style("fill", function (d) {
+                                //TODO　修改顏色
+                                var value = Object.values(d.properties)[10];
+                                return color(value);
+                            })
+                            .on("mouseover", function (d) {
+                                div.transition()
+                                    .duration(200)
+                                    .style("opacity", .9);
+
+                                div.html(d.properties.COUNTY + d.properties.TOWN + "<br/>" + Object.values(d.properties)[10])
+                                    .style("left", (d3.event.pageX) + "px")
+                                    .style("top", (d3.event.pageY - 28) + "px");
+                            })
+                            .on("mouseout", function (d) {
+                                div.transition()
+                                    .duration(500)
+                                    .style("opacity", 0);
+                            });
+
+                        svg.append("path")
+                            .attr("class", "county-borders")
+                            .attr("d", path(topojson.mesh(su, su.objects.tw_county, function (a, b) { return a !== b; })))
+
+                        function color(d) {
+
+                            if (d === 0)
+                            {   
+                                return "#EDEDED";
+                            }
+                            else if (d < 20) {
+                                return "#0264a7";
+                            }
+                            else if (d < 40) {
+                                return "#009fd3";
+                            }
+                            else if (d < 60) {
+                                return "#03999";
+                            }
+                            else if (d < 80) {
+                                return "#5ea24d";
+                            }
+                            else if (d < 100) {
+                                return "#f4ab21";
+                            }
+                            else if (d >= 100) {
+                                return "#f84f26";
+                            }
+                        }
+
+                        function onchange() {
+
+                            var selectValue = document.getElementById("pretty-select").value;
+                            console.log(selectValue);
+                            var custom_domain = topo.map(function (item) {
+                                return Object.values(item.properties)[selectValue];
+                            });
+
+                            town.style("fill", function (d) {
+                                var value = Object.values(d.properties)[selectValue];
+                                return color(value);
+                            })
+                                .on("mouseover", function (d) {
+                                    var value = Object.values(d.properties)[selectValue];
+                                    if (value != "NA") {
+                                        div.transition()
+                                            .duration(200)
+                                            .style("opacity", .9);
+                                        div.html(d.properties.COUNTY + d.properties.TOWN + "<br/>" + Object.values(d.properties)[selectValue])
+                                            .style("left", (d3.event.pageX) + "px")
+                                            .style("top", (d3.event.pageY - 28) + "px");
+                                    }
+                                })
+                                .on("mouseout", function (d) {
+                                    var value = Object.values(d.properties)[selectValue];
+                                    if (value != "NA") {
+                                        div.transition()
+                                            .duration(500)
+                                            .style("opacity", 0);
+                                    }
+                                });
+                        }
+                    });
+                });
+            }
+    </script>
+</body>
+

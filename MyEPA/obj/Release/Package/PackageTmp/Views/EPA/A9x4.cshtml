@@ -1,0 +1,49 @@
+﻿
+@{
+    Layout = "~/Views/_Layout.cshtml";
+}
+<script src="//code.jquery.com/jquery-1.10.2.js" type="text/javascript"></script>
+<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js" type="text/javascript"></script>
+<script src="jquery-ui-1.11.2/datepicker-zh-TW.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#BeginTime").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: "yy/mm/dd",
+
+        });
+        $("#EndTime").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "yy/mm/dd",
+
+        });
+        $("#BeginTime").datepicker('setDate', "-7d");
+        $("#EndTime").datepicker('setDate', new Date());
+    });
+</script>
+
+<div class="text-center">
+    <br />
+    <h5>簡訊發送查詢</h5>
+    <br />
+</div>
+<div class="text-center" style="color:red">
+
+    @using (Html.BeginForm("SearchByTime", "EPAxText"))
+    {
+
+        <span>日期區間：</span><input id="BeginTime" name="BeginTime" style="width:150px;" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+        <span>至</span><input id="EndTime" name="EndTime" style="width:150px;" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+
+        <input type="submit" class="btn btn-danger" style="margin-left:6px;padding:3px" value="搜尋" />
+        <br />
+        <span style="font-size:small;color:black">※日期格式，例如2019年7月19日為20190719</span>
+        <br />
+        <span style="font-size:small;color:blue">※點日期後會跳出日曆視窗，請依年月日之順序點選</span>
+    }
+</div>
+<br /><br />
+@{Html.RenderPartial("~/Views/Components/ShowTextForSearch.cshtml");}
+

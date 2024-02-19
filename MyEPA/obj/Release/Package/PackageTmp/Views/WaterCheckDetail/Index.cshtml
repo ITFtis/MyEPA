@@ -1,0 +1,94 @@
+﻿@model IEnumerable<MyEPA.Models.WaterCheckDetailModel>
+@using MyEPA.Models;
+@using MyEPA.Enums;
+@{
+    ViewBag.Title = "環保局水質抽驗結果通報";
+    Layout = "~/Views/_Layout.cshtml";
+    UserBriefModel user = ViewBag.User;
+    WaterCheckModel waterCheck = ViewBag.WaterCheck;
+}
+
+<h2>@(user.City)水質抽驗結果通報</h2>
+
+<p>
+    @Html.ActionLink("新增", "Create",new { waterCheckId = waterCheck.Id})
+</p>
+<table class="table">
+    <tr>
+        <th>
+            編修細目
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CityName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.O_Turbidity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdateUser)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CheckTime)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        <a href="@Url.Action("Edit",new { item.Id})">編輯</a>
+        <a href="#" onclick="Delete(@item.Id)">删除</a>
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CityName)
+    </td>
+
+    <td>
+        @(item.CityName + item.TownName + item.Address)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.O_Turbidity)
+    </td>
+    <td>
+        @(item.Type.GetDescription())
+    </td>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.UpdateUser)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CheckTime)
+    </td>
+</tr>
+}
+
+</table>
+<script>
+     function Delete(id) {
+        if (!window.confirm('確定要刪除?')) {
+            return;
+        };
+        var root = '@Url.Action("Delete", "WaterCheckDetail")?id=' + id;
+        $.ajax({
+            url: root,
+            method: 'Post',
+            success: function (data) {
+                if (data.IsSuccess) {
+                    alert('刪除成功');
+                    location.reload();
+                }
+                else {
+                    alert('刪除失敗,' + data.ErrorMessage);
+                }
+            },
+            error: function (data) {
+                alert('刪除失敗');
+            }
+        });
+    };
+</script>

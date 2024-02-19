@@ -1,0 +1,232 @@
+﻿@model MyEPA.Models.SMSLoginUserNameModel
+@{
+    ViewBag.Title = "SMSLogin";
+    Layout = "~/Views/Home/_SecondLayout.cshtml";
+    var username = Model.UserName;
+    var key = Guid.NewGuid();
+}
+<style>
+</style>
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100 p-l-85 p-r-85 p-t-55 p-b-55">
+            <span class="login100-form-title ">
+                <div class="row">
+                    <div class="col-3"><img src="~/Content/images/epa.png" width="80" height="80" alt="環保署Logo"></div>
+                    <div class="col-9 text-left">
+                        行政院環境保護署<br>
+                        <small>環境災害管理資訊系統</small>
+                    </div>
+                </div>
+                <br>
+            </span>
+            <br />
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+            <div class="sendSMS">
+                <input type="hidden" id="ValidateKey" name="ValidateKey" value="@key" />
+                <label class="txt1 p-b-11" for="UserName">
+                    使用者帳號
+                </label>
+               
+                <div class="wrap-input100 validate-input m-b-36">
+                    <input type="text" readonly value="@username" class="input100" disabled />
+                    <span class="focus-input100"></span>
+                </div>
+                <div class="row">
+                    <div class="col-7" style="padding-right:0px">
+                        <div class="wrap-input100 validate-input m-b-36">
+                            <input type="text" placeholder="驗證碼" id="validate-code" name="validate-code" class="input100" />
+                        </div>
+                    </div>
+                    <div class="col-5">
+                        <img class="w-100" id="validate-code-img"
+                             src="/Home/GetValidateCode?key=@key"
+                             onclick="refreshValidateCode()"
+                             style="border: 2px #8080804f solid;" />
+                    </div>
+                </div>
+
+                <div class="row" style="margin-bottom:40px;">
+                    <div class="container-login100-form-btn">
+                        <div class="col-6">
+                            <button id="sendBtn" class="login100-form-btn  w-100">發送簡訊驗證碼</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div name="form">
+                <input type="hidden" id="UserName" name="UserName" value="@username" />
+
+                <div class="wrap-input100 validate-input m-b-36">
+                    <input type="text" placeholder="簡訊驗證碼" maxlength="6" id="Code" name="Code" required class="input100" />
+                </div>
+                <div class="wrap-input100 validate-input m-b-36">
+                    <select id="Type" name="Type" class="input100">
+                        <option value="1">
+                            災害管理系統
+                        </option>
+                        <option value="2">
+                            署補助車輛管理系統
+                        </option>
+                        <option value="3">
+                            緊急應變摘要及通聯手冊電子化系統
+                        </option>
+                    </select>
+                </div>
+                <div class="container-login100-form-btn">
+                    <div class="col-6" style="padding: 0 20px 0 0px">
+                        @Html.ActionLink("上一步", "SMSLoginUserName", "Home", new { }, new { @class = "login100-form-btn" })
+                    </div>
+                    <div class="col-6" style="padding:0 0 0 20px">
+                        <input id="SMSLoginBtn" type="submit" value="登入" class="login100-form-btn w-100" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $("#SMSLoginBtn").click(function () {
+            var code = $("#Code").val();
+            if (code === '') {
+                errorMsg('請輸入簡訊驗證碼');
+                return;
+            }
+
+            var userName = $("#UserName").val();
+
+            var type = $("#Type").val();
+
+            var btn = $("#SMSLoginBtn");
+            btn.prop('disabled', true);
+
+            var data = new FormData();
+            data.append('UserName', userName);
+            data.append('Code', code);
+            data.append('Type', type);
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("SMSLogin", "Home")',
+                contentType: false,
+                processData: false,
+                data: data,
+                success: function (result) {
+                    btn.prop('disabled', false);
+                    if (result.IsSuccess === false) {
+                        errorMsg(result.ErrorMessage);
+                        return;
+                    }
+                    location.href = `@Url.Action("LoginRedirect", "Home")`;
+
+                },
+                error: function (xhr, status) {
+                    btn.prop('disabled', false);
+                    errorMsg('發送失敗');
+                }
+            });
+        });
+        function refreshValidateCode() {
+             $.ajax({
+                type: "GET",
+                url: '@Url.Action("GetValidateKey", "Home")',
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    $("#validate-code-img").attr("src", `@Url.Action("GetValidateCode", "Home")?key=${result}`);
+                    $("#ValidateKey").val(result);
+                },
+                error: function (xhr, status) {
+                    refreshValidateCode();
+                }
+            });
+        }
+        $("#sendBtn").click(function () {
+            var userName = $("#UserName").val();
+            var vc = $("#validate-code").val();
+            if (userName === '') {
+
+                errorMsg('錯誤，無帳號');
+                return;
+            }
+            if (vc === '') {
+
+                errorMsg('請輸入驗證碼');
+                return;
+            }
+            errorMsg('');
+
+            var validateKey = $("#ValidateKey").val();
+
+            var data = new FormData();
+            data.append('UserName', userName);
+            data.append('ValidateCode', vc);
+            data.append('ValidateKey', validateKey);
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("SendSMSVerify", "Home")',
+                contentType: false,
+                processData: false,
+                data: data,
+                success: function (result) {
+                    refreshValidateCode();
+
+                    if (result.IsSuccess === false) {
+                        if (result.Result == null) {
+                            errorMsg(result.ErrorMessage);
+                        }
+                        else {
+                            s = result.Result.Second;
+                            reciprocalFunc();
+                        }
+
+                        return;
+                    }
+                    s = 60;
+                    reciprocalFunc();
+                },
+                error: function (xhr, status) {
+                    refreshValidateCode();
+                    alert('發送失敗');
+                }
+            });
+        });
+        function reciprocalFunc() {
+            var btn = $("#sendBtn");
+            btn.prop('disabled', true);
+            btn.removeClass("login100-form-btn");
+            reciprocal();
+        }
+        function errorMsg(errorMessage) {
+            var validli = $(".validation-summary-valid li");
+            if (errorMessage === '') {
+                validli.css('display', 'none');
+                validli.html(errorMessage);
+                return;
+            }
+            validli.html(errorMessage);
+            validli.css('display', '');
+        }
+
+        var s = 0;
+        function reciprocal() {
+            $("#sendBtn").text(`${s} 秒後可重新發送`);
+            s -= 1;
+            if (s >= 0) {
+                setTimeout(reciprocal, 1000);
+            }
+            else {
+                var btn = $("#sendBtn");
+                btn.text(`重新發送`);
+                btn.addClass("login100-form-btn");
+
+                $("#sendBtn").prop('disabled', false);
+            }
+        }
+
+    </script>
+
+
+
+}

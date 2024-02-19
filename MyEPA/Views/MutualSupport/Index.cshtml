@@ -1,0 +1,108 @@
+﻿@model IEnumerable<MyEPA.Models.MutualSupportModel>
+@using MyEPA.Models;
+@using MyEPA.Enums;
+@{
+    ViewBag.Title = "縣市相互支援協定";
+    Layout = "~/Views/_Layout.cshtml";
+    var type = ViewBag.Type;
+    var types = (List<ResourceTypeModel>)ViewBag.Types;
+}
+
+<h2>縣市相互支援協定</h2>
+
+<p>
+    @Html.ActionLink("新增支援協定", "Create", new { type = type }, new { @class = "btn btn-success" })
+</p>
+<ul class="nav nav-tabs">
+    @foreach (var item in types)
+    {
+        <li class="nav-item">
+            @Html.ActionLink(item.Name, "Index", new { type = item.Id }, new { @class = (type == item.Id ? "nav-link active" : "nav-link") })
+        </li>
+    }
+    <li class="nav-item">
+        @Html.ActionLink("查詢", "Search", new { }, new { @class = (type == null ? "nav-link active" : "nav-link") })
+    </li>
+</ul>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.AcceptSection)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Section)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SupportType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SupportContent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Memo)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AcceptSection)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Section)
+            </td>
+            <td>
+                @item.StartDate.ToString("yyyy/MM/dd")
+            </td>
+            <td>
+                @item.EndDate.ToString("yyyy/MM/dd")
+            </td>
+            <td>
+                @(((SupportTypeEnum)item.SupportType).GetDescription())
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SupportContent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Memo)
+            </td>
+            <td>
+                @Html.ActionLink("修改", "Edit", new { id = item.Id }) |
+                <a id="DeleteBtn" href="#" onclick="Delete(@item.Id)">删除</a>
+            </td>
+        </tr>
+    }
+
+</table>
+<script>
+    function Delete(id) {
+        if (!window.confirm('確定要刪除?')) {
+            return;
+        };
+        var root = '@Url.Action("Delete", "MutualSupport")?id=' + id;
+        $.ajax({
+            url: root,
+            method: 'Post',
+            success: function (data) {
+                if (data.IsSuccess) {
+                    alert('刪除成功');
+                    location.reload();
+                }
+                else {
+                    alert('刪除失敗,' + data.ErrorMessage);
+                }
+            },
+            error: function (data) {
+                alert('刪除失敗');
+            }
+        });
+    };
+</script>

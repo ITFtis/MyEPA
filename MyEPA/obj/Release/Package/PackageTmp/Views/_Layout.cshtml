@@ -1,0 +1,308 @@
+﻿<!DOCTYPE html>
+@using MyEPA.Models;
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+    <link rel="stylesheet" href="~/Content/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/assets/font-awesome/4.5.0/css/font-awesome.min.css" />
+
+    <link rel="stylesheet" href="~/Content/assets/css/stylesheet.css" />
+    <link rel="stylesheet" href="~/Content/assets/css/fonts.googleapis.com.css" />
+
+    <link rel="stylesheet" href="~/Content/assets/css/ace.min.css?t=20200826" class="ace-main-stylesheet" id="main-ace-style" />
+
+    <link rel="stylesheet" href="~/Content/assets/css/ace-skins.min.css" />
+    <link rel="stylesheet" href="~/Content/assets/css/ace-rtl.min.css" />
+
+    <script src="~/Content/assets/js/ace-extra.min.js"></script>
+
+
+    <link rel="stylesheet" href="~/Content/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/assets/font-awesome/4.5.0/css/font-awesome.min.css" />
+
+    <!-- page specific plugin styles -->
+    <link rel="stylesheet" href="~/Content/assets/css/stylesheet.css" />
+    <!-- text fonts -->
+    <link rel="stylesheet" href="~/Content/assets/css/fonts.googleapis.com.css" />
+
+    <!-- ace styles -->
+    <link rel="stylesheet" href="~/Content/assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="~/Content/assets/css/ace-part2.min.css" class="ace-main-stylesheet" />
+    <![endif]-->
+    <link rel="stylesheet" href="~/Content/assets/css/ace-skins.min.css" />
+    <link rel="stylesheet" href="~/Content/assets/css/ace-rtl.min.css" />
+    <link href="~/Scripts/jQueryAssets/jquery.ui.core.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Scripts/jQueryAssets/jquery.ui.theme.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Scripts/jQueryAssets/jquery.ui.tabs.min.css" rel="stylesheet" type="text/css">
+
+    @RenderSection("styles", required: false)
+</head>
+@using MyEPA.Enums;
+@using MyEPA;
+@{
+    DutyEnum duty = (DutyEnum)ViewBag.DutyId;
+}
+<body class="no-skin">
+    <div id="navbar" class="navbar navbar-default  ace-save-state">
+        <div class="navbar-container ace-save-state" id="navbar-container">
+            <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+                <span class="sr-only">Toggle sidebar</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <div class="navbar-header pull-left">
+                @{
+                    string homeUrl = string.Empty;
+                    switch (duty)
+                    {
+                        case DutyEnum.Team:
+                        case DutyEnum.Corps:
+                            homeUrl = Url.Action("Index", string.Format("EPAMember", duty), new { });
+                            break;
+                        default:
+                            homeUrl = Url.Action("Index", string.Format("{0}Member", duty), new { });
+                            break;
+                    }
+
+                }
+                <a href="@homeUrl" class="navbar-brand">
+                    <small>
+                        <img src="../images/epa_icon.png" alt="行政院環境保護署LOGO">
+                        環境災害管理資訊系統
+                    </small>
+                </a>
+            </div>
+            <div class="navbar-header pull-right pc" style="color: white">
+                <small style="color: white">登入身分(@duty.GetDescription())</small>
+            </div>
+        </div><!-- /.navbar-container -->
+    </div>
+    <!--
+    ===============================
+                側邊主選單
+    ===============================
+    -->
+    <div class="main-container ace-save-state" id="main-container">
+        <script type="text/javascript">
+            try { ace.settings.loadState('main-container') } catch (e) { }
+        </script>
+        <div id="sidebar" class="sidebar responsive ace-save-state">
+            <script type="text/javascript">
+                try { ace.settings.loadState('sidebar') } catch (e) { }
+            </script>
+            <ul class="nav nav-list" style="top: 0px;">
+                <li class="">
+                    <a href="@homeUrl">
+                        <i class="menu-icon glyphicon glyphicon-home"></i>
+                        <span class="menu-text">首頁</span>
+                    </a>
+                </li>
+                @{
+                    Html.RenderAction(duty.ToString(), "AdminFunction", new { });
+                }
+                <li class="">
+                    <a href="@Url.Action("Index","MutualSupport", new { type = 1 })">
+                        <i class="menu-icon glyphicon glyphicon-heart"></i>
+                        <span class="menu-text">縣市相互支援協定</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a href="@Url.Action("Index","OpenContract", new { type = 1 })">
+                        <i class="menu-icon glyphicon glyphicon-file"></i>
+                        <span class="menu-text">開口合約</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a href="@Url.Action("Index", "CustomService")">
+                        <i class="menu-icon glyphicon glyphicon-earphone"></i>
+                        <span class="menu-text">客服中心</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a href="@Url.Action("Index","Meeting_Sign",new { })">
+                        <i class="menu-icon glyphicon glyphicon-flag"></i>
+                        <span class="menu-text">線上報名</span>
+                    </a>
+                </li>
+                @if (duty != DutyEnum.Cleaning && duty != DutyEnum.Water)
+                {
+                    <li class="">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            武漢肺炎
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+                        <b class="arrow"></b>
+                        <ul class="submenu">
+                            <li class="">
+                                <a href="@Url.Action("CityStatistics","InfectiousDisease")">武漢肺炎統計</a>
+                            </li>
+                            <li class="">
+                                <a href="@Url.Action("Index","InfectiousDisease",new { })">武漢肺炎資料通報</a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+
+                <li class="">
+                    <a href="@Url.Action("SignOut","Users",new { })">
+                        <i class="menu-icon glyphicon glyphicon-off"></i>
+                        <span class="menu-text">系統登出</span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+        <!--
+        ===============================
+              資訊欄 breadcrumbs
+        ===============================
+        -->
+        <div class="main-content">
+            <div class="main-content-inner">
+
+                <div class="breadcrumbs ace-save-state" id="breadcrumbs" @(((bool)ViewBag.IsDiasterRuning) ? "style=background-color:darkred" : string.Empty)>
+                    <ul class="breadcrumb">
+                        <li>
+                            <i class="ace-icon fa fa-home home-icon"></i>
+                            <a href="@homeUrl">首頁</a>
+                        </li>
+                        @if (string.IsNullOrWhiteSpace(ViewBag.Category) == false)
+                        {
+                            <li>
+                                <a href="#">@ViewBag.Category</a>
+                            </li>
+                        }
+                        @using MyEPA.Extensions;
+                        @{
+                            List<BreadCrumbModel> breadCrumbs = ViewBag.BreadCrumbs;
+                        }
+                        @if (breadCrumbs.IsNotEmpty())
+                        {
+                            foreach (BreadCrumbModel breadCrumb in breadCrumbs)
+                            {
+                                <li>
+                                    <a href="@breadCrumb.Url">@breadCrumb.Title</a>
+                                </li>
+                            }
+                        }
+
+
+                        @if (ViewBag.Title != "首頁" && ViewBag.Title != "Index")
+                        {
+                            <li>
+                                <a href="#">@ViewBag.Title</a>
+                            </li>
+                        }
+                    </ul>
+
+                </div>
+                <div class="main-content nav-info">
+                    <!--
+                    <div class="main-content-inner">
+                         <div class="btn-group" role="group">
+
+                             <button class="btn btn-secondary" type="button" onclick="Check()">
+                                 <i class="ace-icon glyphicon glyphicon-pencil"></i>快速簽到
+                             </button>
+
+                            <button class="btn btn-secondary" type="button" onclick="location.href='@Url.Action("Index","MutualSupport", new { type = 1 })'">
+                                <i class="ace-icon glyphicon glyphicon-refresh"></i>縣市相互支援協定
+                            </button>
+                            <button class="btn btn-secondary" type="button" onclick="location.href='@Url.Action("Index","OpenContract", new { type = 1 })'">
+                                <i class="ace-icon glyphicon glyphicon-folder-close"></i>開口合約
+                            </button>
+                            <button class="btn btn-secondary" type="button" onclick="location.href='@Url.Action("Index", "CustomService")'">
+                                <i class="ace-icon glyphicon glyphicon-comment"></i>客服中心
+                            </button>
+                        </div>
+                    </div>
+                            -->
+                    <div class="main-content-inner">
+                        <marquee style="color:white">
+                            @foreach (var item in (List<NoticeModel>)ViewBag.Notices)
+                            {
+                                @:★@item.Title：@item.Content &nbsp;&nbsp;&nbsp;&nbsp;
+                            }
+                        </marquee>
+                    </div>
+                </div>
+
+                <!--
+                ===============================
+                            頁面內容
+                ===============================
+                -->
+                @RenderBody()
+                <!--
+                ===============================
+                            頁尾內容
+                ===============================
+                -->
+                <div class="footer">
+                    <div class="footer-inner">
+                        <div class="footer-content row">
+                            <div class="col-12">
+                                環境部: 10042臺北市中正區中華路一段83號&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-phone"></i>&nbsp;(02)2311-7722&nbsp;│&nbsp;<a target="_blank" href="https://www.moenv.gov.tw/Page/70E67DE2079DF931">網站政策及宣告</a>
+                            </div>
+                            <div class="col-12">
+                                客服資訊:<i class="fa fa-phone"></i> 電話 : (02)2784-4188 #5803、5289、5154 傳真 : (02) 2784-4186 周一至周五 08:30-17:30 下班時間及假日 (02)2784-4188 #5153 (災情服務電話)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+                    <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+                </a>
+            </div>
+            <script>
+                function Check() {
+
+                    var url = '@Url.Action("Check","ShiftSchedule")';
+                    var type = 'get';
+                    $.ajax({
+                        url: url,
+                        type: type,
+                        success: function (data) {
+                            if (data.IsSuccess) {
+                                alert("簽到成功");
+
+                            } else {
+                                alert(data.ErrorMessage);
+                            }
+                        },
+                    })
+                }
+            </script>
+            <script src="~/Content/assets/js/jquery-2.1.4.min.js"></script>
+
+            <!-- <![endif]-->
+            <!--[if IE]>
+            <script src="~/Content/assets/js/jquery-1.11.3.min.js"></script>
+            <![endif]-->
+            <script src="~/Content/assets/js/bootstrap.min.js"></script>
+
+            <!-- ace scripts -->
+            <script src="~/Content/assets/js/ace-elements.min.js"></script>
+            <script src="~/Content/assets/js/ace.min.js"></script>
+
+
+            @RenderSection("scripts", required: false)
+        </div>
+    </div>
+</body>
+<script>
+    @if (string.IsNullOrWhiteSpace(ViewBag.Msg) == false)
+    {
+        @:alert('@ViewBag.Msg');
+    }
+</script>

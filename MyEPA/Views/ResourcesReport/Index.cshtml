@@ -1,0 +1,204 @@
+﻿@model IEnumerable<MyEPA.Models.ResourcesReportCityModel>
+@using MyEPA.Enums;
+@using MyEPA.Models;
+@using MyEPA.Extensions;
+@{
+    ViewBag.Title = "資源通報";
+    Layout = "~/Views/_Layout.cshtml";
+    var isDesc = ViewBag.IsDesc;
+}
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12">
+                    <!-- PAGE CONTENT BEGINS -->
+                    <div class="row">
+                        <h3>資源通報</h3>
+                        <hr>
+                        <p class="red">※最新更新時間不包含病媒防治業、掩埋場、焚化爐之更新資料</p>
+                        <p align="right"><img width="30" height="30" src="~/Content/assets/css/images/icon_pdf.png" alt="PDF">
+                        <a href="@Url.Action("DownPDF",new {  })">PDF匯出</a>│<img width="30" height="30" src="~/Content/assets/css/images/icon_odf.png" alt="ODF">
+                        <a href="@Url.Action("DownODS",new {  })">ODF下載</a>│<img width="30" height="30" src="~/Content/assets/css/images/Print.ico" alt="Print">
+                        <a href="">友善列印</a></p>
+                    </div>
+                    <div class="row">
+
+                        <a class="btn btn-purple" href="@Url.Action("CarsCountReport","Vehicle")">清潔車輛報表</a>
+                        <a class="btn btn-purple" href="@Url.Action("SummaryCityReport","Disinfector")">消毒設備報表</a>
+                        @*<a class="btn btn-purple" href="@Url.Action("CityReport","Disinfector")">消毒設備報表</a>*@
+                        <a class="btn btn-purple" href="@Url.Action("SummaryCityReport","Disinfectant")">消毒藥劑報表</a>
+                        @*<a class="btn btn-purple" href="@Url.Action("CityReport","Disinfectant")">消毒藥劑報表</a>*@
+                        <a class="btn btn-purple" href="@Url.Action("Report","Landfill")">營運中公有垃圾掩埋場</a>
+                        <a class="btn btn-purple" href="@Url.Action("Report","Incinerator")">全國營運中焚化廠</a>
+                        <hr>
+
+                    </div>
+                    <div class="row">
+                        <div class="widget-body">
+                            <div class="widget-main no-padding table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="thin-border-bottom">
+                                        <tr>
+                                            <td colspan="14" align="center" bgcolor="#9AAC95"></td>
+                                        </tr>
+                                        <tr>
+                                            <td bgcolor="#fff8d7">
+                                                <h5> @Html.ActionLink(ExtensionOfAttribute.GetPropertyDisplayName<ResourcesReportCityModel>(e => e.City), "Index", new { orderBy = "CityId", isDesc = !isDesc })</h5>
+                                            </td>
+                                            <td bgcolor="#fff8d7">
+                                                <h5> @Html.ActionLink(ExtensionOfAttribute.GetPropertyDisplayName<ResourcesReportCityModel>(e => e.UserCount), "Index", new { orderBy = "UserCount", isDesc = !isDesc })</h5>
+                                            </td>
+                                            <td bgcolor="#fff8d7">
+                                                <h5> @Html.ActionLink(ExtensionOfAttribute.GetPropertyDisplayName<ResourcesReportCityModel>(e => e.VehicleCount), "Index", new { orderBy = "VehicleCount", isDesc = !isDesc })</h5>
+                                            </td>
+                                            <td bgcolor="#fff8d7">
+                                                <h5>@Html.ActionLink(ExtensionOfAttribute.GetPropertyDisplayName<ResourcesReportCityModel>(e => e.DisinfectorCount), "Index", new { orderBy = "DisinfectorCount", isDesc = !isDesc })</h5>
+                                            </td>
+                                            <td bgcolor="#fff8d7">
+                                                <h5> @Html.ActionLink(ExtensionOfAttribute.GetPropertyDisplayName<ResourcesReportCityModel>(e => e.DisinfectantSolidAmount), "Index", new { orderBy = "DisinfectantSolidAmount", isDesc = !isDesc })</h5>
+                                            </td>
+                                            <td bgcolor="#fff8d7">
+                                                <h5> @Html.ActionLink(ExtensionOfAttribute.GetPropertyDisplayName<ResourcesReportCityModel>(e => e.DisinfectantLiquidAmount), "Index", new { orderBy = "DisinfectantLiquidAmount", isDesc = !isDesc })</h5>
+                                            </td>
+                                            <td bgcolor="#fff8d7">
+                                                <h5>@Html.ActionLink(ExtensionOfAttribute.GetPropertyDisplayName<ResourcesReportCityModel>(e => e.PestCount), "Index", new { orderBy = "PestCount", isDesc = !isDesc })</h5>
+                                            </td>
+                                            <td bgcolor="#fff8d7">
+                                                <h5>@Html.ActionLink(ExtensionOfAttribute.GetPropertyDisplayName<ResourcesReportCityModel>(e => e.DumpCount), "Index", new { orderBy = "DumpCount", isDesc = !isDesc })</h5>
+                                            </td>
+                                            <td bgcolor="#fff8d7">
+                                                <h5> @Html.ActionLink(ExtensionOfAttribute.GetPropertyDisplayName<ResourcesReportCityModel>(e => e.ToiletCount), "Index", new { orderBy = "ToiletCount", isDesc = !isDesc })</h5>
+                                            </td>
+                                            <td bgcolor="#fff8d7">
+                                                <h5> @Html.ActionLink(ExtensionOfAttribute.GetPropertyDisplayName<ResourcesReportCityModel>(e => e.VolunteerCount), "Index", new { orderBy = "VolunteerCount", isDesc = !isDesc })</h5>
+                                            </td>
+                                            <td bgcolor="#fff8d7">
+                                                <h5> @Html.ActionLink(ExtensionOfAttribute.GetPropertyDisplayName<ResourcesReportCityModel>(e => e.OwnerName), "Index", new { orderBy = "OwnerName", isDesc = !isDesc })</h5>
+                                            </td>
+                                            <td bgcolor="#fff8d7">
+                                                <h5>  @Html.ActionLink(ExtensionOfAttribute.GetPropertyDisplayName<ResourcesReportCityModel>(e => e.OwnerMobilePhone), "Index", new { orderBy = "OwnerMobilePhone", isDesc = !isDesc })</h5>
+                                            </td>
+                                            <td bgcolor="#fff8d7">
+                                                <h5>最新更新時間</h5>
+                                            </td>
+                                            <td bgcolor="#fff8d7">
+                                                <h5>最新確認時間</h5>
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr bgcolor="#F7F7DE">
+                                            <th>
+                                                合計
+                                            </th>
+                                            <th>
+                                                @Model.Sum(e => e.UserCount)
+                                            </th>
+                                            <th>
+                                                @Model.Sum(e => e.VehicleCount)
+                                            </th>
+                                            <th>
+                                                @Model.Sum(e => e.DisinfectorCount)
+                                            </th>
+                                            <th>
+                                                @Model.Sum(e => e.DisinfectantSolidAmount)
+                                            </th>
+                                            <th>
+                                                @Model.Sum(e => e.DisinfectantLiquidAmount)
+                                            </th>
+                                            <th>
+                                                @Model.Sum(e => e.PestCount)
+                                            </th>
+                                            <th>
+                                                @Model.Sum(e => e.DumpCount)
+                                            </th>
+                                            <th>
+                                                @Model.Sum(e => e.ToiletCount)
+                                            </th>
+                                            <th>
+                                                @Model.Sum(e => e.VolunteerCount)
+                                            </th>
+                                            <th>
+
+                                            </th>
+                                            <th>
+
+                                            </th>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        @{ 
+                                            int i = 0;
+                                            string style = string.Empty;
+                                            foreach (var item in Model)
+                                            {
+                                                style = i % 2 == 0 ? "#FAFAFA" : "#FFFFFF";
+                                                i++;
+
+                                                <tr bgcolor="@style">
+                                                    <td>
+                                                        @Html.ActionLink(item.City, "Town", new { item.CityId })
+                                                    </td>
+                                                    <td>
+                                                        @Html.ActionLink(item.UserCount.ToString(), "Search", "Users", new { item.CityId }, new { })
+                                                    </td>
+                                                    <td>
+                                                        @Html.ActionLink(item.VehicleCount.ToString(), "Search", "Vehicle", new { CityIds = item.CityId }, new { })
+                                                    </td>
+                                                    <td>
+                                                        @Html.ActionLink(item.DisinfectorCount.ToString(), "Search", "Disinfector", new { CityIds = item.CityId }, new { })
+                                                    </td>
+                                                    <td>
+                                                        @Html.ActionLink(item.DisinfectantSolidAmount.ToString(), "Search", "Disinfectant", new { CityIds = item.CityId, DrugState = DrugStateEnum.Solid }, new { })
+                                                    </td>
+                                                    <td>
+
+                                                        @Html.ActionLink(item.DisinfectantLiquidAmount.ToString(), "Search", "Disinfectant", new { CityIds = item.CityId, DrugState = DrugStateEnum.Liquid }, new { })
+                                                    </td>
+                                                    <td>
+                                                        @Html.ActionLink(item.PestCount.ToString(), "Search", "Pest", new { CityIds = item.CityId }, new { })
+                                                    </td>
+                                                    <td>
+                                                        @Html.ActionLink(item.DumpCount.ToString(), "Search", "Dump", new { CityIds = item.CityId }, new { })
+                                                    </td>
+                                                    <td>
+                                                        @Html.ActionLink(item.ToiletCount.ToString(), "Search", "Toilet", new { CityIds = item.CityId }, new { })
+                                                    </td>
+                                                    <td>
+                                                        @Html.ActionLink(item.VolunteerCount.ToString(), "Search", "Volunteer", new { CityIds = item.CityId }, new { })
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.OwnerName)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.OwnerMobilePhone)
+                                                    </td>
+                                                    <td>
+                                                        @(item.UpdateTime.HasValue ? item.UpdateTime.Value.ToString("yyyy/MM/dd HH:mm") : string.Empty)
+                                                    </td>
+                                                    <td>
+                                                        @(item.ConfirmTime.HasValue ? item.ConfirmTime.Value.ToString("yyyy/MM/dd HH:mm") : string.Empty)
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                        <tr>
+                                            <td colspan="14" align="center" bgcolor="#9AAC95"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+
+                                <!-- PAGE CONTENT ENDS -->
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                    </div><!-- /.page-content -->
+                </div>
+            </div>
+        </div>
+    </div>
+            <table class="table">
+            
+          
+
+            </table>

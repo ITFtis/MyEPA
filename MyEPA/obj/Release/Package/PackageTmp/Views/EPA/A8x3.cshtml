@@ -1,0 +1,393 @@
+﻿@using MyEPA.Models
+@{
+    Layout = "~/Views/_Layout.cshtml";
+    ViewBag.Title = "聯絡人資料維護";
+    var positions = (List<PositionModel>)ViewBag.Positions;
+}
+@{Html.RenderPartial("~/Views/Components/JSforA8x2.cshtml");}
+<div class="text-center">
+    <br />
+    <h3>@ViewBag.Title </h3>
+    <br />
+</div>
+
+
+
+
+<div id="EditArea" style="display:none;text-align:center">
+    <br />
+
+    @using (Html.BeginForm("Update", "EPAxUser"))
+    {
+
+<table class="table table-bordered table-striped  text-center">
+    <tr>
+        <td>帳號：</td>
+        <td>@Html.TextBox("EditingId", "", new { @readonly = "readonly" })</td>
+    </tr>
+    <tr>
+        <td>姓名</td>
+        <td>@Html.TextBox("EditingName", "", new { })</td>
+    </tr>
+
+    <tr>
+        <td>密碼</td>
+        <td>@Html.TextBox("EditingPwd", "")</td>
+    </tr>
+
+    <tr>
+        <td>機關類別(角色)</td>
+        <td>
+            @Html.DropDownList("EditingDuty", new List<SelectListItem>
+        {
+            new SelectListItem{Text = "環保署(中央機關)", Value = "環保署"},
+            new SelectListItem{Text = "環保局(地方機關)",Value = "環保局"},
+            new SelectListItem{Text = "清潔隊(地方機關)", Value = "清潔隊"},
+            new SelectListItem{Text = "自來水公司",Value = "自來水公司"},
+        })
+        </td>
+    </tr>
+
+    <tr>
+        <td>機關名稱(縣市)</td>
+        <td>
+            @Html.DropDownList("EditingCity", new List<SelectListItem>
+         {
+
+            new SelectListItem{Text = "環保署", Value = "環保署"},
+            new SelectListItem{Text = "環保局", Value = "環保局"},
+            new SelectListItem{Text = "基隆市",Value = "基隆市"},
+            new SelectListItem{Text = "臺北市",Value = "臺北市"},
+            new SelectListItem{Text = "新北市",Value = "新北市"},
+            new SelectListItem{Text = "桃園市",Value = "桃園市"},
+            new SelectListItem{Text = "新竹縣",Value = "新竹縣"},
+            new SelectListItem{Text = "新竹市",Value = "新竹市"},
+            new SelectListItem{Text = "苗栗縣",Value = "苗栗縣"},
+            new SelectListItem{Text = "臺中市",Value = "臺中市"},
+            new SelectListItem{Text = "南投縣",Value = "南投縣"},
+            new SelectListItem{Text = "彰化縣",Value = "彰化縣"},
+            new SelectListItem{Text = "雲林縣",Value = "雲林縣"},
+            new SelectListItem{Text = "嘉義縣",Value = "嘉義縣"},
+            new SelectListItem{Text = "嘉義市",Value = "嘉義市"},
+            new SelectListItem{Text = "臺南市",Value = "臺南市"},
+            new SelectListItem{Text = "高雄市",Value = "高雄市"},
+            new SelectListItem{Text = "屏東縣",Value = "屏東縣"},
+            new SelectListItem{Text = "臺東縣",Value = "臺東縣"},
+            new SelectListItem{Text = "花蓮縣",Value = "花蓮縣"},
+            new SelectListItem{Text = "宜蘭縣",Value = "宜蘭縣"},
+            new SelectListItem{Text = "澎湖縣",Value = "澎湖縣"},
+            new SelectListItem{Text = "金門縣",Value = "金門縣"},
+            new SelectListItem{Text = "連江縣",Value = "連江縣"},
+            new SelectListItem{Text = "金門縣自來水廠",Value = "金門縣自來水廠"},
+            new SelectListItem{Text = "連江縣自來水廠",Value = "連江縣自來水廠"},
+            new SelectListItem{Text = "台北自來水事業處",Value = "台北自來水事業處"},
+            new SelectListItem{Text = "台灣自來水公司",Value = "台灣自來水公司"}
+           })
+            <span style="font-size:small">※請依機關類別選擇對應的機關名稱</span>
+        </td>
+    </tr>
+
+    <tr>
+        <td style="text-align:center">單位名稱(鄉鎮市區)</td>
+        <td>
+            @Html.TextBox("EditingTown", "", new { style = "border-style:groove;width:200px;" })
+        </td>
+    </tr>
+
+    <tr>
+        <td style="text-align:center">行動電話 EX.0912-345678</td>
+        <td>
+            @Html.TextBox("EditingMobilePhone", "", new { style = "border-style:groove;width:200px;", @pattern = RegexUtility.Mobile })
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align:center">辦公室電話  EX.012-34567890#12345</td>
+        <td>
+            @Html.TextBox("EditingOfficePhone", "", new { style = "border-style:groove;width:200px;", @pattern = RegexUtility.TEL })
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align:center">Email</td>
+        <td>
+            @Html.TextBox("EditingEmail", "", new { style = "border-style:groove;width:200px;", @pattern = RegexUtility.Email })
+        </td>
+    </tr>
+    <tr>
+        <td>人員類別</td>
+        <td>
+            <input type="checkbox" name="EditingHumanType" id="EditingHumanType[0]" value="災情通報人員" /><label for="EditingHumanType[0]">災情通報人員</label>
+            <input type="checkbox" name="EditingHumanType" id="EditingHumanType[1]" value="飲用水緊急應變小組連絡人員" /><label for="EditingHumanType[1]">飲用水緊急應變小組連絡人員</label>
+            <input type="checkbox" name="EditingHumanType" id="EditingHumanType[2]" value="災害防救緊急應變連絡人員" /><label for="EditingHumanType[2]">災害防救緊急應變連絡人員</label>
+            <input type="checkbox" name="EditingHumanType" id="EditingHumanType[3]" value="中央專責及進駐人員" /><label for="EditingHumanType[3]">中央專責及進駐人員</label>
+            <input type="checkbox" name="EditingHumanType" id="EditingHumanType[4]" value="署內進駐人員" /><label for="EditingHumanType[4]">署內進駐人員</label>
+            <input type="checkbox" name="EditingHumanType" id="EditingHumanType[5]" value="車輛機具連絡人員" /><label for="EditingHumanType[5]">車輛機具連絡人員</label>
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align:center"><b style="color:red">(必填)</b>職稱</td>
+        <td>
+            @Html.DropDownList("EditingPositionId", positions.Select(e => new SelectListItem
+            {
+                Text = e.Name,
+                Value = e.Id.ToString()
+            }).ToList())
+        </td>
+    </tr>
+    <tr>
+        <td>主要聯絡人</td>
+        <td>
+            @Html.DropDownList("EditingMainContacter", new List<SelectListItem>
+    {
+    new SelectListItem{Text = "請選擇",Value = "",Selected=true},
+    new SelectListItem{Text = "是",Value = "是"},
+    new SelectListItem{Text = "否",Value = "否"}
+    })
+        </td>
+    </tr>
+    <tr>
+        <td>通報優先順序</td>
+        <td>
+            @Html.DropDownList("EditingReportPriority", new List<SelectListItem>
+{
+new SelectListItem{Text = "1",Value = "1",Selected=true},
+new SelectListItem{Text = "2",Value = "2"},
+new SelectListItem{Text = "3",Value = "3"},
+new SelectListItem{Text = "4",Value = "4"},
+new SelectListItem{Text = "5",Value = "5"},
+new SelectListItem{Text = "6",Value = "6"},
+new SelectListItem{Text = "7",Value = "7"},
+new SelectListItem{Text = "8",Value = "8"},
+new SelectListItem{Text = "9",Value = "9"},
+new SelectListItem{Text = "10",Value = "10"}
+})
+        </td>
+    </tr>
+
+
+
+
+
+    <tr>
+        <td>環保署聯絡人</td>
+        <td>
+            @Html.DropDownList("SearchISEnvironmentalProtectionAdministration", new List<SelectListItem>
+    {
+    new SelectListItem{Text = "請選擇",Value = ""},
+    new SelectListItem{Text = "是",Value = "是"},
+    new SelectListItem{Text = "否",Value = "否"}
+    })
+        </td>
+    </tr>
+    <tr>
+        <td>環保局聯絡人</td>
+        <td>
+            @Html.DropDownList("SearchISEnvironmentalProtectionDepartment", new List<SelectListItem>
+    {
+    new SelectListItem{Text = "請選擇",Value = ""},
+    new SelectListItem{Text = "是",Value = "是"},
+    new SelectListItem{Text = "否",Value = "否"}
+    })
+        </td>
+    </tr>
+    <tr>
+        <td>通聯手冊聯絡人</td>
+        <td>
+            @Html.DropDownList("SearchISBook", new List<SelectListItem>
+    {
+    new SelectListItem{Text = "請選擇",Value = ""},
+    new SelectListItem{Text = "是",Value = "是"},
+    new SelectListItem{Text = "否",Value = "否"}
+    })
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            @Html.ActionLink("取消", "A8x3", "EPAxUser", "", new { @class = "btn fa fa-arrow-circle-left", @style = "color:white;padding:4px" })
+            <input type="submit" class="btn btn-primary" style="margin:10px" value="確認儲存" />
+            <br />
+            <span style="font-size:small">※請修正上方表格內的資料</span>
+            <br /><br />
+        </td>
+    </tr>
+</table>
+    }
+    <hr /><hr /><hr />
+</div>
+
+<div id="DeleteArea" style="display:none;text-align:center">
+    @using (Html.BeginForm("Delete", "EPAxUser"))
+    {
+        <br />
+        <span style="color:black">帳號</span>
+        @Html.TextBox("DeleteName", "", new { @readonly = "readonly", style = "width:100px;color:black;border:none;" })
+        <br />
+        @Html.ActionLink("取消", "A8x3", "EPAxUser", "", new { @class = "btn fa fa-arrow-circle-left", @style = "color:white;padding:4px" })
+        <input type="submit" class="btn btn-warning" style="margin:5px;padding:5px" value="確定刪除" />
+        <br />
+
+        //以下寬度設為0，使其無法出現，這些資料只是讓 EPAxUser/Delete抓去後續處理
+        @Html.TextBox("DeleteId", "", new { @readonly = "readonly", style = "width:0px;color:red;border:none;" })
+        @Html.TextBox("DeleteDuty", "", new { @readonly = "readonly", style = "width:0px;color:red;border:none;" })
+        @Html.TextBox("DeleteCity", "", new { @readonly = "readonly", style = "width:0px;color:red;border:none;" })
+
+        <br />
+        <span>※刪除後無法回復</span>
+        <br />
+    }
+    <br />
+</div>
+<br />
+<div id="SearchArea">
+    <font size="3">
+        @using (Html.BeginForm("Search2", "EPAxUser"))
+        {
+        <div class="text-center text-primary">
+            <span style="color:red">請先選擇機關類別(角色)：</span>
+            @Html.DropDownList("SearchDuty", new List<SelectListItem>
+                        {
+                           new SelectListItem{Text = "不限", Value = "ALL"},
+                        new SelectListItem{Text = "環保署(中央機關)", Value = "環保署"},
+                        new SelectListItem{Text = "環保局(地方機關)",Value = "環保局"},
+                        new SelectListItem{Text = "自來水公司",Value = "自來水公司"},
+                        new SelectListItem{Text = "清潔隊(地方機關)", Value = "清潔隊"},
+                        }, new { onclick = "DutyChanged()" })
+            <br />
+            <span>機關名稱(縣市)：</span>
+            @Html.DropDownList("SearchCity", new List<SelectListItem>
+         {
+               new SelectListItem{Text = "請選擇",Value = "",Selected=true}
+         }, new { onclick = "CityChanged()" })
+            <br />
+
+            <span>單位名稱(鄉鎮市區)：</span> @Html.DropDownList("SearchTown", new List<SelectListItem>
+{
+new SelectListItem{Text = "不限",Value = "ALL",Selected=true},
+})
+            <br />
+
+            <span>人員類別：</span> @Html.DropDownList("SearchHumanType", new List<SelectListItem>
+{
+new SelectListItem{Text = "不限",Value = "ALL",Selected=true},
+new SelectListItem{Text = "災情通報人員",Value = "災情通報人員"},
+new SelectListItem{Text = "飲用水緊急應變小組連絡人員",Value = "飲用水緊急應變小組連絡人員"},
+new SelectListItem{Text = "災害防救緊急應變連絡人員",Value = "災害防救緊急應變連絡人員"},
+new SelectListItem{Text = "中央專責及進駐人員",Value = "中央專責及進駐人員"},
+new SelectListItem{Text = "署內進駐人員",Value = "署內進駐人員"},
+new SelectListItem{Text = "車輛機具連絡人員",Value = "車輛機具連絡人員"}
+})
+            <br />
+            <span>
+                是否為該單位主要聯絡人：
+            </span>
+            @Html.DropDownList("SearchMainContacter", new List<SelectListItem>
+    {
+    new SelectListItem{Text = "不限",Value = "ALL",Selected=true},
+    new SelectListItem{Text = "是",Value = "是"},
+    new SelectListItem{Text = "否",Value = "否"}
+     })
+            <br />
+            <span>
+                是否為環保署聯絡人：
+            </span>
+            @Html.DropDownList("SearchISEnvironmentalProtectionAdministration", new List<SelectListItem>
+    {
+    new SelectListItem{Text = "不限",Value = "ALL",Selected=true},
+    new SelectListItem{Text = "是",Value = "是"},
+    new SelectListItem{Text = "否",Value = "否"}
+     })
+            <br />
+
+            <span>
+                是否為環保局聯絡人：
+            </span>
+            @Html.DropDownList("SearchISEnvironmentalProtectionDepartment", new List<SelectListItem>
+    {
+    new SelectListItem{Text = "不限",Value = "ALL",Selected=true},
+    new SelectListItem{Text = "是",Value = "是"},
+    new SelectListItem{Text = "否",Value = "否"}
+     })
+            <br />
+
+
+            <span>
+                是否為通聯手冊聯絡人：
+            </span>
+            @Html.DropDownList("SearchISBook", new List<SelectListItem>
+    {
+    new SelectListItem{Text = "不限",Value = "ALL",Selected=true},
+    new SelectListItem{Text = "是",Value = "是"},
+    new SelectListItem{Text = "否",Value = "否"}
+     })
+            <br />
+            <input type="submit" class="btn btn-info" value="查詢" />
+        </div>
+        }
+    </font>
+</div>
+<br />
+<br />
+@{Html.RenderPartial("~/Views/Components/ShowUserForEdit.cshtml");}
+@section scripts{
+    <script>
+
+        function PickItemForDelete(k, Name, Duty, City) {
+            $('html,body').animate({ scrollTop: 0 }, 333);
+            $("#DeleteArea").show();
+            $("#SearchArea").hide();
+            $("#EditArea").hide();
+            $("#DeleteId").val(k);
+            $("#DeleteName").val(Name);
+            $("#DeleteDuty").val(Duty);
+            $("#DeleteCity").val(City);
+        }
+
+        function PickItemForEdit(k, Name, City, Town, MobilePhone, HumanType, MainContacter, ReportPriority, Duty, Pwd, VoicePwd, PositionId, OfficePhone, Email, ISEnvironmentalProtectionAdministration, ISEnvironmentalProtectionDepartment, ISBook) {
+            $("#EditArea").show();
+            $("#SearchArea").hide();
+            $("#DeleteArea").hide();
+            $("#EditingId").val(k);
+            $("#EditingName").val(Name);
+            $("#EditingPwd").val(Pwd);
+            $("#EditingVoicePwd").val(VoicePwd);
+            $("#EditingDuty").val(Duty);
+            $("#EditingCity").val(City);
+            $("#EditingTown").val(Town);
+            $("#EditingMobilePhone").val(MobilePhone);
+            $("#EditingOfficePhone").val(OfficePhone);
+            $("#EditingEmail").val(Email);
+            $("#SearchISEnvironmentalProtectionAdministration").val(ISEnvironmentalProtectionAdministration);
+            $("#SearchISEnvironmentalProtectionDepartment").val(ISEnvironmentalProtectionDepartment);
+            $("#SearchISBook").val(ISBook);
+
+            //移動到頂端
+            $('html,body').animate({ scrollTop: 0 }, 333);
+
+            var humanTypes = HumanType.split("、");
+            console.log(humanTypes);
+            for (var i = 0; i <= 5; i++) {
+                var obj = document.getElementById(`EditingHumanType[${i}]`);
+
+                obj.checked = false;
+            }
+
+            for (var i = 0; i <= 5; i++) {
+                var obj = document.getElementById(`EditingHumanType[${i}]`);
+
+                var val = obj.value;
+
+
+                humanTypes.forEach(element => {
+                    if (val === element) {
+                        obj.checked = true;
+                    }
+                });
+            }
+            $("#EditingHumanType").val(HumanType);
+            $("#EditingMainContacter").val(MainContacter);
+            $("#EditingReportPriority").val(ReportPriority);
+            $("#EditingPositionId").val(PositionId);
+
+        }
+    </script>
+
+}

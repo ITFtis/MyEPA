@@ -1,0 +1,38 @@
+@charset "utf-8";
+/* CSS Document */
+/* LeadsENV, ChuangYJ*/
+
+.nav-info{
+	background-color: #ABBAC3;
+}
+
+.map{
+	border: 1px solid #F8F8F8;
+	padding: 10px;
+	word-break: break-all;
+}
+
+.line-gray-3px{
+	border: 3px solid #FAFAFA;
+	padding: 10px;
+	word-break: break-all;
+}
+
+.Taiwan-map{
+	width: auto;
+	padding-bottom: 30px;
+}
+
+
+/*----特殊排版用-----*/
+ @media only screen and (max-width: 991px) {
+	.mobile{display:block}
+	.pc{display:none}
+}
+
+ @media only screen and (min-width: 991px) {
+	.mobile{display:none}
+	.pc{display:block}
+	
+ }
+

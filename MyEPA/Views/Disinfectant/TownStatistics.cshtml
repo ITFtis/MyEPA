@@ -1,0 +1,55 @@
+﻿@model IEnumerable<MyEPA.Models.DisinfectantStatisticsTownViewModel>
+@using MyEPA.Extensions;
+@{
+    ViewBag.Title = "環境消毒藥劑統計-鄉鎮";
+    Layout = "~/Views/_Layout.cshtml";
+}
+
+    <h2>@ViewBag.Title</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Town)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Count)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DisinfectantSolidAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DisinfectantLiquidAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ServiceLife)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdateTime)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Town)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Count)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DisinfectantSolidAmount)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DisinfectantLiquidAmount)
+    </td>
+    <td>
+        @item.ServiceLife.ToShortDateString()
+    </td>
+    <td>
+        @item.UpdateTime.ToDateTimeString()
+    </td>
+</tr>
+}
+
+</table>

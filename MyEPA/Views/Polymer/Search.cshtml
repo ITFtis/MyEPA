@@ -1,0 +1,63 @@
+﻿@model IEnumerable<MyEPA.Models.PolymerViewModel>
+@using MyEPA.Models;
+@using MyEPA.Enums;
+@{
+    ViewBag.Title = "高分子凝聚劑使用紀錄-查詢";
+    Layout = "~/Views/_Layout.cshtml";
+    int diasterId = ViewBag.DiasterId;
+    List<DiasterModel> diasters = ViewBag.Diasters;
+}
+<h3>高分子凝聚劑使用紀錄查詢</h3>
+<div class="btn-group">
+    <button data-toggle="dropdown" class="btn btn-primary btn-white dropdown-toggle" aria-expanded="false">
+        @(diasters.FirstOrDefault(e => e.Id == diasterId).DiasterName)<i class="ace-icon fa fa-angle-down icon-on-right"></i>
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="max-height:250px;overflow-y:scroll;">
+        @foreach (DiasterModel Item in diasters)
+        {
+            <li>
+                <a href="@Url.Action("Search","Polymer",new { diasterId = Item.Id})">@Item.DiasterName</a>
+            </li>
+        }
+    </ul>
+</div>
+<table class="table">
+    <tr>
+        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreateDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Department)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DrugName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UseDays)
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink("細項", "Search", "PolymerDetail", new { PolymerId = item.Id }, new { })
+            </td>
+            <td>
+                @item.CreateDate.ToString("yyyy/MM/dd")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Department)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DrugName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UseDays)
+            </td>
+        </tr>
+    }
+
+</table>

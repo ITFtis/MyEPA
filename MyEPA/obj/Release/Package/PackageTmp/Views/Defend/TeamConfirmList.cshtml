@@ -1,0 +1,90 @@
+﻿@model IEnumerable<MyEPA.Models.DefendTeamConfirmViewModel>
+@using MyEPA.Models;
+@{
+    ViewBag.Title = "整備通報確認(環保局)";
+    Layout = "~/Views/_Layout.cshtml";
+    int diasterId = ViewBag.DiasterId;
+    List<DiasterModel> diasters = ViewBag.Diasters;
+}
+    <h3>@ViewBag.Title</h3>
+    <div class="">
+        @using (Html.BeginForm("TeamConfirmList", "Defend", new { }, FormMethod.Get, new { }))
+        {
+            <table border="0">
+                <tbody>
+                    <tr>
+                        <td><h5>災害名稱：</h5></td>
+                        <td>
+                            <select name="diasterId">
+                                @foreach (var item in diasters)
+                                {
+                                    <option value="@item.Id" @(item.Id == diasterId ? "selected" : string.Empty)>@item.DiasterName</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr><td>&nbsp;</td></tr>
+                    <tr align="center">
+                        <td colspan="2"><button type="submit" class="btn btn-primary" href=""><i class="fa fa-search"></i>&nbsp;查詢</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+        <hr>
+    </div>
+<table class="table">
+    <tr>
+        <th> @Html.DisplayNameFor(model => model.Status)</th>
+        <th>
+            @Html.DisplayNameFor(model => model.CityName)
+        </th>
+        <th>
+            鄉鎮資料
+        </th>
+    </tr>
+
+@foreach (var defend in Model) {
+    <tr>
+        <td>
+            @if (defend.Status == MyEPA.Enums.DefendStatusEnum.Waiting)
+            {
+                <a href="#" onclick="Confirm(@defend.Id,@(MyEPA.Enums.DefendStatusEnum.Confirm.ToInteger()))">確認</a>
+            }
+            else if (defend.Status == MyEPA.Enums.DefendStatusEnum.Confirm)
+            {
+                <a href="#" onclick="Confirm(@defend.Id,@(MyEPA.Enums.DefendStatusEnum.Waiting.ToInteger()))">取消確認</a>
+            }
+            else
+            {
+                @:@defend.Status.GetDescription()
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => defend.CityName)
+        </td>
+        <td>
+            <a class="btn btn-default" href="@Url.Action("TownQuestions","Defend",new { diasterId,cityId = defend.CityId})">查看</a>
+        </td>
+    </tr>
+}
+
+</table>
+<script>
+    function Confirm(id,status) {
+        var url = `@Url.Action("Confirm",new { })?id=${id}&status=${status}`;
+        var type = 'get';
+        $.ajax({
+            url: url,
+            type: type,
+            success: function (data) {
+                if (data.IsSuccess) {
+                    alert("成功");
+                    location.reload();
+                } else {
+                    alert(data.ErrorMessage);
+                    location.reload();
+                }
+            },
+        })
+    }
+</script>

@@ -1,0 +1,119 @@
+﻿@{
+    Layout = "~/Views/_Layout.cshtml";
+    ViewBag.Title = "流動廁所支援佈點通報";
+}
+
+<h4>流動廁所支援佈點通報</h4>
+<div id="DataArea">
+    @{Html.RenderPartial("~/Views/Components/ShowDiasterForB1e23.cshtml");}
+</div>
+<br />
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-6">
+            @using (Html.BeginForm("AddPlace", "EPBxToilet"))
+            {
+                <div id="ReportArea" style="display:none">
+                    <span>災害編號：</span> @Html.TextBox("DiasterId", "", new { @readonly = "readonly", @style = "border:none" })
+                    <br />
+                    <span>災害名稱：</span> @Html.TextBox("DiasterName", "", new { @readonly = "readonly", @style = "border:none" })
+                    <br />
+                    <span>管理維護單位：</span>@ViewBag.City<span>環保局</span>
+                    <br />
+                    <span>放置地點位置：</span>
+                    @Html.DropDownList("Town", new List<SelectListItem>
+        {
+        new SelectListItem{Text = "請選擇",Value = "未填",Selected=true}
+        })
+                    <br />
+                    @Html.TextBox("Address", "", new { @style = "width:100%;border:none;background-color:WhiteSmoke" })
+                    <br />
+                    <span>放置地點座標：</span>
+                    <span>X:</span>@Html.TextBox("Xpos", (string)ViewBag.Xpos, new { @style = "width:30%;border:none;background-color:WhiteSmoke" })
+                    <span>Y:</span>@Html.TextBox("Ypos", (string)ViewBag.Ypos, new { @style = "width:30%;border:none;background-color:WhiteSmoke" })
+                    <br />
+                    <span>廁所數量：</span>
+                    @Html.TextBox("ToiletNumber", "", new { @style = "width:50%;background-color:lightgrey;border:none;background-color:WhiteSmoke" })
+                    <br />
+                    <span>廁所形式：</span>
+                    @Html.TextBox("ToiletType", "", new { @style = "width:50%;border:none;background-color:WhiteSmoke" })
+                    <br />
+                    <span>租約日期：</span>
+                    <br /><span>起:</span>@Html.TextBox("StartDay", "", new { @style = "width:30%;border:none;background-color:WhiteSmoke" })
+                    <span>迄:</span> @Html.TextBox("EndDay", "", new { @style = "width:30%;border:none;background-color:WhiteSmoke" })
+                    <br />
+                    <span>管理人姓名：</span>
+                    @Html.TextBox("Manager", "", new { @style = "width:60%;border:none;background-color:WhiteSmoke" })
+                    <br />
+                    <span>管理人聯絡方式(字數限制200)：</span>
+                    @Html.TextBox("ContactMethod", "", new { @style = "width:50%;border:none;background-color:WhiteSmoke" })
+                    <br />
+                    <span>備註(字數限制200)：</span>
+                    <br />
+                    @Html.TextBox("Note", "", new { @style = "width:100%;border:none;background-color:WhiteSmoke" })
+                    <br />
+                    <div class="text-center">
+                        <input type="submit" class="btn btn-danger text-center" value="確認儲存" />
+                    </div>
+                </div>
+            }
+        </div>
+        <br />
+        <div id="MapArea" class="col-12 col-md-6">
+
+        </div>
+    </div>
+</div>
+<script>
+    function PickItemForEdit(DiasterId, DiasterName, DiasterType, StartTime, EndTime, Comment, DiasterState) {
+        $("#DiasterId").val(DiasterId);
+        $("#DiasterName").val(DiasterName);
+        $("#ReportArea").show();
+
+    }
+</script>
+
+<script>
+    function PutMarkOnMap(x, y) {
+        var MapTarget = L.latLng(x, y);
+        Map.setView(MapTarget, 14);
+        if (MarkCollection != undefined) {
+            Map.removeLayer(MarkCollection);
+        };
+        MarkCollection = L.marker([x, y]).addTo(Map);
+        $("#Xpos").val(x);
+        $("#Ypos").val(y);
+    }
+
+    var MapElement = document.getElementById('MapArea');
+    MapElement.style = 'height:300px;';
+    var Map = L.map(MapElement);
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(Map);
+    var MapTarget = L.latLng('25.0400458', '121.55859');
+    Map.setView(MapTarget, 14);
+
+    function MapClick(e) {
+        var Xvalue = e.latlng.lat.toString();
+        var Yvalue = e.latlng.lng.toString();
+        if (MarkCollection != undefined) {
+            Map.removeLayer(MarkCollection);
+        };
+        MarkCollection = L.marker([Xvalue, Yvalue]).addTo(Map);
+        $("#Xpos").val(Xvalue);
+        $("#Ypos").val(Yvalue);
+        $("#EditXpos").val(Xvalue);
+        $("#EditYpos").val(Yvalue);
+    }
+    var MarkCollection = {};
+    Map.on('click', MapClick);
+</script>
+@{Html.RenderPartial("~/Views/Components/JSforB1e23.cshtml");}
+
+<script>
+    PutMarkOnMap(@ViewBag.Xpos, @ViewBag.Ypos);
+
+</script>

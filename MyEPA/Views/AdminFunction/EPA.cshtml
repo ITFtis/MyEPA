@@ -1,0 +1,527 @@
+﻿<li class="">
+    <a href="#" class="dropdown-toggle">
+        <i class="menu-icon glyphicon glyphicon-alert"></i>
+        <span class="menu-text">
+            請求支援作業
+        </span>
+        <b class="arrow fa fa-angle-down"></b>
+    </a>
+    <b class="arrow"></b>
+    <ul class="submenu nav-hide" style="display: none;">
+        <li class="">
+            <a href="@Url.Action("SubsidyReport","ApplySupport")">請求核定(補助款)</a>
+        </li>
+        <li class="">
+            <a href="@Url.Action("ProcessReport","ApplySupport")">請求核定(處理情形)</a>
+        </li>
+    </ul>
+</li>
+
+<li class="">
+    <a href="#" class="dropdown-toggle">
+        <i class="menu-icon glyphicon glyphicon-search"></i>
+        <span class="menu-text"> 相關查詢 </span>
+
+        <b class="arrow fa fa-angle-down"></b>
+    </a>
+    <b class="arrow"></b>
+    <ul class="submenu nav-hide" style="display: none;">
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-caret-right"></i>
+                資源整備
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
+            <ul class="submenu">
+                <li class="">
+                    <a href="@Url.Action("Index","ResourcesReport",new { })">應變資源</a>
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="@Url.Action("Report","Defend",new { })">整備通報</a>
+                    <b class="arrow"></b>
+                </li>
+                <!--
+                <li class="">
+                    <a href="#">資源通報時間查詢</a>
+                </li>
+            -->
+            </ul>
+        </li>
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-caret-right"></i>
+                水質檢驗相關
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
+            <ul class="submenu">
+                <li class="">
+                    <a href="@Url.Action("Report","WaterCheckDetail")">自來水公司抽驗結果</a>
+                </li>
+                <li class="">
+                    <a href="@Url.Action("Search","WaterEquipment")">自來水供水設備</a>
+                </li>
+                <li class="">
+                    <a href="@Url.Action("Search","Polymer")">高分子凝聚劑使用</a>
+                </li>
+            </ul>
+        </li>
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-caret-right"></i>
+                災情與支援
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
+            <ul class="submenu">
+                <li class="">
+                    <a href="@Url.Action("Search","ApplySupport")">請求支援處理查詢</a>
+                </li>
+                <li class="">
+                    @Html.ActionLink("災情及清理通報", "Index", "Damage", new { }, new { })
+                </li>
+                <li class="">
+                    <a href="@Url.Action("FacilityDamage","Damage")">環境設施災損查詢</a>
+                </li>
+            </ul>
+        </li>
+        <li class="">
+            <a href="@Url.Action("C3x1Landfill", "Cleaner")">
+                <i class="menu-icon fa fa-caret-right"></i>
+                垃圾掩埋場查閱
+            </a>
+        </li>
+        <li class="">
+            <a href="@Url.Action("C3x1Incinerator", "Cleaner")">
+                <i class="menu-icon fa fa-caret-right"></i>
+                焚化廠查閱
+            </a>
+        </li>
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-caret-right"></i>
+                新聞公告
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
+            <ul class="submenu">
+                <li class="">
+                    <a href="@Url.Action("Search","Notice")">公告事項</a>
+                </li>
+                <li class="">
+                    <a href="@Url.Action("Search","News")">新聞消息</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</li>
+
+<li class="">
+    <a href="#" class="dropdown-toggle">
+        <i class="menu-icon fa fa-list-alt"></i>
+        <span class="menu-text"> 統計與報表 </span>
+        <b class="arrow fa fa-angle-down"></b>
+    </a>
+    <b class="arrow"></b>
+    <ul class="submenu">
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-caret-right"></i>
+                資源與災損推估
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow fa fa-angle-down"></b>
+            <ul class="submenu">
+                <li class="">
+                    <a href="@Url.Action("CarsCountReport","Vehicle")">環境清潔車輛統計</a>
+                </li>
+                <li class="">
+                    <a href="@Url.Action("TownReport","Disinfectant")">環境消毒藥劑統計</a>
+                    <b class="arrow"></b>
+                </li>
+                <li class="">
+                    <a href="@Url.Action("TownReport","Disinfector")">環境消毒設備統計</a>
+                </li>
+                <li class="">
+                    <a href="@Url.Action("Statistics","WaterCheck")">水質抽驗統計</a>
+                </li>
+                <li class="">
+                    <a href="@Url.Action("CityStatistics","Damage")">殺菌劑與垃圾量預估</a>
+                </li>
+                <li class="">
+                    <a href="@Url.Action("CityStatistics","Disinfectant")">消毒藥劑過期統計</a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-caret-right"></i>
+                災情與支援
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
+            <ul class="submenu">
+                <li class="">
+                    <a href="@Url.Action("CityStatistics","Damage")">災情及環境清理統計</a>
+                </li>
+                <li class="">
+                    <a href="@Url.Action("CityStatusReport","ApplySupport")">請求支援統計</a>
+                </li>
+                <li class="">
+                    <a href="@Url.Action("Statistics","ToiletLocation")">流動廁所佈點</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</li>
+
+<li class="">
+    <a href="#" class="dropdown-toggle">
+        <i class="menu-icon fa fa-pencil-square-o"></i>
+        <span class="menu-text"> 通報管考 </span>
+        <b class="arrow fa fa-angle-down"></b>
+    </a>
+
+    <b class="arrow"></b>
+    <ul class="submenu">
+        <li class="">
+            @Html.ActionLink("資源通報", "Index", "ResourcesReport", new { }, new { })
+        </li>
+        <li class="">
+            @Html.ActionLink("整備通報", "Report", "Defend", new { }, new { })
+        </li>
+        <li class="">
+            @Html.ActionLink("災情及清理通報", "Report", "Damage", new { }, new { })
+        </li>
+        <li class="">
+            <a href="@Url.Action("Report","WaterCheck")">環保局水質通報</a>
+        </li>
+        <li class="">
+            @Html.ActionLink("請求支援通報", "Index", "ApplySupport", "", new { })
+        </li>
+        <li class="">
+            <a href="@Url.Action("Statistics","ToiletLocation")">流動廁所清潔</a>
+        </li>
+    </ul>
+</li>
+<li class="">
+    <a href="#" class="dropdown-toggle">
+        <i class="menu-icon glyphicon glyphicon-sort"></i>
+        <span class="menu-text"> 資源分享 </span>
+        <b class="arrow fa fa-angle-down"></b>
+    </a>
+    <b class="arrow"></b>
+    <ul class="submenu">
+        <li class="">
+            <a href="@Url.Action("B6x1","EPB",new {title = "資源(上傳/下載)"  })">資源(上傳/下載)</a>
+        </li>
+        <li class="">
+            @{
+                MyEPA.Enums.SourceTypeEnum sourceType = MyEPA.Enums.SourceTypeEnum.VehicleManagement;
+                <a href="@Url.Action("Index","FileData",new {sourceType = sourceType  })">@sourceType.GetDescription()</a>
+            }
+        </li>
+        
+        @*
+        <li class="">
+            <a href="@Url.Action("B6x1","EPB",new {title = "參考資料(上傳/下載)"  })">參考資料(上傳/下載)</a>
+        </li>
+        <li class="">
+            <a href="@Url.Action("B6x1","EPB",new {title = "常用表單(上傳/下載)"  })">常用表單(上傳/下載)</a>
+        </li>
+        <li class="">
+            <a href="@Url.Action("B6x1","EPB",new {title = "災區小組(上傳/下載)"  })">災區小組(上傳/下載)</a>
+        </li>
+        <li class="">
+            <a href="@Url.Action("B6x1","EPB",new { title = "專案資源(上傳/下載)" })">專案資源(上傳/下載)</a>
+        </li>
+        <li class="">
+            <a href="@Url.Action("B6x1","EPB",new { title = "新聞稿(上傳/下載)" })">新聞稿(上傳/下載)</a>
+        </li>*@
+        <li class="">
+            <a href="@Url.Action("Reference","FileData",new {title = "應變摘要參考資料" })">應變摘要參考資料</a>
+        </li>
+        @*
+        <li class="">
+            <a href="@Url.Action("B6x1","EPB",new { })">各處室簡日報產製</a>
+        </li>*@
+    </ul>
+</li>
+<li class="">
+    <a href="#" class="dropdown-toggle">
+        <i class="menu-icon glyphicon glyphicon-book"></i>
+        <span class="menu-text">電話紀錄及大事記</span>
+        <b class="arrow fa fa-angle-down"></b>
+    </a>
+
+    <b class="arrow"></b>
+    <ul class="submenu">
+        <li class="">
+            <a href="@Url.Action("Index","PhoneWork")">紀錄及事記</a>
+        </li>
+        <li class="">
+            <a href="@Url.Action("Index","TaskWork")">任務指派單</a>
+        </li>
+    </ul>
+</li>
+</li> @*
+        <li class="">
+
+
+                <a href="#" class="dropdown-toggle">
+                    <i class="menu-icon glyphicon glyphicon-user"></i>
+                    <span class="menu-text">線上輪班表</span>
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+
+                    <b class="arrow"></b>
+                    <ul class="submenu">
+                        <li class="">
+                            @Html.ActionLink("輪班總表查詢", "QueryAllShiftSchedule", "ShiftSchedule", new { }, new { })
+                        </li>
+                        <li class="">
+                            @Html.ActionLink("值班人員統計", "GetUserShiftScheduleCount", "ShiftSchedule", new { }, new { })
+                        </li>
+                        <li class="">
+                            @Html.ActionLink("中央輪班表", "Index", "MainShiftSchedule", new { }, new { })
+                        </li>
+                        <li class="">
+                            @Html.ActionLink("環境督察總隊天災輪班表", "Index", "ShiftSchedule", new { departmentId = 4 }, new { })
+                        </li>
+                        <li class="">
+                            @Html.ActionLink("總隊天災輪班表", "Index", "TeamShiftSchedule", new { departmentId = 5 }, new { })
+                        </li>
+                        <li class="">
+                            @Html.ActionLink("廢管處輪班表", "Index", "ShiftSchedule", new { departmentId = 6 }, new { })
+                        </li>
+                        <li class="">
+                            @Html.ActionLink("水保處輪班表", "Index", "ShiftSchedule", new { departmentId = 7 }, new { })
+                        </li>
+                        <li class="">
+                            @Html.ActionLink("監資處輪班表", "Index", "ShiftSchedule", new { departmentId = 8 }, new { })
+                        </li>
+                        <li class="">
+                            @Html.ActionLink("秘書室輪班表", "Index", "ShiftSchedule", new { departmentId = 9 }, new { })
+                        </li>
+                        <li class="">
+                            @Html.ActionLink("北區大隊輪班表", "Index", "TeamShiftSchedule", new { departmentId = 10 }, new { })
+                        </li>
+                        <li class="">
+                            @Html.ActionLink("中區大隊輪班表", "Index", "TeamShiftSchedule", new { departmentId = 11 }, new { })
+                        </li>
+                        <li class="">
+                            @Html.ActionLink("南區大隊輪班表", "Index", "TeamShiftSchedule", new { departmentId = 12 }, new { })
+                        </li>
+                        <li class="">
+                            @Html.ActionLink("快速簽到查詢", "SearchCheck", "ShiftSchedule", new { departmentId = 6 }, new { })
+                        </li>
+                    </ul>
+
+    </li>
+*@
+<li class="">
+    <a href="#" class="dropdown-toggle">
+        <i class="menu-icon glyphicon glyphicon-modal-window"></i>
+        <span class="menu-text">聯絡資料</span>
+        <b class="arrow fa fa-angle-down"></b>
+    </a>
+    <b class="arrow"></b>
+    <ul class="submenu">
+        <li class="">
+            <a href="@Url.Action("EditPwd", "Users")">網頁密碼變更</a>
+        </li>
+        <li class="">
+            <a href="@Url.Action("A8x2", "EPAxUser")">聯絡人資料查詢</a>
+        </li>
+        <li class="">
+            <a href="@Url.Action("A8x3", "EPAxUser")">聯絡人資料維護</a>
+        </li>
+        <li class="">
+            <a href="@Url.Action("A8x4", "EPAxContact")">單一聯繫窗口查詢</a>
+        </li>
+        <li class="">
+            <a href="@Url.Action("A8x5", "EPAxContact")">單一聯繫窗口維護</a>
+        </li>
+        @*
+        <li class="">
+            <a href="@Url.Action("EPA", "EPA")">環保署單位維護</a>
+        </li>*@
+    </ul>
+</li>
+<li class="">
+    <a href="#" class="dropdown-toggle">
+        <i class="menu-icon glyphicon glyphicon-cog"></i>
+        <span class="menu-text">系統維護管理</span>
+        <b class="arrow fa fa-angle-down"></b>
+    </a>
+    <b class="arrow"></b>
+    <ul class="submenu">
+        <li class="">
+            @Html.ActionLink("災害主題建置", "A9x1", "EPAxDiaster", "", new { })
+        </li>
+        <li class="">
+            @Html.ActionLink("災害預警區設定", "A9x2", "EPAxDiaster", "", new { })
+        </li>
+        <li class="">
+            <a href="@Url.Action("Index", "UserGroup",new { Type = "SMS"})">簡訊群組</a>
+        </li>
+        <li class="">
+            <a href="@Url.Action("Index", "UserGroupMapp")">人員簡訊群組</a>
+        </li>
+        <li class="">
+            <a href="@Url.Action("GroupSMS", "UserGroupMapp")">發送群組簡訊</a>
+        </li>
+        <li class="">
+            @Html.ActionLink("簡訊及Email發送", "A9x3", "EPAxText", "", new { })
+        </li>
+        <li class="">
+            @Html.ActionLink("簡訊發送查詢", "Index", "SendTextLog", "", new { })
+        </li>
+        <li class="">
+            @Html.ActionLink("E-mail發送查詢", "A9x5", "EPAxMail", "", new { })
+        </li>
+        <li class="">
+            @Html.ActionLink("公告及新聞建置", "Index", "Notice", "", new { })
+        </li>
+        <li class="">
+            @Html.ActionLink("相關資訊網站資料", "A9x9", "EPA", "", new { })
+        </li>
+        <li class="">
+            @Html.ActionLink("線上註冊審查", "A9x12ApproveRegister", "EPAxUser", "", new { })
+        </li>
+    </ul>
+</li>
+<li class="">
+    <a href="#" class="dropdown-toggle">
+        <i class="menu-icon glyphicon glyphicon-copy"></i>
+        <span class="menu-text">總隊管理資訊</span>
+        <b class="arrow fa fa-angle-down"></b>
+    </a>
+    <b class="arrow"></b>
+    <ul class="submenu">
+        @*
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-caret-right"></i>
+                線上輪值表
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow fa fa-angle-down"></b>
+            <ul class="submenu">
+                <li class="">
+                    <a href="">總隊天災輪班表</a>
+                </li>
+            </ul>
+        </li>
+        *@
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-caret-right"></i>
+                任務進駐
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow fa fa-angle-down"></b>
+            <ul class="submenu">
+                <li class="">
+                    @Html.ActionLink("任務編組", "Index", "FileData", new { sourceType = "TaskGrouping" }, new { })
+                </li>
+            </ul>
+        </li>
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-caret-right"></i>
+                現場檢核表單
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
+            <ul class="submenu">
+                <li class="">
+                    <a href="/Content/bigteam/A1.xls">天然災害環境復健現場檢核表(A1)</a>
+                </li>
+                <li class="">
+                    <a href="/Content/bigteam/A2-1.xls">天然災害申請支援通報表(A2-1)</a>
+                </li>
+                <li class="">
+                    <a href="/Content/bigteam/A2-2.xls">天然災害應變資源調度數量日報表(A2-2)</a>
+                </li>
+                <li class="">
+                    <a href="/Content/bigteam/A3.xls">天然災害訪查任務分派回覆處理情形表(A3)</a>
+                </li>
+            </ul>
+        </li>
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-caret-right"></i>
+                請求支援與核定
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow fa fa-angle-down"></b>
+            <ul class="submenu">
+                <li class="">
+                    <a href="@Url.Action("SubsidyReport","ApplySupport")">請求支援核定(補助款)</a>
+                </li>
+                <li class="">
+                    <a href="@Url.Action("ProcessReport","ApplySupport")">請求支援核定(處理情形)</a>
+                </li>
+                <li class="">
+                    <a href="@Url.Action("Search","ApplySupport")">請求支援處理查詢</a>
+                </li>
+            </ul>
+        </li>
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-caret-right"></i>
+                災情及災損
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow fa fa-angle-down"></b>
+            <ul class="submenu">
+                <li class="">
+                    <a href="@Url.Action("FacilityDamage","Damage")">環境設施災損查詢</a>
+                </li>
+                <li class="">
+                    <a href="@Url.Action("Index","Damage")">災情及清理通報查詢</a>
+                </li>
+            </ul>
+        </li>
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-caret-right"></i>
+                水質抽驗
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow fa fa-angle-down"></b>
+            <ul class="submenu">
+                <li class="">
+                    <a href="@Url.Action("Statistics","WaterCheck")">水質抽驗統計</a>
+                </li>
+            </ul>
+        </li>
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-caret-right"></i>
+                焚化廠與掩埋場建置
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow fa fa-angle-down"></b>
+            <ul class="submenu">
+                <li class="">
+                    <a href="@Url.Action("Report", "Incinerator")">焚化廠資料建置</a>
+                </li>
+                <li class="">
+                    <a href="@Url.Action("Report", "Landfill")">掩埋場資料建置</a>
+                </li>
+            </ul>
+        </li>
+        <li class="">
+            <a href="bigteam/place3.html">暫(堆)置場</a>
+        </li>
+        <li class="">
+            <a href="@Url.Action("YearReport","Report",new { })">年度統計報表</a>
+        </li>
+    </ul>
+</li>

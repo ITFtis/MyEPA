@@ -1,0 +1,77 @@
+﻿@using MyEPA.Models;
+@{
+    ViewBag.Title = "整備通報";
+    Layout = "~/Views/_Layout.cshtml";
+    var towns = (List<TownModel>)ViewBag.Towns;
+    var townId = ViewBag.TownId;
+    var diasterId = ViewBag.DiasterId;
+}
+<br />
+
+<form name="SearchForm">
+    <label for="diasterId">災害：</label>
+    <select name="diasterId" id="diasterId">
+        @if (ViewBag.Diasters.Count == 0)
+        {
+            <option value="">無災害</option>
+        }
+        @foreach (MyEPA.Models.DiasterModel diaster in ViewBag.Diasters)
+        {
+            <option @(diasterId == diaster.Id ? "selected=\"selected\"" : string.Empty) value="@diaster.Id">@diaster.DiasterName</option>
+        }
+    </select>
+    <label for="diasterId">鄉鎮：</label>
+    <select id="Town" name="TownId">
+        @foreach (var item in towns)
+        {
+            <option value="@item.Id" @(item.Id == townId ? "selected='selected'" : string.Empty)>@item.Name</option>
+        }
+
+    </select>
+
+    <button id="submit" type="submit" class=" btn-success">搜尋</button>
+</form>
+
+@{
+    @Html.Action("Edit", "Defend", new { townId, diasterId })
+}
+@section scripts{
+
+    <script>
+
+        $(document).ready(function () {
+
+            //一進頁面直接點搜尋(用URL判斷是否點過)
+        if (request('TownId').length==0)
+         {
+          $('#submit').click();
+         }
+        })
+
+        //下拉選單換了就直接點搜尋
+        $('#Town').on('change', function () {
+              $('#submit').click();
+        });
+
+
+
+
+
+        //URL的參數
+        function request(paras) {
+            var url = location.href;
+            var paraString = url.substring(url.indexOf("?") + 1, url.length).split("&");
+            var paraObj = {}
+            for (i = 0; j = paraString[i]; i++) {
+                paraObj[j.substring(0, j.indexOf("=")).toLowerCase()] = j.substring(j.indexOf("=") + 1, j.length);
+            }
+            var returnValue = paraObj[paras.toLowerCase()];
+            if (typeof (returnValue) == "undefined") {
+                return "";
+            } else {
+                return returnValue;
+            }
+        }
+
+    </script>
+ }

@@ -1,0 +1,30 @@
+﻿@{ Layout = "~/Views/_Layout.cshtml"; }
+@model IEnumerable<MyEPA.Models.RegistersModel>
+
+@{ 
+    WebGrid grid = new WebGrid(Model);
+}
+<div class="text-center">
+    <br />
+    <h5>註冊審查</h5>
+    <br />
+</div>
+@using (Html.BeginForm("Approve", "EPAxUser", FormMethod.Post))
+{
+@grid.GetHtml(tableStyle: "table table-bordered", columns: new[]
+    {
+        grid.Column("Id","帳號"),
+        grid.Column("Name","姓名"),
+        grid.Column("Pwd","密碼"),
+        grid.Column("Duty","機關類別(角色)"),
+        grid.Column("City","機關名稱(縣市)"),
+        grid.Column("Town","單位名稱(鄉鎮區)"),
+        grid.Column("MobilePhone","行動電話"),
+        grid.Column("OfficePhone","辦公室電話"),
+        grid.Column("Email","電子郵件信箱"),
+        grid.Column("HumanType","人員類別"),
+        grid.Column("MainContacter","主要聯絡人"),
+        grid.Column("ReportPriority","通報優先順序"),
+        grid.Column("","審核",format: @<button type="submit" name="RegisterId" class="btn btn-success" value=@item.Id>核可</button>),
+        grid.Column("","",format: @<button type="submit" name="RejectId" class="btn btn-success" value=@item.Id>退回</button>),
+    })}

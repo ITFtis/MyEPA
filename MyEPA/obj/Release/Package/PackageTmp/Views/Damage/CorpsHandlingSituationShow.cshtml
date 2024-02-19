@@ -1,0 +1,20 @@
+﻿@model MyEPA.Models.DamageModel
+
+@{
+    ViewBag.Title = "總隊處理情形";
+    Layout = "~/Views/_Layout.cshtml";
+    MyEPA.Enums.FacilityDamageTypeEnum type = ViewBag.Type;
+}
+<h2>@ViewBag.Title</h2>
+<div class="form-horizontal">
+    <hr />
+    <div class="form-group">
+        @Html.LabelFor(model => model.ProcessDesc, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ProcessDesc, new { htmlAttributes = new { @class = "form-control" ,@readonly= "readonly" } })
+        </div>
+    </div>
+</div>
+<p>
+    @Html.ActionLink("返回列表", "FacilityDamage", new { diasterId = Model.DiasterId, cityId = Model.CityId, townId = Model.TownId, type = type },new {  @class="btn btn-default"})
+</p>

@@ -1,0 +1,110 @@
+﻿@model MyEPA.Models.WaterEquipmentModel
+
+@{
+    ViewBag.Title = "供水設備受損通報-新增";
+    Layout = "~/Views/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.DiasterId)
+    <table class="table">
+        <tbody>
+            <tr>
+                <td bgcolor="" colspan="2" width="180">
+                    <span style="color: red">*</span> @Html.LabelFor(model => model.Name, htmlAttributes: new { })
+                </td>
+                <td>
+                    <input name="Name" type="text" id="Name" style="width:250px;" value="@Model.Name" required>
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="" colspan="2">
+                    <span style="color: red">*</span>@Html.LabelFor(model => model.Description, htmlAttributes: new { })
+                </td>
+                <td>
+                    <textarea name="Description" rows="2" cols="20" id="Description" style="width:250px;" required>@Model.Description</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="" rowspan="2">
+                    供水量情形
+                </td>
+                <td bgcolor="">
+                    @Html.LabelFor(model => model.NormalAmount, htmlAttributes: new { })
+                </td>
+                <td>
+                    <input name="NormalAmount" type="text" id="NormalAmount" style="width:250px;" value="@Model.NormalAmount">
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="">
+                    @Html.LabelFor(model => model.AbnormalAmount, htmlAttributes: new { })
+                </td>
+                <td>
+                    <input name="AbnormalAmount" type="text" id="AbnormalAmount" style="width:250px;" value="@Model.AbnormalAmount">
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="" rowspan="2">
+                    供水戶數
+                </td>
+                <td bgcolor="">
+                    @Html.LabelFor(model => model.NormalCount, htmlAttributes: new { })
+                </td>
+                <td>
+                    <input name="NormalCount" type="text" id="NormalCount" style="width:250px;" value="@Model.NormalCount">
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="">
+                    @Html.LabelFor(model => model.AbnormalCount, htmlAttributes: new { })
+                </td>
+                <td>
+                    <input name="AbnormalCount" type="text" id="AbnormalCount" style="width:250px;" value="@Model.AbnormalCount">
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="" rowspan="2">
+                    供水範圍
+                </td>
+                <td bgcolor="">
+                    @Html.LabelFor(model => model.NormalArea, htmlAttributes: new { })
+                </td>
+                <td>
+                    <input name="NormalArea" type="text" id="NormalArea" style="width:250px;" value="@Model.NormalArea">
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="">
+                    @Html.LabelFor(model => model.AbnormalArea, htmlAttributes: new { })
+                </td>
+                <td>
+                    <input name="AbnormalArea" type="text" id="AbnormalArea" style="width:250px;" value="@Model.AbnormalArea">
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="" colspan="2">
+                    <span style="color: red">*</span>@Html.LabelFor(model => model.DoneDate, htmlAttributes: new { })
+                </td>
+                <td>
+                    <input name="DoneDate" type="datetime-local" id="DoneDate" value="@Model.DoneDate.ToString("yyyy-MM-ddTHH:mm")">
+
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="" colspan="2">
+                    @Html.LabelFor(model => model.Remark, htmlAttributes: new { })
+                </td>
+                <td>
+                    <textarea name="Remark" rows="2" cols="20" id="Remark" style="height:110px;width:250px;">@Model.Remark</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td align="middle" colspan="3">
+                    <input type="submit" value="新增" class="btn btn-default" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}

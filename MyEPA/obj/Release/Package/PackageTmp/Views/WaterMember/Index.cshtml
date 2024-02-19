@@ -1,0 +1,88 @@
+﻿@model MyEPA.ViewModels.HomeIndexViewModel
+@using MyEPA.Enums
+@{
+    ViewBag.Title = "首頁";
+    Layout = "~/Views/_Layout.cshtml";
+}
+<div class="page-content">
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- PAGE CONTENT BEGINS -->
+            <h5>@Model.UserBrief.UserName (@Model.UserBrief.Duty.GetDescription() 您好, 目前災害名稱： @Model.RunningDiasterNames</h5>
+            <div id="Tabs2">
+                <!--<ul><li><a href="#tabs-1">通報資源</a></li><li><a href="#tabs-2">氣象資源</a></li></ul>-->
+                <div id="tabs-1">
+                    <div id="accordion" class="accordion-style1 panel-group">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a class="accordion-toggle collapsed" href="@Url.Action("Report", "WaterCheckDetail")">
+                                        &nbsp;水質抽驗結果查詢&nbsp;&nbsp;<small>小提醒：隨時都可近來查詢整合Google Maps水質抽驗結果</small>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div class="panel-collapse collapse" id="collapseTwo" aria-expanded="false">
+                                <div class="panel-body">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a class="accordion-toggle collapsed" href="@Url.Action("Index","WaterCheck")">
+                                        &nbsp;水質抽驗結果通報&nbsp;&nbsp;<small>小提醒：你可利用系統定位工具，建置水質收驗地點</small>
+                                    </a>
+                                </h4>
+                            </div>
+
+                            <div class="panel-collapse collapse" id="collapseTwo" aria-expanded="false">
+                                <div class="panel-body">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a class="accordion-toggle collapsed" href="@Url.Action("Index","WaterEquipment")">
+                                        &nbsp;供水設備受損通報&nbsp;&nbsp;<small>小提醒：請於災後次日10時前匯出傳真至環境督察總隊、毒管處及當地環保機關</small>
+                                    </a>
+                                </h4>
+                            </div>
+
+                            <div class="panel-collapse collapse" id="collapseThree" aria-expanded="false">
+                                <div class="panel-body">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a class="accordion-toggle collapsed" href="@Url.Action("Index","Polymer")">
+                                        &nbsp;高分子凝聚劑使用通報&nbsp;&nbsp;<small>小提醒：請於每次使用後7日內逕向毒管處申報</small>
+                                    </a>
+                                </h4>
+                            </div>
+
+                            <div class="panel-collapse collapse" id="collapseFour" aria-expanded="false">
+                                <div class="panel-body">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <!-- PAGE CONTENT ENDS -->
+        </div><!-- /.col -->
+    </div><!-- /.row -->
+</div>

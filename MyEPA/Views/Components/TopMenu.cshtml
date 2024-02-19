@@ -1,0 +1,50 @@
+﻿@*這是初進入網頁的頭頂選單，與環保署的EMIS LOGO同行
+    使用於FirstLayout 與SecondLayout中
+    使用bootstrap 的<nav指令，因此有響應式效果請參考陳老師的講義 範例 CS274*@
+
+@*navbar-expand-lg 表示 在螢幕變成lg（大電腦時）會顯示出Menu，在大電腦螢幕尺寸以下時，用下拉選單的方法呈現。
+    navbar-dark bg-dark 表示黑底白字 navbar-brand 是用於公司品牌名字
+    href="#" 代表網頁的最上方位置，點有href="#" 的Tag會到網頁頂部*@
+
+<style>
+    .main-link {
+        font-size: 0px;
+        opacity: 0;
+    }
+
+    .main-link:focus {
+        font-size: 14px;
+        visibility: visible;
+        opacity: 1;
+        color: white;
+    }
+</style>
+<SCRIPT language=JavaScript>
+    function help()
+	{
+		alert("您即將前往新頁面")
+    }
+</SCRIPT>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="main-link hide" href="/Home/News?Length=0" title="accesskey: menu"> 跳到主要內容 </a>
+    <a class="navbar-brand" href="~/Home"><img src="/Content/images/epa.png" width="30" alt="環境部LOGO"> 環境部</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            @*<li class="nav-item">
+                <a class="nav-link" href="https://emis.epa.gov.tw/" target="_blank">舊版系統<span class="sr-only">(current)</span></a>
+            </li>*@
+            <li class="nav-item">
+                <a class="nav-link" href="https://epamail.epa.gov.tw/front/mailboxhome" target="_blank">意見信箱</a>
+            </li>
+            <li class="nav-item">
+                @Html.ActionLink("網站導覽", "SiteMap", "Home", new { }, new { @class = "nav-link" })
+            </li>
+        </ul>
+    </div>
+    <div class="container">
+        <a herf="#U" id="AU" name="U" title="上方功能區塊" accesskey="U" tabindex="3">:::</a><span class="hide">|</span>"
+    </div>
+</nav>

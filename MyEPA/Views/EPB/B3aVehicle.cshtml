@@ -1,0 +1,33 @@
+﻿@{
+    Layout = "~/Views/_Layout.cshtml";
+}
+<br />
+@Html.ActionLink("返回", "B3a", "EPBxResource", "", new { @class = "btn btn-primary fa fa-arrow-circle-left", @style = "color:white;padding:4px" })
+<br /><br />
+
+<font size="2">
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>縣市</th>
+            <th>鄉鎮區市</th>
+            <th>聯絡單位</th>
+            <th>車輛名稱</th>
+            <th>車牌號碼</th>
+            <th>車輛狀態</th>
+            <th>更新時間</th>
+        </tr>
+        @foreach (var Item in ViewBag.Data)
+        {
+            <tr>
+                <td>@Item.City</td>
+                <td>@Item.Town</td>
+                <td>@Item.ContactUnit</td>
+                <td>@Item.VehicleName</td>
+                <td>@Item.PlateNumber</td>
+                <td>@Item.VehicleState</td>
+                <td>@Item.UpdateTime</td>
+            </tr>
+              }
+          </table>
+          <br /><br />
+      </font>

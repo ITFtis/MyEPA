@@ -1,0 +1,268 @@
+﻿@model IEnumerable<MyEPA.Models.IncineratorModel>
+@using MyEPA.Models;
+
+@{
+    ViewBag.Title = "焚化廠";
+    Layout = "~/Views/_Layout.cshtml";
+    IncineratorModel data = ViewBag.Model;
+    AdminResultModel result = ViewBag.Result;
+    string cityName = ViewBag.City;
+    List<CityModel> citys = ViewBag.Citys;
+}
+@{Html.RenderPartial("~/Views/Components/OpenStreeLeaflet.cshtml");}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<p>
+    <a href="#" onclick="history.go(-1)" class="btn btn-success">返回上一頁</a>
+</p>
+<div class="container-fluid">
+    <h2>全國營運中焚化廠</h2>
+    <hr />
+    <br />
+</div>
+<div class="col-6 col-md-6" style="float:left;">
+    @using (Html.BeginForm("Edit", "Incinerator", new { }, FormMethod.Post, new { @class = "DefendForm" }))
+    {
+        <table class="table" style="border:8px groove" border='1'>
+            <tr>
+                <th colspan="3">
+                    焚化廠
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    縣市別
+                </td>
+                <td colspan="2">
+                    <input name="City" type="text" value="@(data != null ? data.City : null)" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    鄉鎮市區別
+                </td>
+
+                <td colspan="2">
+                    <input name="Town" type="text" value="@(data != null ? data.Town : null)" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    地址
+                </td>
+
+                <td colspan="2">
+                    <input name="Address" type="text" value="@(data != null ? data.Address : null)" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    設計掩埋容量
+                </td>
+                <td>
+                    <input name="DesignCapacity" type="text" value="@(data != null ? data.DesignCapacity : null)" />
+                </td>
+                <td>
+                    立方公尺
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    座標
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    X座標
+                </td>
+
+                <td colspan="2">
+                    <input name="Xpos" type="text" value="@(data != null ? (decimal?)data.Xpos : null)" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Y座標
+                </td>
+
+                <td colspan="2">
+                    <input name="Ypos" type="text" value="@(data != null ? (decimal?)data.Ypos : null)" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    職繫單位名稱
+                </td>
+
+                <td colspan="2">
+                    <input name="ContactUnit" type="text" value="@(data != null ? data.ContactUnit : null)" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    聯絡人姓名
+                </td>
+
+                <td colspan="2">
+                    <input name="ContactPerson" type="text" value="@(data != null ? data.ContactPerson : null)" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    聯絡人職稱
+                </td>
+
+                <td colspan="2">
+                    <input name="ContactPersonTitle" type="text" value="@(data != null ? data.ContactPersonTitle : null)" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    聯絡人電話
+                </td>
+
+                <td colspan="2">
+                    <input name="ContactPhone" type="text" value="@(data != null ? data.ContactPhone : null)" />
+                </td>
+            </tr>
+            @if (data != null)
+            {
+                <tr>
+                    <td colspan="3">
+                        <input hidden="hidden" name="Id" value="@(data != null ? (int?)data.Id : null)" />
+                        <input type="submit" value="修改" />
+                    </td>
+                </tr>
+            }
+        </table>
+
+    }
+
+</div>
+<div id="MapArea" class="col-6 col-md-6" style="float:right;margin-top:50px;">
+</div>
+<script src="~/Content/assets/js/jquery-2.1.4.min.js"></script>
+<script src="~/Content/assets/js/jquery-ui.min.js"></script>
+
+<script>
+    @if (result != null && result.IsSuccess) {
+        @:alert('修改成功');
+    }
+    else if(result != null){
+            @:alert('@result?.ErrorMessage');
+        }
+    function SetMarkOnMap(x, y) {
+        MarkCollection = L.marker([x, y]).addTo(Map);
+    }
+
+    function GoToMarkOnMap(x, y) {
+
+        var MapTarget = L.latLng(x, y);
+
+        Map.setView(MapTarget, 14);
+    }
+
+    function PutMarkOnMap(x, y) {
+
+        var MapTarget = L.latLng(x, y);
+
+        Map.setView(MapTarget, 16);
+        if (MarkCollection != undefined) {
+            Map.removeLayer(MarkCollection);
+        };
+        MarkCollection = L.marker([x, y]).addTo(Map);
+    }
+
+    var MapElement = document.getElementById('MapArea');
+    MapElement.style = 'height:700px;';
+    var Map = L.map(MapElement);
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(Map);
+    var MapTarget = L.latLng('23.7400458', '121.55859');
+    Map.setView(MapTarget, 7.5);
+
+    function MapClick(e) {
+        var Xvalue = e.latlng.lat.toString();
+        var Yvalue = e.latlng.lng.toString();
+        console.log(`${Xvalue}, ${Yvalue}`);
+        if (MarkCollection != undefined) {
+            Map.removeLayer(MarkCollection);
+        };
+        MarkCollection = L.marker([Xvalue, Yvalue]).addTo(Map);
+        $("#Xpos").val(Xvalue);
+        $("#Ypos").val(Yvalue);
+        $("#EditXpos").val(Xvalue);
+        $("#EditYpos").val(Yvalue);
+    }
+    var MarkCollection = {};
+    Map.on('click', MapClick);
+</script>
+<div class="col-12 col-md-12">
+    <form name="SearchForm">
+        <label>縣市</label>
+        <select id="City" Name="City">
+            <option value="">全部</option>
+            @foreach (var city in citys)
+            {
+                if (city.City == cityName)
+                {
+                    <option value="@city.City" selected="selected">@city.City</option>
+                }
+                else
+                {
+                    <option value="@city.City">@city.City</option>
+                }
+
+            }
+        </select>
+        <button type="submit" class="btn btn-success">搜尋</button>
+    </form>
+</div>
+<table class="table">
+    <tr>
+        <th>
+            查詢
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Town)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContactUnit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>定位</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <a href="@Url.Action("Report", "Incinerator", new { id = item.Id })">查詢</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Town)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContactUnit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                <script>
+                    SetMarkOnMap(@item.Xpos,@item.Ypos);  //示意
+                </script>
+                <button class="SetMap" Xpos="@item.Xpos" Ypos="@item.Ypos" onclick="GoToMarkOnMap(@item.Xpos,@item.Ypos)">GO</button>
+            </td>
+        </tr>
+    }
+
+</table>

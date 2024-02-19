@@ -1,0 +1,314 @@
+﻿@using MyEPA.Models
+@using MyEPA.ViewModels
+@model ApplySubsidyModel
+
+
+@{
+    ViewBag.Title = "請求補助款-新增";
+    Layout = "~/Views/_Layout.cshtml";
+}
+
+@section styles{
+    <link rel="stylesheet" href="~/Content/flatpickr.css">
+    <link rel="stylesheet" href="~/Content/confirmDate.css">
+}
+
+<div class="page-content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="row">
+                <h3>請求補助款</h3>
+                <hr>
+            </div>
+            <div class="row">
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+
+                        @{
+                            ApplyRequestViewModel requestViewModel = ViewBag.RequestViewModel;
+                            <input type="hidden" name="CityId" value="@requestViewModel.CityId" />
+                            <input type="hidden" name="TownId" value="@requestViewModel.TownId" />
+                            <input type="hidden" name="DiasterId" value="@requestViewModel.DiasterId" />
+
+                        }
+
+                        <table id="dataTable" class="table table-bordered">
+                            <thead class="thin-border-bottom">
+                                <tr>
+                                    <td colspan="3" align="center" bgcolor="#ED7B73"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" align="center" bgcolor="#fff8d7">
+                                        <h5>填寫需請求資料</h5>
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>需用日期：</td>
+                                    <td colspan="2">
+                                        @Html.EditorFor(model => model.RequireDate, new { htmlAttributes = new { @class = "flatpickr flatpickr-input", @placeholder = "需用日期", @Value = Model.RequireDate.ToString("yyyy-MM-dd") } })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        請求項目<br>
+                                    </td>
+                                    <td>數量</td>
+                                    <td></td>
+                                </tr>
+                                <tr class="sampleTr">
+                                    <td>
+                                        <select id="sampleSelect" name="SubsidyType" onchange="typeChange(this)">
+                                            @foreach (var option in ViewBag.Options)
+                                            {
+                                                <option value="@option.Value" selected="@option.Value.Equals(0)"> @option.Key</option>
+                                            }
+                                        </select>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <button id="add" onclick="add()">+&nbsp;新增</button>&nbsp;&nbsp;
+                                        <button id="add" onclick="del(this)">+&nbsp;刪除</button>&nbsp;&nbsp;
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>估算方法(限1000字內)</td>
+                                    <td colspan="2">
+                                        @Html.TextAreaFor(model => model.EstimationMethodDescribe, new { style = "width:100%" })
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="table table-bordered">
+                            <thead class="thin-border-bottom">
+                                <tr>
+                                    <td colspan="3" align="center" bgcolor="#fff8d7">
+                                        <h5>照片上傳</h5>
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="3">說明:1.上傳照片(限JPG檔)請按"選擇檔案"鈕，待全部欄位填寫完成後按下方”新增”或”修改”鈕，統一上傳   2.下方提供照片說明填寫(限100字)。</td>
+                                </tr>
+                                <tr align="left">
+                                    <td>
+                                        照片預覽
+                                        <br>
+                                        <img class="imagen" id="blah" src="" alt="your image" />
+                                        <input type="file" name="file" id="file" />
+                                        <br>照片說明
+                                        <br>
+                                        @Html.TextAreaFor(model => model.PhotoDescribe, new { style = "width:100%" })
+                                        <br>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="table table-bordered">
+                            <thead class="thin-border-bottom">
+                                <tr>
+                                    <td colspan="3" align="center" bgcolor="#fff8d7">
+                                        <h5>現場聯絡人員</h5>
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>聯絡人姓名</td>
+                                    <td>@Html.TextBoxFor(model => model.ContactPerson)</td>
+                                </tr>
+                                <tr>
+                                    <td>連絡電話：</td>
+                                    <td>@Html.TextBoxFor(model => model.ContactPhone)</td>
+                                </tr>
+                                <tr>
+                                    <td>連絡手機：</td>
+                                    <td>@Html.TextBoxFor(model => model.ContactMobilePhone)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <hr>
+                        <a href="javascript:window.close();" onclick="SendRequest()"><div class="btn align-center">確認送出</div></a>
+                        <br>
+                        <br>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/confirmDate.js"></script>
+    <script src="~/Scripts/flatpickr.js"></script>
+    <script>
+        var full = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
+        var sampleTr = `<tr class="sampleTr">
+                                    <td>
+                                        <select id="sampleSelect" name="SubsidyType" onchange="typeChange(this)">
+                                            @foreach (var option in ViewBag.Options)
+                                            {
+                                                <option value="@option.Value" selected="@option.Value.Equals(0)"> @option.Key</option>
+                                            }
+                                        </select>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <button id="add" onclick="add()">+&nbsp;新增</button>&nbsp;&nbsp;
+                                        <button id="add" onclick="del(this)">+&nbsp;刪除</button>&nbsp;&nbsp;
+                                    </td>
+                                </tr>`
+        var unitTemplate = '<input type="text" name="SubsidyUnit" placeholder="單位" />'
+        var qualityTemplate = '<input type="number" name="SubsidyQuality" value="0" min="0" step="1" />'
+        var needDaysTemplate = '<input type="number" name="SubsidyNeedDays" value="0" min="0" step="1" />'
+        var priceTempate = '<input type="number" name="SubsidyPrice" value="0" min="0" step="1" />'
+        var descriptTempalte = '<textarea cols="50" rows="5" name="SubsidyDescription"></textarea>'
+
+
+        $(document).ready(function () {
+            $('.imagen[src=""]').hide();
+            $('.imagen:not([src=""])').show();
+        });
+
+        function add() {
+            $(sampleTr).insertAfter('.sampleTr:last')
+        }
+
+        function del(item) {
+            if ($('.sampleTr').length > 1) {
+                $(item).parent().parent('tr').remove()
+            }
+        }
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah').attr('src', e.target.result);
+                    $('.imagen:not([src=""])').show();
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function typeChange(sel) {
+            var element = "";
+            var targetElement = $(sel).parent().parent().find('td:eq(1)');
+            targetElement.html('')
+            switch (sel.value) {
+                case "1":
+                    element = `${qualityTemplate}人 X ${needDaysTemplate}天 X ${priceTempate}元/人天`
+                    targetElement.html(element)
+                    break;
+                case "2":
+                case "3":
+                    element = `${qualityTemplate}台 X ${needDaysTemplate}天 X ${priceTempate}元/台天`
+                    getTypeDetailTemplate(sel.value, targetElement, element);
+                    break;
+                case "4":
+                     element = `${qualityTemplate}公升 X ${priceTempate}元/公升`
+                     getTypeDetailTemplate(sel.value, targetElement, element);
+                    break;
+                case "5":
+                     element = `單位：${unitTemplate} ${qualityTemplate}數量 X ${priceTempate}元/單位`
+                     getTypeDetailTemplate(sel.value, targetElement, element);
+                    break;
+                case "6":
+                    element = `元(請填數字)：${priceTempate}  說明(200 字內)：${descriptTempalte}`
+                    targetElement.html(element)
+                default:
+                    break;
+            }
+
+
+        }
+
+        function getTypeDetailTemplate(typeId, targetElement, element) {
+            var url = `${full}/applySubsidy/typeDetails?typeId=${typeId}`
+            $.getJSON(url, function (data) {
+                var options = "";
+                data.forEach((item) =>
+                {
+                     options += '<option value = "' + item.Id + '" > ' + item.DisplayName + '</option >'
+                })
+                var template = `<select name="SubsidyTypeDetail" class="optionDetailSelect">
+                                            <option value="0" selected="selected">請選擇</option>
+                                            ${options}
+                                        </select>&nbsp;
+                            ${element}`
+                targetElement.html(template)
+            }, function (err) {
+                console.log(err)
+            })
+        }
+
+        $("#file").change(function () {
+            readURL(this);
+        });
+
+        function SendRequest()
+        {
+            var data = new FormData();
+            //Hidden 取法
+            data.append('DiasterId', $('[name=DiasterId]').attr("value"))
+            data.append('CityId', $('[name=CityId]').attr("value"))
+            data.append('TownId', $('[name=TownId]').attr("value"))
+
+            data.append('DiasterId',$('[name=DiasterId]').val())
+            data.append('RequireDate', $('[name=RequireDate]').val())
+            data.append('EstimationMethodDescribe', $('[name=EstimationMethodDescribe]').val())
+            data.append('PhotoDescribe', $('[name=PhotoDescribe]').val())
+            data.append('ContactPerson', $('[name=ContactPerson]').val())
+            data.append('ContactPhone', $('[name=ContactPhone]').val())
+            data.append('ContactMobilePhone', $('[name=ContactMobilePhone]').val())
+
+
+        
+            var trs = $('.sampleTr')
+            for (var i = 0; i < trs.length; i++)
+            {
+                var targetTr = $(trs[i]);
+                AppendData(data, i, targetTr, 'ApplySubsidyTypeDetailId','SubsidyTypeDetail')
+                AppendData(data, i, targetTr, 'SubsidyType', 'SubsidyType')
+                AppendData(data, i, targetTr, 'Unit', 'SubsidyUnit')
+                AppendData(data, i, targetTr, 'Quantity', 'SubsidyQuality')
+                AppendData(data, i, targetTr, 'NeedDays', 'SubsidyNeedDays')
+                AppendData(data, i, targetTr, 'Price', 'SubsidyPrice')
+                AppendData(data, i, targetTr, 'Description', 'SubsidyDescription')
+            }
+
+            data.append('file',$('#file').get(0).files[0])
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("CreateModel","ApplySubsidy")',
+                contentType: false,
+                processData: false,
+                data: data,
+                success: function (result) {
+                    window.location = '@Html.Raw(Url.Action("Index", "ApplySubsidy",  ViewBag.RequestViewModel))'
+                },
+                error: function (xhr, status) {
+                 alert('建立失敗')
+               }
+            });
+        }
+
+        function AppendData(data, index, tr, formKey, key)
+        {
+            var val = tr.find(`[name=${key}]`).val()
+            if (val)
+            {
+                data.append(`Details[${index}].${formKey}`, val)
+            }
+        }
+
+    </script>
+}

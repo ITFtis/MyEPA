@@ -1,0 +1,37 @@
+﻿@model IEnumerable<MyEPA.Models.DepartmentModel>
+@{
+    ViewBag.Title = "單位代碼維護";
+    Layout = "~/Views/_Layout.cshtml";
+}
+<p>
+    @Html.ActionLink("新增", "Edit", new { }, new { @class = "btn btn-default" })
+</p>
+<table class="table">
+    <tr>
+
+        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>
+                @Html.ActionLink("修改", "Edit", new { departmentId = item.Id })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+        </tr>
+    }
+
+</table>

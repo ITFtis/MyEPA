@@ -1,0 +1,73 @@
+﻿@using MyEPA.Models;
+@using MyEPA.Enums;
+@{
+    List<TownModel> towns = ViewBag.Towns;
+    int? townId = ViewBag.TownId;
+    DutyEnum duty = ViewBag.DutyId;
+}
+@if (duty == DutyEnum.EPB)
+{
+    <form name="SearchForm">
+        <label for="diasterId">鄉鎮：</label>
+        <select id="Town" name="TownId">
+            <option value="">全部</option>
+            @foreach (var item in towns)
+            {
+                <option value="@item.Id" @(item.Id == townId ? "selected='selected'" : string.Empty)>@item.Name</option>
+            }
+        </select>
+
+        <button type="submit" class=" btn-success">搜尋</button>
+    </form>
+}
+<br />
+@using (Html.BeginForm("Confirm", "CleanerxVehicle"))
+{
+    <input type="hidden" name="townId" value="@townId" />
+    <h6>
+        <span class="text-secondary"> 若下表資料均正確，請按</span>
+        <input type="submit" class="btn secondary" style="padding:0px" value="資料確認" />
+    </h6>
+}
+<font size="3">
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th class="text-center">編輯</th>
+            <th>縣市</th>
+            <th>鄉鎮區市</th>
+            <th>聯絡單位</th>
+            <th>車輛名稱</th>
+            <th>車牌號碼</th>
+            <th>車輛狀態</th>
+            <th>更新時間</th>
+            <th>確認時間</th>
+        </tr>
+        @foreach (var Item in ViewBag.Data)
+        {
+    <tr>
+        <td style="width:100px">
+            <button style="padding:0" class="btn btn-success" onclick="PickItemForPosition('@Item.PlateNumber','@Item.Xpos','@Item.Ypos')">定位</button>
+            <button style="padding:0" class="btn btn-info" onclick="PickItemForBrowse('@Item.PlateNumber','@Item.City','@Item.Town','@Item.ContactUnit','@Item.VehicleName','@Item.VehicleState','@Item.UpdateTime','@Item.Load','@Item.EnginePower','@Item.ROCyear','@Item.EPAsubsidy','@Item.CrossCityUse','@Item.CrossTownUse','@Item.Note','@Item.Xpos','@Item.Ypos')">查閱</button>
+        </td>
+        <td>@Item.City</td>
+        <td>@Item.Town</td>
+        <td>@Item.ContactUnit</td>
+        <td>@Item.VehicleName</td>
+
+        <td>@Item.PlateNumber</td>
+        <td>@Item.VehicleState</td>
+        <td>@Item.UpdateTime.ToString("yyyy/MM/dd HH:mm:ss")</td>
+        @if (Item.ConfirmTime != null)
+        {
+            <td>@Item.ConfirmTime.ToString("yyyy/MM/dd HH:mm:ss")</td>
+        }
+        else
+        {
+            <td></td>
+        }
+
+    </tr>
+        }
+    </table>
+    <br /><br />
+</font>

@@ -1,0 +1,110 @@
+﻿@model MyEPA.Models.DefendViewModel
+@using MyEPA.Extensions;
+@using MyEPA.Enums;
+@{
+    ViewBag.Title = "整備通報-修改";
+    DutyEnum duty = ViewBag.DutyId;
+    bool IsDiasterNotRuning = Model.DiasterId.HasValue == false;
+    bool IsConfirm = Model.Status == MyEPA.Enums.DefendStatusEnum.Confirm;
+    bool IsEdit = IsDiasterNotRuning == false && IsConfirm == false;
+    int? diasterId = ViewBag.DefendDiasterId;
+}
+@using (Html.BeginForm("Index", "Defend", new { }, FormMethod.Post, new { @class = "DefendForm" }))
+{
+    <input type="hidden" name="DiasterId" value="@Model.DiasterId" />
+    <input type="hidden" name="TownId" value="@Model.TownId" />
+    <input type="hidden" name="CityId" value="@Model.CityId" />
+    <div class="panel-body">
+        @if (IsDiasterNotRuning)
+        {
+            <h5>※目前尚無災害，不需填寫</h5>
+        }
+        @if (IsConfirm)
+        {
+            <h5>※已被確認，不可更改</h5>
+        }
+
+        <table class="table table-bordered table-striped">
+            <thead class="thin-border-bottom">
+                <tr>
+                    <th class="col-lg-4">
+                        項目
+                    </th>
+                    <th class="col-lg">
+
+                    </th>
+                    <th>
+                        說明
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Questions.Count; i++)
+                {
+                    var item = Model.Questions[i];
+                    <tr>
+                        <td>
+                            <input type="hidden" name="Questions[@i].Sort" value="@item.Sort">
+                            <input type="hidden" name="Questions[@i].Id" value="@item.Id">
+                            <input type="hidden" name="Questions[@i].QuestionId" value="@item.QuestionId">
+                            @((i + 1).ToChineseNumber())、@item.Title
+                            @if (string.IsNullOrWhiteSpace(item.Note) == false)
+                            {
+                                <br>
+                                <br>
+                                @(item.Note)
+                            }
+                        </td>
+                        <td>
+                            <input type="radio" name="Questions[@i].Ans" value="True" id="Radio_1_Questions[@i]" @(item.Ans.GetValueOrDefault() == true ? "checked" : "") @(IsEdit == false ? "disabled" : "")>
+                            <label for="Radio_1_Questions[@i]">
+                                是
+                            </label>
+                            <br>
+                            <input type="radio" name="Questions[@i].Ans" value="False" id="Radio_2_Questions[@i]" @(item.Ans.GetValueOrDefault() == false ? "checked" : "") @(IsEdit == false ? "disabled" : "")>
+                            <label for="Radio_2_Questions[@i]">
+                                否
+                            </label>
+                        </td>
+                        <td><textarea name="Questions[@i].Remark" class="col-lg-10" @(IsEdit == false ? "disabled" : "")>@item.Remark</textarea></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @if (IsEdit)
+        {
+            <div onclick="DefendFormEdit()" class="btn" )>確認完成通報</div>
+        }
+        else
+        {
+            <div class="btn" disabled="true">確認完通報</div>
+        }
+        @if (duty != DutyEnum.Cleaning)
+        {
+            <a class="btn" href="@Url.Action("ConfirmList","Defend")">整備通報確認(鄉鎮市)</a>
+        }
+
+    </div>
+}
+
+<script>
+     function DefendFormEdit() {
+        var dataForm =  $('.DefendForm').serialize();
+        var url = '@Url.Action("Edit",new { })';
+        var type = 'post';
+        $.ajax({
+            url: url,
+            type: type,
+            data: dataForm,
+            success: function (data) {
+                if (data.IsSuccess) {
+                    alert("成功");
+                    window.location.reload();
+
+                } else {
+                    alert(data.ErrorMessage);
+                }
+            },
+        })
+    }
+</script>

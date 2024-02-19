@@ -1,0 +1,149 @@
+﻿@{
+    Layout = "~/Views/_Layout.cshtml";
+    ViewBag.Title = "營運中心公有垃圾焚化廠";
+}
+@{Html.RenderPartial("~/Views/Components/OpenStreeLeaflet.cshtml");}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<br />
+
+@*以下Javascript碼控制執行於網頁載入(onload)時，
+    在初進畫面時，設地圖中心於ViewBag.Xpos/ViewBag.Ypos的位置
+    而此兩變數值則在B1a6中，藉呼叫MapModel以獲各縣市所在位置 *@
+
+<script>
+    window.onload = function () {
+        PutMarkOnMap(@ViewBag.Xpos, @ViewBag.Ypos);
+    };
+</script>
+
+<div class="text-center">
+    <br />
+    <h5>營運中心公有垃圾焚化廠</h5>
+    <br />
+</div>
+
+<div class="container-fluid" style="width:100%">
+    <div class="row">
+        <div id="EditArea">
+            <span style="width:30%">聯繫單位名稱：</span>
+            @Html.TextBox("EditContactUnit", "", new { @readonly = "readonly", @style = "border:none" })
+            <br />
+            <span style="width:30%">設計容量：</span>
+            @Html.TextBox("EditDesignCapacity", "", new { @readonly = "readonly", @style = "border:none" })
+            <br />
+            X座標：@Html.TextBox("EditXpos", "", new { @readonly = "readonly", @style = "border:none;width:150px" })
+            Y座標：@Html.TextBox("EditYpos", "", new { @readonly = "readonly", @style = "border:none;width:150px" })
+            <br />
+            縣市：
+            @Html.TextBox("EditCity", "", new { @readonly = "readonly", @style = "border:none;width:20%" })
+            鄉鎮市：
+            @Html.TextBox("EditTown", "", new { @readonly = "readonly", @style = "border:none;width:20%" })
+            <br />
+            <span style="width:20%">地址：</span>
+            @Html.TextBox("EditAddress", "", new { @readonly = "readonly", @style = "border:none" })
+            <br />
+            <span style="width:20%">聯絡人：</span>
+            @Html.TextBox("EditContactPerson", "", new { @readonly = "readonly", @style = "border:none;width:30%" })
+            <span style="width:20%">稱呼：</span>
+            @Html.TextBox("EditContactPersonTitle", "", new { @readonly = "readonly", @style = "border:none;width:30%" })
+            <br />
+            <span style="width:30%">聯絡電話：</span>
+            @Html.TextBox("EditContactPhone", "", new { @readonly = "readonly", @style = "border:none;width:70%" })
+            <br />
+            <span style="width:30%">更新時間：</span>
+            @Html.TextBox("EditUpdateTime", "", new { @readonly = "readonly", @style = "border:none;width:70%" })
+            <br />
+            (02)1234-5678#分機 or 0912345678
+        </div>
+        <div id="MapArea" class="col-12 col-md-6" style="margin-top:50px;">
+
+        </div>
+
+    </div>
+    <br />
+    <div class="row">
+        <div id="EditDataArea" class="col-12" style="height:400px;overflow:auto;">
+            @{Html.RenderPartial("~/Views/Components/ShowIncineratorForSearch.cshtml");}
+        </div>
+    </div>
+</div>
+
+<script>
+    function PickItemForEdit(k, x, y) {
+        $.post("/EPAxIncinerator/Edit", { Id: k }, function (data) {
+            $("#EditArea").show();
+            $("#EditId").val(k);
+            $("#EditContactUnit").val(data.ContactUnit);
+            $("#EditDesignCapacity").val(data.DesignCapacity);
+            $("#EditCity").val(data.City);
+            $("#EditTown").val(data.Town);
+            $("#EditXpos").val(data.Xpos);
+            $("#EditYpos").val(data.Ypos);
+            $("#EditAddress").val(data.Address);
+            $("#EditContactPerson").val(data.ContactPerson);
+            $("#EditContactPersonTitle").val(data.ContactPersonTitle);
+            $("#EditContactPhone").val(data.ContactPhone);
+            $("#EditUpdateTime").val(data.UpdateTime);
+            PutMarkOnMap(x, y);
+        });
+    }
+</script>
+
+<script>
+    function PickItemForPosition(k, x, y) {
+        PutMarkOnMap(x, y);
+    }
+</script>
+
+@*以下函數在用戶選某筆資料後，將ViewBag.Id傳遞到視窗上方表格。
+    之前抓不到ViewBag.Id的值，卻能抓到ViewBag.Xpos的值，後來發現後者為數字，
+    因此改變堆置場的Id=時間秒數+城市數字碼，變成數字後解決*@
+
+<script>
+    function PickItemForDelete(k, x, y) {
+        $("#AddArea").hide();
+        $("#EditArea").hide();
+        $("#DeleteArea").show();
+        $("#DeleteId").val(k);
+        PutMarkOnMap(x, y);
+    }
+</script>
+
+
+@*以下函數在用戶點地圖後放標記。MapTarget抓取該位置，
+    setView轉畫面到該處。如果MarkCollection（儲存標記的集合）不是空的，
+    就先清掉再放新的，避免新舊同時出現*@
+<script>
+    function PutMarkOnMap(x, y) {
+        var MapTarget = L.latLng(x, y);
+        Map.setView(MapTarget, 14);
+        if (MarkCollection != undefined) {
+            Map.removeLayer(MarkCollection);
+        };
+        MarkCollection = L.marker([x, y]).addTo(Map);
+    }
+
+    var MapElement = document.getElementById('MapArea');
+    MapElement.style = 'height:300px;';
+    var Map = L.map(MapElement);
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(Map);
+    var MapTarget = L.latLng('25.0400458', '121.55859');
+    Map.setView(MapTarget, 14);
+
+    function MapClick(e) {
+        var Xvalue = e.latlng.lat.toString();
+        var Yvalue = e.latlng.lng.toString();
+        if (MarkCollection != undefined) {
+            Map.removeLayer(MarkCollection);
+        };
+        MarkCollection = L.marker([Xvalue, Yvalue]).addTo(Map);
+        $("#Xpos").val(Xvalue);
+        $("#Ypos").val(Yvalue);
+        $("#EditXpos").val(Xvalue);
+        $("#EditYpos").val(Yvalue);
+    }
+    var MarkCollection = {};
+    Map.on('click', MapClick);
+</script>

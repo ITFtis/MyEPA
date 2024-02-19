@@ -1,0 +1,31 @@
+﻿@{
+    Layout = "~/Views/_Layout.cshtml";
+}
+
+<h6><span style="color:red">&nbsp; &nbsp; @ViewBag.Msg</span></h6>
+
+@using (Html.BeginForm("ChangePwd", "CleanerxUser"))
+{
+    <h5>網頁密碼更新</h5>
+
+    <span>帳號：@ViewBag.UserId</span>
+    <br />
+    <span style="color:blue">請輸入舊密碼：</span>
+
+    @Html.TextBox("OldPwd", "", new { style = "width:120px;color:blue" })
+    <br />
+    <span style="color:blue">請輸入新密碼：</span>
+
+    @Html.TextBox("NewPwd", "", new { style = "width:120px;color:blue" })
+    <input type="submit" class="btn" style="margin:10px" value="確認換密碼" />
+    <br /><br />
+}
+@using (Html.BeginForm("ChangeVoicePwd", "CleanerxUser"))
+{
+    <h5>語音密碼更新</h5>
+    <span style="color:blue">請輸入新密碼：</span>
+
+    @Html.TextBox("NewVoicePwd", "", new { style = "width:120px;color:blue" })
+    <input type="submit" class="btn" style="margin:10px" value="確認換密碼" />
+    <br /><br />
+}

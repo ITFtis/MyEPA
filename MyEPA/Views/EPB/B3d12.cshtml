@@ -1,0 +1,9 @@
+﻿@{
+    Layout = "~/Views/_Layout.cshtml";
+}
+<br />
+@Html.ActionLink("公告事項", "B3d11", "EPB", null, new { @class = "btn btn-large" })
+@Html.ActionLink("新聞消息", "B3d12", "EPB", null, new { @class = "btn btn-primary btn-large" })
+<br />
+@{Html.RenderPartial("~/Views/Components/ShowPost.cshtml");}
+

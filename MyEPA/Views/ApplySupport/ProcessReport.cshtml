@@ -1,0 +1,193 @@
+﻿@using MyEPA.Models
+@model List<ApplySupportProcessReport>
+
+@{
+    ViewBag.Category = "請求支援作業";
+    ViewBag.Title = "請求核定(處理情形)";
+    Layout = "~/Views/_Layout.cshtml";
+
+    int diasterId = ViewBag.DiasterId;
+    List<DiasterModel> Diasters = ViewBag.Diasters;
+    int? cityId = ViewBag.CityId;
+    List<CityModel> citys = ViewBag.Citys;
+    int? applyTypeId = ViewBag.ApplyTypeId;
+    Dictionary<string, int> applyTypes = ViewBag.ApplyTypes;
+}
+
+<div class="page-content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="container-fluid">
+                <h3>請求核定(處理情形)</h3>
+                <hr>
+                <table class="pc" align="right">
+                    <tr>
+                        <td><a href="@Url.Action("ProcessReportDownPDF", "ApplySupport", new { diasterId, cityId, applyTypeId })">PDF匯出</a></td>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td><a href="@Url.Action("ProcessReportDownExcel", "ApplySupport", new { diasterId, cityId, applyTypeId })">EXCEL下載</a></td>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td><a href="@Url.Action("ProcessReportDownODS", "ApplySupport", new { diasterId, cityId, applyTypeId })">ODF下載</a></td>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td><a href="">友善列印</a></td>
+                    </tr>
+                </table>
+                @using (Html.BeginForm("ProcessReport", "ApplySupport", new { }, FormMethod.Get, new { }))
+                {
+                    <table border="0">
+                        <tbody>
+                            <tr>
+                                <td><h5>災害名稱：</h5></td>
+                                <td>
+                                    <select name="diasterId">
+                                        @foreach (var item in Diasters)
+                                        {
+                                            <option value="@item.Id" @(item.Id == diasterId ? "selected" : string.Empty)>@item.DiasterName</option>
+                                        }
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><h5>通報單位：</h5></td>
+                                <td>
+                                    <select name="cityId">
+                                        <option value="">全部縣市</option>
+                                        @foreach (var item in citys)
+                                        {
+                                            <option value="@item.Id" @(cityId == item.Id ? "selected" : string.Empty)>@item.City</option>
+                                        }
+                                    </select>
+                                    @*<select name="townId">
+                                <option value="0">不限</option>
+                            </select>*@
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><h5>指定類別：</h5></td>
+                                <td>
+                                    <select name="applyTypeId">
+                                        @*<option value="0">請選擇</option>*@
+                                        @foreach (var item in applyTypes)
+                                        {
+                                            <option value="@item.Value" @(applyTypeId == item.Value ? "selected" : string.Empty)>@item.Key</option>
+                                        }
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <br>
+                    <input type="submit"  value="查詢"/>
+                }
+                <hr>
+            </div>
+            <div class="container-fluid">
+                <h3><i class="ace-icon glyphicon glyphicon-leaf green"></i>&nbsp;查詢結果&nbsp;</h3>
+
+                <div class="row">
+                    <div class="widget-body">
+                        <div class="widget-main no-padding">
+                            <table class="table table-bordered table-striped">
+                                <thead class="thin-border-bottom">
+                                    <tr>
+                                        <th>
+                                            單位
+                                        </th>
+                                        <th>
+                                            請求日期
+                                        </th>
+                                        <th>
+                                            需用日期
+                                        </th>
+                                        <th>
+                                            請求說明
+                                        </th>
+                                        <th>
+                                            辦理情形
+                                        </th>
+                                        <th>
+                                            核定
+                                        </th>
+                                        @*<th>
+                                            其他
+                                        </th>*@
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @{
+                                        foreach (ApplySupportProcessReport report in Model)
+                                        {
+                                            var org = report.City + report.Town;
+                                            <tr>
+                                                <td>@org</td>
+                                                <td>@report.CreateDate.ToString("MM/dd")</td>
+                                                <td>@report.RequireDate.ToString("MM/dd")</td>
+                                                <td>@report.EstimationMethodDescribe</td>
+                                                <td>@report.EPAConfirmStatus</td>
+                                                <td>@report.Status.GetDescription()</td>
+                                                @*<td><input type="button" id="show_info" value="查看" /></td>*@
+                                            </tr>
+                                        }
+
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+
+
+                    </div>
+                </div>
+                @*<div id="info" style="display:none">
+                    <hr>
+                    <h4>&nbsp;其他資訊&nbsp;</h4>
+                    <div class="row">
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <table class="table table-bordered table-striped">
+                                    <thead class="thin-border-bottom">
+                                        <tr>
+                                            <th>
+                                                機關
+                                            </th>
+                                            <th>
+                                                單位
+                                            </th>
+                                            <th>
+                                                帳號
+                                            </th>
+                                            <th>
+                                                姓名
+                                            </th>
+                                            <th>
+                                                時間(儲存時間)
+                                            </th>
+                                            <th>
+                                                狀態
+                                            </th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr>
+                                            <td>臺北市</td>
+                                            <td>環保局</td>
+                                            <td>la-ccf8803</td>
+                                            <td>詹O福</td>
+                                            <td>2018/10/30 下午 06:24:00</td>
+                                            <td>送出申請</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>*@
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

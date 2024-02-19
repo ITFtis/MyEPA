@@ -1,0 +1,28 @@
+﻿<font size="3">
+    <table class="table table-bordered table-striped " style="border: 1px solid gray;">
+        <tr>
+            <th style="width:100px" class="text-center">
+                <button class="btn btn-danger" style="padding:0" onclick="AddItem()"> 新增</button>
+            </th>
+            <th>聯繫單位</th>
+            <th>縣市</th>
+            <th>鄉鎮市</th>
+            <th>地址</th>
+        </tr>
+        @foreach (var Item in ViewBag.Data)
+        {
+        <tr>
+            <td class="text-center" style="width:100px">
+                <button style="padding:0" class="btn btn-info" onclick="PickItemForEdit(@Item.Id,@Item.Xpos,@Item.Ypos)">瀏覽</button>
+                <button style="padding:0" class="btn btn-warning" onclick="PickItemForDelete(@Item.Id,@Item.Xpos,@Item.Ypos)">刪除</button>
+            <td>@Item.ContactUnit</td>
+            <td>@Item.City</td>
+            <td>@Item.Town</td>
+            <td>@Item.Address</td>
+        </tr>
+        }
+    </table>
+
+    <br />
+    <br />
+</font>

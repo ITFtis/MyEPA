@@ -1,0 +1,126 @@
+﻿@using MyEPA.Models;
+@{
+    Layout = "~/Views/_Layout.cshtml";
+    ViewBag.Title = "災情通報確認";
+    int diasterId = ViewBag.DiasterId;
+    List<DiasterModel> diasters = ViewBag.Diasters;
+    DateTime startTime = ViewBag.StartTime;
+    DateTime endTime = ViewBag.EndTime;
+    DateTime? reportDay = ViewBag.ReportDay;
+}
+    <div class="btn-group">
+        <button data-toggle="dropdown" class="btn btn-primary btn-white dropdown-toggle" aria-expanded="false">
+            @(diasters.FirstOrDefault(e => e.Id == diasterId).DiasterName)<i class="ace-icon fa fa-angle-down icon-on-right"></i>
+        </button>
+        <ul class="dropdown-menu">
+            @foreach (DiasterModel Item in diasters)
+            {
+                <li>
+                    <a href="@Url.Action("B1c18","EPBxDamage",new { diasterId = Item.Id})">@Item.DiasterName</a>
+                </li>
+            }
+        </ul>
+        
+    </div>
+    <div style="margin-top:20px">
+        @for (DateTime i = startTime; i <= endTime; i = i.AddDays(1))
+        {
+            <a class="btn" href="@Url.Action("B1c18", "EPBxDamage", new { diasterId, reportDay = i })">@i.ToString("yyyy/MM/dd")</a>
+        }
+    </div>
+
+<div class="text-center">
+
+    <h5>災情通報確認</h5>
+    <h6 style="color:red">災害主題：@ViewBag.DiasterName</h6>
+    <h6 style="color:red">災害編號：@ViewBag.DiasterId</h6>
+    
+        @if (reportDay.HasValue) 
+        { 
+            <h6 style="color:blue">@reportDay.Value.ToString("yyyy/MM/dd")</h6>
+        }
+        else
+        {
+            <h6 style="color:blue">@ViewBag.StartTime.ToString("yyyy/MM/dd")<span>&nbsp;～&nbsp;</span>@ViewBag.EndTime.ToString("yyyy/MM/dd")</h6>
+        }
+   
+    @*    <button class="btn btn-basic" id="Btn" style="padding:2px">顯示/隱藏 通報資料</button>*@
+    <div id="DataArea2">
+        <div style="background-color:azure">
+            <font size="3">
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <th>通報日期</th>
+                        <th>縣市</th>
+                        <th>鄉鎮市區</th>
+                        <th>有無災害</th>
+                        <th>災害地區</th>
+                        <th>災害面積(公頃)</th>
+                        <th>消毒面積(公頃)</th>
+                        <th>預估廢棄物量(公噸)</th>
+                        <th>清除污泥(公噸)</th>
+                        <th>清除垃圾(公噸)</th>
+                        <th>資料查看</th>
+                        <th>資料確認</th>
+                        <th>更新時間</th>
+                    </tr>
+                    @foreach (var Item in (IEnumerable<DamageConfirmList>)ViewBag.Data2)
+                    {
+                        <tr>
+                            <td>@Item.ReportDay.ToString("yyyy/MM/dd")</td>
+                            <td>@Item.CityName</td>
+                            <td>@Item.TownName</td>
+                            <td>@(Item.IsDamage.HasValue ? Item.IsDamage.Value ? "有":"無災情":"")</td>
+                            <td>@Item.DamagePlace</td>
+                            <td>@Item.DamageArea</td>
+                            <td>@Item.DisinfectArea</td>
+                            <td>@Item.PR_Garbage</td>
+                            <td>@Item.CLE_MUD</td>
+                            <td>@Item.CLE_Trash</td>
+                            <td>
+                                @if (Item.IsDamage.HasValue)
+                                {
+                                    @Html.ActionLink("查看", "Details", "Damage", new { id = Item.Id }, new { @class = "btn btn-success", @style = "padding:0px;" })
+                                }
+
+                            </td>
+                            <td style="text-align:center">
+
+
+                                @using (Html.BeginForm("ConfirmReport", "EPBxDamage"))
+                                {
+                                    <input hidden name="id" value="@Item.Id" />
+                                    if (Item.IsDamage.HasValue)
+                                    {
+                                        <input type="submit" class="btn btn-success" style="padding:0px;" value="確認" />
+                                    }
+
+                                }
+                            </td>
+                            <td>@(Item.ConfirmTime.HasValue ?Item.ConfirmTime.Value.ToString("yyyy/MM/dd HH:mm:ss") : string.Empty)</td>
+                        </tr>
+                    }
+                </table>
+                <br />
+                <br />
+            </font>
+        </div>
+    </div>
+    <br /> <br />
+</div>
+
+<script>
+    //$(document).ready(function () {
+    //    $('#DataArea2').hide();
+    //    $("#Btn").click(function () {
+    //        $("#DataArea2").slideToggle();
+    //    });
+    //});
+</script>
+
+<script>
+    function PickItem(k) {
+        $("#ReportDay").val(k);
+    }
+</script>
+

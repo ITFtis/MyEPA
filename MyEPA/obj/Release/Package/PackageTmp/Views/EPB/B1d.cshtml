@@ -1,0 +1,45 @@
+﻿@{
+    Layout = "~/Views/_Layout.cshtml";
+}
+
+<h4>水質抽驗結果通報</h4>
+<br/>
+
+<div id="ReportArea">
+    @using (Html.BeginForm("B1dDiaster", "EPBxWater"))
+    {
+        <div class="dropdown">
+            <button class="btn btn-info dropdown-toggle" style="padding:2px" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                選擇災害名稱
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                @foreach (var Item in ViewBag.Data)
+                {
+                    <li>
+                        <button class="btn btn-basic" style="padding:0px;margin:5px" onclick="PickItemForEdit('@Item.Id','@Item.DiasterName','@Item.DiasterType','@Item.StartTime','@Item.EndTime','@Item.Comment','@Item.DiasterState')">@Item.DiasterName</button>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div style="display:none">
+            <h6 style="color:red">進行中的災害主題： @Html.TextBox("DiasterName", (string)ViewBag.DiasterName, new { @readonly = "readonly", style = "border:none;" })</h6>
+            <h6 style="color:red">災害編號： @Html.TextBox("DiasterId", (string)ViewBag.DiasterId, new { @readonly = "readonly", style = "border:none;;width:80px" })</h6>
+            <h6 style="color:blue">
+                @Html.TextBox("StartTime", (string)ViewBag.StartTime, new { @readonly = "readonly", style = "border:none;;width:80px" })
+                <span>&nbsp;～&nbsp;</span>
+                @Html.TextBox("EndTime", (string)ViewBag.EndTime, new { @readonly = "readonly", style = "border:none;;width:80px" })
+            </h6>
+        </div>
+    }
+    <br />
+</div>
+
+<script>
+    function PickItemForEdit(DiasterId, DiasterName, DiasterType, StartTime, EndTime, Comment, DiasterState) {
+        $("#DiasterId").val(DiasterId);
+        $("#DiasterName").val(DiasterName);
+        $("#StartTime").val(StartTime);
+        $("#EndTime").val(EndTime);
+    }
+</script>

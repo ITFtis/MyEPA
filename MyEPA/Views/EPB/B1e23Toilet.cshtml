@@ -1,0 +1,40 @@
+﻿@{
+    Layout = "~/Views/_Layout.cshtml";
+}
+@Html.ActionLink("返回", "B1e23", "EPBxToilet", "", new { @class = "btn btn-basic fa fa-arrow-circle-left", @style = "color:white;padding:4px" })
+<br /><br />
+<div class="text-center">
+    <br />
+    <h5>@ViewBag.City<span>環保局流動廁所支援佈點通報</span></h5>
+    <h5><span>災害名稱：</span>@ViewBag.DiasterName</h5>
+    <br />
+</div>
+
+<font size="2">
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>鄉鎮市</th>
+            <th>廁所數量</th>
+            <th>廁所型態</th>
+            <th>租約起始日期</th>
+            <th>結束</th>
+            <th>管理者</th>
+            <th>聯絡方法</th>
+            <th>註解</th>
+        </tr>
+        @foreach (var Item in ViewBag.Data)
+        {
+            <tr>
+                <td>@Item.Town</td>
+                <td>@Item.ToiletNumber</td>
+                <td>@Item.ToiletType</td>
+                <td>@Item.StartDay</td>
+                <td>@Item.EndDay</td>
+                <td>@Item.Manager</td>
+                <td>@Item.ContactMethod</td>
+                <td>@Item.Note</td>
+            </tr>
+        }
+    </table>
+    <br /><br />
+</font>

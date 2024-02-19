@@ -1,0 +1,109 @@
+﻿@using MyEPA.Models;
+@using MyEPA.Enums;
+@{
+    Layout = "~/Views/_Layout.cshtml";
+    DiasterModel diaster = ViewBag.Diaster;
+    int diasterId = ViewBag.DiasterId;
+    List<DiasterModel> diasters = ViewBag.Diasters;
+    DamageMainModel main = ViewBag.DamageMain;
+    ViewBag.Title = "災情通報";
+    DutyEnum duty = ViewBag.DutyId;
+}
+<div class="btn-group">
+    <button data-toggle="dropdown" class="btn btn-primary btn-white dropdown-toggle" aria-expanded="false">
+        @(diasters.FirstOrDefault(e => e.Id == diasterId).DiasterName)<i class="ace-icon fa fa-angle-down icon-on-right"></i>
+    </button>
+    <ul class="dropdown-menu">
+        @foreach (DiasterModel Item in diasters)
+        {
+            <li>
+                <a href="@Url.Action("B1c","EPBxDamage",new { diasterId = Item.Id})">@Item.DiasterName</a>
+            </li>
+        }
+    </ul>
+</div>
+
+<div class="text-center">
+
+    <h5>災情通報</h5>
+    <h6 style="color:red">災害主題：@diaster.DiasterName</h6>
+    <h6 style="color:red">災害編號：@diaster.Id</h6>
+    <div id="DataArea2">
+        @{Html.RenderPartial("~/Views/Components/ShowDamageForEPB.cshtml");}
+    </div>
+    <br />
+    @if (main == null || main.IsDone == false)
+    {
+        if (duty == DutyEnum.EPB)
+        {
+            <button onclick="Done('@diaster.Id')">結案</button>
+            <br />
+        }
+
+        <h6 style="color:blue">@diaster.StartTime.ToShortDateString()<span>&nbsp;～&nbsp;</span>@diaster.EndTime.ToShortDateString()</h6>
+
+        <div class="btn-group">
+            <button data-toggle="dropdown" class="btn btn-primary btn-white dropdown-toggle" aria-expanded="false">
+                選擇通報日期<i class="ace-icon fa fa-angle-down icon-on-right"></i>
+            </button>
+            <ul class="dropdown-menu">
+                @foreach (DateTime Item in ViewBag.ActiveDays)
+                {
+                    <li>
+                        <a href="@Url.Action("B1c17","EPBxDamage",new { diasterId , reportDay = Item.ToString("yyyy/MM/dd")})">@Item.ToString("yyyy/MM/dd")</a>
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+    else
+    {
+        if (duty == DutyEnum.EPB)
+        {
+            <button onclick="Done('@diaster.Id')">取消結案</button>
+        }
+        @diaster.DiasterName @:已於 @main.DoneDate.ToString("yyyy/MM/dd HH:mm:ss") 結案
+    }
+
+
+</div>
+
+<script>
+    @if(string.IsNullOrWhiteSpace((string)ViewBag.Msg) == false)
+    {
+        @:alert('@ViewBag.Msg');
+    }
+    $(document).ready(function () {
+        $('#DataArea2').hide();
+        $("#Btn").click(function () {
+            $("#DataArea2").slideToggle();
+        });
+    });
+</script>
+
+<script>
+    function PickItem(k) {
+        $("#ReportDay").val(k);
+    }
+    function Done(diasterId) {
+            var url = `@Url.Action("Done","Damage",new { })?diasterId=${diasterId}`;
+            var type = 'get';
+            $.ajax({
+                url: url,
+                type: type,
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    if (data.IsSuccess) {
+                        alert("成功");
+                        location.reload();
+                    }
+                    else {
+                        alert(data.ErrorMessage);
+                        location.reload();
+                    }
+                },
+            })
+        }
+</script>
+

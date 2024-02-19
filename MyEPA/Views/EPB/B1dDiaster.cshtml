@@ -1,0 +1,37 @@
+﻿@{
+    Layout = "~/Views/_Layout.cshtml";
+}
+<div class="text-center">
+    <br />
+    <h5>水質通報</h5>
+
+    @using (Html.BeginForm("B1dWater", "EPBxWater"))
+    {
+        <h6 style="color:red">災害主題： @Html.TextBox("DiasterName", (string)ViewBag.DiasterName, new { @readonly = "readonly", style = "border:none;" })</h6>
+        <h6 style="color:red">災害編號：  @Html.TextBox("DiasterId", (string)ViewBag.DiasterId, new { @readonly = "readonly", style = "border:none;;width:100px" })</h6>
+        <br />
+        <h6 style="color:blue">@ViewBag.StartTime<span>&nbsp;～&nbsp;</span>@ViewBag.EndTime</h6>
+        <button class="btn btn-basic dropdown-toggle" style="padding:2px" id="dropdownMenu1" data-toggle="dropdown">
+            選擇通報日期
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+            @foreach (var Item in ViewBag.ActiveDays)
+            {
+                <li>
+                    <button class="btn btn-basic" style="padding:0px;margin:5px" onclick="PickItem('@Item')">@Item</button>
+                </li>
+            }
+        </ul>
+        <br />
+        @Html.TextBox("ReportDay", "", new { @style = "width:0px;height:0px;border:none;background-color:#5DBCD2;", @readonly = "readonly" });
+    }
+
+    <br />
+</div>
+<script>
+    function PickItem(k) {
+        $("#ReportDay").val(k);
+        }
+</script>
+

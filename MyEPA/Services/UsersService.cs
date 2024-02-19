@@ -1,0 +1,149 @@
+﻿using MyEPA.Enums;
+using MyEPA.Extensions;
+using MyEPA.Models;
+using MyEPA.Models.FilterParameter;
+using MyEPA.Repositories;
+using MyEPA.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace MyEPA.Services
+{
+    public class UsersService
+    {
+        UsersRepository UsersRepository = new UsersRepository();
+        public PagingResult<UsersViewModel> GetPagingList(UsersFilterPaginationParameter usersFilter)
+        {
+            PagingResult<UsersModel> users = UsersRepository.GetPageingByFilter(usersFilter);
+
+            return new PagingResult<UsersViewModel> 
+            {
+                Items = ConvertToViewModel(users.Items),
+                Pagination = users.Pagination
+            };
+        }
+        private List<UsersViewModel> ConvertToViewModel(IEnumerable<UsersModel> models)
+        {
+            var positions = new PositionRepository().GetList().ToDictionary(e => e.Id, e => e.Name);
+
+            return models.Select(user =>
+            {
+                string positionName = user == null ? string.Empty : positions.GetValue(user.PositionId);
+
+                return new UsersViewModel
+                {
+                    Id = user.Id,
+                    City = user.City,
+                    Duty = user.Duty,
+                    HumanType = user.HumanType,
+                    Name = user.Name,
+                    PositionName = positionName,
+                    Town = user.Town,
+                    UpdateDate = user.UpdateDate
+                };
+            }).ToList();
+        }
+        public UsersModel GetByUserName(string userName)
+        {
+            return UsersRepository.GetByUserName(userName);
+        }
+        public List<UsersModel> GetAll()
+        {
+            return UsersRepository.GetList();
+        }
+
+        public List<UsersBriefModel> GetListBriefByFilter(UsersBriefFilterParameter filter)
+        {
+            return UsersRepository.GetListBriefByFilter(filter);
+        }
+        public UserEditViewModel GetEditById(int id)
+        {
+            UserEditViewModel result = UsersRepository.Get(id).ConvertToModel<UsersModel, UserEditViewModel>();
+            return result;
+        }
+        public UsersModel GetById(int id)
+        {
+            return UsersRepository.Get(id);
+        }
+
+        public List<UsersModel> GetByDepartmentId(int departmentId)
+        {
+            return UsersRepository.GetUsersJoinPositionByFilter(new UsersJoinPositionFilterParameter 
+            {
+                DepartmentIds = departmentId.ToListCollection()
+            });
+        }
+
+        public List<UsersModel> GetUsersJoinPositionByFilter(UsersJoinPositionFilterParameter filter)
+        {
+            return UsersRepository.GetUsersJoinPositionByFilter(filter);
+        }
+
+        public AdminResultModel UpdatePwd(int id,UsersEditPwdViewModel model)
+        {
+            if(string.IsNullOrEmpty(model.Pwd) || model.Pwd.Length < 12)
+            {
+                return new AdminResultModel
+                {
+                    IsSuccess = false,
+                    ErrorMessage = "新密碼長度須達 12 碼以上"
+                };
+            }
+            UsersModel users = UsersRepository.Get(id);
+            if(model.OldPwd != users.Pwd)
+            {
+                return new AdminResultModel
+                {
+                    IsSuccess = false,
+                    ErrorMessage = "原密碼輸入錯誤"
+                };
+            }
+            users.Pwd = model.Pwd;
+            UsersRepository.Update(users);
+            return new AdminResultModel
+            {
+                IsSuccess = true,
+                ErrorMessage = "修改成功"
+            };
+        }
+        public void Updare(UserModel user)
+        {
+            var entity = UsersRepository.Get(user.Id);
+
+
+            UsersRepository.Update(entity);
+        }
+        public void Delete(int id)
+        {
+            UsersRepository.Delete(id);
+        }
+
+        public List<UsersInfoModel> GetUsersInfoByFilter(UsersInfoFilterParameter filter)
+        {
+            return UsersRepository.GetUsersInfoByFilter(filter);
+        }
+
+        public List<UsersModel> GetUsersByFilter(UsersBriefFilterParameter filter)
+        {
+            return UsersRepository.GetListByFilter(filter);
+        }
+
+        public UsersModel GetUserByUserNameAndPwd(string username, string pwd)
+        {
+            return UsersRepository.GetUserByUserNameAndPwd(username, pwd);
+        }
+        public UsersModel GetUserByUserNameAndemail(string username, string email)
+        {
+            return UsersRepository.GetUserByUserNameAndemail(username, email);
+        }
+        public void AddUserLoginLog(UsersModel user)
+        {
+             UsersRepository.AddUserLoginLog(user);
+        }
+        public void AddUserEmail(UsersModel user, string email)
+        {
+            UsersRepository.AddUserEmail(user, email);
+        }
+    }
+}

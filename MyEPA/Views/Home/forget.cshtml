@@ -1,0 +1,79 @@
+﻿@{
+    Layout = "~/Views/Home/_SecondLayout.cshtml";
+}
+<style>
+    input[type="checkbox"]:focus {
+        outline: rgb(59, 153, 252) auto 5px;
+        /*vertical-align：middle*/
+    }
+    .SetIn{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+    }
+</style>
+<h1>@ViewBag.Title</h1>
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100 p-l-85 p-r-85 p-t-55 p-b-55">
+
+
+
+            @using (Html.BeginForm("forget", "Home"))
+            {
+                <span class="login100-form-title ">
+                    <div class="row">
+                        <div class="col-3"><img src="~/Content/images/epa.png" width="80" height="80" alt="環保署Logo"></div>
+                        <div class="col-9 text-left">
+                            環境部<br>
+                            <small>環境災害管理資訊系統</small>
+                        </div>
+                    </div>
+                    <br>
+                </span>
+
+                <label class="txt1 p-b-11" for="username">
+                    請輸入帳號
+                </label>
+                <input type="text" class="form-control" id="username" name="username" value="@ViewBag.username">
+
+                <br />
+
+                <label class="txt1 p-b-11" for="email">
+                    請輸入email
+                </label>
+                <div class="wrap-input100 validate-input m-b-36">
+                    @Html.TextBox("email", "", new { @class = "input100" })
+                    <span class="focus-input100"></span>
+                </div>
+
+                <p style="color:red">@ViewBag.Msg</p><br />
+
+                <div class="container-login100-form-btn">
+                    <div class=" col-6" style="margin-left:auto;margin-right:auto">
+                        <input type="submit" class="login100-form-btn" value="送出" />
+                    </div>
+                </div>
+            }
+            <br />
+
+            <br />
+            <h5>您的密碼是 @ViewBag.Pwd</h5>
+            <br />
+
+            <br />
+
+            <div class=" col-6" style="margin-left:auto;margin-right:auto">
+                <button class="login100-form-btn" onclick="javascript:location.href='./login'">返回</button>
+            </div>
+
+
+            @{Html.RenderPartial("~/Views/Components/LoginWindowBottom.cshtml");}
+        </div>
+    </div>
+</div>  
+<script>
+  
+</script>
+

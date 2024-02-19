@@ -1,0 +1,43 @@
+﻿@using (Html.BeginForm("Confirm", "EPBxToilet"))
+{
+    <h6>
+        <span class="text-secondary"> 若下表資料均正確，請按</span>
+        <input type="submit" class="btn secondary" style="padding:0px" value="資料確認" />
+    </h6>
+}
+
+<font size="2">
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th class="text-center">
+                <button class="btn btn-danger" style="padding:0px" onclick="AddItem()">新增</button>
+            </th>
+            <th>縣市</th>
+            <th>鄉鎮市</th>
+            <th>單位名稱</th>
+            <th>數量</th>
+            <th>每座便器數</th>
+            <th>類別</th>
+            <th>購置年份(民國)</th>
+            <th>更新時間</th>
+        </tr>
+        @foreach (var Item in ViewBag.Data)
+        {
+            <tr>
+                <td style="text-align:center">
+                    <button class="btn btn-primary" style="padding:0px" onclick="PickItemForEdit(@Item.Id)">修改</button>
+                    <button class="btn btn-warning" style="padding:0px" onclick="PickItemForDelete(@Item.Id)">刪除</button>
+                </td>
+                <td>@Item.City</td>
+                <td>@Item.Town</td>
+                <td>@Item.Unit</td>
+                <td>@Item.Amount</td>
+                <td>@Item.SlotNumber</td>
+                <td>@Item.ToiletType</td>
+                <td>@Item.ROCyear</td>
+                <td>@Item.UpdateTime</td>
+            </tr>
+        }
+    </table>
+    <br /><br />
+</font>

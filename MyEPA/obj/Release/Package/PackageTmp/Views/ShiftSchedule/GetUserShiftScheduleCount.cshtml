@@ -1,0 +1,72 @@
+﻿@model IEnumerable<MyEPA.Models.UserShiftScheduleCountModel>
+@using MyEPA.Models;
+@{
+    ViewBag.Title = "值班人員統計";
+    Layout = "~/Views/_Layout.cshtml";
+    List<DiasterModel> diasters = ViewBag.Diasters;
+    var diasterId = ViewBag.DiasterId;
+    DateTime StartTime = ViewBag.StartTime;
+    DateTime EndTime = ViewBag.EndTime;
+}
+<link rel="stylesheet" href="~/Content/flatpickr.css">
+<link rel="stylesheet" href="~/Content/confirmDate.css">
+<h3>@ViewBag.Title</h3>
+<form name="SearchForm">
+    <div class="form-row align-items-center">
+        <div class="col-auto my-1">
+            <label class="mr-sm-2 sr-only">災害名稱</label>
+            <select Name="diasterId" class="custom-select mr-sm-2">
+                @foreach (var item in diasters)
+                {
+                    <option value="@item.Id" @(item.Id == diasterId ? "selected" : "")>@item.DiasterName </option>
+                }
+            </select>
+        </div>
+        <div class="col-auto  my-1">
+            <label class="sr-only" for="StartTime">Name</label>
+            <input type="text" class="form-control mr-mb-2 flatpickr-input anotherSelector" name="StartTime" id="StartTime" placeholder="開始時間" value="@StartTime.ToString("yyyy/MM/dd")">
+        </div>
+        <div class="col-auto  my-1">
+            <label class="sr-only" for="EndTime">Name</label>
+            <input type="text" class="form-control mr-mb-2 flatpickr-input anotherSelector" name="EndTime" id="EndTime" placeholder="結束時間" value="@EndTime.ToString("yyyy/MM/dd")">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">查詢</button>
+        </div>
+    </div>
+</form>
+<table class="table">
+    <tr>
+        <th>處室</th>
+        <th>人員姓名</th>
+        <th>投入時數</th>
+        <th>輪班次數</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.DepartmentName
+            </td>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @item.Hour
+            </td>
+            <td>
+                @item.Count
+            </td>
+        </tr>
+    }
+</table>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.serializeJSON/2.9.0/jquery.serializejson.js"></script>
+<script src="~/Scripts/confirmDate.js"></script>
+<script src="~/Scripts/flatpickr.js"></script>
+<script>
+    flatpickr('.anotherSelector', {
+        enableTime: false
+    });
+</script>

@@ -1,0 +1,88 @@
+﻿@model IEnumerable<MyEPA.Models.FileDataModel>
+
+@{
+    Layout = "~/Views/_Layout.cshtml";
+    MyEPA.Enums.SourceTypeEnum SourceType = ViewBag.SourceType;
+    ViewBag.Title = SourceType.GetDescription();
+}
+
+<h2>@ViewBag.Title</h2>
+@using (Html.BeginForm("Upload", "FileData", new { sourceType = SourceType }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div id="ContentPlaceHolder1_div_up" class="tong_upload1">
+        <input type="file" name="file" id="ContentPlaceHolder1_File1" class="tong_upload2"><br>
+        <textarea name="description" rows="2" cols="20" id="description" class="tong_upload3"></textarea><br />
+        <br>
+        <input type="submit" name="file" value="上傳檔案"><br>
+    </div>
+}
+<table class="table">
+    <tr>
+
+        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserFileName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreateDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreateUser)
+        </th>
+        <th>
+            檔案下載
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <a id="DeleteBtn" href="#" onclick="Delete(@item.Id)">删除</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserFileName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @item.CreateDate.ToString("yyyy/MM/dd HH:mm:ss")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreateUser)
+            </td>
+            <td>
+                @Html.ActionLink("下載", "Download", "FileData", new { id = item.Id }, new { })
+            </td>
+        </tr>
+    }
+
+</table>
+<script>
+    function Delete(id) {
+        if (!window.confirm('確定要刪除?')) {
+            return;
+        };
+        var root = '@Url.Action("Delete", "FileData", new { sourceType = SourceType })&id=' + id;
+    $.ajax({
+        url: root,
+        method: 'Post',
+        success: function (data) {
+                if (data.IsSuccess) {
+                    alert('刪除成功');
+                    location.reload();
+                }
+                else {
+                    alert('刪除失敗,' + data.ErrorMessage);
+                }
+            },
+        error: function (data) {
+                alert('刪除失敗');
+            }
+        });
+    };
+</script>

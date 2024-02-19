@@ -1,0 +1,105 @@
+﻿@model IEnumerable<MyEPA.ViewModels.ApplySupportTownStatusCountViewModel>
+
+@{
+    ViewBag.Title = "請求支援統計";
+    Layout = "~/Views/_Layout.cshtml";
+}
+
+<table class="table">
+    <tr style="color:White;background-color:#9AAC95;border-color:Black;font-size:Small;font-weight:bold;white-space:nowrap;">
+        <td rowspan="2">鄉鎮<br>名稱</td>
+        <td colspan="3">人力支援(人天)</td>
+        <td colspan="3">車輛設備(輛)</td>
+        <td colspan="3">環境消毒設備(台)</td>
+        <td colspan="3" style="width:18%;">環境消毒藥劑(公升)</td>
+        <td colspan="3">請求補助款(元)</td>
+        <td colspan="3">其他(項)</td>
+        <td rowspan="2">環保署<br>補助<br>金額</td>
+    </tr>
+    <tr style="color:White;background-color:#9AAC95;border-color:Black;font-size:Small;font-weight:bold;white-space:nowrap;">
+        <th scope="col">原請<br>求量</th>
+        <th scope="col">局<br>核定</th>
+        <th scope="col">署<br>核定</th>
+        <th scope="col">原請<br>求量</th>
+        <th scope="col">局<br>核定</th>
+        <th scope="col">署<br>核定</th>
+        <th scope="col">原請<br>求量</th>
+        <th scope="col">局<br>核定</th>
+        <th scope="col">署<br>核定</th>
+        <th scope="col">原請<br>求量</th>
+        <th scope="col">局<br>核定</th>
+        <th scope="col">署<br>核定</th>
+        <th scope="col">原請<br>求量</th>
+        <th scope="col">局<br>核定</th>
+        <th scope="col">署<br>核定</th>
+        <th scope="col">原請<br>求量</th>
+        <th scope="col">局<br>核定</th>
+        <th scope="col">署<br>核定</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <th>
+                @Html.DisplayFor(modelItem => item.TownName)
+            </th>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplyPeopleCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplyPeopleEpbConfrimCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplyPeopleEpaConfrimCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplyCarCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplyCarEpbConfrimCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplyCarEpaConfrimCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplyDisinfectionEquipmentCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplyDisinfectionEquipmentEpbConfrimCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplyDisinfectionEquipmentEpaConfrimCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplyMedicineCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplyMedicineEpbConfrimCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplyMedicineEpaConfrimCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplySubsidyCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplySubsidyEpbConfrimCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplySubsidyEpaConfrimCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplyOtherCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplyOtherEpbConfrimCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplyOtherEpaConfrimCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Money)
+            </td>
+        </tr>
+    }
+
+</table>

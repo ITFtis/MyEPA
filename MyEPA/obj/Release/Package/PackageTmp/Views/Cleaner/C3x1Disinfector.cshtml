@@ -1,0 +1,209 @@
+﻿@using MyEPA.Enums;
+@{
+    Layout = "~/Views/_Layout.cshtml";
+    ViewBag.Title = "消毒設備";
+    List<DisinfectorUseTypeEnum> useTypes = ViewBag.UseTypes;
+    List<DisinfectorNameEnum> names = ViewBag.Names;
+    
+}
+
+<div class="text-center">
+    <br />
+    <h5>消毒設備</h5>
+    <br />
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div id="DeleteArea" class="text-center" style="display:none; width:100%">
+            @using (Html.BeginForm("Delete", "CleanerxDisinfector"))
+            {
+                <br /><br />
+                @Html.TextBox("DeleteId", "", new { @readonly = "readonly", style = "width:0px;height:0px;background-color:gray;border:none;" })
+                <input type="submit" class="btn btn-warning" style="margin:5px;padding:5px" value="確定刪除" />
+                <br /><span class="text-warning">刪除後無法回復</span>
+                <br /><br /><br /><br />
+            }
+            <br />
+        </div>
+
+        <div id="EditArea"  class="text-center" style="display:none; padding:0px; width:100%">
+            @using (Html.BeginForm("Update", "CleanerxDisinfector"))
+            {
+            <table class="table table-bordered table-striped  text-center">
+
+                @*//編號必須留在表上，因為從此抓資料去做更新。不想出現，就把寬度設為0*@
+                <tr>
+                    <td>編號：</td>
+                    <td>@Html.TextBox("EditId", "", new { @readonly = "readonly"})</td>
+                </tr>
+                <tr>
+                    <td>聯繫單位名稱：</td>
+                    <td>@Html.TextBox("EditContactUnit")</td>
+                </tr>
+                <tr>
+                    <td>用途：</td>
+                    <td>
+                        <select id="EditUseType" Name="EditUseType">
+                            @foreach (var item in useTypes)
+                            {
+                                <option value="@item.ToInteger()">@item.GetDescription()</option>
+                            }
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>消毒設備名稱：</td>
+                    <td>
+                        <select id="EditDisinfectInstrument" Name="EditDisinfectInstrument">
+                            @foreach (var item in names)
+                            {
+                                <option value="@item.GetDescription()">@item.GetDescription()</option>
+                            }
+                        </select>
+                        <small><br />※"消毒車"請至「車輛設備」填寫</small>
+                    </td>
+                </tr>
+                <tr>
+                    <td>規格：</td>
+                    <td>@Html.TextBox("EditStandard")</td>
+                </tr>
+
+                <tr>
+                    <td>數量：</td>
+                    <td>@Html.TextBox("EditAmount")台</td>
+                </tr>
+                <tr>
+                    <td>購買年份(民國)：</td>
+                    <td>民國 @Html.TextBox("EditROCyear")年</td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <input type="submit" class="btn btn-primary" style="margin:10px" value="確認儲存" />
+                    </td>
+                </tr>
+            </table>
+                <br /><br />
+            }
+        </div>
+
+        <div id="AddArea"  class="text-center" style="display:none;width:100%">
+            <br />
+            @using (Html.BeginForm("Add", "CleanerxDisinfector", FormMethod.Post, new { onsubmit = "return ValidateInput();" }))
+            {
+        <table class="table table-bordered table-striped  text-center">
+            <tr>
+                <td>縣市：</td>
+                <td>@ViewBag.City</td>
+            </tr>
+            <tr>
+                <td>鄉鎮市：</td>
+                <td>@ViewBag.Town</td>
+            </tr>
+            <tr>
+                <td>聯繫單位名稱：</td>
+                <td>@Html.TextBox("ContactUnit", "")</td>
+            </tr>
+            <tr>
+                <td>用途：</td>
+                <td>
+                    <select id="UseType" Name="UseType">
+                        @foreach (var item in useTypes)
+                        {
+                            <option value="@item.ToInteger()">@item.GetDescription()</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>消毒設備名稱：</td>
+                <td>
+                    <select id="DisinfectInstrument" Name="DisinfectInstrument">
+                        @foreach (var item in names)
+                        {
+                            <option value="@item.GetDescription()">@item.GetDescription()</option>
+                        }
+                    </select>
+                    <small><br />※"消毒車"請至「車輛設備」填寫</small>
+                </td>
+            </tr>
+            <tr>
+                <td>規格：</td>
+                <td>@Html.TextBox("Standard", "")</td>
+            </tr>
+            <tr>
+                <td>數量：</td>
+                <td>
+                    @Html.TextBox("Amount")台
+                </td>
+            </tr>
+            <tr>
+                <td>購買年份(民國)：</td>
+                <td>
+                    民國&nbsp;
+                    @Html.TextBox("ROCyear")年
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="submit" class="btn btn-danger" style="margin:10px" value="確認儲存" onsubmit="return ValidateInput();" />
+                </td>
+            </tr>
+        </table>
+            }
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div id="DataArea">
+            @{Html.RenderPartial("~/Views/Components/ShowDisinfectorForCleaner.cshtml");}
+        </div>
+    </div>
+</div>
+
+<script>
+    function PickItemForEdit(x) {
+        $.post("/EPBxDisinfector/Edit", { Id: x }, function (data) {
+            $("#AddArea").hide();
+            $("#DeleteArea").hide();
+            $("#EditArea").show();
+            $("#EditId").val(x);
+            $("#EditContactUnit").val(data.ContactUnit);
+            $("#EditDisinfectInstrument").val(data.DisinfectInstrument);
+            $("#EditStandard").val(data.Standard);
+            $("#EditAmount").val(data.Amount);
+            $("#EditROCyear").val(data.ROCyear);
+            $("#EditUseType").val(data.UseType);
+        });
+    }
+</script>
+
+<script>
+    function PickItemForDelete(id) {
+        $("#AddArea").hide(); $("#EditArea").hide();
+        $("#DeleteArea").show();
+        $("#DeleteId").val(id);
+    }
+</script>
+
+<script>
+    function AddItem() {
+        $("#EditArea").hide(); $("#DeleteArea").hide();
+        $("#AddArea").show();
+    }
+</script>
+
+<script>
+    function ValidateInput() {
+        return true;
+        //以下程式可抓到ContactUnit的值
+        //var x = $("#ContactUnit").val();
+        //alert(x);
+        //return true;
+        //再配合 return false; 以及if else 理論上可在此驗證資料格式
+        //但不知為何字串無法比對？
+    }
+</script>
+
+

@@ -1,0 +1,47 @@
+﻿@model IEnumerable<MyEPA.ViewModels.ContactManualPermissionViewModel>
+
+@{
+    ViewBag.Title = "權限管理";
+    Layout = "~/Views/_ContactManualLayout.cshtml";
+    MyEPA.Enums.ContactManualDutyEnum duty = ViewBag.Duty;
+}
+
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+    <div class="form-inline">
+        <div class="form-group">
+            <label for="SearchType">權限：</label>
+            @{
+                Html.RenderAction("GetSearchSelectListItem", "ContactManualPermission", new { duty });
+            }
+        </div>
+    </div>
+    <br />
+    <div class="data-list">
+
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            getData();
+            $("#SearchType").change(function () {
+                getData();
+            });
+            function getData() {
+                var list = $(".data-list");
+                $.ajax({
+                        url: '@Url.Action("Search", "ContactManualPermission")',
+                        type: 'GET',
+                        data: {
+                            duty: $('#SearchType option:selected').val()
+                        },
+                        success: function (respones) {
+                            list.html(respones)
+                        }
+                    });
+            }
+        });
+    </script>
+}

@@ -1,0 +1,116 @@
+﻿@model MyEPA.Models.WaterCheckModel
+@using MyEPA.Models;
+@using MyEPA.Enums;
+@{
+    ViewBag.Title = "PrintView";
+    Layout = "";
+    string diasterName = ViewBag.DiasterName;
+    List<WaterCheckDetailModel> details = ViewBag.Details;
+}
+<style>
+    table td {
+        border: 1px solid;
+    }
+    table th {
+        border: 1px solid;
+    }
+</style>
+<body>
+    <h2>@string.Format("{0}{1} 天然災害後自來水質抽檢結果通報表[{2}]", Model.CityName, Model.TownName, diasterName)</h2>
+    <p>@string.Format("填表日期{0}填報", Model.CheckDate.ToString("yyyy年MM月dd日"))</p>
+    <table border="1" cellpadding="3" cellspacing="1" style="border: 1px solid ; border-collapse: collapse; ">
+        <tr>
+            <th rowspan="2">
+                水樣別
+            </th>
+            <th rowspan="2">
+                檢驗地點
+            </th>
+            <th colspan="5" style="text-align:center">
+                檢驗項目
+            </th>
+
+            <th>
+                備註
+            </th>
+
+        </tr>
+        <tr>
+            <th>
+                原水濁度(NTU)
+            </th>
+
+            <th>
+                餘氯(毫克/公升)
+            </th>
+            <th>
+                大腸桿菌群
+            </th>
+            <th>
+                PH值
+            </th>
+            <th>
+                濁度(NTU)
+            </th>
+            <td rowspan="@(details.Count+1)">
+                抽檢件數：@details.Count
+                <br />
+                合格件數：@details.Count(e => e.Status == WaterCheckDetailStatusEnum.Success)
+                <br />
+                不合格件數：@details.Count(e => e.Status == WaterCheckDetailStatusEnum.Failed)
+                <br />
+                檢驗中件數：@details.Count(e => e.Status == WaterCheckDetailStatusEnum.Testing)
+            </td>
+        </tr>
+        @*本日無災情*@
+        @if(Model.Status == WaterCheckStatusEnum.NothingHappened.ToInteger())
+        {
+            <tr>
+                 <td colspan="7">
+                    本日無災情
+                </td>
+            </tr>
+        }
+        @foreach (var item in details)
+        {
+            <tr>
+                <td>
+                    @item.Type.GetDescription()
+                </td>
+                <td>
+                    @item.Address
+                </td>
+                 <td>
+                    @item.O_Turbidity
+                </td>
+                <td>
+                    @item.Chlorine
+                </td>
+                <td>
+                    @item.EColi
+                </td>
+                <td>
+                    @item.Hydrogen
+                </td>
+                <td>
+                    @item.Turbidity
+                </td>
+
+            </tr>
+        }
+
+    </table>
+    <p>填表說明：</p>
+    <ul class="list-inline">
+        <li>一、請於災後次日上午十時前連續七日（每日一次）。</li>       
+        <li>二、填報電話號碼 水質保護處： 02-23117722轉2880~2882。</li>
+    </ul>
+
+    <p>
+        填報人：
+    </p>
+    <p>
+        主管簽章
+    </p>
+
+</body>

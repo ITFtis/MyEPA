@@ -1,0 +1,199 @@
+﻿@model IEnumerable<MyEPA.Models.OpenContractJoinDetailSearchModel>
+@using MyEPA.Models;
+@{
+    ViewBag.Title = "開口合約-查詢";
+    Layout = "~/Views/_Layout.cshtml";
+    var citys = (List<CityModel>)ViewBag.Citys;
+    var towns = (List<TownModel>)ViewBag.Towns;
+    var type = ViewBag.Type;
+    var types = (List<ResourceTypeModel>)ViewBag.Types;
+}
+
+<h2>查詢</h2>
+<ul class="nav nav-tabs">
+    @foreach (var item in types)
+    {
+        <li class="nav-item">
+            @Html.ActionLink(item.Name, "Index", new { type = item.Id }, new { @class = (type == item.Id ? "nav-link active" : "nav-link") })
+        </li>
+    }
+    <li class="nav-item">
+        @Html.ActionLink("查詢", "Search", new { Year = MyEPA.Helper.DateTimeHelper.GetCurrentTime().Year }, new { @class = (type == null ? "nav-link active" : "nav-link") })
+    </li>
+</ul>
+<br />
+<form name="SearchForm">
+    <label>年度</label>
+    <select Name="Year">
+        @for (int i = DateTime.UtcNow.AddHours(8).Year; i > DateTime.UtcNow.AddHours(8).Year - 5; i--)
+        {
+            if (i == ViewBag.Year)
+            {
+                <option value="@i" selected="selected">@i</option>
+            }
+            else
+            {
+                <option value="@i">@i</option>
+            }
+
+        }
+    </select>
+
+    <label>縣市</label>
+    <select id="City" Name="CityId">
+        <option value="">全部</option>
+        @foreach (var city in citys)
+        {
+            if (city.Id == ViewBag.CityId)
+            {
+                <option value="@city.Id" selected="selected">@city.City</option>
+            }
+            else
+            {
+                <option value="@city.Id">@city.City</option>
+            }
+
+        }
+    </select>
+    <label>鄉鎮市</label>
+    <select id="Town" name="TownId">
+        <option value="">全部</option>
+    </select>
+    <label>合約種類</label>
+    <select id="Type" name="TypeId">
+        <option value="">全部</option>
+        @foreach (var item in types)
+        {
+            if (item.Id == ViewBag.TypeId)
+            {
+                <option value="@item.Id" selected="selected">@item.Name</option>
+            }
+            else
+            {
+                <option value="@item.Id">@item.Name</option>
+            }
+        }
+    </select>
+    @if (((bool?)ViewBag.IsEffective).HasValue ? ViewBag.IsEffective : false)
+    {
+        <input type="checkbox" name="IsEffective" id="IsEffective" value="true" checked>
+    }
+    else
+    {
+        <input type="checkbox" name="IsEffective" id="IsEffective" value="true">
+    }
+
+    <label for="IsEffective">僅篩選目前生效中之合約</label>
+    <button type="submit" class="btn btn-success">搜尋</button>
+</form>
+<br/>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CityName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TownName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OpenContractName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Items)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Unit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Count)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Budge)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CityName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TownName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TypeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OpenContractName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Items)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Count)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Budge)
+            </td>
+        </tr>
+    }
+
+</table>
+<script src="~/Scripts/assets/jquery-2.1.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var cityId = '@ViewBag.CityId';
+        if ($.trim(cityId).length > 0) {
+            GetTowns(cityId);
+        }
+        $('#City').change(function () { ChangeCity(); });
+    });
+    function ChangeCity() {
+        var selectedValue = $('#City option:selected').val();
+        if ($.trim(selectedValue).length > 0) {
+            GetTowns(selectedValue);
+        }
+    }
+    function GetTowns(cityId) {
+        $.ajax({
+            url: '@Url.Action("Towns", "Geolocation")'+'?cityId='+cityId,
+            type: 'get',
+            cache: false,
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                $('#Town').empty();
+                $('#Town').append($('<option></option>').val('').text('全部'));
+                if (data.length > 0) {
+                  
+                    $.each(data, function (i, item) {
+                        var townId = String(item.Id);
+                        if (townId === '@ViewBag.TownId') {
+                            $('#Town').append($('<option selected="selected"></option>').val(item.Id).text(item.Name));
+                        }
+                        else {
+                            $('#Town').append($('<option ></option>').val(item.Id).text(item.Name));
+                        }
+                    });
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(textStatus);
+            }
+            
+        });
+    }
+</script>

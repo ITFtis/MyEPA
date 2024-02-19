@@ -1,0 +1,125 @@
+﻿@model IEnumerable<MyEPA.Models.ToiletModel>
+@using MyEPA.Models;
+@using MyEPA.Extensions;
+@{
+    ViewBag.Title = "流動廁所";
+    Layout = "~/Views/_Layout.cshtml";
+    List<ToiletReportModel> summary = ViewBag.Summary;
+}
+    <p>
+        @Html.ActionLink("回資源通報首頁", "Index", "ResourcesReport", new { }, new { @class = "btn btn-success" })
+    </p>
+<table class="table-sm table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th colspan="6" style="text-align:center;color:red;">
+                流動廁所
+            </th>
+        </tr>
+    </thead>
+    <tr>
+        <th>
+            @(ExtensionOfAttribute.GetPropertyDisplayName<ToiletReportModel>(e => e.Town))
+        </th>
+        <th>
+            @(ExtensionOfAttribute.GetPropertyDisplayName<ToiletReportModel>(e => e.ContactUnit))
+        </th>
+        <th>
+            @(ExtensionOfAttribute.GetPropertyDisplayName<ToiletReportModel>(e => e.Count))
+        </th>
+        <th>
+            @(ExtensionOfAttribute.GetPropertyDisplayName<ToiletReportModel>(e => e.Amount))
+        </th>
+        <th>
+            @(ExtensionOfAttribute.GetPropertyDisplayName<ToiletReportModel>(e => e.ROCyear))
+        </th>
+        <th>
+            @(ExtensionOfAttribute.GetPropertyDisplayName<ToiletReportModel>(e => e.UpdateTime))
+        </th>
+    </tr>
+    @foreach (var item in summary)
+    {
+        <tr>
+            <td>
+                @item.Town
+            </td>
+            <td>
+                @item.ContactUnit
+            </td>
+            <td>
+                @item.Count
+            </td>
+            <td>
+                @item.Amount
+            </td>
+            <td>
+                @item.ROCyear
+            </td>
+            <td>
+                @item.UpdateTime
+            </td>
+        </tr>
+    }
+</table>
+<!--
+<hr />
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Town)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Unit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SlotNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ToiletType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ROCyear)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdateTime)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Town)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SlotNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ToiletType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ROCyear)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdateTime)
+            </td>
+        </tr>
+    }
+
+</table>
+    -->

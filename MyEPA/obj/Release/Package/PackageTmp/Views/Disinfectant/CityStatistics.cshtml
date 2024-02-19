@@ -1,0 +1,97 @@
+﻿@model IEnumerable<MyEPA.Models.DisinfectantStatisticsCityViewModel>
+@using MyEPA.Enums;
+@using MyEPA.Extensions
+@{
+    ViewBag.Title = "環境消毒藥劑統計";
+    Layout = "~/Views/_Layout.cshtml";
+    ServiceLifeTypeEnum type = ViewBag.ServiceLifeType;
+}
+@section styles{
+    <link href="~/tablesorter/jq.css" rel="stylesheet" />
+    <link href="~/tablesorter/prettify.css" rel="stylesheet" />
+    <link href="~/tablesorter/theme.blue.css" rel="stylesheet" />
+    <link href="~/tablesorter/engineV3.css" rel="stylesheet" />
+}
+<h3>@ViewBag.Title</h3>
+
+<select name="type" onchange="Change(this)">
+    @foreach (var item in ExtensionsOfEnum.GetEnumAllValue<ServiceLifeTypeEnum>())
+    {
+        <option value="@((int)item)" @(item == type ? "selected" : string.Empty)>@item.GetDescription()</option>
+    }
+</select>
+
+<table class="table1">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Count)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DisinfectantSolidAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DisinfectantLiquidAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ServiceLife)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdateTime)
+            </th>
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>
+                <a href="@Url.Action("TownStatistics","Disinfectant",new { type,item.CityId})">@item.City</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Count)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DisinfectantSolidAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DisinfectantLiquidAmount)
+            </td>
+            <td>
+                @item.ServiceLife.ToShortDateString()
+            </td>
+            <td>
+                @item.UpdateTime.ToDateTimeString()
+            </td>
+        </tr>
+    }
+
+</table>
+
+@section Scripts{
+    <script>
+        function Change(target)
+        {
+            window.location = '@Html.Raw(Url.Action("CityStatistics","Disinfectant"))'+ `?type=${target.value}`
+        }
+    </script>
+    <script src="~/tablesorter/jquery-latest.min.js"></script>
+    <script src="~/tablesorter/prettify.js"></script>
+    <script src="~/tablesorter/docs.js"></script>
+    <script src="~/tablesorter/jquery.tablesorter.js"></script>
+    <script>
+        $(function () {
+
+            // initial sort set using sortList option
+            $(".table1").tablesorter({
+                theme: 'blue',
+                // sort on the first column and second column in ascending order
+                sortList: [[0, 0], [1, 0]]
+            });
+
+        });
+    </script>
+}

@@ -1,0 +1,69 @@
+﻿@model IEnumerable<MyEPA.Models.DefendTownQuestionModel>
+
+@{
+    ViewBag.Title = "整備通報-鄉鎮";
+    Layout = "~/Views/_Layout.cshtml";
+    int diasterId = ViewBag.DiasterId;
+    string diasterName = ViewBag.DiasterName;
+    string cityName = ViewBag.CityName;
+    string townName = ViewBag.TownName;
+    int? townId = ViewBag.TownId;
+    int? cityId = ViewBag.CityId;
+}
+<p>
+    <a href="#" onclick="history.go(-1)" class="btn btn-success">返回上一頁</a>
+</p>
+<h3>【@cityName】@townName@diasterName </h3>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12">
+            <p align="right">
+                <img width="30" height="30" src="~/Content/assets/css/images/icon_pdf.png" alt="PDF">
+                <a href="@Url.Action("DownTownQuestionsFile", new { diasterId, cityId,townId ,file = "PDF"})">PDF匯出</a>│
+                <img width="30" height="30" src="../../images/icon_odf.png" alt="ODF">
+                <a href="@Url.Action("DownTownQuestionsFile", new { diasterId, cityId,townId ,file = "ODF"})">ODF下載</a>
+            </p>
+        </div>
+    </div>
+</div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TownName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.QuestionTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ans)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Remark)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdateDate)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TownName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuestionTitle) @(string.IsNullOrEmpty(item.Note) ? string.Empty : string.Format("(註: {0} )", item.Note))
+            </td>
+            <td>
+                @(item.Ans ? "是" : "否")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remark)
+            </td>
+             <td>
+                @Html.DisplayFor(modelItem => item.UpdateDate)
+            </td>
+        </tr>
+    }
+
+</table>

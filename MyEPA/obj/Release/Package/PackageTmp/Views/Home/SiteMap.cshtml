@@ -1,0 +1,70 @@
+﻿@{
+    Layout = "~/Views/Home/_FirstLayout.cshtml";
+}
+<br />
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-left">
+                <h2>@ViewBag.Title</h2>
+            </div>
+        </div>
+    </div>
+</section>
+<br />
+<section id="Contact">
+    <div class="container">
+        <h3>定位點說明</h3>
+        <p>
+            本網站依無障礙網頁設計原則建置，網站的主要內容分為四大區塊： <br />
+            1. 上方功能區塊、2. 登入內容區塊、3. 中央內容區塊、4.下方功能區塊。
+        </p>
+        <p>
+            本網站的快速鍵﹝Accesskey﹞設定如下：<br />
+            Alt+U：上方功能區塊，包括LOGO、舊版系統、意見信箱、網站導覽。<br />
+            Alt+L：標題內容區塊，為登入內容區。<br />
+            Alt+C：中央內容區塊，為本頁主要內容區。<br />
+            Alt+Z：下方功能區塊。 <br />
+            如果您的瀏覽器是 Firefox，快速鍵的使用方法是 Shift+Alt+(快速鍵字母)，例如 Shift+Alt+C會跳至網頁中央區塊，以此類推。<br />
+            <br />
+        </p>
+    </div>
+    <div class="container">
+        <h3>網站地圖</h3>
+        <style>
+            a{
+                color:#212529
+            }
+        </style>
+        <table class="table table-bordered">
+            <tr>
+                <td rowspan="3" class="text-center bg-light" style="vertical-align:middle">上方功能區</td>
+                @*<td><a class="nav-link" href="https://emis.epa.gov.tw/" target="_blank">舊版系統</a></td>*@
+            </tr>
+            <tr> <td><a class="nav-link" href="https://epamail.epa.gov.tw/front/mailboxhome" target="_blank">意見信箱</a></td></tr>
+            <tr><td>@Html.ActionLink("網站導覽(目前)", "SiteMap", "Home", "", new { @class = "nav-link" })</td></tr>
+            <tr>
+                <td class="text-center bg-light" style="vertical-align:middle">登入內容區</td>
+                <td>@Html.ActionLink("登入系統", "Login", "Home", new { @class = "nav-link" })</td>
+            </tr>
+            <tr>
+                <td rowspan="5" class="text-center bg-light" style="vertical-align:middle">中央內容區</td>
+                <td>@Html.ActionLink("公告", "Notice", "Home", "", new { @class = "nav-link" })</td>
+            </tr>
+            <tr><td>@Html.ActionLink("新聞", "News", "Home", "", new { @class = "nav-link" })</td></tr>
+            <tr> <td>@Html.ActionLink("操作說明書", "Operation", "Home", "", new { @class = "nav-link" })</td></tr>
+            <tr><td>@Html.ActionLink("其它資源下載", "Resource", "Home", "", new { @class = "nav-link" })</td></tr>
+            <tr><td>@Html.ActionLink("線上註冊", "Register", "HomexRegister", new { }, new { @class = "nav-link" })</td></tr>
+            <tr>
+                <td rowspan="3" class="text-center bg-light" style="vertical-align:middle">下方功能區</td>
+                <td><a class="nav-link" href="#contact">聯絡資訊</a></td>
+            </tr>
+            <tr><td><a class="nav-link" href="#link">相關連結</a></td></tr>
+            <tr><td><a class="nav-link" href="https://www.moenv.gov.tw/Page/70E67DE2079DF931" target="_blank">網站政策及宣告</a></td></tr>
+        </table>
+    </div>
+</section>
+<br />
+
+
+

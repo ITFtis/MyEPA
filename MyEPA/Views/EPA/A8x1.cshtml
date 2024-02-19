@@ -1,0 +1,32 @@
+﻿@{
+    Layout = "~/Views/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("ChangePwd", "EPAxUser"))
+{
+    <div class="text-danger">
+        <h5>營運中心公有垃圾焚化廠</h5>
+        <span>帳號：@ViewBag.UserId</span>
+        <br />
+        <span style="color:blue">請輸入舊密碼：</span>
+
+        @Html.TextBox("OldPwd", "", new { style = "width:120px;color:blue" })
+        <br />
+        <span style="color:blue">請輸入新密碼：</span>
+
+        @Html.TextBox("NewPwd", "", new { style = "width:120px;color:blue" })
+        <input type="submit" class="btn" style="margin:10px" value="確認換密碼" />
+        <br /><br />
+    </div>
+}
+<br/><br/>
+@using (Html.BeginForm("ChangeVoicePwd", "EPAxUser"))
+{
+    <div class="text-danger">
+        <h5>語音密碼更新</h5>
+        <span style="color:blue">請輸入新密碼：</span>
+        @Html.TextBox("NewVoicePwd", "", new { style = "width:120px;color:blue" })
+        <input type="submit" class="btn" style="margin:10px" value="確認換密碼" />
+        <br /><br />
+    </div>
+}

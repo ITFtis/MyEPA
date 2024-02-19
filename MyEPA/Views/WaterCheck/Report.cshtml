@@ -1,0 +1,134 @@
+﻿@model IEnumerable<MyEPA.Models.WaterCheckReportModel>
+@using MyEPA.Helper;
+@using MyEPA.Models;
+@using MyEPA.Extensions;
+@{
+    ViewBag.Title = "環保局水質通報";
+    Layout = "~/Views/_Layout.cshtml";
+    int diasterId = ViewBag.DiasterId;
+    List<DiasterModel> Diasters = ViewBag.Diasters;
+    DiasterModel diaster = Diasters.FirstOrDefault(e => e.Id == diasterId);
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- PAGE CONTENT BEGINS -->
+            <div class="row">
+                <h3>環保局水質通報</h3>
+                <hr>
+            </div>
+            <div class="row">
+                @using (Html.BeginForm("Report", "WaterCheck", new { }, FormMethod.Get, new { }))
+                {
+                    <table border="0">
+                        <tbody>
+                            <tr>
+                                <td><h5>災害名稱：</h5></td>
+                                <td>
+                                    <select name="diasterId">
+                                        @foreach (var item in Diasters)
+                                        {
+                                            <option value="@item.Id" @(item.Id == diasterId ? "selected" : string.Empty)>@item.DiasterName</option>
+                                        }
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr><td>&nbsp;</td></tr>
+                            <tr align="center">
+                                <td colspan="2"><button class="btn btn-primary" href=""><i class="fa fa-search"></i>&nbsp;查詢</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
+                <hr>
+            </div>
+            <div class="row">
+                <h3>水質通報管考統計</h3>
+                <h5 class="red">目前災害名稱：@diaster.DiasterName</h5>
+                <p align="right"><img width="30" height="30" src="../../images/icon_pdf.png" alt="PDF">
+                <a href="@Url.Action("DownReportPDF", new { diasterId })">PDF匯出</a>│
+                <img width="30" height="30" src="../../images/icon_odf.png" alt="ODF">
+                <a href="@Url.Action("DownReportODS", new { diasterId })">ODF下載</a>│
+                <img width="30" height="30" src="../../images/Print.ico" alt="Print"><a href="">友善列印</a></p>
+
+            </div>
+            <div class="row">
+                <div class="widget-body">
+                    <div class="widget-main no-padding table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="thin-border-bottom">
+                                <tr>
+                                    <td colspan="13" align="right" bgcolor="#9AAC95" class="white"><i class="fa fa-clock-o"></i>&nbsp;製表時間：@DateTimeHelper.GetCurrentTime().ToString("yyyy/MM/dd HH:mm:ss")</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="2" bgcolor="#fff8d7">單位名稱   </td>
+                                    <td rowspan="2" bgcolor="#fff8d7">抽驗數</td>
+                                    <td rowspan="2" bgcolor="#fff8d7">無法抽驗</td>
+                                    <td rowspan="2" bgcolor="#fff8d7">無災情</td>
+                                    <td rowspan="2" bgcolor="#fff8d7">合格數</td>
+                                    <td rowspan="2" bgcolor="#fff8d7">不合格數</td>
+                                    <td rowspan="2" bgcolor="#fff8d7">抽檢中</td>
+                                    <td colspan="3" bgcolor="#fff8d7">複驗情形</td>
+                                    <td rowspan="2" bgcolor="#fff8d7">
+                                        通報
+                                        負責人
+                                        姓名
+                                    </td>
+                                    <td rowspan="2" bgcolor="#fff8d7">通報負責人電話</td>
+                                    <td rowspan="2" bgcolor="#fff8d7">通報時間</td>
+                                </tr>
+                                <tr>
+                                    <td bgcolor="#fff8d7">合格</td>
+                                    <td bgcolor="#fff8d7">不合格</td>
+                                    <td bgcolor="#fff8d7">未複檢</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr bgcolor="#FFFFFF">
+                                    <td>合計</td>
+                                    <td>@Model.Sum(e => e.Count)</td>
+                                    <td>@Model.Sum(e => e.CannotCount)</td>
+                                    <td>@Model.Sum(e => e.NothingHappenedCount)</td>
+                                    <td>@Model.Sum(e => e.SuccessCount)</td>
+                                    <td>@Model.Sum(e => e.FailureCount)</td>
+                                    <td>@Model.Sum(e => e.TestingCount)</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                @foreach (var item in Model)
+                                {
+                                    <tr bgcolor="#F7F7DE">
+                                        <td>@item.CityName @item.TownName</td>
+                                        <td>@item.Count</td>
+                                        <td>@item.CannotCount</td>
+                                        <td>@item.NothingHappenedCount</td>
+                                        <td>@item.SuccessCount</td>
+                                        <td>@item.FailureCount</td>
+                                        <td>@item.TestingCount</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>@item.Name</td>
+                                        <td>@item.OfficePhone</td>
+                                        <td>@item.UpdateTime.ToDateTimeString()</td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td colspan="13" bgcolor="#9AAC95" class="white">&nbsp;</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div>
+</div><!-- /.main-content -->

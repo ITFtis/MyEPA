@@ -1,0 +1,97 @@
+﻿@{
+    Layout = "~/Views/_Layout.cshtml";
+    ViewBag.Title = "災害主題建置";
+}
+
+<div class="text-left">
+    <br />
+    <h3>@ViewBag.Title</h3>
+    <br />
+</div>
+<div id="EditArea" class="text-left" style="padding:0px;display:none">
+    @Html.ActionLink("返回", "A9x1", "EPAxDiaster", "", new { @class = "btn btn-basic fa fa-arrow-circle-left", @style = "color:white;padding:4px" })
+    <br /> <br />
+    @using (Html.BeginForm("Edit", "EPAxDiaster"))
+    {
+        //以下長寬設為0，以隱藏，但可提供編輯程式抓資料
+        @Html.TextBox("EditingId", "", new { @style = "width:0px;height:0px;background-color:gray" })
+        <span>災害名稱: </span>@Html.TextBox("EditingDiasterName", "", new { @style = "width:300px" })
+        <br />
+        <span>災害類型: </span>
+        @Html.DropDownList("EditingDiasterType", new List<SelectListItem>
+               {
+                    new SelectListItem{Text = "颱風、水災", Value = "颱風、水災", Selected=true},
+                   new SelectListItem{Text = "地震",Value = "地震"},
+                    new SelectListItem{Text = "疫災",Value = "疫災"},
+                      new SelectListItem{Text = "其它",Value = "其它"},
+                      new SelectListItem{Text = "模擬災害",Value = "模擬災害"},
+               })
+        <br />
+        <span>開始時間: </span>
+        @Html.TextBox("EditingStartTime", "", new { @style = "width:150px",@type = "date"})
+        <br />
+        <span>結束時間: </span>@Html.TextBox("EditingEndTime", "", new { @style = "width:150px",@type = "date" })
+        <br />
+        <span>備註: </span>
+        @Html.TextArea("EditingComment", "", new { style = "width:400px;height=200px" })
+        <br />
+        <span>災害狀態: </span>
+        @Html.DropDownList("EditingDiasterState", new List<SelectListItem>
+               {
+                    new SelectListItem{Text = "災害關閉", Value = "災害關閉", Selected=true},
+                   new SelectListItem{Text = "災害啟動",Value = "災害啟動"}
+               })
+        <br /><br />
+        <input type="submit" class="btn btn-primary" style="margin-left:10px;padding-top:0px;padding-bottom:0px;padding-left:7px;padding-right:7px" value="確認儲存" />
+    }
+</div>
+<div id="AddArea" class="text-left" style="padding:0px">
+    @using (Html.BeginForm("Add", "EPAxDiaster"))
+    {
+        <span>災害名稱: </span>@Html.TextBox("DiasterName", "", new { style = "width:300px",@required="required" })
+        <br />
+        <span>災害類型: </span>
+        @Html.DropDownList("DiasterType", new List<SelectListItem>
+               {
+                    new SelectListItem{Text = "颱風、水災", Value = "颱風、水災", Selected=true},
+                   new SelectListItem{Text = "地震",Value = "地震"},
+                    new SelectListItem{Text = "疫災",Value = "疫災"},
+                      new SelectListItem{Text = "其它",Value = "其它"},
+                      new SelectListItem{Text = "模擬災害",Value = "模擬災害"},
+               })
+        <br />
+        <span>開始時間: </span>
+        @Html.TextBox("StartTime", "", new { @style = "width:150px", @type = "date",@required="required" })
+        <br />
+        <span>結束時間: </span>@Html.TextBox("EndTime", "", new { @style = "width:150px", @type = "date",@required="required" })
+        <br />
+        <span>備註: </span>
+        @Html.TextArea("Comment", "", new { style = "width:400px;height=200px" })
+        <br />
+        <input type="submit" class="btn btn-danger" style="margin-left:10px;padding-top:0px;padding-bottom:0px;padding-left:7px;padding-right:7px" value="新增" />
+    }
+</div>
+<br /><br />
+<div id="DataArea">
+    @{Html.RenderPartial("~/Views/Components/ShowDiasterForEdit.cshtml");}
+</div>
+
+<script>
+    function Cancel() {
+        $("#EditArea").hide();  
+        $("#AddArea").show();
+    }
+
+    function PickItemForEdit(Id, DiasterName, DiasterType, StartTime, EndTime, Comment, DiasterState) {
+        $("#EditArea").show();
+        $("#DataArea").hide();
+        $("#AddArea").hide();
+        $("#EditingId").val(Id);
+        $("#EditingDiasterName").val(DiasterName);
+        $("#EditingDiasterType").val(DiasterType);
+        $("#EditingStartTime").val(StartTime);
+        $("#EditingEndTime").val(EndTime);
+        $("#EditingComment").val(Comment);
+        $("#EditingDiasterState").val(DiasterState);
+    }
+</script>

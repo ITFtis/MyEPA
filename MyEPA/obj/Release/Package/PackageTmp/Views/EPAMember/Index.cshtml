@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "首頁";
+    Layout = "~/Views/_Layout.cshtml";
+    MyEPA.Models.UserBriefModel user = ViewBag.User;
+}
+
+<div class="page-content">
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- PAGE CONTENT BEGINS -->
+            <h3>@user.Name 您好, 目前災害名稱： @Model.RunningDiasterNames</h3>
+            <br>
+            <div class="container-fluid">
+                <div class="row">
+                    <!--快速選單-->
+                    <div class="col-md-2">
+                        @if (ViewBag.IsDiasterRuning)
+                        {
+                            <a href="@Url.Action("Index","ResourcesReport",new { })"><img class="img-responsive" src="~/Content/assets/css/images/button_main_menu_1r.png" alt="應變資源統計"></a>
+                            <a href="@Url.Action("Report","Defend",new { })"><img class="img-responsive" src="~/Content/assets/css/images/button_main_menu_2r.png" alt="整備情形統計"></a>
+                            <a href="@Url.Action("CityStatistics","Damage",new { })"><img class="img-responsive" src="~/Content/assets/css/images/button_main_menu_3r.png" alt="災情環境清理統計"></a>
+                            <a href="@Url.Action("CityStatusReport","ApplySupport")"><img class="img-responsive" src="~/Content/assets/css/images/button_main_menu_4r.png" alt="請求支援統計"></a>
+                            <a href="@Url.Action("A8x2", "EPAxUser")"><img class="img-responsive" src="~/Content/assets/css/images/button_main_menu_5r.png" alt="緊急應變人員"></a>
+                            <a href="@Url.Action("Index","PhoneWork")"><img class="img-responsive" src="~/Content/assets/css/images/button_main_menu_6r.png" alt="電話紀錄大事記"></a>
+                            <!-- <a href="@Url.Action("QueryAllShiftSchedule", "ShiftSchedule", new { })"><img class="img-responsive" src="~/Content/assets/css/images/button_main_menu_7r.png" alt="輪班總表查詢"></a>-->
+                            <!--<a href="#"><img class="img-responsive" src="~/Content/assets/css/images/button_main_menu_8r.png" alt="各處室簡報產製"></a>-->
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Index","ResourcesReport",new { })"><img class="img-responsive" src="~/Content/assets/css/images/button_main_menu_1.png" alt="應變資源統計"></a>
+                            <a href="@Url.Action("Report","Defend",new { })"><img class="img-responsive" src="~/Content/assets/css/images/button_main_menu_2.png" alt="整備情形統計"></a>
+                            <a href="@Url.Action("Report","Damage",new { })"><img class="img-responsive" src="~/Content/assets/css/images/button_main_menu_3.png" alt="災情及環境清理統計"></a>
+                            <a href="@Url.Action("CityStatusReport","ApplySupport")"><img class="img-responsive" src="~/Content/assets/css/images/button_main_menu_4.png" alt="請求支援統計"></a>
+                            <a href="@Url.Action("A8x2", "EPAxUser")"><img class="img-responsive" src="~/Content/assets/css/images/button_main_menu_5.png" alt="緊急應變人員"></a>
+                            <a href="@Url.Action("Index","PhoneWork")"><img class="img-responsive" src="~/Content/assets/css/images/button_main_menu_6.png" alt="電話紀錄大事記"></a>
+                            <!--<a href="@Url.Action("QueryAllShiftSchedule", "ShiftSchedule", new { })"><img class="img-responsive" src="~/Content/assets/css/images/button_main_menu_7.png" alt="輪班總表查詢"></a>-->
+                            <!--<a href="#"><img class="img-responsive" src="~/Content/assets/css/images/button_main_menu_8.png" alt="各處室簡報產製"></a>-->
+                        }
+
+                    </div>
+                    <br />
+                    <!--資源查詢-->
+                    <div class="row">
+                        <div class="col-md-8 line-gray-3px">
+                            @{
+                                Html.RenderAction("Test", "SystemConfigSetting", new { });
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- PAGE CONTENT ENDS -->
+        </div><!-- /.col -->
+    </div><!-- /.row -->
+</div><!-- /.page-content -->

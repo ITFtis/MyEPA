@@ -1,0 +1,211 @@
+﻿@model IEnumerable<MyEPA.ViewModels.FacilityDamageViewModel>
+
+@using MyEPA.Models;
+@using MyEPA.Enums;
+@{
+    ViewBag.Title = "環境設施災損查詢";
+    Layout = "~/Views/_Layout.cshtml";
+    List<DiasterModel> diasters = ViewBag.Diasters;
+    int? diasterId = ViewBag.DiasterId;
+    List<FacilityDamageTypeEnum> types = ViewBag.FacilityDamageTypes;
+    FacilityDamageTypeEnum type = ViewBag.Type;
+    var citys = (List<CityModel>)ViewBag.Citys;
+    var towns = (List<TownModel>)ViewBag.Towns;
+    DutyEnum duty = ViewBag.DutyId;
+
+}
+
+<h2>@ViewBag.Title</h2>
+<div class="col-xs-12">
+    <div class="row">
+        <h3>公告事項</h3>
+        <h5 class="red">目前災害名稱：@diasters.Where(e => e.Id == diasterId).Select(e => e.DiasterName).FirstOrDefault()</h5>
+        <hr>
+    </div>
+    <div class="row">
+        @using (Html.BeginForm("FacilityDamage", "Damage", new { }, FormMethod.Get, new { }))
+        {
+            <table border="0">
+                <tbody>
+                    <tr>
+                        <td><h5>災害名稱：</h5></td>
+                        <td>
+                            <select name="diasterId">
+                                @foreach (var item in diasters)
+                                {
+                                    <option value="@item.Id" @(item.Id == diasterId ? "selected" : string.Empty)>@item.DiasterName</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><h5>通報單位：</h5></td>
+                        <td>
+                            <select id="City" Name="CityId">
+                                <option value="">全部</option>
+                                @foreach (var city in citys)
+                                {
+                                    if (city.Id == ViewBag.CityId)
+                                    {
+                                        <option value="@city.Id" selected="selected">@city.City</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@city.Id">@city.City</option>
+                                    }
+
+                                }
+
+                            </select>
+                            <select id="Town" name="TownId">
+                                <option value="">全部</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><h5>指定查詢類別：</h5></td>
+                        <td>
+                            <select name="type">
+                                @foreach (var item in types)
+                                {
+                                    <option value="@((int)item)" @(item == type ? "selected" : string.Empty)>@item.GetDescription()</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr><td>&nbsp;</td></tr>
+                    <tr align="center">
+                        <td colspan="2"><button type="submit" class="btn btn-primary" href=""><i class="fa fa-search"></i>&nbsp;查詢</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+        <hr>
+    </div>
+
+    <div class="row">
+        <div class="widget-body">
+            <div class="widget-main no-padding table-responsive">
+
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CityName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TownName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ReportDay)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CreateDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Places)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.DamageDesc)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ProcessDesc)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Note)
+                        </th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CityName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TownName)
+                            </td>
+                            <td>
+                                @item.ReportDay.ToString("yyyy/MM/dd")
+                            </td>
+                            <td>
+                                @item.CreateDate.ToString("yyyy/MM/dd HH:mm:ss")
+                            </td>
+                            <td>
+                                @string.Join("、", item.Places)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DamageDesc)
+                            </td>
+                            <td>
+                                @if (duty == DutyEnum.Corps)
+                                {
+                                    @Html.ActionLink(string.IsNullOrWhiteSpace(item.ProcessDesc) ? "未輸入" : "已輸入", "CorpsHandlingSituation", new { id = item.Id, type = type })
+                                }
+                                else
+                                {
+                                    @Html.ActionLink(string.IsNullOrWhiteSpace(item.ProcessDesc) ? "未輸入" : "已輸入", "CorpsHandlingSituationShow", new { id = item.Id, type = type })
+                                }
+
+                            </td>
+                            <td>
+                                @Html.ActionLink(string.IsNullOrWhiteSpace(item.Note) ? "未輸入" : "已輸入", "Memo", new { id = item.Id, type = type })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script>
+    $(document).ready(function () {
+        var cityId = '@ViewBag.CityId';
+        if ($.trim(cityId).length > 0) {
+            GetTowns(cityId);
+        }
+        $('#City').change(function () { ChangeCity(); });
+    });
+    function ChangeCity() {
+        var selectedValue = $('#City option:selected').val();
+        $('#Town').empty();
+        $('#Town').append($('<option></option>').val('').text('全部'));
+        if ($.trim(selectedValue).length > 0) {
+            GetTowns(selectedValue);
+        }
+    }
+    function GetTowns(cityId) {
+        $.ajax({
+            url: '@Url.Action("Towns", "Geolocation")'+'?cityId='+cityId,
+            type: 'get',
+            cache: false,
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                if (data.length > 0) {
+
+                    $.each(data, function (i, item) {
+                        var townId = String(item.Id);
+                        if (townId === '@ViewBag.TownId') {
+                            $('#Town').append($('<option selected="selected"></option>').val(item.Id).text(item.Name));
+                        }
+                        else {
+                            $('#Town').append($('<option ></option>').val(item.Id).text(item.Name));
+                        }
+                    });
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(textStatus);
+            }
+
+        });
+    }
+    </script>
+
+}

@@ -1,0 +1,35 @@
+﻿@*以下首頁側邊欄使用的CSS
+    使用於EPA.Layout, EPB.Layout,Cleaner.Layout,
+    WaterCompany.Layout*@
+
+
+<style>
+    .nav-link[data-toggle].collapsed:after {
+        content: "▾";
+    }
+
+    .nav-link[data-toggle]:not(.collapsed):after {
+        content: "▴";
+    }
+
+    .menu-text {
+        background-color: #F8F9FB;
+        color: gray;
+        padding-left: 9px
+    }
+
+    .menu-icon {
+        background-color: #F8F9FB;
+        color: dimgray;
+        padding: 3px;
+        padding-bottom: 0px;
+        font-size: 105%
+    }
+
+    .topmenu-text {
+        background-color: #F8F9FB;
+        color: black;
+        padding:3px;
+        font-size: 105%
+    }
+</style>

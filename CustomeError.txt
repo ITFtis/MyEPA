@@ -1,0 +1,9 @@
+嚴重性	程式碼	說明	專案	檔案	行	隱藏項目狀態
+錯誤	CS1061	'ApplySupportSubsidyReportDetailViewModel' 未包含 'EpbConfrim' 的定義，也找不到可接受類型 'ApplySupportSubsidyReportDetailViewModel' 第一個引數的可存取擴充方法 'EpbConfrim' (是否遺漏 using 指示詞或組件參考?)	2_Views_ApplySupport_DownPDF.cshtml	S:\WEB\NewEMIS_20220314\Views\ApplySupport\DownPDF.cshtml	101	作用中
+傳真:(02)2267-0899
+
+
+<customErrors mode="RemoteOnly"
+defaultRedirect="Error.htm">
+<error statusCode="500" redirect="Error.htm"/>
+</

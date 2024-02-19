@@ -1,0 +1,72 @@
+﻿@using MyEPA.Models;
+@using MyEPA.Models.SearchViewModel;
+@using MyEPA.Enums;
+@using MyEPA.Services;
+@using MyEPA.ViewModels;
+@using System.Linq;
+@using System.Web.Mvc;
+
+
+@model PagingResult<MyEPA.ViewModels.UserEPAListViewModel>
+@{
+    ViewBag.Title = "使用者資料維護";
+    Layout = "~/Views/_ContactManualLayout.cshtml";
+    UserEPASearchPaginationViewModel search = ViewBag.SearchModel;
+    Model.Pagination.PerPage = 20;
+}
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+    <hr />
+    @using (Html.BeginForm("Index", "UserEPA", new
+    {
+        SearchDepartmentId = Request["SearchDepartmentId"],
+        SearchPositionId = Request["SearchPositionId"],
+        SearchName = Request["SearchName"],
+        PerPage = Request["PerPage"],
+        Page = Request["Page"]
+    }, FormMethod.Get, new { }))
+    {
+        @Html.Hidden("PerPage", Model.Pagination.PerPage, new { })
+        <table border="0">
+            <tbody>
+                <tr>
+                    <td><h5>職稱：</h5></td>
+                    <td>
+                        @{
+                            Html.RenderAction("GetSelectListItem", "Position", new { id = search.SearchPositionId });
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td><h5>單位：</h5></td>
+                    <td>
+                        @{
+                            Html.RenderAction("GetSearchSelectListItem", "ContactManualDepartment", new { id = Model == null ? null : (int?)search.SearchDepartmentId });
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td><h5>姓名：</h5></td>
+                    <td>
+                        <input type="text" name="SearchName" value="@search.SearchName" />
+                    </td>
+                </tr>
+                <tr><td>&nbsp;</td></tr>
+                <tr align="center">
+                    <td colspan="2"><button type="submit" class="btn btn-primary" href=""><i class="fa fa-search"></i>&nbsp;查詢</button></td>
+                </tr>
+            </tbody>
+        </table>}
+    <hr>
+
+    <p>
+        @Html.ActionLink("新增", "Edit", new { }, new { @class = "btn btn-default" })
+    </p>
+    @{
+        Html.RenderPartial("Partials/_UserEPAListPartial", Model.Items);
+    }
+    <div class="container text-center">
+        @Html.PageLink(Model.Pagination)
+    </div>
+
+</div>

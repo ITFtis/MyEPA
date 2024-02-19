@@ -1,0 +1,36 @@
+﻿@using MyEPA.Enums;
+@model IEnumerable<SelectListItem>
+@Html.DropDownList("SearchCityId", Model, new { @class = "form-control" })
+@section scripts{
+    <script>
+    $("#SearchCityId").change(function () {
+        getTowns();
+    });
+    function getTowns() {
+        var source = $("#SearchCityId");
+        var selectedValue = source.val();
+        var list = $("#townlist");
+        if (selectedValue.length == 0) {
+            list.empty();
+        }
+        else {
+            var duty = $("#SearchDutyId").val();
+            var isTown = null;
+            if (duty == '@(DutyEnum.Cleaning.ToInteger())') {
+                isTown = true;
+            }
+            $.ajax({
+                url: '@Url.Action("GetSearchSelectListItem", "Town")',
+                type: 'GET',
+                data: {
+                    cityId: selectedValue,
+                    isTown: isTown
+                },
+                success: function (respones) {
+                    list.html(respones)
+                }
+            });
+        }
+    }
+    </script>
+    }

@@ -1,0 +1,40 @@
+﻿@{
+    Layout = "~/Views/_Layout.cshtml";
+}
+@{Html.RenderPartial("~/Views/Components/JSforB1c17.cshtml");}
+@Html.ActionLink("返回", "B2Apply", "EPBxApply", "", new { @class = "btn btn-primary fa fa-arrow-circle-left", @style = "color:white;padding:4px" })
+<br />
+<br />
+<h4>請求其它支援(包括垃圾場災損)</h4>
+<h6>災害編號： @Html.TextBox("DiasterName", (string)ViewBag.DiasterId, new { @readonly = "readonly", style = "border:none" })</h6>
+<h6>災害主題： @Html.TextBox("DiasterName", (string)ViewBag.DiasterName, new { @readonly = "readonly", style = "border:none;" })</h6>
+<span>名稱：@Html.TextBox("Count", "", new { style = "width:200px" })</span>
+
+<span>數量：</span>@Html.TextBox("Count", "", new { style = "width:50px" })
+<span>單位：</span>@Html.TextBox("Count", "", new { style = "width:50px" })
+<h6>
+    <span>需用日期(例如2019/09/25)：</span> @Html.TextBox("NeedDay", "", new { style = "width:200px" })
+</h6>
+<span>估算方法(限1000字)：</span>
+<br />
+@Html.TextArea("DiasterRegionDescribe", null, new { @style = "width:400px;height:100px" })
+<br />
+<br />
+<span style="font-size:large">照片上傳</span>
+<span style="font-size:small">
+    說明：1.上傳照片(限JPG檔)請按"瀏覽"鈕，待全部欄位填寫完成後按下方”新增”或”修改”鈕，統一上傳   2.下方提供照片說明填寫(限100字)。
+</span>
+<input type="file" name="file" id="file" />
+<br>
+<span>說明:</span>
+<br />
+@Html.TextArea("DiasterRegionDescribe", null, new { @style = "width:200px;height:100px" })
+<br />
+<br />
+<h6>
+    <span>聯絡人姓名：</span> @Html.TextBox("ReportMan", "", new { style = "width:100px" })
+    <span>聯絡電話：</span> @Html.TextBox("ReportPhone", "", new { style = "width:150px" })
+    <span>聯絡手機：</span> @Html.TextBox("ReportMobilePhone", "", new { style = "width:100px" })
+</h6>
+<input type="submit" class="btn btn-danger" style="margin:10px" value="儲存確認" />
+@Html.ActionLink("取消", "B2", "EPBxApply", "", new { @class = "btn btn-basic fa fa-arrow-circle-left", @style = "color:white;padding:4px" })

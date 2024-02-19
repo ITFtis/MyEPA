@@ -1,0 +1,63 @@
+﻿@{
+    Layout = "~/Views/_Layout.cshtml";
+}
+
+
+<font size="2">
+    @using (Html.BeginForm("Update", "EPBxContact"))
+    {
+
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>類別</th>
+            <th>地點</th>
+            <th>專線</th>
+            <th>電話</th>
+            <th>傳真</th>
+            <th>電郵</th>
+        </tr>
+        <tr>
+            <th>填寫範例</th>
+            <th>局長室</th>
+            <th>(02)2311-1234</th>
+            <th>(02)2311-1234#111</th>
+            <th>(02)2311-1234</th>
+            <th>aaa@aaa.epa.tw</th>
+        </tr>
+        @foreach (var Item in ViewBag.Data)
+        {
+            <tr>
+                <td>窗口1</td>
+                <td>@Html.TextBox("Place1", (string)@Item.Place1, new { style = "width:140px;color:blue" })</td>
+                <td>@Html.TextBox("Line1", (string)@Item.Line1, new { style = "width:140px;color:blue" })</td>
+                <td>@Html.TextBox("Phone1", (string)@Item.Phone1, new { style = "width:140px;color:blue" })</td>
+                <td>@Html.TextBox("Fax1", (string)@Item.Fax1, new { style = "width:140px;color:blue" })</td>
+                <td>@Html.TextBox("Mail1", (string)@Item.Mail1, new { style = "width:140px;color:blue" })</td>
+            </tr>
+            <tr>
+                <td>窗口2</td>
+                <td>@Html.TextBox("Place2", (string)@Item.Place2, new { style = "width:140px;color:blue" })</td>
+                <td>@Html.TextBox("Line2", (string)@Item.Line2, new { style = "width:140px;color:blue" })</td>
+                <td>@Html.TextBox("Phone2", (string)@Item.Phone2, new { style = "width:140px;color:blue" })</td>
+                <td>@Html.TextBox("Fax2", (string)@Item.Fax2, new { style = "width:140px;color:blue" })</td>
+                <td>@Html.TextBox("Mail2", (string)@Item.Mail2, new { style = "width:140px;color:blue" })</td>
+            </tr>
+            <tr>
+                <td>窗口3</td>
+                <td>@Html.TextBox("Place3", (string)@Item.Place3, new { style = "width:140px;color:blue" })</td>
+                <td>@Html.TextBox("Line3", (string)@Item.Line3, new { style = "width:140px;color:blue" })</td>
+                <td>@Html.TextBox("Phone3", (string)@Item.Phone3, new { style = "width:140px;color:blue" })</td>
+                <td>@Html.TextBox("Fax3", (string)@Item.Fax3, new { style = "width:140px;color:blue" })</td>
+                <td>@Html.TextBox("Mail3", (string)@Item.Mail3, new { style = "width:140px;color:blue" })</td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    <input type="submit" class="btn" style="margin:10px" value="資料確認儲存" />
+                </td>
+            </tr>
+        }
+
+
+    </table>
+    }
+</font>

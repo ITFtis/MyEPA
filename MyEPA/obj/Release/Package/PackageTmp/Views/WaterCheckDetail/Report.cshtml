@@ -1,0 +1,157 @@
+﻿@model IEnumerable<MyEPA.Models.WaterCheckDetailViewModel>
+@using MyEPA.Models;
+@using MyEPA.Enums;
+@{
+    ViewBag.Title = "水質抽檢通報表";
+    Layout = "~/Views/_Layout.cshtml";
+    int diasterId = ViewBag.DiasterId;
+    List<DiasterModel> diasters = ViewBag.Diasters;
+    List<WaterDivisionModel> waterDivisions = ViewBag.WaterDivisions;
+    int? waterDivisionId = ViewBag.WaterDivisionId;
+}<style>
+    .table th {
+        text-align: center;
+        vertical-align: middle !important;
+    }
+
+    .table td {
+        text-align: center;
+        vertical-align: middle !important;
+    }
+</style>
+ <div class="container-fluid">
+     <div class="row">
+         <h3>@ViewBag.Title</h3>
+         <div class="col-xs-12">
+             <p align="right">
+                 <img width="30" height="30" src="~/Content/assets/css/images/icon_pdf.png" alt="PDF">
+                 <a href="@Url.Action("DownReport", new {file="PDF",diasterId,waterDivisionId })">PDF匯出</a>│
+                 <img width="30" height="30" src="../../images/icon_odf.png" alt="ODF">
+                 <a href="@Url.Action("DownReport", new {file="ODF",diasterId,waterDivisionId  })">ODF下載</a>
+             </p>
+         </div>
+     </div>
+ </div>
+    <h2>災害名稱:@diasters.Where(e => e.Id == diasterId).Select(e => e.DiasterName).FirstOrDefault()</h2>
+    <div class="">
+        @using (Html.BeginForm("Report", "WaterCheckDetail", new { }, FormMethod.Get, new { }))
+        {
+            <table border="0">
+                <tbody>
+                    <tr>
+                        <td><h5>災害名稱：</h5></td>
+                        <td>
+                            <select name="diasterId">
+                                @foreach (var item in diasters)
+                                {
+                                    <option value="@item.Id" @(item.Id == diasterId ? "selected" : string.Empty)>@item.DiasterName</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><h5>地區：</h5></td>
+                        <td>
+                            <select name="waterDivisionId">
+                                <option value="">全部</option>
+                                @foreach (var item in waterDivisions)
+                                {
+                                    <option value="@item.Id" @(item.Id == waterDivisionId ? "selected" : string.Empty)>@item.Name</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr><td>&nbsp;</td></tr>
+                    <tr align="center">
+                        <td colspan="2"><button class="btn btn-primary" href=""><i class="fa fa-search"></i>&nbsp;查詢</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+        <hr>
+    </div>
+    <table class="table table-bordered ">
+        <tr>
+            <th rowspan="2">
+                @Html.DisplayNameFor(model => model.WaterDivision)
+            </th>
+            <th rowspan="2">
+                @Html.DisplayNameFor(model => model.CheckTime)
+            </th>
+            <th rowspan="2">
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th rowspan="2">
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th rowspan="1" colspan="5">檢驗項目</th>
+            <th rowspan="2">
+                備註
+            </th>
+        </tr>
+        <tr>
+            <th rowspan="1">
+                @Html.DisplayNameFor(model => model.O_Turbidity)
+            </th>
+            <th rowspan="1">
+                @Html.DisplayNameFor(model => model.Chlorine)
+            </th>
+            <th rowspan="1">
+                @Html.DisplayNameFor(model => model.EColi)
+            </th>
+            <th rowspan="1">
+                @Html.DisplayNameFor(model => model.Hydrogen)
+            </th>
+            <th rowspan="1">
+                @Html.DisplayNameFor(model => model.Turbidity)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WaterDivision)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CheckTime)
+                </td>
+                <td>
+                    @item.Type.GetDescription()
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                                <td>
+                    @Html.DisplayFor(modelItem => item.O_Turbidity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Chlorine)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EColi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hydrogen)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Turbidity)
+                </td>
+                <th>
+                    @switch (item.Status)
+                    {
+                        case WaterCheckDetailStatusEnum.Success:
+                            @:抽驗件數：1 合格件數：1 不合格件數：0 檢驗中件數：0
+                            break;
+                        case WaterCheckDetailStatusEnum.Failed:
+                            @:抽驗件數：1 合格件數：0 不合格件數：1 檢驗中件數：0
+                            break;
+                            case WaterCheckDetailStatusEnum.Testing:
+                            @:抽驗件數：1 合格件數：0 不合格件數：0 檢驗中件數：1
+                            break;
+                    }
+                </th>
+            </tr>
+        }
+
+    </table>

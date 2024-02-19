@@ -1,0 +1,332 @@
+﻿@model MyEPA.Models.WaterCheckDetailModel
+@using MyEPA.Models;
+@using MyEPA.Enums;
+@{
+    ViewBag.Title = "水質抽驗結果通報-修改";
+    Layout = "~/Views/_Layout.cshtml";
+    List<CityModel> Citys = ViewBag.Citys;
+}
+@{Html.RenderPartial("~/Views/Components/OpenStreeLeaflet.cshtml");}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <h3>@ViewBag.Title</h3>
+    <table>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "" })
+            </td>
+            <td>
+                @Html.HiddenFor(model => model.WaterCheckId)
+                <select id="CityId" name="CityId">
+                    @foreach (var item in Citys)
+                    {
+                        <option value="@item.Id" @(Model.CityId == item.Id ? "selected" : string.Empty) )>@item.City</option>
+                    }
+                </select>
+                <select id="TownId" name="TownId">
+                </select>
+                <input id="Address" name="Address" type="text" value="@Model.Address" />
+                <a onclick="AddressGPS()">快速定位</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="" for="GpsX">檢驗座標</label>
+            </td>
+            <td>
+                <input id="GpsX" name="GpsX" required="required" step="0.0000001" type="number" placeholder="23.052809" value="@Model.GpsX"/>
+                <input id="GpsY" name="GpsY" required="required" step="0.0000001" type="number" placeholder="120.139198"  value="@Model.GpsY"/>
+                <a onclick="SetGPS()">快速定位</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "" })
+            </td>
+            <td>
+                <select id="Type" name="Type">
+                    @foreach (var item in ExtensionsOfEnum.GetEnumAllValue<WaterCheckDetailTypeEnum>())
+                    {
+                        <option value="@(item.ToInteger())"@(Model.Type == item ? "selected" : string.Empty)>@item.GetDescription()</option>
+                    }
+                </select>
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.O_Turbidity, htmlAttributes: new { @class = "", @required = "required" })
+            </td>
+            <td>
+                <input id="O_Turbidity" name="O_Turbidity" type="number" value="@Model.O_Turbidity" />
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>
+                檢驗項目
+            </th>
+            <th>
+                標準值
+            </th>
+            <th>
+                檢驗值
+            </th>
+            <th>
+                檢驗方法
+            </th>
+        </tr>
+        <tr>
+            <td> @Html.LabelFor(model => model.Chlorine, htmlAttributes: new { @class = "" })</td>
+            <td>
+                <select id="ChlorineStand" name="ChlorineStand">
+                    @foreach (var item in ExtensionsOfEnum.GetEnumAllValue<WaterCheckDetailStandEnum>().Where(e => (int)e > 1000 && (int)e < 2000))
+                    {
+                        <option  @(Model.ChlorineStand == (int)item ? "selected" : string.Empty) value="@item.ToInteger()">@item.GetDescription()</option>
+                        @:毫克/公升
+                    }
+                </select>
+            </td>
+            <td> @Html.EditorFor(model => model.Chlorine)</td>
+            <td>
+                <select id="ChlorineWay" name="ChlorineWay">
+                    @foreach (var item in ExtensionsOfEnum.GetEnumAllValue<WaterCheckDetailCheckWayEnum>().Where(e => (int)e > 1000 && (int)e < 2000))
+                    {
+                        <option  @(Model.ChlorineWay == (int)item ? "selected" : string.Empty) value="@item.ToInteger()">@item.GetDescription()</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td> @Html.LabelFor(model => model.EColi, htmlAttributes: new { @class = "" })</td>
+            <td>
+                <select id="EColiStand" name="EColiStand">
+                    @foreach (var item in ExtensionsOfEnum.GetEnumAllValue<WaterCheckDetailStandEnum>().Where(e => (int)e > 2000 && (int)e < 3000))
+                    {
+                        <option  @(Model.EColiStand == (int)item ? "selected" : string.Empty) value="@item.ToInteger()">@item.GetDescription()</option>
+                    }
+                </select>
+            </td>
+            <td>
+
+                <select id="EColiType" name="EColiType">
+                    @foreach (var item in ExtensionsOfEnum.GetEnumAllValue<EColiTypeEnum>())
+                    {
+                        <option @(Model.EColiType == (int)item ? "selected" : string.Empty) value="@item.ToInteger()">@item.GetDescription()</option>
+                    }
+                </select>
+
+                @Html.EditorFor(model => model.EColi)
+            </td>
+            <td>
+                <select id="EColiWay" name="EColiWay">
+                    @foreach (var item in ExtensionsOfEnum.GetEnumAllValue<WaterCheckDetailCheckWayEnum>().Where(e => (int)e > 2000 && (int)e < 3000))
+                    {
+                        <option @(Model.EColiWay == (int)item ? "selected" : string.Empty) value="@item.ToInteger()">@item.GetDescription()</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td> @Html.LabelFor(model => model.Hydrogen, htmlAttributes: new { @class = "" })</td>
+            <td>
+                <select id="HydrogenStand" name="HydrogenStand">
+                    @foreach (var item in ExtensionsOfEnum.GetEnumAllValue<WaterCheckDetailStandEnum>().Where(e => (int)e > 3000 && (int)e < 4000))
+                    {
+                        <option @(Model.HydrogenStand == (int)item ? "selected" : string.Empty)  value="@item.ToInteger()">@item.GetDescription()</option>
+                    }
+                </select>
+            </td>
+            <td> @Html.EditorFor(model => model.Hydrogen)</td>
+            <td>
+                <select id="HydrogenWay" name="HydrogenWay">
+                    @foreach (var item in ExtensionsOfEnum.GetEnumAllValue<WaterCheckDetailCheckWayEnum>().Where(e => (int)e > 3000 && (int)e < 4000))
+                    {
+                        <option @(Model.HydrogenWay == (int)item ? "selected" : string.Empty)  value="@item.ToInteger()">@item.GetDescription()</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>  @Html.LabelFor(model => model.Turbidity, htmlAttributes: new { @class = "" })</td>
+            <td>
+                <select id="TurbidityStand" name="TurbidityStand">
+                    @foreach (var item in ExtensionsOfEnum.GetEnumAllValue<WaterCheckDetailStandEnum>().Where(e => (int)e > 4000 && (int)e < 5000))
+                    {
+                        <option @(Model.TurbidityStand == (int)item ? "selected" : string.Empty) value="@item.ToInteger()">@item.GetDescription()</option>
+                    }
+                </select>
+            </td>
+            <td> @Html.EditorFor(model => model.Turbidity)</td>
+            <td>
+                <select id="TurbidityWay" name="TurbidityWay">
+                    @foreach (var item in ExtensionsOfEnum.GetEnumAllValue<WaterCheckDetailCheckWayEnum>().Where(e => (int)e > 4000 && (int)e < 5000))
+                    {
+                        <option @(Model.TurbidityWay == (int)item ? "selected" : string.Empty) value="@item.ToInteger()">@item.GetDescription()</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>  @Html.EditorFor(model => model.OtherName)</td>
+            <td> </td>
+            <td> @Html.EditorFor(model => model.OtherValue)</td>
+            <td> @Html.EditorFor(model => model.OtherWay)</td>
+        </tr>
+        <tr>
+            <td>  @Html.EditorFor(model => model.Other2Name)</td>
+            <td> </td>
+            <td> @Html.EditorFor(model => model.Other2Value)</td>
+            <td> @Html.EditorFor(model => model.Other2Way)</td>
+        </tr>
+        <tr>
+            <td>  @Html.EditorFor(model => model.Other3Name)</td>
+            <td> </td>
+            <td> @Html.EditorFor(model => model.Other3Value)</td>
+            <td> @Html.EditorFor(model => model.Other3Way)</td>
+        </tr>
+        <tr>
+            <td rowspan="4"> <input type="submit" /></td>
+        </tr>
+    </table>
+}
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<div id="MapArea" class="col-6 col-md-6" style="float:right;margin-top:50px;">
+</div>
+<script src="~/Content/assets/js/jquery-2.1.4.min.js"></script>
+<script src="~/Content/assets/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChEMn4cC74ENoYa870PqThqwyUHzH56bs&amp;sensor=true"></script>
+<script>
+    function SetGPS() {
+        var GpsX = $("#GpsX").val();
+        var GpsY = $("#GpsY").val();
+        console.log(`${GpsX}_${GpsY}`);
+        PutMarkOnMap(GpsX, GpsY, 18);
+    }
+    function AddressGPS() {
+        var citys = document.getElementById("CityId");
+        var city = citys.options[citys.selectedIndex].text;
+        var town = document.getElementById("TownId").value;
+        var address = document.getElementById("Address").value;
+        address = city + town + address;
+        console.log(address);
+        getLatLngByAddr(address, processResponse);
+    }
+    function processResponse($lat, $lng) {
+
+        PutMarkOnMap($lat, $lng, 18);
+        $("#GpsX").val($lat);
+        $("#GpsY").val($lng);
+    }
+    function getLatLngByAddr($address, callback) {
+        $.ajax({
+            url: '@Url.Action("Coordinate", "TWMap")' + '?searchWord=' + $address,
+            type: 'get',
+            cache: false,
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                if (data.IsSuccess) {
+                    callback(data.GpsX, data.GpsY);
+                }
+                else {
+                    alert('查無此地址');
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(textStatus);
+            }
+        });
+    }
+</script>
+<script>
+    function SetMarkOnMap(x, y) {
+        MarkCollection = L.marker([x, y]).addTo(Map);
+    }
+
+    function GoToMarkOnMap(x, y, size) {
+
+        var MapTarget = L.latLng(x, y);
+
+        Map.setView(MapTarget, size);
+    }
+
+    function PutMarkOnMap(x, y, size) {
+        var MapTarget = L.latLng(x, y);
+        Map.setView(MapTarget, size);
+        if (MarkCollection != undefined) {
+            Map.removeLayer(MarkCollection);
+        };
+        MarkCollection = L.marker([x, y]).addTo(Map);
+    }
+
+    var MapElement = document.getElementById('MapArea');
+    MapElement.style = 'height:700px;';
+    var Map = L.map(MapElement);
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(Map);
+    var MapTarget = L.latLng('23.7400458', '121.55859');
+    Map.setView(MapTarget, 7.5);
+
+    function MapClick(e) {
+        var Xvalue = e.latlng.lat.toString();
+        var Yvalue = e.latlng.lng.toString();
+        if (MarkCollection != undefined) {
+            Map.removeLayer(MarkCollection);
+        };
+        MarkCollection = L.marker([Xvalue, Yvalue]).addTo(Map);
+        $("#GpsX").val(Xvalue);
+        $("#GpsY").val(Yvalue);
+        $("#Xpos").val(Xvalue);
+        $("#Ypos").val(Yvalue);
+        $("#EditXpos").val(Xvalue);
+        $("#EditYpos").val(Yvalue);
+    }
+    var MarkCollection = {};
+    Map.on('click', MapClick);
+</script>
+
+<script>
+    $(document).ready(function () {
+        ChangeCity();
+        $('#CityId').change(function () { ChangeCity(); });
+    });
+    function ChangeCity() {
+        var selectedValue = $('#CityId option:selected').val();
+        if ($.trim(selectedValue).length > 0) {
+            GetTowns(selectedValue);
+        }
+    }
+    function GetTowns(cityId) {
+        $.ajax({
+            url: '@Url.Action("Towns", "Geolocation")'+'?cityId='+cityId,
+            type: 'get',
+            cache: false,
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                $('#TownId').empty();
+                if (data.length > 0) {
+                    $.each(data, function (i, item) {
+                        var townId = @Model.TownId;
+                        if (townId == item.Id) {
+                            $('#TownId').append($('<option selected ></option>').val(item.Id).text(item.Name));
+                        }
+                        else
+                            $('#TownId').append($('<option ></option>').val(item.Id).text(item.Name));
+                    });
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(textStatus);
+            }
+
+        });
+    }
+</script>

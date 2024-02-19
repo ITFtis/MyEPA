@@ -1,0 +1,29 @@
+﻿@{
+    Layout = "~/Views/_Layout.cshtml";
+}
+@Html.ActionLink("返回", "A4x1", "EPA", "", new { @class = "btn btn-primary fa fa-arrow-circle-left", @style = "color:white;padding:4px" })
+<br /><br />
+<h4>@ViewBag.Title</h4>
+
+@*以下會根據ViewBag.CityCount的值，而呈現每個縣市的統計表
+其中ViewBag.CityCount[1]是基隆市，ViewBag.CityCount[2]是臺北市...
+而ViewBag.CityCount是在點某項目按鈕時，呼叫對應的Controller而傳來的*@
+
+<div style="width:auto;height:auto;">
+    <canvas id="C"></canvas>
+</div>
+<script>
+    var X = document.getElementById("C"),
+        example = new Chart(C, {
+            type: "horizontalBar",
+            data: {
+                labels: ["基隆市", "臺北市", "新北市", "桃園市", "新竹縣", "新竹市", "苗栗縣", "臺中市", "南投縣", "雲林縣", "彰化縣", "嘉義縣", "嘉義市", "臺南市", "高雄市", "屏東縣", "臺東縣", "花蓮縣", "宜蘭縣", "澎湖縣", "金門縣", "連江縣"],
+                datasets: [{
+                    label: "數量",
+                    backgroundColor: "#8e5ea2",
+                    data: [@ViewBag.CountCity[1], @ViewBag.CountCity[2], @ViewBag.CountCity[3],@ViewBag.CountCity[4],@ViewBag.CountCity[5], @ViewBag.CountCity[6], @ViewBag.CountCity[7],@ViewBag.CountCity[8],@ViewBag.CountCity[9], @ViewBag.CountCity[10], @ViewBag.CountCity[11],@ViewBag.CountCity[12],@ViewBag.CountCity[13], @ViewBag.CountCity[14], @ViewBag.CountCity[15],@ViewBag.CountCity[16],@ViewBag.CountCity[17],@ViewBag.CountCity[18], @ViewBag.CountCity[19], @ViewBag.CountCity[20],@ViewBag.CountCity[21],@ViewBag.CountCity[22]],
+                }]
+            },
+        });
+</script>
+

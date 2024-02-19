@@ -1,0 +1,151 @@
+﻿@model IEnumerable<MyEPA.ViewModels.MutualSupportSearchViewModel>
+@using MyEPA.Models;
+@using MyEPA.Enums;
+@{
+    ViewBag.Title = "縣市相互支援協定-查詢";
+    Layout = "~/Views/_Layout.cshtml";
+    var type = ViewBag.TypeId;
+    var types = (List<ResourceTypeModel>)ViewBag.Types;
+    var supportType = ViewBag.SupportType;
+    var supportTypes = (Dictionary<int, string>)ViewBag.SupportTypes;
+}
+
+<h2>查詢</h2>
+<ul class="nav nav-tabs">
+    @foreach (var item in types)
+    {
+        <li class="nav-item">
+            @Html.ActionLink(item.Name, "Index", new { type = item.Id }, new { @class = (type == item.Id ? "nav-link active" : "nav-link") })
+        </li>
+    }
+    <li class="nav-item">
+        @Html.ActionLink("查詢", "Search", new { }, new { @class = (type == null ? "nav-link active" : "nav-link") })
+    </li>
+</ul>
+<br />
+<form name="SearchForm">
+    <div class="form-row align-items-center">
+        <div class="col-auto my-1">
+            <label class="mr-sm-2 sr-only">年度</label>
+            <select Name="Year" class="custom-select mr-sm-2">
+                @for (int i = DateTime.UtcNow.AddHours(8).Year; i > DateTime.UtcNow.AddHours(8).Year - 5; i--)
+                {
+                    if (i == ViewBag.Year)
+                    {
+                        <option value="@i" selected="selected">@i</option>
+                    }
+                    else
+                    {
+                        <option value="@i">@i</option>
+                    }
+
+                }
+            </select>
+        </div>
+        <div class="col-auto">
+            <label class="sr-only" for="AcceptSection">被支援單位</label>
+            <input type="text" id="AcceptSection" name="AcceptSection" value="@ViewBag.AcceptSection" class="form-control"placeholder="被支援單位" />
+        </div>
+        <div class="col-auto">
+            <label class="sr-only" for="Section">支援單位</label>
+            <input type="text" id="Section" name="Section" value="@ViewBag.Section" class="form-control" placeholder="支援單位" />
+        </div>
+        <div class="col-auto my-1">
+            <label class="mr-sm-2 sr-only">支援協定種類</label>
+            <select name="ResourceTypeId"  class="custom-select mr-sm-2">
+                <option value="">選擇支援協定種類</option>
+                @foreach (var item in types)
+                {
+                    if (item.Id == type)
+                    {
+                        <option value="@item.Id" selected="selected">@item.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-auto my-1">
+            <label class="mr-sm-2 sr-only">支援類型</label>
+            <select name="SupportType" class="custom-select mr-sm-2">
+                <option value="">選擇支援類型</option>
+                @foreach (var item in supportTypes)
+                {
+                    if (item.Key == supportType)
+                    {
+                        <option value="@item.Key" selected="selected">@item.Value</option>
+                    }
+                    else
+                    {
+                        <option value="@item.Key">@item.Value</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">查詢</button>
+        </div>
+    </div>
+</form>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ResourceType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AcceptSection)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Section)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SupportTypeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SupportContent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Memo)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ResourceType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AcceptSection)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Section)
+            </td>
+            <td>
+                @item.StartDate.ToString("yyyy/MM/dd")
+            </td>
+            <td>
+                @item.EndDate.ToString("yyyy/MM/dd")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SupportTypeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SupportContent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Memo)
+            </td>
+        </tr>
+    }
+
+</table>

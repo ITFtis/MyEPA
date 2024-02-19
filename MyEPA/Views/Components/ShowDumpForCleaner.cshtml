@@ -1,0 +1,87 @@
+﻿@using MyEPA.Models;
+@using MyEPA.Enums;
+@{
+    List<TownModel> towns = ViewBag.Towns;
+    DutyEnum Duty = ViewBag.DutyId;
+    int? townId = ViewBag.TownId;
+}
+    <h6>
+        <span class="text-secondary"> 若下表資料均正確，請按</span>
+        <button onclick="Confirm('Confirm','Dump')">資料確認</button>
+    </h6>
+
+<font size="3">
+    <label>鄉鎮</label>
+    <select id="townId" Name="TownId" onchange="Redirect('C3x1Dump','Cleaner')">
+        @if (Duty != DutyEnum.Cleaning)
+        {
+            <option value=" ">全部</option>
+        }
+        @foreach (var town in towns)
+        {
+            if (town.Id == @townId)
+            {
+                <option value="@town.Id" selected="selected">@town.Name</option>
+            }
+            else
+            {
+                <option value="@town.Id">@town.Name</option>
+            }
+
+        }
+    </select>
+    <table class="table table-bordered table-striped " style="border: 1px solid gray;">
+        <tr>
+            <th class="text-center">
+                <button class="btn btn-danger" style="padding:0" onclick="AddItem()"> 新增</button>
+            </th>
+            <th>聯繫單位</th>
+            <th>縣市</th>
+            <th>鄉鎮市</th>
+            <th>地址</th>
+        </tr>
+        @foreach (var DumpPlace in ViewBag.Data)
+        {
+            <tr>
+                <td style="width:150px">
+                    <button class="btn btn-success" style="padding:0" onclick="PickItemForPosition(@DumpPlace.Id,@DumpPlace.Xpos,@DumpPlace.Ypos)">定位</button>
+                    <button class="btn btn-primary" style="padding:0" onclick="PickItemForEdit(@DumpPlace.Id,@DumpPlace.Xpos,@DumpPlace.Ypos)">修改</button>
+                    <button class="btn btn-warning" style="padding:0" onclick="PickItemForDelete(@DumpPlace.Id,@DumpPlace.Xpos,@DumpPlace.Ypos)">刪除</button>
+                </td>
+                <td>@DumpPlace.ContactUnit</td>
+                <td>@DumpPlace.City</td>
+                <td>@DumpPlace.Town</td>
+                <td>@DumpPlace.Address</td>
+            </tr>
+        }
+    </table>
+
+    <br />
+    <br />
+</font>
+<script>
+    var full = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
+    function Redirect(action, controller) {
+        var townId = $('#townId').val();
+        full = `${full}/${controller}/${action}?townId=${townId}`
+        window.location = full
+    }
+    function Confirm(action, controller) {
+        var townId = '@townId';
+        _url = `${full}/${controller}/${action}?townId=${townId}`
+        $.ajax({
+            url: _url,
+            type: 'get',
+            cache: false,
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                alert('資料確認更新');
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(textStatus);
+            }
+
+        });
+    }
+</script>

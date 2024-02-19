@@ -1,0 +1,45 @@
+﻿@model MyEPA.Models.ContactManualSuperviseModel
+
+@{
+    ViewBag.Title = "督導業務維護 - " + (Model == null ? "新增" : "修改");
+    Layout = "~/Views/_ContactManualLayout.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+        
+    <div class="form-horizontal">
+       <h2>@ViewBag.Title</h2>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+      
+        @Html.HiddenFor(model => model.Id)
+    
+        <div class="form-group">
+            @Html.LabelFor(model => model.DepartmentId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @{
+                    Html.RenderAction("GetSelectListItem", "ContactManualDepartment", new { id = Model == null ? null : (int?)Model.DepartmentId });
+                }
+                @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    
+        <div class="form-group">
+            @Html.LabelFor(model => model.Describe, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Describe, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Describe, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @Html.ActionLink("取消", "Index", new { }, new { @class = "btn btn-default" })
+                <input type="submit" value="儲存" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}

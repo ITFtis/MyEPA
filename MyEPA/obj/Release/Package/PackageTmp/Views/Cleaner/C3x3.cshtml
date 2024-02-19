@@ -1,0 +1,53 @@
+﻿@{
+    Layout = "~/Views/_Layout.cshtml";
+}
+<div class="text-center">
+    <br />
+    <h5>災情通報</h5>
+    <h6 style="color:red">進行中的災害主題：@ViewBag.DiasterName</h6>
+    <h6 style="color:red">災害編號：@ViewBag.DiasterId</h6>
+   <button class="btn btn-basic" id="Btn" style="padding:2px">顯示/隱藏 通報資料</button>
+    <div id="DataArea2">
+        @{
+            Html.RenderPartial("~/Views/Components/ShowDamageForEPB.cshtml");
+        }
+    </div>
+    <br/><br/>
+    <h6 style="color:blue">@ViewBag.StartTime<span>&nbsp;～&nbsp;</span>@ViewBag.EndTime</h6>
+    @using (Html.BeginForm("C3x3Report", "CleanerxDamage"))
+    {
+        <button type="submit" class="btn btn-basic dropdown-toggle" style="padding:2px" id="dropdownMenu1" data-toggle="dropdown">
+            選擇日期
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+            @foreach (var Item in ViewBag.ActiveDays)
+            {
+                <li>
+                    <button class="btn btn-basic" style="padding:0px;margin:5px" onclick="PickItem('@Item')">@Item</button>
+                </li>
+            }
+        </ul>
+        <br />
+        @Html.TextBox("ReportDay", "", new { @style = "width:0px;height:0px;border:none;background-color:#5DBCD2;", @readonly = "readonly" });
+
+    }
+    <br />
+    <br />
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#DataArea2').hide();
+        $("#Btn").click(function () {
+            $("#DataArea2").slideToggle();
+        });
+    });
+</script>
+
+<script>
+    function PickItem(k) {
+        $("#ReportDay").val(k);
+        }
+</script>
+

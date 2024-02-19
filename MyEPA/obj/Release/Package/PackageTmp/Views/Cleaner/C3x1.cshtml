@@ -1,0 +1,165 @@
+﻿@using MyEPA.Models;
+@using MyEPA.Extensions;
+@{
+
+    ResourcesConfirmUpdateTimeDataModel confirmUpdateTimeData = (ResourcesConfirmUpdateTimeDataModel)ViewBag.ConfirmUpdateTimeData;
+}
+<div class="panel-collapse collapse in" id="collapseOne" aria-expanded="false" style="">
+    <div class="panel-body">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4 pad-1">
+                    <a target="_blank" href="@Url.Action("C3x1Users", "Cleaner")">
+                        <span class="btn btn-primary">
+                            <i class="ace-icon fa fa-users"></i>&nbsp;人員組織<br>
+                            <small>最後更新：@confirmUpdateTimeData.UserUpdateTime.ToDateTimeString()</small><br>
+                            <small>資料確認：@confirmUpdateTimeData.UserConfirmTime.ToDateTimeString()</small>
+                        </span>
+                    </a>
+                    <br>
+                </div>
+                <div class="col-md-4 pad-1">
+                    <a target="_blank" href="@Url.Action("C3x1Vehicle", "CleanerxVehicle")">
+                        <span class="btn btn-primary">
+                            <i class="ace-icon fa fa-car"></i>&nbsp;車輛設備<br>
+                                                                        <small>最後更新：@confirmUpdateTimeData.VehicleUpdateTime.ToDateTimeString() </small>
+                            <br> <small>資料確認：@confirmUpdateTimeData.VehicleConfirmTime.ToDateTimeString()</small>
+                        </span>
+                    </a>
+                    <br>
+                </div>
+                <div class="col-md-4 pad-1">
+                    <a target="_blank" href="@Url.Action("C3x1Disinfector", "Cleaner")">
+                        <span class="btn btn-primary">
+                            <i class="ace-icon fa fa-paint-brush"></i>&nbsp;消毒設備<br>
+                            <small>最後更新：@confirmUpdateTimeData.DisinfectorUpdateTime.ToDateTimeString() </small>
+                            <br> <small>資料確認：@confirmUpdateTimeData.DisinfectorConfirmTime.ToDateTimeString()</small>
+                        </span>
+                    </a>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4 pad-1">
+                    <a target="_blank" href="@Url.Action("C3x1Disinfectant", "Cleaner")">
+                        <span class="btn btn-primary">
+                            <i class="ace-icon fa fa-flask"></i>&nbsp;消毒藥品<br>
+                            <small>最後更新：@confirmUpdateTimeData.DisinfectantUpdateTime.ToDateTimeString() </small><br>
+                            <small>資料確認：@confirmUpdateTimeData.DisinfectantConfirmTime.ToDateTimeString()</small>
+                        </span>
+                    </a>
+                    <br>
+                </div>
+                @*<div class="col-md-4 pad-1">
+                    <a target="_blank" href="@Url.Action("C3x1Dump", "Cleaner")">
+                        <span class="btn btn-primary">
+                            <i class="ace-icon glyphicon glyphicon-map-marker"></i>&nbsp;臨時廢棄物堆置場<br>
+                            <small>最後更新：@confirmUpdateTimeData.DumpUpdateTime.ToDateTimeString()</small><br>
+                            <small>資料確認：@confirmUpdateTimeData.DumpConfirmTime.ToDateTimeString()</small>
+                        </span>
+                    </a>
+                    <br>
+                </div>*@
+                <div class="col-md-4 pad-1">
+                    <a target="_blank" href="@Url.Action("C3x1Toilet", "Cleaner")">
+                        <span class="btn btn-primary">
+                            <i class="ace-icon fa fa-folder"></i>&nbsp;流動廁所<br>
+                            <small>最後更新：@confirmUpdateTimeData.ToiletUpdateTime.ToDateTimeString()</small>
+                            <br> <small>資料確認：@confirmUpdateTimeData.ToiletConfirmTime.ToDateTimeString()</small>
+                        </span>
+                    </a>
+                    <br>
+                </div>
+                <div class="col-md-4 pad-1">
+                    <a target="_blank" href="@Url.Action("C3x1District", "Cleaner")">
+                        <span class="btn btn-primary">
+                            <i class="ace-icon glyphicon glyphicon-star"></i>&nbsp;行政區基本資料<br>
+                            <small>最後更新：@confirmUpdateTimeData.DistrictUpdateTime</small>
+                            <br> <small>資料確認：@confirmUpdateTimeData.DistrictConfirmTime</small>
+                        </span>
+                    </a>
+                    <br>
+                </div>
+
+            </div>
+        </div>
+        @*@<br>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4 pad-1">
+                    <a target="_blank" href="@Url.Action("Report","Landfill")">
+                        <span class="btn btn-primary">
+                            <i class="ace-icon glyphicon glyphicon-user"></i>&nbsp;垃圾掩埋場_聯絡人<br>
+                            <small>最後更新：@confirmUpdateTimeData.LandfillUpdateTime</small><br>
+                            <small>資料確認：@confirmUpdateTimeData.LandfillConfirmTime</small>
+                        </span>
+                    </a>
+                    <br>
+                </div>
+                <div class="col-md-4 pad-1">
+                    <a target="_blank" href="@Url.Action("Report","Incinerator")">
+                        <span class="btn btn-primary">
+                            <i class="ace-icon glyphicon glyphicon-user"></i>&nbsp;焚化廠_聯絡人<br>
+                            <small>最後更新： @confirmUpdateTimeData.IncineratorUpdateTime </small>
+                            <br> <small>資料確認：@confirmUpdateTimeData.IncineratorConfirmTime</small>
+                        </span>
+                    </a>
+                    <br>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4 pad-1">
+                    <a target="_blank" href="@Url.Action("C3x1Pest", "Cleaner")">
+                        <span class="btn btn-primary">
+                            <i class="ace-icon glyphicon glyphicon-search"></i>&nbsp;病媒蚊防治業查閱<br>
+                            <small>最後更新：@confirmUpdateTimeData.PestUpdateTime.ToDateTimeString() </small>
+                            <br><small>資料確認：@confirmUpdateTimeData.PestUpdateTime.ToDateTimeString()</small>
+                        </span>
+                    </a>
+                    <br>
+                </div>
+                <div class="col-md-4 pad-1">
+                    <a target="_blank" href="@Url.Action("C3x1Landfill", "Cleaner")">
+                        <span class="btn btn-primary">
+                            <i class="ace-icon glyphicon glyphicon-search"></i>&nbsp;垃圾掩埋場查閱<br>
+                            <small>最後更新：@confirmUpdateTimeData.LandfillUpdateTime</small><br>
+                            <small>資料確認：@confirmUpdateTimeData.LandfillConfirmTime</small>
+                        </span>
+                    </a>
+                    <br>
+                </div>
+                <div class="col-md-4 pad-1">
+                    <a target="_blank" href="@Url.Action("C3x1Incinerator", "Cleaner")">
+                        <span class="btn btn-primary">
+                            <i class="ace-icon glyphicon glyphicon-search"></i>&nbsp;焚化廠查閱<br>
+                            <small>最後更新： @confirmUpdateTimeData.IncineratorUpdateTime </small>
+                            <br> <small>資料確認：@confirmUpdateTimeData.IncineratorConfirmTime</small>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4 pad-1">
+                    <a target="_blank" href="https://cand.moi.gov.tw/of/home.jsp?mserno=201011010008&serno=201011010008&menudata=ofmenu&contlink=ap/villmast_list.jsp&level3=n">
+                        <span class="btn btn-primary">
+                            <i class="ace-icon glyphicon glyphicon-search"></i>&nbsp;村里長資料查閱<br>
+                            <small>最後更新：2018/07/09 09:44 </small>
+                            <br> <small>資料確認：2019/05/20 09:29</small>
+                        </span>
+                    </a>
+                </div>
+                <div class="col-md-4 pad-1"></div>
+                <div class="col-md-4 pad-1"></div>
+            </div>
+        </div>*@
+    </div>
+</div>

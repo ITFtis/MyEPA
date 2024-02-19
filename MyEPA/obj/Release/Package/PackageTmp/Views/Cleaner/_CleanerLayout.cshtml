@@ -1,0 +1,290 @@
+﻿<!DOCTYPE html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+    @{Html.RenderPartial("~/Views/Components/_CssLibrary.cshtml");}
+    @{Html.RenderPartial("~/Views/Components/_AceLibrary.cshtml");}
+    @{Html.RenderPartial("~/Views/Components/_Bootstrap4Library.cshtml");}
+
+    @{Html.RenderPartial("~/Views/Components/SidebarCss.cshtml");}
+    @{Html.RenderPartial("~/Views/Components/OpenStreeLeaflet.cshtml");}
+    @{Html.RenderPartial("~/Views/Components/Turf.cshtml");}
+    @*以下這行無法放入_CssLibarary.cshtml，因為入口頁面載入此就亂掉格式*@
+    @*<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">*@
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+</head>
+
+<body  class="no-skin">
+    @{Html.RenderPartial("~/Views/Components/_EmisMenu.cshtml");}
+   
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-md-2 collapse d-md-flex bg-light pt-2 min-vh-100" id="sidebar">
+                <ul class="nav flex-column flex-nowrap" style="margin-left:0">
+
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#b1" data-toggle="collapse" data-target="#b1">
+                            <i class="menu-icon fa fa-pencil-square-o"></i>
+                            <span class="topmenu-text">通報作業</span>
+                        </a>
+                        <div class="collapse" id="b1" aria-expanded="false">
+                            <ul class="flex-column pl-2 nav">
+                                <li class="nav-item">
+                                    <a class="nav-link py-0">
+                                        @Html.ActionLink("資源通報", "C3x1", "Cleaner", "", new { @class = "menu-text" })
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link py-0">
+                                        @Html.ActionLink("整備通報", "C1b", "CleanerxDefend", "", new { @class = "menu-text" })
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link py-0">
+                                        @Html.ActionLink("災情及清理通報", "C3x3", "CleanerxDamage", "", new { @class = "menu-text" })
+                                    </a>
+                                </li>
+                                @*
+                                <li class="nav-item">
+                                    <a class="nav-link py-0">
+                                        @Html.ActionLink("環保局水質通報", "Cleaner", "Cleaner", "", new { @class = "menu-text" })
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link py-0">
+                                        @Html.ActionLink("流動廁所清潔", "Cleaner", "Cleaner", "", new { @class = "menu-text" })
+                                    </a>
+                                </li>
+                                    *@
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#b2" data-toggle="collapse" data-target="#b2">
+                            <i class="menu-icon fa fa-tasks"></i>
+                            <span class="topmenu-text">請求支援作業</span>
+                        </a>
+                        <div class="collapse" id="b2" aria-expanded="false">
+                            <ul class="flex-column pl-2 nav">
+                                <li class="nav-item">
+                                    <a class="nav-link py-0">
+                                        @Html.ActionLink("請求支援通報", "C2", "CleanerxApply", "", new { @class = "menu-text" })
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    @*
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#c1" data-toggle="collapse" data-target="#c1">
+                            <i class="menu-icon fa fa-search"></i>
+                            <span class="topmenu-text">相關查詢</span>
+                        </a>
+                        <div class="collapse" id="c1" aria-expanded="false">
+                            <ul class="flex-column pl-2 nav">
+                                <li class="nav-item">
+                                    <a class="nav-link py-0">
+                                        @Html.ActionLink("資源整備", "C1a", "CleanerxResource", "", new { @class = "menu-text" })
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link py-0">
+                                        @Html.ActionLink("水質檢驗相關", "Cleaner", "Cleaner", "", new { @class = "menu-text" })
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link py-0">
+                                        @Html.ActionLink("災情與支援", "Cleaner", "Cleaner", "", new { @class = "menu-text" })
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link py-0">
+                                        @Html.ActionLink("新聞公告", "C1d11", "Cleaner", "", new { @class = "menu-text" })
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#c2" data-toggle="collapse" data-target="#c2">
+                            <i class="menu-icon fa fa-list-alt"></i>
+                            <span class="topmenu-text">統計與報表</span>
+                        </a>
+                        <div class="collapse" id="c2" aria-expanded="false">
+                            <ul class="flex-column pl-2 nav">
+                                <li class="nav-item">
+                                    <a class="nav-link py-0">
+                                        @Html.ActionLink("資源與災情推估", "Cleaner", "Cleaner", "", new { @class = "menu-text" })
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link py-0">
+                                        @Html.ActionLink("災情資源", "Cleaner", "Cleaner", "", new { @class = "menu-text" })
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#c4" data-toggle="collapse" data-target="#c4">
+                            <i class="menu-icon fa fa-share"></i>
+                            <span class="topmenu-text">資源分享</span>
+                        </a>
+                        <div class="collapse" id="c4" aria-expanded="false">
+                            <ul class="flex-column pl-2 nav">
+                                <li class="nav-item">
+                                    <a class="nav-link py-0">
+                                        @Html.ActionLink("資源上傳", "Cleaner", "Cleaner", "", new { @class = "menu-text" })
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link py-0">
+                                        @Html.ActionLink("資源下載", "Cleaner", "Cleaner", "", new { @class = "menu-text" })
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link py-0">
+                                        @Html.ActionLink("參考資料下載", "Cleaner", "Cleaner", "", new { @class = "menu-text" })
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link py-0">
+                                        @Html.ActionLink("常用表單上傳", "Cleaner", "Cleaner", "", new { @class = "menu-text" })
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link py-0">
+                                        @Html.ActionLink("常用表單下載", "Cleaner", "Cleaner", "", new { @class = "menu-text" })
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link py-0">
+                                        @Html.ActionLink("新聞稿上傳", "Cleaner", "Cleaner", "", new { @class = "menu-text" })
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link py-0">
+                                        @Html.ActionLink("新聞稿下載", "Cleaner", "Cleaner", "", new { @class = "menu-text" })
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link py-0">
+                                        @Html.ActionLink("應變摘要參考資料", "Cleaner", "Cleaner", "", new { @class = "menu-text" })
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link py-0">
+                                        @Html.ActionLink("APP下載", "Cleaner", "Cleaner", "", new { @class = "menu-text" })
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                        *@
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#b7" data-toggle="collapse" data-target="#b7">
+                            <i class="menu-icon fa fa-phone"></i>
+                            <span class="topmenu-text">聯絡資料</span>
+                        </a>
+                        <div class="collapse" id="b7" aria-expanded="false">
+                            <ul class="flex-column pl-2 nav">
+                                @*
+                                <li class="nav-item">
+                                    <a class="nav-link py-0">
+                                        @Html.ActionLink("網頁語音密碼變更", "C5x1", "CleanerxUser", "", new { @class = "menu-text" })
+                                    </a>
+                                </li>
+                                    *@
+                                <li class="nav-item">
+                                    <a class="nav-link py-0">
+                                        @Html.ActionLink("聯絡人資料查詢", "C5x2", "CleanerxUser", "", new { @class = "menu-text" })
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link py-0">
+                                        @Html.ActionLink("聯絡人資料維護", "C5x3", "CleanerxUser", "", new { @class = "menu-text" })
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+
+                    @*
+
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#b9" data-toggle="collapse" data-target="#b9">
+                            <i class="menu-icon fa fa-comment"></i>
+                            <span class="topmenu-text">線上報名</span>
+                        </a>
+                        <div class="collapse" id="b9" aria-expanded="false">
+                            <ul class="flex-column pl-2 nav">
+                                <li class="nav-item">
+                                    <a class="nav-link py-0">
+                                        @Html.ActionLink("線上報名", "Cleaner", "Cleaner", "", new { @class = "menu-text" })
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+                        *@
+                </ul>
+            </div>
+            <div class="col-12 col-sm-10" style="margin:0px;padding:0px;">
+                <div style="background-color:#A0CB50;width:100%;padding-top:7px;padding-bottom:7px">
+
+                    <table style="color:white">
+                        <tr>
+                            <td style="padding-left:10px">
+                                <i class="fa fa-home" style="font-size:1.5em;"></i>
+                            </td>
+                            <td style="padding-left:6px">
+                                首頁&nbsp;-&nbsp;@ViewBag.City@ViewBag.Town<span>清潔隊</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div>
+                    <div class="main-content-inner">
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-basic" type="button">
+                                <i class="glyphicon glyphicon-pencil"></i>&nbsp;
+                                <span style="font-size:0.9em;">快速簽到</span>
+                            </button>
+                            <button class="btn btn-basic" type="button">
+                                <i class="glyphicon glyphicon-refresh"></i>&nbsp;
+                                <span style="font-size:0.9em;">縣市相互支援協定</span>
+                            </button>
+                            <button class="btn btn-basic" type="button">
+                                <i class="glyphicon glyphicon-folder-close"></i>&nbsp;
+                                <span style="font-size:0.9em;">開口合約</span>
+                            </button>
+                            <button class="btn btn-basic" type="button">
+                                <i class="glyphicon glyphicon-comment"></i>&nbsp;
+                                <span style="font-size:0.9em;">客服中心</span>
+                            </button>
+                        </div>
+                    </div>
+                    <br /> <br />
+                    <span style="color:red; font-weight:500">@ViewBag.Msg</span>
+                    <br />
+                    @RenderBody()
+                </div>
+              
+            </div>
+        </div>
+    </div>
+
+</body>
+

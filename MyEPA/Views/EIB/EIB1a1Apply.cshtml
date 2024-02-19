@@ -1,0 +1,49 @@
+﻿
+@{
+    Layout = "~/Views/_Layout.cshtml";
+}
+<br />
+@Html.ActionLink("返回", "EIB1a1", "EIBxApply", "", new { @class = "btn btn-primary fa fa-arrow-circle-left", @style = "color:white;padding:4px" })
+<br />
+<br />
+<font size="2">
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>縣市</th>
+            <th>單位</th>
+            <th>需用日期</th>
+            <th>車輛名稱</th>
+            <th>數量</th>
+            <th>說明</th>
+            <th>確認</th>
+            <th>確認時間</th>
+        </tr>
+        @foreach (var Item in ViewBag.Data)
+        {
+            <tr>
+                <td style="text-align:center">@Item.City</td>
+                <td style="text-align:center">@Item.Town</td>
+                <td style="text-align:center">@Item.NeedDay</td>
+                <td style="text-align:center">@Item.Thing</td>
+                <td style="text-align:center">@Item.Count</td>
+                <td style="text-align:center">@Item.DiasterRegionDescribe</td>
+                <td style="text-align:center" width="30%">
+                    @using (Html.BeginForm("Report", "EIBxApply"))
+                    {
+                        <input style="display:none" value="@ViewBag.DiasterId" name="DiasterId" />
+                        <input style="display:none" value="@Item.City" name="City" />
+                        <input style="display:none" value="@Item.Town" name="Town" />
+                        <input style="display:none" value="@Item.NeedDay" name="NeedDay" />
+                        <input style="display:none" value="@Item.Thing" name="Thing" />
+                        <input style="display:none" value="@Item.Count" name="Count" />
+                        <input type="submit" class="btn btn-success" style="padding:0px;" value="確認" />
+                    }
+                </td>
+                <td>
+                    @Item.ConfirmTime
+                </td>
+            </tr>
+        }
+    </table>
+    <br /><br />
+</font>

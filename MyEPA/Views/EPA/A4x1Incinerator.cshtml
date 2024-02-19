@@ -1,0 +1,238 @@
+﻿@{
+    Layout = "~/Views/_Layout.cshtml";
+}
+@Html.ActionLink("返回", "A4x1", "EPA", "", new { @class = "btn btn-basic fa fa-arrow-circle-left", @style = "color:white;padding:4px" })
+<br /><br />
+
+<script>
+    window.onload = function () {
+        PutMarkOnMap(@ViewBag.Xpos, @ViewBag.Ypos);
+    };
+</script>
+<div class="text-center">
+    <br />
+    <h5>營運中心公有垃圾焚化廠</h5>
+    <br />
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <div id="EditArea">
+                <span style="width:30%">聯繫單位名稱：</span>
+                @Html.TextBox("EditContactUnit", "", new { @readonly = "readonly",@style = "border:none" })
+                <br />
+                <span style="width:30%">設計容量：</span>
+                @Html.TextBox("EditDesignCapacity", "", new { @readonly = "readonly", @style = "border:none" })
+                <br />
+                X座標：@Html.TextBox("EditXpos", "", new { @readonly = "readonly", @style = "border:none;width:150px" })
+                Y座標：@Html.TextBox("EditYpos", "", new { @readonly = "readonly", @style = "border:none;width:150px" })
+                <br />
+                縣市：
+                @Html.TextBox("EditCity", "", new { @readonly = "readonly", @style = "border:none;width:20%" })
+                鄉鎮市：
+                @Html.TextBox("EditTown", "", new { @readonly = "readonly", @style = "border:none;width:20%" })
+                <br />
+                <span style="width:20%">地址：</span>
+                @Html.TextBox("EditAddress", "", new { @readonly = "readonly", @style = "border:none" })
+                <br />
+                <span style="width:20%">聯絡人：</span>
+                @Html.TextBox("EditContactPerson", "", new { @readonly = "readonly", @style = "border:none;width:30%" })
+                <span style="width:20%">稱呼：</span>
+                @Html.TextBox("EditContactPersonTitle", "", new { @readonly = "readonly", @style = "border:none;width:30%" })
+                <br />
+                <span style="width:30%">聯絡電話：</span>
+                @Html.TextBox("EditContactPhone", "", new { @readonly = "readonly", @style = "border:none;width:70%" })
+                <br />
+                <span style="width:30%">更新時間：</span>
+                @Html.TextBox("EditUpdateTime", "", new { @readonly = "readonly", @style = "border:none;width:70%" })
+                <br />
+                (02)1234-5678#分機 or 0912345678
+            </div>
+
+            <div id="DeleteArea" style="display:none;text-align:center">
+                <br /><br />
+                @using (Html.BeginForm("Delete", "EPAxIncinerator"))
+                { 
+                    //以下設為寬度0以消失
+                    @Html.TextBox("DeleteId", "", new { @readonly = "readonly", style = "width:0px;color:red;border:none;" })
+                    <input type="submit" class="btn btn-warning" style="margin:5px;padding:5px" value="確定刪除" />
+                    <br /><span class="text-warning">刪除後無法回復</span>
+                    <br /><br />
+                }
+                <br />
+            </div>
+
+            <div id="AddArea" style="display:none">
+                @using (Html.BeginForm("Add", "EPAxIncinerator"))
+                {
+                    <table class="table table-bordered table-striped">
+                        <tr>
+                            <td style="width:30%">聯繫單位名稱</td>
+                            <td>@Html.TextBox("ContactUnit", "", new { style = "width:100%" })</td>
+                        </tr>
+                        <tr>
+                            <td style="width:30%">設計容量</td>
+                            <td>@Html.TextBox("DesignCapacity", "", new { style = "width:100%" })</td>
+                        </tr>
+                        <tr>
+                            <td>座標</td>
+                            <td>
+                                X:@Html.TextBox("Xpos", (string)@ViewBag.Xpos, new { style = "width:40%" })
+                                Y:@Html.TextBox("Ypos", (string)@ViewBag.Ypos, new { style = "width:40%" })
+                                <small style="color: red"><br />※請點右側地圖設定</small>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>縣市</td>
+                            <td>
+                                @Html.DropDownList("City", new List<SelectListItem>
+           {
+           new SelectListItem{Text = "基隆市", Value = "基隆市"},
+           new SelectListItem{Text = "臺北市",Value = "臺北市",Selected=true},
+           new SelectListItem{Text = "新北市",Value = "新北市"},
+           new SelectListItem{Text = "桃園市",Value = "桃園市"},
+           new SelectListItem{Text = "新竹縣",Value = "新竹縣"},
+           new SelectListItem{Text = "新竹市",Value = "新竹市"},
+           new SelectListItem{Text = "苗栗縣",Value = "苗栗縣"},
+           new SelectListItem{Text = "臺中市",Value = "臺中市"},
+           new SelectListItem{Text = "南投縣",Value = "南投縣"},
+           new SelectListItem{Text = "彰化縣",Value = "彰化縣"},
+           new SelectListItem{Text = "雲林縣",Value = "雲林縣"},
+           new SelectListItem{Text = "嘉義縣",Value = "嘉義縣"},
+           new SelectListItem{Text = "嘉義市",Value = "嘉義市"},
+           new SelectListItem{Text = "臺南市",Value = "臺南市"},
+           new SelectListItem{Text = "高雄市",Value = "高雄市"},
+           new SelectListItem{Text = "屏東縣",Value = "屏東縣"},
+           new SelectListItem{Text = "臺東縣",Value = "臺東縣"},
+           new SelectListItem{Text = "花蓮縣",Value = "花蓮縣"},
+           new SelectListItem{Text = "宜蘭縣",Value = "宜蘭縣"},
+           new SelectListItem{Text = "澎湖縣",Value = "澎湖縣"},
+           new SelectListItem{Text = "連江縣",Value = "連江縣"},
+           new SelectListItem{Text = "金門縣",Value = "金門縣"},
+           })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>鄉鎮市</td>
+                            <td>@Html.TextBox("Town", "", new { style = "width:100%" })</td>
+                        </tr>
+                        <tr>
+                            <td>地址</td>
+                            <td>@Html.TextBox("Address", "", new { style = "width:100%" })</td>
+                        </tr>
+
+                        <tr>
+                            <td>聯絡人</td>
+                            <td>@Html.TextBox("ContactPerson", "", new { style = "width:100%" })</td>
+                        </tr>
+                        <tr>
+                            <td>聯絡人稱呼</td>
+                            <td>@Html.TextBox("ContactPersonTitle", "", new { style = "width:100%" })</td>
+                        </tr>
+                        <tr>
+                            <td>聯絡人電話</td>
+                            <td>@Html.TextBox("ContactPhone", "", new { style = "width:100%" })</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="center">
+                                <input type="submit" class="btn btn-danger" style="margin:10px" value="確認儲存" />
+                            </td>
+                        </tr>
+                    </table>
+                }
+            </div>
+        </div>
+
+        <div id="MapArea" class="col-12 col-md-6" style="margin-top:50px;"></div>
+    </div>
+        <br />
+    <div class="row">
+            <div id="DataArea" class="col-12" style="height:400px;overflow:auto;">
+                @{Html.RenderPartial("~/Views/Components/ShowIncineratorForEdit.cshtml");}
+            </div>
+        </div>
+    </div>
+
+<script>
+    function PickItemForEdit(k, x, y) {
+        $.post("/EPAxIncinerator/Edit", { Id: k }, function (data) {
+            $("#AddArea").hide(); $("#DeleteArea").hide();
+            $("#EditArea").show();
+            $("#EditId").val(k);
+            $("#EditContactUnit").val(data.ContactUnit);
+            $("#EditDesignCapacity").val(data.DesignCapacity);
+            $("#EditCity").val(data.City);
+            $("#EditTown").val(data.Town);
+            $("#EditXpos").val(data.Xpos);
+            $("#EditYpos").val(data.Ypos);
+            $("#EditAddress").val(data.Address);
+            $("#EditContactPerson").val(data.ContactPerson);
+            $("#EditContactPersonTitle").val(data.ContactPersonTitle);
+            $("#EditContactPhone").val(data.ContactPhone);
+            $("#EditUpdateTime").val(data.UpdateTime);
+            PutMarkOnMap(x, y);
+        });
+    }
+</script>
+
+
+<script>
+    function PickItemForPosition(k, x, y) {
+        PutMarkOnMap(x, y);
+    }
+</script>
+
+<script>
+    function PickItemForDelete(k, x, y) {
+        $("#AddArea").hide();$("#EditArea").hide();
+        $("#DeleteArea").show();
+        $("#DeleteId").val(k);
+        PutMarkOnMap(x, y);
+    }
+</script>
+
+<script>
+    function AddItem() {
+        $("#EditArea").hide(); $("#DeleteArea").hide();
+        $("#AddArea").show();
+    }
+</script>
+
+@*以下函數在用戶點地圖後放標記。MapTarget抓取該位置，
+    setView轉畫面到該處。如果MarkCollection（儲存標記的集合）不是空的，
+    就先清掉再放新的，避免新舊同時出現*@
+<script>
+    function PutMarkOnMap(x, y) {
+        var MapTarget = L.latLng(x, y);
+        Map.setView(MapTarget, 14);
+        if (MarkCollection != undefined) {
+            Map.removeLayer(MarkCollection);
+        };
+        MarkCollection = L.marker([x, y]).addTo(Map);
+    }
+
+    var MapElement = document.getElementById('MapArea');
+    MapElement.style = 'height:300px;';
+    var Map = L.map(MapElement);
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(Map);
+    var MapTarget = L.latLng('25.0400458', '121.55859');
+    Map.setView(MapTarget, 14);
+
+    function MapClick(e) {
+        var Xvalue = e.latlng.lat.toString();
+        var Yvalue = e.latlng.lng.toString();
+        if (MarkCollection != undefined) {
+            Map.removeLayer(MarkCollection);
+        };
+        MarkCollection = L.marker([Xvalue, Yvalue]).addTo(Map);
+        $("#Xpos").val(Xvalue);
+        $("#Ypos").val(Yvalue);
+        $("#EditXpos").val(Xvalue);
+        $("#EditYpos").val(Yvalue);
+    }
+    var MarkCollection = {};
+    Map.on('click', MapClick);
+</script>

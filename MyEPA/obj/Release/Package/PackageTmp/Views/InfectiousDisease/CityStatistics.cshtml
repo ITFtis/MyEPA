@@ -1,0 +1,118 @@
+﻿@model IEnumerable<MyEPA.ViewModels.InfectiousDiseaseStatisticsCityViewModel>
+@{
+    ViewBag.Title = "武漢肺炎統計-縣市";
+    Layout = "~/Views/_Layout.cshtml";
+    string startDate = ViewBag.StartDate;
+    string endDate = ViewBag.EndDate;
+}
+@section styles{
+    <link href="~/tablesorter/jq.css" rel="stylesheet" />
+    <link href="~/tablesorter/prettify.css" rel="stylesheet" />
+    <link href="~/tablesorter/theme.blue.css" rel="stylesheet" />
+    <link href="~/tablesorter/engineV3.css" rel="stylesheet" />
+}
+<h3>@ViewBag.Title</h3>
+<form name="SearchForm">
+
+    開始時間：<input name="StartDate" type="date" value="@startDate" />
+    結束時間：<input name="EndDate" type="date" value="@endDate" />
+    <button type="submit" class="btn btn-success">搜尋</button>
+</form>
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CityName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaskCheckTimes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HomeQuarantineCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HomeQuarantineGarbageAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HomeInspectionCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HomeInspectionGarbageAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InspectionHotelCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InspectionHotelGarbageAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReportTimes)
+            </th>
+        </tr>
+        <tr>
+            <td style="font-weight:bold">總計</td>
+            <td>@Model.Sum(e => e.MaskCheckTimes)</td>
+            <td>@Model.Sum(e => e.HomeQuarantineCount)</td>
+            <td>@Model.Sum(e => e.HomeQuarantineGarbageAmount)</td>
+            <td>@Model.Sum(e => e.HomeInspectionCount)</td>
+            <td>@Model.Sum(e => e.HomeInspectionGarbageAmount)</td>
+            <td>@Model.Sum(e => e.InspectionHotelCount)</td>
+            <td>@Model.Sum(e => e.InspectionHotelGarbageAmount)</td>
+
+            <td>@Model.Sum(e => e.ReportTimes)</td>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.ActionLink(item.CityName, "TownStatistics", new { startDate, endDate, cityId = item.CityId })
+    </td>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.MaskCheckTimes)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.HomeQuarantineCount)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.HomeQuarantineGarbageAmount)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.HomeInspectionCount)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.HomeInspectionGarbageAmount)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.InspectionHotelCount)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.InspectionHotelGarbageAmount)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ReportTimes)
+    </td>
+</tr>
+    }
+</table>
+@section scripts{
+    <script src="~/tablesorter/jquery-latest.min.js"></script>
+    <script src="~/tablesorter/prettify.js"></script>
+    <script src="~/tablesorter/docs.js"></script>
+    <script src="~/tablesorter/jquery.tablesorter.js"></script>
+    <script>
+        $(function () {
+
+            // initial sort set using sortList option
+            $(".table1").tablesorter({
+                theme: 'blue',
+                // sort on the first column and second column in ascending order
+                sortList: [[0, 0], [1, 0]]
+            });
+
+        });
+    </script>
+}

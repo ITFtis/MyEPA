@@ -1,0 +1,96 @@
+﻿<li class="">
+    <a href="#" class="dropdown-toggle">
+        <i class="menu-icon glyphicon glyphicon-copy"></i>
+        <span class="menu-text">
+            系統管理
+        </span>
+        <b class="arrow fa fa-angle-down"></b>
+    </a>
+    <b class="arrow"></b>
+    <ul class="submenu nav-show" style="display: block;">
+        <li class="">
+            <a target="_blank" href="@Url.Content("~/Content/bigteam/緊急應變摘要及通聯手冊電子化系統操作手冊.pdf")">系統操作手冊下載</a>
+        </li>
+        <li class="">
+            <a href="@Url.Action("Index","UserEPA")">使用者資料維護</a>
+        </li>
+    </ul>
+</li>
+<li class="">
+    <a href="#" class="dropdown-toggle">
+        <i class="menu-icon glyphicon glyphicon-modal-window"></i>
+        <span class="menu-text">
+            手冊資料管理
+        </span>
+        <b class="arrow fa fa-angle-down"></b>
+    </a>
+    <b class="arrow"></b>
+    <ul class="submenu nav-show" style="display: block;">
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon glyphicon glyphicon glyphicon-wrench"></i>
+                <span class="menu-text">
+                    手冊資料維護
+                </span>
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
+            <ul class="submenu nav-hide" style="display: none;">
+                <li class="">
+                    <a href="@Url.Action("Index","ContactManualEPA",new { type=MyEPA.Enums.ContactManualTypeEnum.EPA})">本署環境污染事故主政單位通聯名冊</a>
+                </li>
+                <li class="">
+                    <a href="https://newemis.epa.gov.tw/warehouse/ContactManualUsers_.aspx">環保局通聯表</a>
+                   
+                </li>
+                <li class="">
+                    <a href="@Url.Action("Index","ContactManualEPASupervise",new { type=MyEPA.Enums.ContactManualTypeEnum.EPASuperviseChemical})"> 春節期間督導責任區域劃分表</a>
+                </li>
+                <li class="">
+                    <a href="@Url.Action("Index","ContactManualEPAOther",new { type=MyEPA.Enums.ContactManualTypeEnum.EPAEnvironmentalInspection.ToInteger()})">各業務單位緊急應變通聯表</a>
+                </li>
+                <li class="">
+                    <a href="@Url.Action("Index","ContactManualEPARole",new { type=MyEPA.Enums.ContactManualTypeEnum.EPARoleAirSecurity.ToInteger()})">應變名冊</a>
+                </li>
+                <li class="">
+                    <a href="@Url.Action("Index","ContactManualRecycle",new { type=MyEPA.Enums.ContactManualTypeEnum.EPARecycle.ToInteger()})">回收基管會手冊資料維護</a>
+                </li>
+                <li class="">
+                    <a href="@Url.Action("Index","ContactManualOnDuty",new { type=MyEPA.Enums.ContactManualTypeEnum.EPAOnDutySupervision.ToInteger()})">值班資料維護</a>
+                </li>
+                <li class="">
+                    <a href="@Url.Action("Index","ContactManual24OnDuty",new { })">化學局24小時勤情單位</a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon glyphicon glyphicon-upload"></i>
+                <span class="menu-text">
+                    手冊資料上傳
+                </span>
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
+            <ul class="submenu nav-hide" style="display: none;">
+                <li class="">
+                    <a href="@Url.Action("Index","ContactManualFileData",new { sourceType=MyEPA.Enums.SourceTypeEnum.ContactManual})">@MyEPA.Enums.SourceTypeEnum.ContactManual.GetDescription()</a>
+                </li>
+                <li class="">
+                    <a href="@Url.Action("Index","ContactManualFileData",new { sourceType=MyEPA.Enums.SourceTypeEnum.ContactManualFlow})">@MyEPA.Enums.SourceTypeEnum.ContactManualFlow.GetDescription()</a>
+                </li>
+                <li class="">
+                    <a href="@Url.Action("Index","ContactManualSupervisionFileData",new { sourceType=MyEPA.Enums.SourceTypeEnum.Supervision})">@MyEPA.Enums.SourceTypeEnum.Supervision.GetDescription()</a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="">
+            <a target="_blank" href="@Url.Action("ReportOfPdf","ContactManual",new { })">
+                <i class="menu-icon glyphicon glyphicon-download"></i>
+                <span class="menu-text">手冊資料下載</span>
+            </a>
+        </li>
+    </ul>
+</li>

@@ -1,0 +1,14 @@
+﻿<div class="dropdown">
+    <button class="btn btn-info dropdown-toggle" style="padding:2px" type="button" id="dropdownMenu1" data-toggle="dropdown">
+        請先選擇災害名稱
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu"   role="menu" aria-labelledby="dropdownMenu1">
+        @foreach (var Item in ViewBag.Data)
+        {     
+            <li>
+            <button class="btn btn-basic" style="padding:0px;margin:5px" onclick="PickItemForEdit('@Item.Id','@Item.DiasterName','@Item.DiasterType','@Item.StartTime','@Item.EndTime','@Item.Comment','@Item.DiasterState')">@Item.DiasterName</button>
+            </li>
+               }
+        </ul>
+</div>

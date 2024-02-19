@@ -1,0 +1,123 @@
+﻿@model IEnumerable<MyEPA.Models.PhoneWorkModel>
+@using MyEPA.Models;
+@using MyEPA.Enums;
+@{
+    ViewBag.Title = "紀錄及事記";
+    Layout = "~/Views/_Layout.cshtml";
+    int diasterId = ViewBag.DiasterId;
+    List<DiasterModel> diasters = ViewBag.Diasters;
+}
+
+
+    <h1>紀錄及事記</h1>
+<div class="btn-group">
+    <button data-toggle="dropdown" class="btn btn-primary btn-white dropdown-toggle" aria-expanded="false">
+        @(diasters.FirstOrDefault(e => e.Id == diasterId).DiasterName)<i class="ace-icon fa fa-angle-down icon-on-right"></i>
+    </button>
+    <ul class="dropdown-menu">
+        @foreach (DiasterModel Item in diasters)
+        {
+            <li>
+                <a href="@Url.Action("Index","PhoneWork",new { diasterId = Item.Id})">@Item.DiasterName</a>
+            </li>
+        }
+    </ul>
+</div>
+<p>
+    @Html.ActionLink("新增", "Create",new { diasterId = diasterId}, new { @class = "btn btn-success" })
+</p>
+<table class="table">
+    <tr>
+        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.Speaker)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PhoneTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Recorder)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Executor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IssueDesc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProgressDesc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TownId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Note)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.ActionLink("修改", "Edit", new { id = item.Id }) |
+        <a id="DeleteBtn" href="#" onclick="Delete(@item.Id)">删除</a>
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Speaker)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.PhoneTime)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Recorder)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Executor)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.IssueDesc)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ProgressDesc)
+    </td>
+    <td>
+        @(((MyEPA.Enums.PhoneWorkEnum)item.Status).GetDescription())
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.TownId)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Note)
+    </td>
+</tr>
+    }
+
+</table>
+
+<script>
+    function Delete(id) {
+        if (!window.confirm('確定要刪除?')) {
+            return;
+        };
+        var root = '@Url.Action("Delete", "PhoneWork")?id=' + id;
+        $.ajax({
+            url: root,
+            method: 'Post',
+            success: function (data) {
+                if (data.IsSuccess) {
+                    alert('刪除成功');
+                    location.reload();
+                }
+                else {
+                    alert('刪除失敗,' + data.ErrorMessage);
+                }
+            },
+            error: function (data) {
+                alert('刪除失敗');
+            }
+        });
+    };
+</script>

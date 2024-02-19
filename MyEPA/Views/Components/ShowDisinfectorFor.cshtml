@@ -1,0 +1,45 @@
+﻿
+@using (Html.BeginForm("Confirm", "EPBxDisinfector"))
+{
+<h6>
+    <span class="text-secondary"> 若下表資料均正確，請按</span>
+    <input type="submit" class="btn secondary" style="padding:0px" value="資料確認" />
+</h6>
+}
+<font size="2">
+
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th class="text-center">
+                <button class="btn btn-danger" style="padding:0" onclick="AddItem()"> 新增</button>
+            </th>
+            <th>縣市</th>
+            <th>鄉鎮市</th>
+            <th>聯繫單位名稱</th>
+            <th>消毒設備名稱</th>
+            <th>規格</th>
+            <th>數量</th>
+            <th>購買年份(民國)</th>
+            <th>更新時間</th>
+        </tr>
+        @foreach (var Item in ViewBag.Data)
+        {
+            <tr>
+                <td class="text-center">
+                    <button class="btn btn-primary" style="padding:0" onclick="PickItemForEdit(@Item.Id)">修改</button>
+                    <button class="btn btn-warning" style="padding:0" onclick="PickItemForDelete(@Item.Id)">刪除</button>
+                </td>
+                <td>@Item.City</td>
+                <td>@Item.Town</td>
+                <td>@Item.ContactUnit</td>
+                <td>@Item.DisinfectInstrument</td>
+                <td>@Item.Standard</td>
+                <td>@Item.Amount</td>
+                <td>@Item.ROCyear</td>
+                <td>@Item.UpdateTime</td>
+            </tr>
+        }
+    </table>
+    <br />
+    <br />
+</font>

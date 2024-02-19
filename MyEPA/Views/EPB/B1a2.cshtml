@@ -1,0 +1,20 @@
+﻿
+@{
+    Layout = "~/Views/_Layout.cshtml";
+}
+<div class="text-center">
+    <br />
+    <h5>人員組織</h5>
+    <br />
+</div>
+<span class="text-danger">❈請至選單「聯絡資料/聯絡人資料維護」處新增修改或刪除資料</span>
+<br /><br />
+@using (Html.BeginForm("Confirm", "EPBxUser"))
+{
+    <h6>
+        <span class="text-secondary"> 若下表資料均正確，請按</span>
+        <input type="submit" class="btn secondary" style="padding:0px" value="資料確認" />
+    </h6>
+}
+@{Html.RenderPartial("~/Views/Components/ShowUserForSearch.cshtml");}
+

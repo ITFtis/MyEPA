@@ -1,0 +1,1443 @@
+﻿@using MyEPA.Models;
+@using MyEPA.Helper;
+@{
+    Layout = "~/Views/_Layout.cshtml";
+    DiasterModel diaster = ViewBag.Diaster;
+    List<TownModel> towns = ViewBag.Towns;
+    UserBriefModel user = ViewBag.User;
+    //垃圾場
+    List<SelectListItem> landfills = ViewBag.Landfills;
+    //焚化廠
+    List<SelectListItem> incinerators = ViewBag.Incinerators;
+    ViewBag.Title = "災情通報";
+}
+<head>
+
+    <link href="~/Scripts/_files/leaflet.draw.css" rel="stylesheet" type="text/css">
+
+    <link href="~/Scripts/_files/leaflet.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="~/Scripts/_files/leaflet.draw.css">
+    <style>
+        .drawing-button:active {
+            color: red;
+        }
+    </style>
+
+    <link href="~/Scripts/_files/jquery-ui.css" rel="stylesheet" type="text/css">
+    <link href="~/Scripts/_files/ShowDma.css" rel="stylesheet" type="text/css">
+    <link href="~/Scripts/_files/jquery.lightbox-0.5.css" rel="stylesheet" type="text/css">
+
+    <style type="text/css">
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #gmap {
+            width: 500px;
+            height: 500px;
+        }
+
+        #tabAddDma .title {
+            background-color: #339933;
+            color: #FFFFFF;
+        }
+
+        #tabs {
+            font-size: 10pt;
+            height: 550px;
+        }
+
+        #tabs-1, #tabs-2, #tabs-3, #tabs-5, #tabs-4 {
+            width: 500px;
+        }
+
+            #tabs-1 .ui-accordion-content {
+                height: 200px;
+            }
+
+            #tabs-2 .ui-accordion-content {
+                height: 300px;
+            }
+
+            #tabs-3 .ui-accordion-content {
+                height: 350px;
+            }
+
+            #tabs-5 .ui-accordion-content {
+                height: 350px;
+            }
+
+            #tabs-4 .ui-accordion-content {
+                height: 300px;
+            }
+
+        .logo {
+            color: #CC0000;
+            background-color: #DEE7D1;
+        }
+
+        .logo2 {
+            background-color: #EFF3EA;
+        }
+
+        .logo3 {
+            background-color: #DEE7D1;
+        }
+
+        .ui-datepicker {
+            font-size: 10pt;
+        }
+        /* jQuery lightBox plugin - Gallery style */ #gallery {
+            background-color: #444;
+            padding: 10px;
+            width: 400px;
+        }
+
+            #gallery ul {
+                list-style: none;
+            }
+
+                #gallery ul li {
+                    display: inline;
+                }
+
+                #gallery ul img {
+                    border: 5px solid #3e3e3e;
+                    border-width: 5px 5px 20px;
+                }
+
+                #gallery ul a:hover img {
+                    border: 5px solid #fff;
+                    border-width: 5px 5px 20px;
+                    color: #fff;
+                }
+
+                #gallery ul a:hover {
+                    color: #fff;
+                }
+        /* jQuery lightBox plugin - Gallery style */ #archives {
+            background-color: #ffffff;
+            padding: 10px;
+            width: 400px;
+        }
+
+            #archives ul {
+                list-style: none;
+            }
+
+                #archives ul li {
+                    display: inline;
+                }
+
+                #archives ul img {
+                    border: 5px solid #3e3e3e;
+                    border-width: 5px 5px 20px;
+                }
+
+                #archives ul a:hover img {
+                    border: 5px solid #fff;
+                    border-width: 5px 5px 20px;
+                    color: #fff;
+                }
+
+                #archives ul a:hover {
+                    color: #000000;
+                }
+
+        .fontweight {
+            font-weight: normal;
+        }
+
+        .ui-accordion .ui-accordion-header, .ui-tabs .ui-tabs-nav li, .ui-tabs .ui-tabs-nav li, .ui-accordion .ui-accordion-header, .ui-accordion .ui-accordion-content {
+            position: initial;
+        }
+    </style>
+    <link href="~/Scripts/_files/engineV3.css" rel="stylesheet">
+</head>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<br />
+@Html.ActionLink("返回", "B1c", "EPBxDamage", "", new { @class = "btn btn-primary fa fa-arrow-circle-left", @style = "color:white;padding:4px" })
+<br />
+<br />
+<div class="text-center">
+    <h3>@ViewBag.Title</h3>
+    <h6 style="color:blue">進行中的災害主題：@diaster.DiasterName</h6>
+    <span>@ViewBag.ReportDay.ToString("yyyy/MM/dd")</span>
+    <br />
+    <button class="btn btn-basic" id="Btn" style="padding:2px">顯示/隱藏通報資料</button>
+    <div id="DataArea2">
+        @{Html.RenderPartial("~/Views/Components/ShowDamageForEPB.cshtml");}
+    </div>
+</div>
+@{Html.RenderPartial("~/Views/Components/JSforB1c17.cshtml");}
+<br />
+<button style="height:50px" onclick="NotDamage('@diaster.Id','@ViewBag.ReportDay.ToString("yyyy/MM/dd")')">本日無災情</button>
+<div id="ReportArea" class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            @*<ul class="nav nav-tabs">
+                <li id="limenu1" class="nav-item active">
+                    <a class="nav-link" data-toggle="tab" href="#menu1"><span style="font-size:large">災時通報</span></a>
+                </li>
+                <li  id="limenu2" class="nav-item"><a class="nav-link" data-toggle="tab" href="#menu2"><span style="font-size:large">環境清理</span></a></li>
+                <li  id="limenu3" class="nav-item"><a class="nav-link" data-toggle="tab" href="#menu3"><span style="font-size:large">照片上傳</span></a></li>
+                <li  id="limenu4" class="nav-item"><a class="nav-link" data-toggle="tab" href="#menu4"><span style="font-size:large">檔案上傳</span></a></li>
+            </ul>*@
+
+            <div class="tab-content">
+                <div id="menu1" class="tab-pane fade in active">
+                    @using (Html.BeginForm("Report", "EPBxDamage", FormMethod.Post))
+                    {
+                        <br />
+                        <h4>災時通報</h4>
+                        <br />
+                        <div style="float:left; ">
+                            <input type="hidden" name="ReportDay" value="@ViewBag.ReportDay.ToString("yyyy/MM/dd")" />
+                            <input type="hidden" name="DiasterId" value="@diaster.Id" />
+                            <input type="hidden" name="DiasterName" value="@diaster.DiasterName" />
+                            <span>通報日期：</span> @(ViewBag.ReportDay.ToString("yyyy/MM/dd"))
+                            <br />
+                            <span>災害編號：</span> @diaster.Id
+                            <br />
+                            <span>災害主題：</span> @diaster.DiasterName
+                            <br />
+                            <span>鄉鎮市區：</span>
+                            @if (user.Duty == MyEPA.Enums.DutyEnum.Cleaning)
+                            {
+                                <select name="TownId">
+                                    <option value="@user.TownId">@user.Town</option>
+                                </select>
+                            }
+                            else
+                            {
+                                <select name="TownId">
+                                    @foreach (var town in towns)
+                                    {
+                                        <option value="@town.Id">@town.Name</option>
+                                    }
+                                </select>
+                            }
+
+                            <br />
+                            <span>主要受災(區村里)：</span>@Html.TextBox("DamagePlace", string.Empty)
+                            <br />
+                            @*<span>預估廢棄物量(公噸)：</span>@Html.TextBox("PR_Garbage", 0, new { @type = "number", step = "0.001", min = 0 })
+        <br />*@
+                            <span>垃圾場：</span>
+                            <br />
+                            @for (int i = 0; i < landfills.Count; i++)
+                            {
+                                var item = landfills[i];
+
+                                <input id="landfillIds[@i]" name="landfillIds[@i]" value="@item.Value" type="checkbox" />
+                                <label for="landfillIds[@i]">@item.Text</label>
+                                <br />
+                            }
+                            <br />
+                            <span>垃圾場損壞情形：</span>@Html.TextBox("DumpSiteDesc", string.Empty, new { })
+                            <br />
+                            <span>焚化廠：</span>
+                            <br />
+                            @for (int i = 0; i < incinerators.Count; i++)
+                            {
+                                var item = incinerators[i];
+
+                                <input id="incineratorIds[@i]" name="incineratorIds[@i]" value="@item.Value" type="checkbox" />
+                                <label for="incineratorIds[@i]">@item.Text</label>
+                                <br />
+                            }
+                            <br />
+                            <span>焚化廠損壞情形：</span>@Html.TextBox("IncinerationPlantDesc", string.Empty, new { })
+                            <br />
+                            <span>其他損壞情形：</span>@Html.TextBox("Other", string.Empty, new { })
+                            <br />
+                            <span>實際環境消毒日期：</span>@Html.TextBox("DisinfectDate", DateTimeHelper.GetCurrentTime().ToString("yyyy-MM-dd"), new { @type = "Date" })
+                            <br />
+                            <span>實際消毒面積(公頃)：</span>@Html.TextBox("DisinfectArea", 0, new { @type = "number", step = "0.001", min = 0 })
+                            <br />
+                            <span>
+                                ※面積換算：
+                                1公頃=10000平方公尺
+                                100公頃=1平方公里
+                            </span>
+                        </div>
+
+                        <div>
+                            @*<table>
+            <tbody>
+                <tr>
+                    <td class="logo2">
+                        <table border="0" cellspacing="4" cellpadding="4">
+                            <tbody>
+                                <tr class="logo3">
+                                    <th style="width: 250px;" class="fontweight" align="left">
+                                        <span style="font-weight: bold; color: red; font-size: large;">災區面積</span>(公頃)
+                                    </th>
+                                    <td style="width: 200px;" class="fontweight">
+
+                                        <input name="DamageArea" type="text" id="tbxAreaSize" style="text-align: right; background-color: white;" value="0">
+                                        <input name="hiddenArea" type="hidden" id="hiddenArea" value="">
+                                    </td>
+                                </tr>
+                                <tr class="logo3">
+                                    <td colspan="2">
+                                        <div id="MangDraw1">
+                                            <table border="0" cellspacing="2" cellpadding="2" style="border: 1px solid red; width: 100%;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="font-weight:normal;">
+                                                            範圍數量 = 0
+                                                            <input type="button" class="ui-button ui-state-default ui-corner-all" style="float: right;font-weight:normal;" onclick="addShape(0);" value="新增">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <table border="1" cellspacing="2" cellpadding="2">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td style="width: 50px;font-weight:normal;">編號</td>
+                                                                        <td style="width: 50px;font-weight:normal;">節點數</td>
+                                                                        <td style="width: 250px;font-weight:normal;">工具</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br>
+                        <table border="0" cellspacing="4" cellpadding="4">
+                            <tbody>
+                                <tr class="logo3">
+                                    <th style="width: 320px;" class="fontweight" align="left">
+                                        <div id="UpdatePanel2">
+
+                                            <table>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <span style="font-weight: bold; color: red; font-size: large;">居家環境淹水面積</span>(公頃)
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </th>
+                                    <td style="width: 200px;" class="fontweight">
+                                        <input name="FloodArea" id="tbxAreaSizeWater" style="text-align: right; background-color: white;" value="0" type = "number", step = "0.001", min = 0>
+                                        <input name="hiddenAreaWater" type="hidden" id="hiddenAreaWater" value="">
+                                    </td>
+                                </tr>
+                                <tr class="logo3">
+                                    <td colspan="2">
+                                        <div id="MangDraw2"><table border="0" cellspacing="2" cellpadding="2" style="border: 1px solid red; width: 100%;"><tbody><tr><td style="font-weight:normal;">範圍數量 = 0<input type="button" class="ui-button ui-state-default ui-corner-all" style="float: right;font-weight:normal;" onclick="addShape(1);" value="新增"></td></tr><tr><td><table border="1" cellspacing="2" cellpadding="2"><tbody><tr><td style="width: 50px;font-weight:normal;">編號</td><td style="width: 50px;font-weight:normal;">節點數</td><td style="width: 250px; font-weight: normal;">工具</td></tr></tbody></table></td></tr></tbody></table></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td class="logo2" rowspan="2" style="width: 500px;" valign="top">
+                        <div id="gmap" style="width: 500px; height: 582px; position: relative;" class="leaflet-container leaflet-retina leaflet-fade-anim" tabindex="0">
+                            <div id="wkt"></div>
+                            <div class="leaflet-map-pane" style="transform: translate3d(0px, 0px, 0px);"><div class="leaflet-tile-pane"><div class="leaflet-layer"><div class="leaflet-tile-container"></div><div class="leaflet-tile-container leaflet-zoom-animated"><img class="leaflet-tile leaflet-tile-loaded" src="~/Scripts/_files/3508.png" style="height: 256px; width: 256px; left: 180px; top: 210px;" alt="leaflet-tile leaflet-tile-loaded"><img class="leaflet-tile leaflet-tile-loaded" src="~/Scripts/_files/3507.png" style="height: 256px; width: 256px; left: 180px; top: -46px;" alt="leaflet-tile leaflet-tile-loaded"><img class="leaflet-tile leaflet-tile-loaded" src="~/Scripts/_files/3508(1).png" style="height: 256px; width: 256px; left: -76px; top: 210px;" alt="leaflet-tile leaflet-tile-loaded"><img class="leaflet-tile leaflet-tile-loaded" src="~/Scripts/_files/3508(2).png" style="height: 256px; width: 256px; left: 436px; top: 210px;" alt="leaflet-tile leaflet-tile-loaded"><img class="leaflet-tile leaflet-tile-loaded" src="~/Scripts/_files/3509.png" style="height: 256px; width: 256px; left: 180px; top: 466px;" alt="leaflet-tile leaflet-tile-loaded"><img class="leaflet-tile leaflet-tile-loaded" src="~/Scripts/_files/3507(1).png" style="height: 256px; width: 256px; left: -76px; top: -46px;" alt="leaflet-tile leaflet-tile-loaded"><img class="leaflet-tile leaflet-tile-loaded" src="~/Scripts/_files/3507(2).png" style="height: 256px; width: 256px; left: 436px; top: -46px;" alt="leaflet-tile leaflet-tile-loaded"><img class="leaflet-tile leaflet-tile-loaded" src="~/Scripts/_files/3509(1).png" style="height: 256px; width: 256px; left: -76px; top: 466px;" alt="leaflet-tile leaflet-tile-loaded"><img class="leaflet-tile leaflet-tile-loaded" src="~/Scripts/_files/3509(2).png" style="height: 256px; width: 256px; left: 436px; top: 466px;" alt="leaflet-tile leaflet-tile-loaded"></div></div></div><div class="leaflet-objects-pane"><div class="leaflet-shadow-pane"></div><div class="leaflet-overlay-pane"></div><div class="leaflet-marker-pane"></div><div class="leaflet-popup-pane"></div></div></div><div class="leaflet-control-container"><div class="leaflet-top leaflet-left"><div class="leaflet-control-zoom leaflet-bar leaflet-control"><a class="leaflet-control-zoom-in" href="https://leads.tw:8443/Announce/Calamity/AddDma.aspx?city=10003&amp;town=0&amp;dma=236&amp;dmadt=2020-02-23#" title="Zoom in">+</a><a class="leaflet-control-zoom-out" href="https://leads.tw:8443/Announce/Calamity/AddDma.aspx?city=10003&amp;town=0&amp;dma=236&amp;dmadt=2020-02-23#" title="Zoom out">-</a></div></div><div class="leaflet-top leaflet-right"></div><div class="leaflet-bottom leaflet-left"></div><div class="leaflet-bottom leaflet-right"><div class="leaflet-control-attribution leaflet-control"><a href="http://leafletjs.com/" title="A JS library for interactive maps">Leaflet</a> | © <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors</div></div></div><div class="leaflet-map-pane" style="transform: translate3d(0px, 0px, 0px);"><div class="leaflet-tile-pane"><div class="leaflet-layer"><div class="leaflet-tile-container"></div><div class="leaflet-tile-container leaflet-zoom-animated"><img class="leaflet-tile leaflet-tile-loaded" src="http://c.tile.openstreetmap.org/13/6856/3508.png" style="height: 256px; width: 256px; left: 180px; top: 210px;" alt="leaflet-tile leaflet-tile-loaded"><img class="leaflet-tile leaflet-tile-loaded" src="http://b.tile.openstreetmap.org/13/6856/3507.png" style="height: 256px; width: 256px; left: 180px; top: -46px;" alt="leaflet-tile leaflet-tile-loaded"><img class="leaflet-tile leaflet-tile-loaded" src="http://b.tile.openstreetmap.org/13/6855/3508.png" style="height: 256px; width: 256px; left: -76px; top: 210px;" alt="leaflet-tile leaflet-tile-loaded"><img class="leaflet-tile leaflet-tile-loaded" src="http://a.tile.openstreetmap.org/13/6857/3508.png" style="height: 256px; width: 256px; left: 436px; top: 210px;" alt="leaflet-tile leaflet-tile-loaded"><img class="leaflet-tile leaflet-tile-loaded" src="http://a.tile.openstreetmap.org/13/6856/3509.png" style="height: 256px; width: 256px; left: 180px; top: 466px;" alt="leaflet-tile leaflet-tile-loaded"><img class="leaflet-tile leaflet-tile-loaded" src="http://a.tile.openstreetmap.org/13/6855/3507.png" style="height: 256px; width: 256px; left: -76px; top: -46px;" alt="leaflet-tile leaflet-tile-loaded"><img class="leaflet-tile leaflet-tile-loaded" src="http://c.tile.openstreetmap.org/13/6857/3507.png" style="height: 256px; width: 256px; left: 436px; top: -46px;" alt="leaflet-tile leaflet-tile-loaded"><img class="leaflet-tile leaflet-tile-loaded" src="http://c.tile.openstreetmap.org/13/6855/3509.png" style="height: 256px; width: 256px; left: -76px; top: 466px;" alt="leaflet-tile leaflet-tile-loaded"><img class="leaflet-tile leaflet-tile-loaded" src="http://b.tile.openstreetmap.org/13/6857/3509.png" style="height: 256px; width: 256px; left: 436px; top: 466px;" alt="leaflet-tile leaflet-tile-loaded"></div></div></div><div class="leaflet-objects-pane"><div class="leaflet-shadow-pane"></div><div class="leaflet-overlay-pane"></div><div class="leaflet-marker-pane"></div><div class="leaflet-popup-pane"></div></div></div><div class="leaflet-control-container"><div class="leaflet-top leaflet-left"><div class="leaflet-control-zoom leaflet-bar leaflet-control"><a class="leaflet-control-zoom-in" href="#" title="Zoom in">+</a><a class="leaflet-control-zoom-out" href="#" title="Zoom out">-</a></div></div><div class="leaflet-top leaflet-right"></div><div class="leaflet-bottom leaflet-left"></div><div class="leaflet-bottom leaflet-right"><div class="leaflet-control-attribution leaflet-control"><a href="http://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> | © <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors</div></div></div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>*@
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                          
+                        </div>
+                        <input type="submit" class="btn btn-danger" style="margin:10px" value="確認通報,並進行下一步" />
+                    }
+                </div>
+                <div id="menu2" class="tab-pane fade in">
+                    @using (Html.BeginForm("Report2", "EPBxDamage"))
+                    {
+                        <br />
+                        <h4>環境清理</h4>
+                        <br />
+                        <span>通報日期：</span> @(ViewBag.ReportDay.ToString("yyyy/MM/dd"))
+                        <br />
+                        <span>災害編號：</span> @(diaster.Id)
+                        <br />
+                        <span>災害主題：</span> @(diaster.DiasterName)
+                        <br />
+                        <span>鄉鎮市區：</span>
+                        <input type="hidden" name="ReportDay" value="@ViewBag.ReportDay.ToString("yyyy/MM/dd")" />
+                        <input type="hidden" name="DiasterId" value="@diaster.Id" />
+                        <input type="hidden" name="DiasterName" value="@diaster.DiasterName" />
+                        if (user.Duty == MyEPA.Enums.DutyEnum.Cleaning)
+                        {
+                            <select name="TownId">
+                                <option value="@user.TownId">@user.Town</option>
+                            </select>
+                        }
+                        else
+                        {
+                            <select name="TownId">
+                                @foreach (var town in towns)
+                                {
+                                    <option value="@town.Id">@town.Name</option>
+                                }
+                            </select>
+                        }
+                        <br />
+                        <span>已消毒環境(公噸):</span>@Html.TextBox("CLE_Disinfect", 0, new { @type = "number", step = "0.001",min=0})
+                        <br />
+                        <span>已清除污泥(公噸):</span>@Html.TextBox("CLE_MUD", 0, new { @type = "number", step = "0.001", min = 0 })
+                        <br />
+                        @*<span>已清除垃圾(公噸)：</span>@Html.TextBox("CLE_Trash", 0, new { @type = "number", step = "0.001", min = 0 })
+                        <br />*@
+                        <span>已清除廢棄物(公噸)：</span>@Html.TextBox("CLE_Garbage", 0, new { @type = "number", step = "0.001", min = 0 })
+                        <br />
+                        <span>已動用清潔人力(人):</span>@Html.TextBox("CleaningMemberQuantity", 0, new { @type = "number" })
+                        <br />
+                        <span>已動用國軍支援(人)：</span>@Html.TextBox("NationalArmyQuantity", 0, new { @type = "number" })
+                        <br />
+                        <input type="submit" class="btn btn-danger" style="margin:10px" value="確認通報,並進行下一步" />
+                    }
+                </div>
+                <div id="menu3" class="tab-pane fade">
+                    @using (Html.BeginForm("Report3", "EPBxDamage", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <br />
+                        <h3>照片上傳</h3>
+                        <br />
+                        <span>通報日期：</span> @(ViewBag.ReportDay.ToString("yyyy/MM/dd"))
+                        <br />
+                        <span>災害編號：</span> @(diaster.Id)
+                        <br />
+                        <span>災害主題：</span> @(diaster.DiasterName)
+                        <br />
+                        <span>鄉鎮市區：</span>
+                        <input type="hidden" name="ReportDay" value="@ViewBag.ReportDay.ToString("yyyy/MM/dd")" />
+                        <input type="hidden" name="DiasterId" value="@diaster.Id" />
+                        <input type="hidden" name="DiasterName" value="@diaster.DiasterName" />
+                        if (user.Duty == MyEPA.Enums.DutyEnum.Cleaning)
+                        {
+                            <select name="TownId">
+                                <option value="@user.TownId">@user.Town</option>
+                            </select>
+                        }
+                        else
+                        {
+                            <select name="TownId">
+                                @foreach (var town in towns)
+                                {
+                                    <option value="@town.Id">@town.Name</option>
+                                }
+                            </select>
+                        }
+                        <div>
+                            <button type="button" onclick="addimg()">新增</button>
+                            <input class="imgs" type="file" name="file" accept="image/*" />
+                        </div>
+
+                        <br />
+                        <br />
+                        <br />
+
+                        <input type="submit" class="btn btn-danger" style="margin:10px" value="確認通報,並進行下一步" />
+                        <input id="menu3to4"  class="btn btn-danger" style="margin:10px" value="無照片，進行下一步" />
+                    }
+                </div>
+                <div id="menu4" class="tab-pane fade">
+                    @using (Html.BeginForm("Report4", "EPBxDamage", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <br />
+                        <h3>檔案上傳</h3>
+                        <br />
+                        <span>通報日期：</span> @(ViewBag.ReportDay.ToString("yyyy/MM/dd"))
+                        <br />
+                        <span>災害編號：</span> @(diaster.Id)
+                        <br />
+                        <span>災害主題：</span> @(diaster.DiasterName)
+                        <br />
+                        <span>鄉鎮市區：</span>
+                        <input type="hidden" name="ReportDay" value="@ViewBag.ReportDay.ToString("yyyy/MM/dd")" />
+                        <input type="hidden" name="DiasterId" value="@diaster.Id" />
+                        <input type="hidden" name="DiasterName" value="@diaster.DiasterName" />
+                        if (user.Duty == MyEPA.Enums.DutyEnum.Cleaning)
+                        {
+                            <select name="TownId">
+                                <option value="@user.TownId">@user.Town</option>
+                            </select>
+                        }
+                        else
+                        {
+                            <select name="TownId">
+                                @foreach (var town in towns)
+                                {
+                                    <option value="@town.Id">@town.Name</option>
+                                }
+                            </select>
+                        }
+
+                        <div>
+                            <button type="button" onclick="add()">新增</button>
+                            <input class="files" type="file" name="file" />
+
+
+
+                        </div>
+
+                        <br>
+                        <br>
+                        <br />
+                        <br />
+                        <br />
+                        <input type="submit" class="btn btn-danger" style="margin:10px" value="確認通報" />
+                        <a class="btn btn-danger" style="margin:10px" href="/EPBxDamage/B1c">無檔案，確認完成通報</a>
+                      
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all ui-helper-hidden-accessible"></div><div id="ambiance-notification"></div><div id="blue_light_filter" style="width: 100%; height: 100%; z-index: 2147483646; transition: -webkit-transform 10s ease-in-out 0s; position: fixed !important; left: 0px !important; bottom: 0px !important; overflow: hidden !important; pointer-events: none !important; background: rgb(214, 107, 0); opacity: 0;"></div><div id="blf_status" style="position: fixed !important; width: 105px; height: 27px;	color: white; text-shadow: 1px 2px 4px #000; font-size: 20px;	font-weight: bold; background-color: blue; z-index: 2147483647;	right: 0px; top: 0px; display:none; font-family: arial,sans-serif; text-align: center;"></div><iframe id="extensionFrame" name="extensionFrame" src="~/Scripts/_files/background.html" style="display: none;"></iframe><iframe id="extensionFrame" name="extensionFrame" src="https://pwm-image.trendmicro.com/5.0/extensionFrame/background.html" style="display: none;"></iframe><div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all ui-helper-hidden-accessible"></div>
+
+@section scripts{
+    <script>
+        function add() {
+            $('.files:last').clone().insertAfter('.files:last')
+            $('.files:last').val('');
+        }
+        function addimg() {
+            $('.imgs:last').clone().insertAfter('.imgs:last')
+            $('.imgs:last').val('');
+        }
+    </script>
+    <script src="~/Scripts/assets/jquery-2.1.4.min.js"></script>
+    <script>
+
+
+    $(document).ready(function () {
+        $('#DataArea2').hide();
+        $("#Btn").click(function () {
+            console.log('test');
+            $("#DataArea2").slideToggle();
+        });
+
+
+
+        $("#menu3to4").click(function () {
+            var currentURL = window.location.href;
+            var delimiter = currentURL.includes('?') ? '&' : '?';  // 判斷URL是否已經有其他參數
+            var paramName = "menu";
+
+            if (currentURL.includes(paramName + '=')) {  // 檢查參數是否已存在
+                // 如果存在，則替換其值
+                var regex = new RegExp('(' + paramName + '=)[^\&]+');
+                currentURL = currentURL.replace(regex, '$1' + encodeURIComponent("menu4"));
+            } else {
+                // 如果不存在，則添加參數
+                var delimiter = currentURL.includes('?') ? '&' : '?';
+                currentURL += delimiter + paramName + "=" + encodeURIComponent("menu4");
+            }
+            window.location.href = currentURL;
+        });
+       
+
+        var requestdata = request("menu");
+        if (requestdata != "") {
+            $('#menu1').removeClass('active in')
+            $('#menu2').removeClass('active in')
+            $('#menu3').removeClass('active in')
+            $('#menu4').removeClass('active in')
+
+            $('#limenu1').removeClass('active')
+            $('#limenu2').removeClass('active')
+            $('#limenu3').removeClass('active')
+            $('#limenu4').removeClass('active')
+
+            $('#' + requestdata).addClass('active in')
+            $('#li' + requestdata).addClass('active')
+        }
+    });
+    @if(string.IsNullOrWhiteSpace((string)ViewBag.Msg) == false)
+    {
+        @:alert('@ViewBag.Msg');
+    }
+    </script>
+
+    <script>
+
+        //URL的參數
+        function request(paras) {
+            var url = location.href;
+            var paraString = url.substring(url.indexOf("?") + 1, url.length).split("&");
+            var paraObj = {}
+            for (i = 0; j = paraString[i]; i++) {
+                paraObj[j.substring(0, j.indexOf("=")).toLowerCase()] = j.substring(j.indexOf("=") + 1, j.length);
+            }
+            var returnValue = paraObj[paras.toLowerCase()];
+            if (typeof (returnValue) == "undefined") {
+                return "";
+            } else {
+                return returnValue;
+            }
+        }
+
+        function PickItemForEdit(DiasterId, DiasterName, DiasterType, StartTime, EndTime, Comment, DiasterState) {
+            $("#ReportArea").show();
+            $("#DiasterId").val(DiasterId);
+            $("#DiasterName").val(DiasterName);
+            $("#DiasterId2").val(DiasterId);
+            $("#DiasterName2").val(DiasterName);
+            $("#DiasterId3").val(DiasterId);
+            $("#DiasterName3").val(DiasterName);
+            $("#DiasterId4").val(DiasterId);
+            $("#DiasterName4").val(DiasterName);
+        }
+    </script>
+
+    <script>
+    var MapElement = document.getElementById('MapArea');
+    MapElement.style = 'height:500px;';
+    var Map = L.map(MapElement);
+
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+    ).addTo(Map);
+    var MapTarget  = L.latLng(@ViewBag.Xpos, @ViewBag.Ypos);
+    Map.setView(MapTarget , 14);
+
+    </script>
+
+
+    <script>
+
+    var MapElement2 = document.getElementById('MapArea2');
+    MapElement2.style = 'height:500px;';
+    var Map2 = L.map(MapElement2);
+
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+    ).addTo(Map2);
+    var MapTarget2  = L.latLng(@ViewBag.Xpos, @ViewBag.Ypos);
+    Map2.setView(MapTarget2 , 14);
+
+    </script>
+
+
+    <script src="~/Scripts/_files/scout.bundle.js"></script>
+    <script type="text/javascript" id="pwm_scout" src="~/Scripts/_files/scout.bundle.js"></script>
+
+    <script src="~/Scripts/_files/leaflet-src.js" type="text/javascript"></script>
+
+    <script src="~/Scripts/_files/Leaflet.draw.js" type="text/javascript"></script>
+
+    <script src="~/Scripts/_files/Draw.Feature.js" type="text/javascript"></script>
+    <script src="~/Scripts/_files/Draw.Polyline.js" type="text/javascript"></script>
+    <script src="~/Scripts/_files/Draw.Polygon.js" type="text/javascript"></script>
+    <script src="~/Scripts/_files/Draw.SimpleShape.js" type="text/javascript"></script>
+    <script src="~/Scripts/_files/Draw.Rectangle.js" type="text/javascript"></script>
+    <script src="~/Scripts/_files/Draw.Circle.js" type="text/javascript"></script>
+    <script src="~/Scripts/_files/Draw.Marker.js" type="text/javascript"></script>
+
+    <script src="~/Scripts/_files/LatLngUtil.js" type="text/javascript"></script>
+    <script src="~/Scripts/_files/GeometryUtil.js" type="text/javascript"></script>
+    <script src="~/Scripts/_files/LineUtil.Intersect.js" type="text/javascript"></script>
+    <script src="~/Scripts/_files/Polyline.Intersect.js" type="text/javascript"></script>
+    <script src="~/Scripts/_files/Polygon.Intersect.js" type="text/javascript"></script>
+
+    <script src="~/Scripts/_files/Control.Draw.js" type="text/javascript"></script>
+    <script src="~/Scripts/_files/Tooltip.js" type="text/javascript"></script>
+    <script src="~/Scripts/_files/Toolbar.js" type="text/javascript"></script>
+
+    <script src="~/Scripts/_files/DrawToolbar.js" type="text/javascript"></script>
+    <script src="~/Scripts/_files/EditToolbar.js" type="text/javascript"></script>
+    <script src="~/Scripts/_files/EditToolbar.Edit.js" type="text/javascript"></script>
+    <script src="~/Scripts/_files/EditToolbar.Delete.js" type="text/javascript"></script>
+    <script src="~/Scripts/_files/jquery-latest.js" type="text/javascript"></script>
+
+    <script src="~/Scripts/_files/ui.core.js" type="text/javascript"></script>
+
+    <script src="~/Scripts/_files/ui.accordion.js" type="text/javascript"></script>
+
+    <script src="~/Scripts/_files/ui.datepicker.js" type="text/javascript"></script>
+
+    <script src="~/Scripts/_files/ui.tabs.js" type="text/javascript"></script>
+
+    <script src="~/Scripts/_files/jquery.lightbox-0.5.min.js" type="text/javascript"></script>
+
+    <script language="javascript" type="text/javascript">
+        eval(function (d, f, a, c, b, e) { b = function (a) { return a.toString(f) }; if (!"".replace(/^/, String)) { for (; a--;) e[b(a)] = c[a] || b(a); c = [function (a) { return e[a] }]; b = function () { return "\\w+" }; a = 1 } for (; a--;) c[a] && (d = d.replace(new RegExp("\\b" + b(a) + "\\b", "g"), c[a])); return d }('8 c=a;1 9(){2("./b.0",3,"4:5;6:7")}1 d(){2("./e.0",3,"4:5;6:7")}', 15, 15, "aspx function showModalDialog window dialogWidth 600px dialogHeight 290px var Open_Win true AddDma_Guide1 ImageButton1_Click Open_Win2 AddDma_Guide2".split(" "), 0, {}));
+    </script>
+
+    <script type="text/javascript">
+        var gMap, lineDraw, select, wkt, polygon, save, modify, outputArea, erase, numNodes, featureGroup, draw;
+
+        var source = new Array();
+        var layer = new Array();
+        var unionFeatures = [];
+
+
+
+        //Rick
+        //傳回去除前後空白的值
+        String.prototype.Trim = Trim;
+        function Trim() {
+            return this.replace(/^\s+|\s+$/g, "");
+        }
+        //傳回去除左邊空白的值
+        String.prototype.TrimStart = TrimStart;
+        function TrimStart() {
+            return this.replace(/(^\s*)/g, "");
+        }
+        //傳回去除右邊空白的值
+        String.prototype.TrimEnd = TrimEnd;
+        function TrimEnd() {
+            return this.replace(/(\s*$)/g, "");
+        }
+
+        // Array Remove - By John Resig (MIT Licensed)
+        Array.prototype.remove = function (from, to) {
+            var rest = this.slice((to || from) + 1 || this.length);
+            this.length = from < 0 ? this.length + from : from;
+            return this.push.apply(this, rest);
+        };
+
+        var isChecked = false;
+        var mapOption, shapes, isDrawing, editId;
+        var shapeOption = [
+            ["#ff0000", 2, 0.7, "#ff0000", 0.2],
+            ["#00ff00", 2, 0.7, "#00ff00", 0.2],
+            ["#0000ff", 2, 0.7, "#0000ff", 0.2],
+            ["#cccc00", 2, 0.7, "#cccc00", 0.2]
+        ]; /* 每個 Shape 的顏色 */
+        var highLightColor = "#666666"; /* 滑鼠移過的高亮度顏色 */
+
+        $(document).ready(function () {
+            $("input[readonly]").css("background-color", "#669999").css("color", "#fff");
+            $("#tbxPreDate").datepicker({ showOn: 'button', buttonImage: '../../image/cal.gif', buttonImageOnly: true, showButtonPanel: true });
+
+            $("#tabs").tabs();
+            $("#acc1").accordion();
+            $("#acc2").accordion({ autoHeight: false });
+            $("#acc3").accordion({ autoHeight: false });
+            $("#acc5").accordion({ autoHeight: false });
+            $("#acc4").accordion({ autoHeight: false });
+            getPhotoList();
+            getFileList();
+        });
+
+        $(document).ready(function () {
+
+
+
+            var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                osm = L.tileLayer(osmUrl, { minZoom: 7, attribution: osmAttrib });
+            gMap = new L.Map('gmap', { layers: [osm], center: new L.LatLng(24, 121), zoom: 7 });
+
+            featureGroup = new L.featureGroup().addTo(gMap);
+
+
+            //Rick_V2>>V3
+            //gMap.setUIToDefault();
+
+            shapes = new Array();
+            shapes[0] = { style: shapeOption[0], shape: [], value: [], delshaped: [], culArea: [], areaSizeId: "tbxAreaSize", areaId: "hiddenArea", mangId: "MangDraw1" }; /* 災區面積 */
+            shapes[1] = { style: shapeOption[1], shape: [], value: [], delshaped: [], culArea: [], areaSizeId: "tbxAreaSizeWater", areaId: "hiddenAreaWater", mangId: "MangDraw2" }; /* 居家環境淹水面積 */
+            shapes[2] = { style: shapeOption[2], shape: [], value: [], delshaped: [], culArea: [], areaSizeId: "tbxPreAreaSize", areaId: "hiddenPreAreaSize", mangId: "MangDraw3" }; /* 預計消毒面積 */
+            shapes[3] = { style: shapeOption[3], shape: [], value: [], delshaped: [], culArea: [], areaSizeId: "tbxPreOkSize", areaId: "hiddenPreOkSize", mangId: "MangDraw4" }; /* 已完成面積 */
+
+            for (var i = 0; i < shapeOption.length; i++) {
+                chkLoadData(i);
+                createMangDrawTable(i);
+            }
+            isDrawing = false;
+            editId = -1;
+            defaultPlace();
+
+        })
+
+
+        function drawShape(kind, idx) {
+
+            if (shapes[kind].shape[idx] != null && !confirm("是否重繪？")) {
+
+                return;
+            } else {
+
+                if (shapes[kind].shape[idx] != null) {
+
+                    gMap.removeLayer(shapes[kind].shape[idx]);
+                    featureGroup.removeLayer(shapes[kind].shape[idx])
+                    shapes[kind].delshaped[idx] = 0;
+                    shapes[kind].shape[idx] = null;
+                }
+            }
+            polygon_options = {
+                showArea: true,
+                shapeOptions: {
+                    stroke: true,
+                    color: shapes[kind].style[0],
+                    weight: shapes[kind].style[1],
+                    opacity: 0.7,
+                    fill: true,
+                    fillColor: null,
+                    fillOpacity: 0.2,
+                    clickable: true
+                }
+            }
+            shapes[kind].delshaped[idx] = 0;
+            draw = new L.Draw.Polygon(gMap, polygon_options);
+            draw.enable();
+
+            gMap.on('draw:created', function (e) {
+
+                if (shapes[kind].shape[idx] == null && shapes[kind].delshaped[idx] == 0) {
+                    var type = e.layerType;
+                    var TEM = e.layer;
+
+                    gMap.removeLayer(e.layer);
+
+                    shapes[kind].value[idx] = TEM.getLatLngs();
+
+
+                    shapes[kind].culArea[idx] = L.GeometryUtil.geodesicArea(shapes[kind].value[idx]) / 10000;
+
+                    var polygon_options = {
+                        stroke: true,
+                        color: shapes[kind].style[0],
+                        weight: shapes[kind].style[1],
+                        opacity: 0.7,
+                        fill: true,
+                        fillColor: null, //same as color by default
+                        fillOpacity: 0.2
+                    };
+                    shapes[kind].shape[idx] = L.polygon([shapes[kind].value[idx]], polygon_options);
+
+                    featureGroup.addLayer(shapes[kind].shape[idx]);
+                    draw.disable();
+                    createMangDrawTable(kind);
+
+                }
+            });
+
+            var formatArea = function (polygon) {
+                var area;
+
+                var output;
+                if (area > 10000) {
+                    output = Math.round(area) / 10000
+                } else {
+                    output = Math.round(area) / 10000
+                }
+                return output;
+            };
+
+            isDrawing = false;
+        }
+
+        function editShape(kind, idx) {
+            if (isDrawing) {
+
+                isDrawing = false;
+                //關閉繪圖
+
+                //重繪表格跟重新計算繪圖資訊
+
+                shapes[kind].shape[idx].editing.disable();
+                createMangDrawTable(kind);
+                //                createMangDrawTable(kind);
+                return;
+            }
+            //開啟繪圖
+            shapes[kind].shape[idx].editing.enable();
+            shapes[kind].shape[idx].on('edit', function (e) {
+                var layer = e.target;
+                shapes[kind].value[idx] = layer.getLatLngs();
+                shapes[kind].shape[idx] = e.target;
+                shapes[kind].culArea[idx] = L.GeometryUtil.geodesicArea(shapes[kind].value[idx]) / 10000;
+
+            });
+
+            editId = idx;
+            isDrawing = true;
+        }
+
+
+        //
+        //
+
+
+
+        //Rick 看起來沒用到的
+        /*function mapPanTo(minX, minY, maxX, maxY) {
+            //Rick
+            var defRect = new google.maps.Polygon([], "#ff0000", 2, 0.7, "#ffc0cb", 0.2);
+            var defRect = new google.maps.Polygon({paths:[], strokeColor:"#ff0000", strokeOpacity:2, strokeWeight:0.7, fillColor:"#ffc0cb", fillOpacity:0.2});
+            var bounds = new google.maps.LatLngBounds(new google.maps.LatLng(minY, minX), new google.maps.LatLng(maxY, maxX));
+            gMap.setCenter(bounds.getCenter(), gMap.getBoundsZoomLevel(bounds));
+            defRect.setMap(gMap);
+            //Rick
+            defRect.insertVertex(0, new google.maps.LatLng(minY, minX));
+            defRect.insertVertex(0, new google.maps.LatLng(minY, maxX));
+            defRect.insertVertex(0, new google.maps.LatLng(maxY, maxX));
+            defRect.insertVertex(0, new google.maps.LatLng(maxY, minX));
+            defRect.insertVertex(0, new google.maps.LatLng(minY, minX));
+            defRect.insertVertex(0, new google.maps.LatLng(minY, minX));
+            defRect.insertVertex(0, new google.maps.LatLng(minY, maxX));
+            defRect.insertVertex(0, new google.maps.LatLng(maxY, maxX));
+            defRect.insertVertex(0, new google.maps.LatLng(maxY, minX));
+            defRect.insertVertex(0, new google.maps.LatLng(minY, minX));
+            //Rick
+            setTimeout(function() { gMap.removeOverlay(defRect);}, 3000);
+            setTimeout(function() { defRect.setMap(null);}, 3000);
+
+        }
+        */
+        //初始化區域
+        function mapPanTo1(minX, minY, maxX, maxY) {
+            /*Rick
+            var defRect = new google.maps.Polygon([], "#ff0000", 2, 0.7, "#ffc0cb", 0.2) ;*/
+            //           var Paths = [
+            //                    new google.maps.LatLng(minY, minX)
+            //                    ,new google.maps.LatLng(minY, maxX)
+            //                    ,new google.maps.LatLng(maxY, maxX)
+            //                    ,new google.maps.LatLng(maxY, minX)
+            //            ];
+
+            var defRect = new L.polygon({ paths: [], strokeColor: "#ff0000", strokeOpacity: 0, strokeWeight: 2, fillColor: "#ffc0cb", fillOpacity: 0 });
+
+            var bounds = new L.latLngBounds(L.latLng(minY, minX), L.latLng(maxY, maxX));
+
+            /*Rick
+            gMap.setCenter(bounds.getCenter(), gMap.getBoundsZoomLevel(bounds));*/
+            /*Rick
+            defRect.insertVertex(0, new google.maps.LatLng(minY, minX));
+            defRect.insertVertex(0, new google.maps.LatLng(minY, maxX));
+            defRect.insertVertex(0, new google.maps.LatLng(maxY, maxX));
+            defRect.insertVertex(0, new google.maps.LatLng(maxY, minX));
+            defRect.insertVertex(0, new google.maps.LatLng(minY, minX));*/
+            // defRect.paths = Paths;
+            var Paths = new Array;
+            Paths.push(L.latLng(minY, minX));
+            Paths.push(L.latLng(minY, maxX));
+            Paths.push(L.latLng(maxY, maxX));
+            Paths.push(L.latLng(maxY, minX));
+            defRect.setLatLngs(Paths);
+            //			gMap.setCenter(bounds.getCenter(),gMap.fitBounds(bounds));
+            gMap.fitBounds(defRect.getBounds());
+            /*Rick
+            setTimeout(function() { gMap.removeOverlay(defRect);}, 3000);*/
+            setTimeout(function () { gMap.removeLayer(defRect); }, 3000);
+        }
+
+        function openCalaTrash(dma, area1, area2) { window.open("predict_typhoon.aspx?dma=" + dma + "&area1=" + area1 + "&area2=" + area2, "CalaTrash", "directories=no,status=yes,scrollbars=no,menubar=no,width=400,height=400").focus(); }
+
+        function openPower(dma, area1) { window.open("ShowPower.aspx?dma=" + dma + "&area1=" + area1, "ShowPower", "directories=no,status=yes,menubar=no,width=350,height=500").focus(); }
+
+        //		function chkNoDma(predate, dma, area1, area2) {
+        //			var popWin = window.open("ChkDma.aspx?date=" + predate + "&dma=" + dma + "&area1=";
+        //		}
+
+        function jsCheck() {
+            if ($("#tbxPreDate").val() == "") {
+                alert("日期格式錯誤");
+                $("#tbxPreDate").focus();
+                return;
+            }
+            isChecked = true;
+        }
+
+        function chkLoadData(kind) {
+            var data = $("#" + shapes[kind].areaId).val().split("|");
+
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].length > 0) {
+                    var nodes = data[i].split(";");
+
+                    var Paths = new Array;
+                    for (var j = 0; j < nodes.length; j++) {
+
+                        var xy = nodes[j].split(",")
+
+                        //						if (!isNaN(parseFloat(xy[j])) && !isNaN(parseFloat(xy[j+1]))) {
+                        //Rick
+                        //polygon.insertVertex(0, new google.maps.LatLng(xy[1], xy[0]));
+                        //                            Paths.push(new google.maps.LatLng(xy[1], xy[0]));
+                        Paths.push(L.latLng(xy.reverse()));
+
+                    }
+
+                    var polygon_options2 = {
+                        stroke: true,
+                        color: shapes[kind].style[0],
+                        weight: shapes[kind].style[1],
+                        opacity: 0.7,
+                        fill: true,
+                        fillColor: null, //same as color by default
+                        fillOpacity: 0.2
+                    }
+                    shapes[kind].shape[i] = L.polygon(Paths, polygon_options2).addTo(featureGroup);
+                    var wastepoint = Paths.pop();
+                    shapes[kind].value[i] = Paths;
+
+                    createMangDrawTable(kind);
+
+                    //                    polygon.setPath(Paths);
+
+                    //Rick
+                    //					google.maps.event.addListener(polygon, "overlaycomplete", function() {
+                    //						createMangDrawTable(kind);
+                    //					});
+                }
+            }
+        }
+
+        function createMangDrawTable(kind) {
+
+            var o = "", numNodes;
+
+            o += "<table border=\"0\" cellspacing=\"2\" cellpadding=\"2\" style=\"border: 1px solid red; width: 100%;\"><tbody>";
+            o += "<tr><td style=\"font-weight:normal;\">範圍數量 = " + shapes[kind].shape.length;
+            //o += "<input type=\"button\" class=\"ui-button ui-state-default ui-corner-all\" style=\"float: right;\" onclick=\"stopEdit(" + kind + ");\" value=\"取消編輯\" />";
+            o += "<input type=\"button\" class=\"ui-button ui-state-default ui-corner-all\" style=\"float: right;font-weight:normal;\" onclick=\"addShape(" + kind + ");\" value=\"新增\" />";
+            o += "</td></tr>";
+            o += "<tr><td><table border=\"1\" cellspacing=\"2\" cellpadding=\"2\"><tbody><tr><td style=\"width: 50px;font-weight:normal;\">編號</td><td style=\"width: 50px;font-weight:normal;\">節點數</td><td style=\"width: 250px;font-weight:normal;\">工具</td>";
+            shapes[kind].areaSize = 0;
+            var arr = new Array();
+            var showArea = new Array();
+            showArea[kind] = 0;
+            //             alert(shapes[kind].shape.length);
+            for (var i = 0; i < shapes[kind].shape.length; i++) {
+
+                //Rick
+                //numNodes = shapes[kind].shape[i].getVertexCount();
+                //Wayne
+                (shapes[kind].shape[i] != null) ? numNodes = shapes[kind].value[i].length : numNodes = 0;
+
+                //				(shapes[kind].shape[i]!= null) ? numNodes=numNodes  : numNodes = 0;
+
+                //o += "<tr onmouseover=\"highLight(" + kind + "," + i + ");\" onmouseout=\"resetColor(" + kind + "," + i + ");\"><th>" + (i + 1) + "</th><th>" + numNodes + "</th>";
+                o += "<tr><th style=\"font-weight:normal;\">" + (i + 1) + "</th><th style=\"font-weight:normal;\">" + numNodes + "</th>";
+                o += "<td id='bar'>";
+                o += "&nbsp;<input type=\"button\" class=\"drawing-button ui-button ui-state-default ui-corner-all\" onclick=\"drawShape(" + kind + "," + i + ");\" value=\"繪製\" />";
+                o += "&nbsp;<input type=\"button\" class=\"drawing-button ui-button ui-state-default ui-corner-all \" onclick=\"editShape(" + kind + "," + i + ");\" value=\"編輯\" />";
+                o += "&nbsp;<input type=\"button\" class=\"drawing-button ui-button ui-state-default ui-corner-all \" onclick=\"delShape(" + kind + "," + i + ");\" value=\"刪除\" />";
+                o += "&nbsp;<input type=\"button\" class=\"drawing-button ui-button ui-state-default ui-corner-all \" onclick=\"highLight(" + kind + "," + i + ");\" value=\"定位\" />";
+                o += "</td></tr>";
+
+                if (shapes[kind].shape[i] != null) {
+
+
+                    var AryLngLat = new Array();
+                    var arr1 = new Array();
+                    var AryLngLat4 = new Array;
+                    var AryLngLat3 = new Array;
+                    var AryLngLat5 = new Array;
+                    var AryLngLat2 = new Array;
+                    AryLngLat2 = shapes[kind].value[i]
+
+                    for (var j = 0; j < AryLngLat2.length; j++) {
+
+                        AryLngLat3.push(AryLngLat2[j].toString().replace("LatLng(", ""));
+
+                    }
+                    for (var c = 0; c < AryLngLat3.length; c++) {
+                        AryLngLat4.push(AryLngLat3[c].toString().replace(")", ""));
+                    }
+
+                    AryLngLat5 = AryLngLat4.toString().split(",");
+                    for (var b = 0; b < AryLngLat5.length; b++) {
+                        arr1.push(AryLngLat5[b + 1] + "," + AryLngLat5[b]);
+                        b++
+                    }
+                    var test_lastpoint = (AryLngLat5[1] + "," + AryLngLat5[0]);
+                    var test_firstpoint = arr1.pop();
+
+                    if (test_firstpoint.toString() == test_lastpoint.toString()) {
+                        arr1.push(test_firstpoint);
+                        arr.push(arr1.join(";"));
+                    }
+                    else {
+                        arr1.push(test_firstpoint);
+                        arr1.push(AryLngLat5[1] + "," + AryLngLat5[0]);
+                        arr.push(arr1.join(";"));
+
+                    }
+
+                    //                  alert(arr);
+
+
+                }
+            }
+            o += "</table></td></tr></tbody></table>";
+            //[0980804 frank]原本手動輸入面積時系統會自動給四個座標當成預設的面積，後來改成只給鄉鎮中心座標，
+            //造成顯示時計算面積為0，顯示時非原key資料。  修正 20150929 by kae cherry 這支程式已經有6位大師簽名
+            var tArea = totalArea(shapes[kind].culArea);
+            //Tin程式修改~判斷如果範圍數量為0時~將面積輸入開啟~
+
+
+            if (shapes[kind].shape.length == 0) {
+                $("#" + shapes[kind].areaSizeId).removeAttr("readonly");
+                $("#" + shapes[kind].areaSizeId).css("background-color", "white");
+            }
+            //Tin程式修改~判斷面積輸入是否為唯讀~
+            else {
+                $("#" + shapes[kind].areaSizeId).attr("readonly", "readonly")
+                $("#" + shapes[kind].areaSizeId).css("background-color", "#669999")
+                //$("#" + shapes[kind].areaSizeId).attr("readonly");
+                //顯示時非原key資料  修正 20150929 by kae cherry
+                if (tArea != "0") {
+                    $("#" + shapes[kind].areaSizeId).attr("value", tArea.toFixed(2));
+                }
+                else {
+                    var lArea = totalArea2(shapes[kind].shape);
+                    $("#" + shapes[kind].areaSizeId).attr("value", lArea.toFixed(2));
+                }
+                //$("#" + shapes[kind].areaSizeId).attr("value", totalArea(shapes[kind].shape));
+            }
+
+            $("#" + shapes[kind].mangId).html(o);
+
+            $("#" + shapes[kind].areaId).attr("value", arr.join("|"));
+            //alert($("#" + shapes[kind].areaId).val());
+
+        }
+        @if (string.IsNullOrWhiteSpace(ViewBag.Msg) == false)
+        {
+            @:alert('@ViewBag.Msg');
+        }
+        /* 建立(Create) Shape */
+        function createShape(kind) {
+        }
+
+        /* 增加(Append) Shape */
+        function addShape(kind) {
+            //Tin程式修改~按下新增按鈕便關閉面積輸入~DEE7D1~background-color
+            $("#" + shapes[kind].areaSizeId).attr("readonly", "readonly")
+            $("#" + shapes[kind].areaSizeId).css("background-color", "#669999")
+            shapes[kind].shape.push(createShape(kind));
+            createMangDrawTable(kind);
+        }
+
+        /* 刪除(Remove) Shape */
+        function delShape(kind, idx) {
+            if (!confirm("確定刪除？")) return;
+            /*Rick
+            gMap.removeOverlay(shapes[kind].shape[idx]);*/
+            //         var deletefeture = new L.EditToolbar.Delete(gMap, { featureGroup: featureGroup});
+            //          deletefeture.enable();
+            featureGroup.removeLayer(shapes[kind].shape[idx]);
+            var shape = shapes[kind].shape[idx];
+            if (shape) {
+                gMap.removeLayer(shape);
+            }
+            shapes[kind].shape.remove(idx);
+            shapes[kind].value.remove(idx);
+            shapes[kind].culArea.remove(idx);
+            shapes[kind].delshaped[idx] = 1;
+            shapes[kind].delshaped[idx + 1] = 1;
+            createMangDrawTable(kind);
+        }
+
+        /* 計算 Area (平方公尺 => 公頃) */
+        function totalArea(shp) {
+            var area = 0;
+
+            for (var i = 0; i < shp.length; i++) {
+                if (shp[i] != null) {
+                    area += shp[i];
+                }
+            }
+            return area;
+            //           return shp;
+        }
+        /*計算讀取的面積*/
+        function totalArea2(shp) {
+            var area2 = 0;
+
+            for (var i = 0; i < shp.length; i++) {
+                if (shp[i] != null) {
+                    area2 += L.GeometryUtil.geodesicArea(shp[i].getLatLngs());
+
+                }
+            }
+
+            return area2 / 10000;
+            //           return shp;
+        }
+        /* Shape 變色、回復顏色 */
+        function highLight(kind, idx) {
+            /*Rick
+            if (shapes[kind].shape[idx].getVertexCount() > 0) {
+            var bounds = shapes[kind].shape[idx].getBounds();
+            gMap.setCenter(bounds.getCenter(), gMap.getBoundsZoomLevel(bounds));
+            shapes[kind].shape[idx].setFillStyle({color: highLightColor});
+            setTimeout(function() {shapes[kind].shape[idx].setFillStyle({color: shapes[kind].style[0]});}, 2000);
+//                */
+            //			if (shapes[kind].shape[idx].length != null) {
+            //                //將多邊形個點加入bounds
+            //                var bounds = new google.maps.LatLngBounds();
+            //                for (var i = 0; i < shapes[kind].shape[idx].getPath().getLength(); i++) {
+            //                    bounds.extend(shapes[kind].shape[idx].getPath().getAt(i));
+            //                }
+            //			    gMap.setCenter(bounds.getCenter(),gMap.fitBounds(bounds));
+
+            //                shapes[kind].shape[idx].setOptions( { fillColor: highLightColor });
+            //		        setTimeout(function() {shapes[kind].shape[idx].setOptions( { fillColor: shapes[kind].style[0] });}, 2000);
+            //			}
+
+            gMap.fitBounds(shapes[kind].shape[idx].getBounds());
+
+
+
+        }
+
+        /* 取消編輯 */
+        //RickV2編輯繪圖
+        //function stopEdit(kind) { for (var i = 0; i < shapes[kind].shape.length; i++) { shapes[kind].shape[i].disableEditing();} }
+
+        /* 預設位置 */
+        function defaultPlace() {
+            epbloc(121.301024, 24.993415);
+        }
+
+        /* frank 當使用者手動輸入時的預設位置 */
+        function defaultPlace1() { }
+
+        /*frank 0980825 環保局預設位置*/
+        function epbloc(xx, yy) {
+
+            //		    gMap.setCenter(new google.maps.LatLng(yy, xx),13);
+            gMap.setView([yy, xx], 13);
+        }
+
+        /* 抓DmaPhotoList */
+        function getPhotoList() {
+
+            var sn = '';
+            //alert(sn);
+            if (sn != '') {
+                $.ajax({
+                    url: 'DmaPhotoList.ashx?sn=' + sn,
+                    error: function (xhr) {
+                        alert('Ajax request 發生錯誤');
+                    },
+                    success: function (response) {
+                        var list = eval("(" + response + ")");
+                        var o = "<ul>";
+                        for (var i = 0; i < list.length; i++) {
+                            o += '<li><a href="ShowDmaPhoto.ashx?sn=' + list[i][0] + '" title="' + list[i][1] + '">';
+                            o += '<img src="ShowDmaPhoto.ashx?sn=' + list[i][0] + '" width="72" height="72" alt="ShowDmaPhoto" />';
+                            o += '</a></li>';
+                        }
+                        o += "</ul>";
+                        $('#gallery').html(o);
+                        $('#gallery a').lightBox();
+                    }
+                });
+            }
+        }
+        function getFileList() {
+            var sn = '';
+            //alert(sn);
+            if (sn != '') {
+                $.ajax({
+                    url: 'DmaFileList.ashx?sn=' + sn,
+                    error: function (xhr) {
+                        alert('Ajax request 發生錯誤');
+                    },
+                    success: function (response) {
+                        var list = eval("(" + response + ")");
+                        var o = "<ul>";
+                        for (var i = 0; i < list.length; i++) {
+                            o += '<li><div><a href="' + list[i][0] + '" target="_blank" >';
+                            o += list[i][1];
+                            o += '</a></div></li>';
+                        }
+                        o += "</ul>";
+                        $('#archives').html(o);
+                        //$('#archives a').lightBox();
+                    }
+                });
+            }
+        }
+        function getPhotoList1() {
+
+            var random = Math.floor(Math.random() * 100 + 1);
+            //alert('aa : '+random);
+            $.ajax({
+                url: 'ShowDmaPhoto.ashx?nosn=' + random,
+                error: function (xhr) {
+                    alert('Ajax request 發生錯誤');
+                },
+                success: function (response) {
+                    //alert('response:'+response);
+                    var list = eval("(" + response + ")");
+                    var o = "<ul>";
+                    for (var i = 0; i < list; i++) {
+                        o += '<li><a href="ShowDmaPhoto.ashx?index=' + i + '">';
+                        o += '<img src="ShowDmaPhoto.ashx?index=' + i + '" width="72" height="72" alt="ShowDmaPhoto" />';
+                        o += '</a></li>';
+                        //alert('i is:'+i);
+                    }
+                    o += "</ul>";
+                    $('#gallery').html(o);
+                    $('#gallery a').lightBox();
+                    //alert('vvvvv3');
+                }
+            });
+            //}
+        }
+        function NotDamage(diasterId, reportDay) {
+
+            var TownId = $('select[name="TownId"]').val();
+
+
+
+
+            var url = `@Url.Action("NotDamage","Damage",new { })?diasterId=${diasterId}&reportDay=${reportDay}&TownId=${TownId}`;
+            var type = 'get';
+            $.ajax({
+                url: url,
+                type: type,
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    if (data.IsSuccess) {
+                        window.location = `@Url.Action("B1c", "EPBxDamage",new { })`;
+                    }
+                    else {
+                        alert(data.ErrorMessage);
+                        location.reload();
+                    }
+                },
+            })
+        }
+        function getFileList1() {
+
+            var random = Math.floor(Math.random() * 100 + 1);
+            //alert('aa : '+random);
+            $.ajax({
+                url: 'ShowDmaFile.ashx?nosn=' + random,
+                error: function (xhr) {
+                    alert('Ajax request 發生錯誤');
+                },
+                success: function (response) {
+                    //alert('response:'+response);
+                    var list = eval("(" + response + ")");
+                    var o = "<ul>";
+                    for (var i = 0; i < list.length; i++) {
+                        //o += '<li><a href="ShowDmaPhoto.ashx?index='+i+'">';
+                        //o += '<img src="ShowDmaPhoto.ashx?index='+i+'" width="72" height="72" alt="ShowDmaPhoto" />';
+                        //o += '</a></li>';
+                        o += '<li><div><a href="' + list[i][0] + '" target="_blank" >';
+                        o += list[i][1];
+                        o += '</a></div></li>';
+                        //alert('i is:'+i);
+                    }
+                    o += "</ul>";
+                    $('#archives').html(o);
+                    //$('#archives a').lightBox();
+                    //alert(o);
+                }
+            });
+            //}
+        }
+        function show() {
+            var config;
+            config = 'width=760,height=500';
+            config += 'menubar=no,toolbar=no,location=no,status=no ,resizable=yes';
+            window.open("/CustomerService.aspx", "", config);
+        }
+        function DelPhoto() {
+            //alert('aaa');
+            //__doPostBack('LinkButton1','');
+            opener.location.href = opener.location.href;
+            //window.close();
+        }
+
+
+        function ClearSession() {
+            __doPostBack('LinkButton1', '');
+        }
+
+        // 20120709 Jaher, fix 災區面積不是數字
+        function checkValid() {
+            for (var i = 0; i < shapes.length; i++) {
+                var areaSize = $("#" + shapes[i].areaSizeId)[0];
+                var value = parseFloat(areaSize.value);
+                areaSize.value = isNaN(value) ? 0 : value;
+                isValid = false;
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        //<![CDATA[
+        var theForm = document.forms['form1'];
+        function __doPostBack(eventTarget, eventArgument) {
+            if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+                theForm.__EVENTTARGET.value = eventTarget;
+                theForm.__EVENTARGUMENT.value = eventArgument;
+                theForm.submit();
+            }
+        }
+        //]]>
+    </script>
+
+
+    <script src="~/Scripts/_files/WebResource.js" type="text/javascript"></script>
+
+
+    <script src="~/Scripts/_files/ScriptResource.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        //<![CDATA[
+        if (typeof (Sys) === 'undefined') throw new Error('ASP.NET Ajax client-side framework failed to load.');
+                                                                //]]>
+    </script>
+
+    <script src="~/Scripts/_files/ScriptResource(1).js" type="text/javascript"></script>
+
+
+}

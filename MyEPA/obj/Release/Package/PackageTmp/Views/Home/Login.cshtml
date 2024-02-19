@@ -1,0 +1,113 @@
+﻿@{
+    Layout = "~/Views/Home/_SecondLayout.cshtml";
+}
+<style>
+    input[type="checkbox"]:focus {
+        outline: rgb(59, 153, 252) auto 5px;
+        /*vertical-align：middle*/
+    }
+    .SetIn{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+    }
+</style>
+<h1>@ViewBag.Title</h1>
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100 p-l-85 p-r-85 p-t-55 p-b-55">
+
+            @using (Html.BeginForm("Login", "Home"))
+            {
+                <span class="login100-form-title ">
+                    <div class="row">
+                        <div class="col-3"><img src="~/Content/images/epa.png" width="80" height="80" alt="環境部Logo"></div>
+                        <div class="col-9 text-left">
+                            環境部<br>
+                            <small>環境災害管理資訊系統</small>
+                        </div>
+                    </div>
+                    <br>
+                </span>
+
+                <label class="txt1 p-b-11" for="UserName">
+                    使用者帳號
+                </label>
+
+                <div class="wrap-input100 validate-input m-b-36">
+                    @Html.TextBox("UserName", "", new { @class = "input100" })
+                    <span class="focus-input100"></span>
+                </div>
+
+                <label class="txt1 p-b-11" for="Pwd">
+                    使用者密碼
+                </label>
+
+                <div class="wrap-input100 validate-input m-b-12">
+                    <span class="btn-show-pass">
+                        <i class="fa fa-eye" onclick="show()"></i>
+                    </span>
+                    @Html.TextBox("Pwd", "", new { @class = "input100", @type = "password" })
+
+                </div>
+                <label class="txt1 p-b-11" for="Type">
+                    系統選擇
+                </label>
+                <div class="wrap-input100 validate-input m-b-12">
+                    <select id="Type" name="Type" class="input100">
+                        <option value="1">
+                            災害管理系統
+                        </option>
+                        <option value="2">
+                            署補助車輛管理系統
+                        </option>
+                        <option value="3">
+                            緊急應變摘要及通聯手冊電子化系統
+                        </option>
+                    </select>
+                </div>
+                <p style="color:red">@ViewBag.Msg</p><br />
+                <div class="flex-sb-m w-full p-b-48">
+                    <div class="contact100-form-checkbox">
+                        <input id="ckb1" type="checkbox" name="remember-me">
+                        <label for="ckb1">
+                            記住帳號和密碼
+                        </label>
+                    </div>
+                    
+               <div>
+                   <a href="./forget" style="font-size: 18px;  color: #555555">
+                       忘記密碼?
+                   </a>
+               </div>
+            
+                </div>
+
+                <div class="container-login100-form-btn">
+                    <div class=" col-6">
+                        <input type="submit" class="login100-form-btn" value="登入" />
+                    </div>
+                    <div class="col-6 SetIn" style="">
+                        @Html.ActionLink("使用SMS簡訊登入", "SMSLoginUserName", "Home", new { })
+                    </div>
+                </div>
+            }
+
+            @{Html.RenderPartial("~/Views/Components/LoginWindowBottom.cshtml");}
+        </div>
+    </div>
+</div>  
+<script>
+    function show() {
+        var pwd = document.getElementById("Pwd");
+        if (pwd.hasAttribute("type")) {
+            pwd.removeAttribute("type");
+        }
+        else {
+            pwd.setAttribute("type","password");
+        }
+        
+    }
+</script>
+

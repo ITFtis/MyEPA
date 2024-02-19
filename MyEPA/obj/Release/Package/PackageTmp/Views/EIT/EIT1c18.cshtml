@@ -1,0 +1,76 @@
+﻿@{
+    Layout = "~/Views/_Layout.cshtml";
+}
+<div class="text-center">
+
+    <h5>災情通報確認</h5>
+    <h6 style="color:red">災害主題：@ViewBag.DiasterName</h6>
+    <h6 style="color:red">災害編號：@ViewBag.DiasterId</h6>
+    <h6 style="color:blue">@ViewBag.StartTime<span>&nbsp;～&nbsp;</span>@ViewBag.EndTime</h6>
+@*    <button class="btn btn-basic" id="Btn" style="padding:2px">顯示/隱藏 通報資料</button>*@
+    <div id="DataArea2">
+        <div style="background-color:azure">
+            <font size="3">
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <th>通報日期</th>
+                        <th>縣市</th>
+                        <th>鄉鎮市區</th>
+                        <th>災害地區</th>
+                        <th>災害面積(公頃)</th>
+                        <th>消毒面積(公頃)</th>
+                        <th>預估廢棄物量(公噸)</th>
+                        <th>清除污泥(公噸)</th>
+                        <th>清除垃圾(公噸)</th>
+                        <th>資料確認</th>
+                        <th>更新時間</th>
+                    </tr>
+                    @foreach (var Item in ViewBag.Data2)
+                    {
+                        <tr>
+                            <td>@Item.ReportDay</td>
+                            <td>@Item.City</td>
+                            <td>@Item.Town</td>
+                            <td>@Item.DamagePlace</td>
+                            <td>@Item.DamageArea</td>
+                            <td>@Item.DisinfectArea</td>
+                            <td>@Item.PR_Garbage</td>
+                            <td>@Item.CLE_MUD</td>
+                            <td>@Item.CLE_Trash</td>
+                            <td style="text-align:center" width="30%">
+                                @using (Html.BeginForm("ConfirmReport", "EITxDamage"))
+                                {
+                                    <input style="display:none" value="@ViewBag.DiasterId" name="DiasterId" />
+                                    <input style="display:none" value="@Item.City" name="City" />
+                                    <input style="display:none" value="@Item.Town" name="Town" />
+                                    <input style="display:none" value="@Item.ReportDay" name="ReportDay" />
+                                    <input type="submit" class="btn btn-success" style="padding:0px;" value="確認" />
+                                }
+                            </td>
+                            <td>@Item.ConfirmTime</td>
+                        </tr>
+                    }
+                </table>
+                <br />
+                <br />
+            </font>
+        </div>
+    </div>
+    <br /> <br />
+</div>
+
+<script>
+    //$(document).ready(function () {
+    //    $('#DataArea2').hide();
+    //    $("#Btn").click(function () {
+    //        $("#DataArea2").slideToggle();
+    //    });
+    //});
+</script>
+
+<script>
+    function PickItem(k) {
+        $("#ReportDay").val(k);
+    }
+</script>
+

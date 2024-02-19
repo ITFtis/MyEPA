@@ -1,0 +1,9 @@
+
+.tmid_modified { background: #E4F1FD !important; border: 1px solid #3385D6 !important; } 
+.tmid_modifying { background: #E4F1FD !important; } 
+#popoutblock.tmid_show { visibility: visible !important; } 
+#popoutblock.tmid_hide { visibility: hidden !important; } 
+#popoutblock.tmid_popoutblock { display: table; position: absolute; top: 1px; left: 1px; visibility: hidden; width: 120px; height: 40px; background-color: #FFFFFF; z-index: 9999; color: #666666; font-size: 16px; box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25); text-shadow: 1px 0px 0px rgba(170, 170, 170, 1); }
+#popoutblock .tmid_formFillHint { display: table-cell; vertical-align: middle; font-size: 16px; visibility: inherit !important; }
+#popoutblock .tmid_icon { width: 24px; height: 24px; visibility: inherit !important; }
+#popoutblock .tmid_popoutblockicon { display: table-cell; vertical-align: middle; width: 24px; height: 24px; padding: 8px 8px 8px 8px; visibility: inherit !important; }

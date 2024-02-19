@@ -1,0 +1,50 @@
+﻿@model MyEPA.ViewModels.SendGroupSMSViewModel
+
+@{
+    ViewBag.Title = "發送群組簡訊";
+    Layout = "~/Views/_Layout.cshtml";
+}
+
+<h3>@ViewBag.Title</h3>
+<p>
+    <a href="#" onclick="history.go(-1)" class="btn btn-success">返回上一頁</a>
+</p>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.GroupId)
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.GroupName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10" style="top:8px">
+                @Model.GroupName
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Subject, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Subject, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Message, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Message, new { @class = "form-control",@rows="3" } )
+                @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="發送" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}

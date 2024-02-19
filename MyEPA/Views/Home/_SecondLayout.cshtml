@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html lang="zh-hant">
+<head>
+    <!--
+    下方是登入畫面、於登入後消失
+    再下方是不需登入便可選擇之項目
+    預設顯示項目為index.cshtml，亦即公告  -->
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="Title" content="Emergency Management Information System" />
+    <meta name="keywords" content="EMIS,Taiwan">
+
+    <title>@ViewBag.Title</title>
+
+    <!--
+    先設定首頁的Title，呈現於瀏覽器視窗的第一列
+    其次引進微軟的Faviorate Icons (favicon)
+    最後是引入FontAwesome的文字icons   -->
+    <link rel="shortcut icon" href="~/Content/images/favicon.ico">
+
+    <link rel="stylesheet" type="text/css" href="~/Content/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/css/icon-font.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/css/animate.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/css/hamburgers.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/css/animsition.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/css/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/css/daterangepicker.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/css/util.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/css/main2.css">
+
+    <!-- Bootstrap -->
+    <link href="/Content/css/bootstrap-4.3.1.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="~/Scripts/popper.min.js"></script>
+    <script src="~/Scripts/bootstrap-4.3.1.js"></script>
+
+    @{Html.RenderPartial("~/Views/Components/_CssLibrary.cshtml");}
+    @{Html.RenderPartial("~/Views/Components/_Bootstrap4Library.cshtml");}
+
+</head>
+
+<body>
+
+    @RenderBody()
+
+</body>
+@RenderSection("scripts", required: false)
+</html>

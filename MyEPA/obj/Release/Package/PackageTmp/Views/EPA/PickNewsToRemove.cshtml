@@ -1,0 +1,29 @@
+﻿@{
+    Layout = "~/Views/_Layout.cshtml";
+}
+
+@model IEnumerable<MyEPA.Models.DeleteNewsModel>
+<br />
+@Html.ActionLink("公告事項", "A2d11", "EPA", null, new { @class = "btn btn-large" })
+@Html.ActionLink("新聞消息", "A2d12", "EPA", null, new { @class = "btn btn-primary btn-large" })
+<br /><br />
+
+@{
+    WebGrid grid2 = new WebGrid(Model, rowsPerPage: 10, defaultSort: "Time");
+    grid2.SortDirection = SortDirection.Descending;
+}
+
+@using (Html.BeginForm("DoRemoveNews", "EPAxPost", FormMethod.Post))
+{
+    @grid2.GetHtml(tableStyle: "table table-bordered", columns: new[]
+    {
+    grid2.Column("","選擇",format: @<button type="submit" class="btn btn-basic" name="Pick" value=@item.id> 刪除 </button>),
+    grid2.Column("Id","編號", canSort:true),
+    grid2.Column("Topic","標題", canSort: true),
+    grid2.Column("Time","發佈時間", canSort: true),
+}
+                )
+
+}
+
+

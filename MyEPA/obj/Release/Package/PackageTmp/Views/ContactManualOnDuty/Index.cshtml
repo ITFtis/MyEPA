@@ -1,0 +1,121 @@
+﻿@model IEnumerable<MyEPA.ViewModels.ContactManualOnDutyViewModel>
+@using MyEPA.Enums;
+@{
+    Layout = "~/Views/_ContactManualLayout.cshtml";
+    ContactManualTypeEnum type = ViewBag.Type;
+    ViewBag.Title = type.GetDescription();
+    int departmentCount = ViewBag.DepartmentCount;
+}
+<style>
+    .pdt-10 {
+        padding-top: 10px
+    }
+
+    .pdb-10 {
+        padding-bottom: 10px
+    }
+
+    .pd-10 {
+        padding: 10px
+    }
+
+    .pdl-5 {
+        padding-left: 5px
+    }
+
+    .ml-5 {
+        margin-left: 5px
+    }
+</style>
+<div class="col-12">
+    <div class="col-12 pdb-10 pdt-10">
+        <div class="col-md-12 pdb-10">
+            <label>類別</label>
+            @{
+                Html.RenderAction("GetTypeSelectListItem", "ContactManualOnDuty", new { type = type.ToInteger() });
+            }
+        </div>
+        <div class="col-md-12 pdt-10 pdl-10">
+            @if (departmentCount > 0)
+            {
+                @Html.ActionLink("新增", "Create", new { type = type.ToInteger() }, new { @class = "btn btn-success" })
+            }
+
+        </div>
+    </div>
+</div>
+<div class="col-md-12 pdt-10">
+    <h2>@ViewBag.Title</h2>
+    <table class="table">
+        <tr>
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Week)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HomeNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MobilePhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sort)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a href="#" onclick="deleteItem(@item.Id)">刪除</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Week)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HomeNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MobilePhone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sort)
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+@section scripts{
+    <script>
+    $("#type").change(function () {
+        window.location = "@Url.Action("Index", "ContactManualOnDuty")" + `?type=${$("#type").val()}`;
+    })
+    function deleteItem(id) {
+        if (confirm("是否確定要刪除？")) {
+            $.ajax({
+                url: '@Url.Action("Delete", "ContactManualOnDuty")',
+                type: 'GET',
+                data: {
+                    Id: id
+                },
+                success: function (respones) {
+                    history.go(0);
+                }
+            });
+        }
+    }
+    </script>
+}

@@ -1,0 +1,76 @@
+﻿@model IEnumerable<MyEPA.Models.VolunteerModel>
+
+@{
+    ViewBag.Title = "民間志工服務表";
+    Layout = "~/Views/_Layout.cshtml";
+}
+    <p>
+        @Html.ActionLink("回資源通報首頁", "Index", "ResourcesReport", new { }, new { @class = "btn btn-success" })
+    </p>
+<table class="table">
+    
+     <tr>
+         <th colspan="8" style="text-align:center;color:red;">
+             民間志工服務表
+         </th>
+    </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Town)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContactPerson)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Phone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fax)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MobilePhone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Mail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Service)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.UpdateTime)
+        </th>
+    </tr>
+
+@foreach (var item in Model) 
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Town)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContactPerson)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fax)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MobilePhone)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Mail)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Service)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdateTime)
+        </td>
+    </tr>
+}
+
+</table>

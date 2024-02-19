@@ -1,0 +1,245 @@
+﻿@{
+    Layout = "~/Views/_Layout.cshtml";
+}
+<br />
+
+@*以下在初進畫面時，設地圖中心於ViewBag.Xpos/ViewBag.Ypos的位置
+    而此兩變數值則在B1a6中，藉呼叫MapModel以獲各縣市所在位置 *@
+<script>
+    window.onload = function () {
+        PutMarkOnMap(@ViewBag.Xpos, @ViewBag.Ypos);
+
+    };
+</script>
+
+<div class="text-center">
+    <br />
+    <h5>臨時廢棄物堆置場</h5>
+    <br />
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-6">
+
+                    <div id="DeleteArea" style="display:none;text-align:center">
+                        <br /><br />
+                        @using (Html.BeginForm("Delete", "EPBxDump"))
+                        {
+                            //常寬設0以隱藏
+                            @Html.TextBox("DeleteId", "", new { @readonly = "readonly", style = "width:0px;height:0px;background-color:gray;border:none;" })
+                            <input type="submit" class="btn btn-warning" style="margin:5px;padding:5px" value="確定刪除" />
+                            <br /><span class="text-warning">刪除後無法回復</span>
+                        }
+                        <br />
+                    </div>
+
+                    @*以下是資料編輯區*@
+                    <div id="EditArea" style="display:none;width:100%">
+                       @using (Html.BeginForm("Update", "EPBxDump"))
+                        { 
+                            @*寬度設為0以隱藏，但保留欄位以讓程式抓取資料值*@
+                            @Html.TextBox("EditId", "", new { style = "width:0px;height:0px", @readonly = "readonly" })
+                            <span style="width:30%">聯絡單位：</span>@Html.TextBox("EditContactUnit", "", new { style = "width:60%"})
+                            <br />
+                            <span style="width:15%">X位置：</span>
+                            @Html.TextBox("EditXpos","",new { style = "width:30%" })
+                            <span style="width:15%">Y位置：</span> 
+                            @Html.TextBox("EditYpos", "", new { style = "width:30%" })
+                            <br />
+                            <span style="width:30%">縣市：</span>@ViewBag.City
+                            <span style="width:30%">鄉鎮市區：</span>@Html.TextBox("EditTown", "")
+                            <br />
+                            <span>地址：</span>@Html.TextBox("EditAddress", "", new { style = "width:70%" })
+                            <br />
+                            @* EditArea 與上面的EditArea同名，因此改名為EditDisinfectArea*@
+                            <span style="width:30%">面積：</span>
+                            @Html.TextBox("EditDisinfectArea")<span>平方公尺</span>                       
+                            <br />
+                            <span>緊急聯絡人：</span>
+                            @Html.TextBox("EditEmergencyContactPerson", "", new { style = "width:30%" })
+                            <span>抬頭：</span>
+                            @Html.TextBox("EditEmergencyContactPersonTitle","", new { style = "width:30%" })
+                            <br />
+                            <span>行動電話：</span>
+                            @Html.TextBox("EditEmergencyMobilePhone", "", new { style = "width:60%" })
+                            <br />
+                            <span>緊急聯絡電話(日)：</span> @Html.TextBox("EditEmergencyPhoneDay", "", new { style = "width:50%" })
+                            <br />
+                            <span>緊急聯絡電話(夜)：</span>
+                            @Html.TextBox("EditEmergencyPhoneNight", "", new { style = "width:50%" })
+                            <br />
+                            <div class="text-center">
+                                <input type="submit" class="btn btn-danger text-center" value="確認儲存" />
+                            </div>
+                        }
+                    </div>
+
+
+                @*B1a6在新增堆置場時，如果沒有填入X與Y的位置值
+                    將導致在編輯時，無法叫出該筆資料(Javascript讀取錯誤
+                    所以要預先設好Xpos, Ypos的值*@
+            
+            <div id="AddArea" style="display:none">
+                    @using (Html.BeginForm("Add", "EPBxDump"))
+                    {
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <td style="width:30%">聯繫單位名稱</td>
+                                <td>@Html.TextBox("ContactUnit", "", new { style = "width:100%" })</td>
+                            </tr>
+                            <tr>
+                                <td>座標</td>
+                                <td>
+                                    X:@Html.TextBox("Xpos", (string)@ViewBag.Xpos, new { style = "width:40%" })
+                                    Y:@Html.TextBox("Ypos", (string)ViewBag.Ypos, new { style = "width:40%" })
+                                    <small style="color: red"><br />※請點右側地圖設定</small>
+                                    @*上面的ViewBag.Ypos少一個＠看到時有無影響*@
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>縣市</td>
+                                <td>@ViewBag.City</td>
+                            </tr>
+                            <tr>
+                                <td>鄉鎮市</td>
+                                <td>環保局</td>
+                            </tr>
+                            <tr>
+                                <td>地址</td>
+                                <td>@Html.TextBox("Address", "", new { style = "width:100%" })</td>
+                            </tr>
+                            <tr>
+                                <td>面積</td>
+                                <td>@Html.TextBox("Area", "", new { style = "width:60%" })平方公尺</td>
+                            </tr>
+                            <tr>
+                                <td>緊急聯絡人</td>
+                                <td>@Html.TextBox("EmergencyContactPerson", "", new { style = "width:100%" })</td>
+                            </tr>
+                            <tr>
+                                <td>職稱</td>
+                                <td>@Html.TextBox("EmergencyContactPersonTitle", "", new { style = "width:100%" })</td>
+                            </tr>
+                            <tr>
+                                <td>緊急聯絡電話(日)</td>
+                                <td>@Html.TextBox("EmergencyPhoneDay", "", new { style = "width:100%" })</td>
+                            </tr>
+                            <tr>
+                                <td>緊急聯絡電話(夜)</td>
+                                <td>@Html.TextBox("EmergencyPhoneNight", "", new { style = "width:100%" })</td>
+                            </tr>
+                            <tr>
+                                <td>緊急聯絡聯絡(手機)</td>
+                                <td>@Html.TextBox("EmergencyMobilePhone", "", new { style = "width:100%" })</td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="2" align="center">
+                                    <input type="submit" class="btn btn-danger" style="margin:10px" value="確認儲存" />
+                                </td>
+                            </tr>
+                        </table>
+                    }
+            </div>
+        </div>
+        <div id="MapArea" class="col-12 col-md-6" style="margin-top:50px;">
+        </div>
+    </div>
+    <div class="row">
+
+        <div id="DataArea" class="col-12" style="height:400px;overflow:auto;">
+            <br />  <br /> 
+            @{Html.RenderPartial("~/Views/Components/ShowDumpForEdit.cshtml");}
+        </div>
+    </div>
+</div>
+
+<script>
+    @* 因為EditArea 與上面的EditArea同名，因此改名為EditDisinfectArea *@ 
+    function PickItemForEdit(k,x,y) {
+        $.post("/EPBxDump/Edit", { Id: k }, function (data) {
+            $("#AddArea").hide();
+            $("#DeleteArea").hide();
+            $("#EditArea").show();
+            $("#EditId").val(k);
+            $("#EditContactUnit").val(data.ContactUnit);
+            $("#EditXpos").val(data.Xpos);
+            $("#EditYpos").val(data.Ypos);
+            $("#EditDisinfectArea").val(data.Area);
+            $("#EditAddress").val(data.Address);
+            $("#EditTown").val(data.Town);
+            $("#EditEmergencyContactPerson").val(data.EmergencyContactPerson);
+            $("#EditEmergencyContactPersonTitle").val(data.EmergencyContactPersonTitle);
+            $("#EditEmergencyMobilePhone").val(data.EmergencyMobilePhone);
+            $("#EditEmergencyPhoneDay").val(data.EmergencyPhoneDay);
+            $("#EditEmergencyPhoneNight").val(data.EmergencyPhoneNight);
+            PutMarkOnMap(x, y);
+        });
+    }
+</script>
+
+<script>
+    function PickItemForPosition(k, x, y) {
+        PutMarkOnMap(x, y);
+    }
+</script>
+
+    @*以下函數在用戶選某筆資料後，將ViewBag.Id傳遞到視窗上方表格。
+        之前抓不到ViewBag.Id的值，卻能抓到ViewBag.Xpos的值，後來發現後者為數字，
+        因此改變堆置場的Id=時間秒數+城市數字碼，變成數字後解決*@
+
+    <script>
+        function PickItemForDelete(k, x, y) {
+            $("#AddArea").hide();
+            $("#EditArea").hide();
+            $("#DeleteArea").show();
+            $("#DeleteId").val(k);
+            PutMarkOnMap(x, y);
+        }
+    </script>
+
+    <script>
+        function AddItem() {
+            $("#EditArea").hide(); $("#DeleteArea").hide();
+            $("#AddArea").show();
+        }
+    </script>
+
+    @*以下函數在用戶點地圖後放標記。MapTarget抓取該位置，
+        setView轉畫面到該處。如果MarkCollection（儲存標記的集合）不是空的，
+        就先清掉再放新的，避免新舊同時出現*@
+    <script>
+        function PutMarkOnMap(x, y) {
+            var MapTarget = L.latLng(x, y);
+            Map.setView(MapTarget, 14);
+            if (MarkCollection != undefined) {
+                Map.removeLayer(MarkCollection);
+            };
+            MarkCollection = L.marker([x, y]).addTo(Map);
+        }
+
+        var MapElement = document.getElementById('MapArea');
+        MapElement.style = 'height:300px;';
+        var Map = L.map(MapElement);
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(Map);
+        var MapTarget = L.latLng('25.0400458', '121.55859');
+        Map.setView(MapTarget, 14);
+
+        function MapClick(e) {
+            var Xvalue = e.latlng.lat.toString();
+            var Yvalue = e.latlng.lng.toString();
+            if (MarkCollection != undefined) {
+                Map.removeLayer(MarkCollection);
+            };
+            MarkCollection = L.marker([Xvalue, Yvalue]).addTo(Map);
+            $("#Xpos").val(Xvalue);
+            $("#Ypos").val(Yvalue);
+            $("#EditXpos").val(Xvalue);
+            $("#EditYpos").val(Yvalue);
+        }
+        var MarkCollection = {};
+        Map.on('click', MapClick);
+    </script>

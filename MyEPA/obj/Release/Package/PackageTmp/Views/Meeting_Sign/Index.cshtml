@@ -1,0 +1,112 @@
+﻿@model IEnumerable<MyEPA.Models.Meeting_SignViewModel>
+@using MyEPA.Enums;
+@{
+    ViewBag.Title = "會議列表";
+    Layout = "~/Views/_Layout.cshtml";
+    bool isAdmin = ViewBag.IsAdmin;
+}
+
+<h3>@ViewBag.Title</h3>
+
+@if (isAdmin)
+{
+    <p>
+        @Html.ActionLink("新增", "Create", new { }, new { @class = "btn btn-success" })
+    </p>
+}
+
+<table class="table">
+    <tr>
+        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.Meeting_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Meeting_Datetime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Meeting_Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Meeting_Issue)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Meeting_Sign_BeginTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Meeting_Sign_EndTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MaximumAttendance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Attendance)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @if (isAdmin)
+        {
+            <p>
+                @Html.ActionLink("修改", "Edit", new { id = item.Meeting_ID }) |
+                <a href="#" onclick="Delete(@item.Meeting_ID)">删除</a>
+            </p>
+        }
+
+    </td>
+    <td>
+        <a href="@Url.Action("Index","Meeting_Sign_Detail",new { meetingid = item.Meeting_ID})">@item.Meeting_name</a>
+    </td>
+    <td>
+        @item.Meeting_Datetime.ToString("yyyy/MM/dd HH:mm")
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Meeting_Address)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Meeting_Issue)
+    </td>
+    <td>
+        @(item.Meeting_Sign_BeginTime.HasValue ? item.Meeting_Sign_BeginTime.Value.ToString("yyyy/MM/dd HH:mm") : string.Empty)
+    </td>
+    <td>
+        @(item.Meeting_Sign_EndTime.HasValue ? item.Meeting_Sign_EndTime.Value.ToString("yyyy/MM/dd HH:mm"): string.Empty)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.MaximumAttendance)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Attendance)
+    </td>
+</tr>
+    }
+
+</table>
+
+<script>
+    function Delete(id) {
+        if (!window.confirm('確定要刪除?')) {
+            return;
+        };
+        var root = '@Url.Action("Delete", "Meeting_Sign")?id=' + id;
+        $.ajax({
+            url: root,
+            method: 'Post',
+            success: function (data) {
+                if (data.IsSuccess) {
+                    alert('刪除成功');
+                      window.location.href='@Url.Action("Index","Meeting_Sign",new { })';
+                }
+                else {
+                    alert('刪除失敗,' + data.ErrorMessage);
+                }
+            },
+            error: function (data) {
+                alert('刪除失敗');
+            }
+        });
+    };
+</script>

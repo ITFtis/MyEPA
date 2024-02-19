@@ -1,0 +1,30 @@
+﻿@using MyEPA.Models;
+@using MyEPA.Extensions;
+@{ Layout = "~/Views/Home/_FirstLayout.cshtml"; }
+<div class="container">
+    <br />
+    <h2>@ViewBag.Title</h2>
+    <br />
+    @foreach (var post in (List<NewsModel>)ViewBag.PostList)
+    {
+<section id="Notice">
+    <div class="container">
+        <div class="row notice-content">
+            <div class="col-md-12">
+                <div class="media mt-3">
+                    <a class="pr-3">
+                        <img src="/Content/images/news_icon2.png" alt="新聞" />
+                    </a>
+
+                    <div class="media-body">
+                        <h4>
+                            @post.Title<br /><small>〈發布時間&nbsp @(((DateTime)post.CreateDate).ToDateTimeString())〉</small>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </div>
+</section>}
+    <br />
+</div>

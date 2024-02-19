@@ -1,0 +1,207 @@
+﻿@{
+    Layout = "~/Views/_Layout.cshtml";
+}
+
+<div class="text-center">
+    <br />
+    <h5>消毒藥品</h5>
+    <br />
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div id="DeleteArea" class="text-center" style="display:none; width:100%">
+            @using (Html.BeginForm("Delete", "EPBxDisinfectant"))
+            {
+                <br /> <br />
+                @Html.TextBox("DeleteId", "", new { @readonly = "readonly", style = "width:0px;color:red;border:none;" })
+                <input type="submit" class="btn btn-danger" style="margin:5px;padding:5px" value="確定刪除" />
+                <br /><span>※刪除後無法回復</span>
+                <br /> <br /> <br /> <br />
+            }
+            <br />
+        </div>
+
+        <div id="EditArea" class="text-center" style="display:none; padding:0px; width:100%">
+            @using (Html.BeginForm("Update", "EPBxDisinfectant"))
+            {
+                <table class="table table-bordered table-striped  text-center">
+                    <tr>
+                        <td>編號：</td>
+                        <td>@Html.TextBox("EditId", (string)ViewBag.EditId, new { @readonly = "readonly", @class = "form-control rounded-0" })</td>
+                    </tr>
+                    <tr>
+                        <td>聯繫單位名稱：</td>
+                        <td>@Html.TextBox("EditContactUnit", (string)ViewBag.EditContactUnit, new { @class = "form-control rounded-0" })</td>
+                    </tr>
+                    <tr>
+                        <td>消毒藥品名稱：</td>
+                        <td>@Html.TextBox("EditDrugName", (string)ViewBag.EditDrugName, new { @class = "form-control rounded-0" })</td>
+                    </tr>
+                    <tr>
+                        <td>種類：</td>
+                        <td>
+                            @Html.DropDownList("EditDrugType", new List<SelectListItem>
+                       {                           
+                           new SelectListItem{Text = "殺菌劑",Value = "殺菌劑"}
+                       })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>型態：</td>
+                        <td>
+                            @Html.DropDownList("EditDrugState", new List<SelectListItem>
+                       {
+                           new SelectListItem{Text = "固體", Value = "固體"},
+                           new SelectListItem{Text = "液體",Value = "液體"}
+                       })
+                            <small style="color: red"><br />※「狀態」為"乳劑"者，請歸類為「液體」</small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>數量：</td>
+                        <td>@Html.TextBox("EditAmount", (string)ViewBag.EditAmount, new { style = "width:50%;align:left" }) (公升、公斤)</td>
+                    </tr>
+                    <tr>
+                        <td>濃度：</td>
+                        <td>@Html.TextBox("EditDensity", (string)ViewBag.EditDensity, new { style = "width:50%;align:left" })%</td>
+                    </tr>
+                    <tr>
+                        <td>可消毒面積：</td>
+                        <td>@Html.TextBox("EditArea", (string)ViewBag.EditArea, new { style = "width:50%;align:left" })公頃</td>
+                    </tr>
+                    <tr>
+                        <td>使用年限：</td>
+                        <td>@Html.TextBox("EditServiceLife", (string)ViewBag.EditServiceLife, new { style = "width:50%;align:left" })</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <input type="submit" class="btn" style="margin:10px" value="資料確認儲存" />
+                        </td>
+                    </tr>
+                </table>
+
+                <br /><br />
+            }
+        </div>
+        <div id="AddArea" class="text-center" style="display:none;width:100%">
+            <br />
+            @using (Html.BeginForm("Add", "EPBxDisinfectant", FormMethod.Post, new { onsubmit = "return ValidateInput();" }))
+            {
+                <table class="table table-bordered table-striped  text-center">
+                    <tr>
+                        <td>縣市</td>
+                        <td>@ViewBag.City</td>
+                    </tr>
+                    <tr>
+                        <td>鄉鎮市</td>
+                        <td>環保局</td>
+                    </tr>
+                    <tr>
+                        <td>聯繫單位名稱</td>
+                        <td>@Html.TextBox("ContactUnit", "", new { style = "width:100%" })</td>
+                    </tr>
+                    <tr>
+                        <td>消毒藥品名稱</td>
+                        <td>@Html.TextBox("DrugName", "", new { style = "width:100%" })</td>
+                    </tr>
+                    <tr>
+                        <td>類別</td>
+                        <td>
+                            @Html.DropDownList("DrugType", new List<SelectListItem>
+                     {                         
+                         new SelectListItem{Text = "殺菌劑",Value = "殺菌劑"}
+                     })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>狀態</td>
+                        <td>
+                            @Html.DropDownList("DrugState", new List<SelectListItem>
+                       {
+                           new SelectListItem{Text = "固體", Value = "固體",Selected=true },
+                           new SelectListItem{Text = "液體",Value = "液體"}
+                       })
+                            <small style="color: red"><br />※「狀態」為"乳劑"者，請歸類為「液體」</small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>數量</td>
+                        <td> @Html.TextBox("Amount", "", new { style = "width:50%;align:left" }) (公升、公斤)</td>
+                    </tr>
+                    <tr>
+                        <td>濃度</td>
+                        <td> @Html.TextBox("Density", "", new { style = "width:50%;align:left" })%</td>
+                    </tr>
+                    <tr>
+                        <td>可消毒面積</td>
+                        <td> @Html.TextBox("Area", "", new { style = "width:50%;align:left" }) 公頃</td>
+                    </tr>
+                    <tr>
+                        <td>使用年限</td>
+                        <td> @Html.TextBox("ServiceLife", "", new { style = "width:50%;align:left" })</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <input type="submit" class="btn" style="margin:10px" value="資料確認儲存" onsubmit="return ValidateInput();" />
+                        </td>
+                    </tr>
+                </table>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div id="DataArea" style="height:400px;overflow:auto;">
+            @{Html.RenderPartial("~/Views/Components/ShowDisinfectantForEdit.cshtml");}
+        </div>
+    </div>
+</div>
+
+<script>
+    function PickItemForEdit(x) {
+        $.post("/EPBxDisinfectant/Edit", { Id: x }, function (data) {
+            $("#AddArea").hide();
+            $("#DeleteArea").hide();
+            $("#EditArea").show();
+            $("#EditId").val(x);
+            $("#EditContactUnit").val(data.ContactUnit);
+            $("#EditDrugName").val(data.DrugName);
+            $("#EditDrugType").val(data.DrugType);
+            $("#EditDrugState").val(data.DrugState);
+            $("#EditAmount").val(data.Amount);
+            $("#EditDensity").val(data.Density);
+            $("#EditArea").val(data.Area);
+            $("#EditServiceLife").val(data.ServiceLife);
+        });  
+    }
+</script>
+
+<script>
+    function PickItemForDelete(id) {
+        $("#AddArea").hide();
+        $("#EditArea").hide();
+        $("#DeleteArea").show();
+        $("#DeleteId").val(id);
+    }
+</script>
+
+<script>
+    function AddItem() {
+        $("#EditArea").hide(); $("#DeleteArea").hide();
+        $("#AddArea").show();
+    }
+</script>
+
+<script>
+    function ValidateInput() {
+        return true;
+        //以下程式可抓到ContactUnit的值
+        //var x = $("#ContactUnit").val();
+        //alert(x);
+        //return true;
+        //再配合 return false; 以及if else 理論上可在此驗證資料格式
+        //但不知為何字串無法比對？
+    }
+</script>
+
+

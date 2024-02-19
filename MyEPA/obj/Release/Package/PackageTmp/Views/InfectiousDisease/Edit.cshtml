@@ -1,0 +1,163 @@
+﻿@model MyEPA.Models.InfectiousDiseaseModel
+@using MyEPA.Models;
+@{
+    ViewBag.Title = "修改武漢肺炎居家隔離通報";
+    Layout = "~/Views/_Layout.cshtml";
+    bool isAdmin = ViewBag.IsAdmin;
+    List<CityModel> citys = ViewBag.Citys;
+}
+
+<h3>@ViewBag.Title</h3>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.CityId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <select id="CityId" name="CityId">
+                @foreach (var item in citys)
+                {
+                    <option value="@item.Id" @(Model.CityId == item.Id ? "selected" : string.Empty) )>@item.City</option>
+                }
+            </select>
+            @Html.ValidationMessageFor(model => model.CityId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.TownId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <select id="TownId" name="TownId">
+            </select>
+            @Html.ValidationMessageFor(model => model.TownId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input name="Date" id="Date" type="date" value="@Model.Date.ToString("yyyy-MM-dd")">
+            @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.MaskCheckTimes, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.MaskCheckTimes, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+            @Html.ValidationMessageFor(model => model.MaskCheckTimes, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.HomeQuarantineCount, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.HomeQuarantineCount, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+            @Html.ValidationMessageFor(model => model.HomeQuarantineCount, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.HomeQuarantineGarbageAmount, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.HomeQuarantineGarbageAmount, new { htmlAttributes = new { @class = "form-control", @type = "number", @step = "0.001" } })
+            @Html.ValidationMessageFor(model => model.HomeQuarantineGarbageAmount, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.HomeInspectionCount, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.HomeInspectionCount, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+            @Html.ValidationMessageFor(model => model.HomeInspectionCount, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.HomeInspectionGarbageAmount, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.HomeInspectionGarbageAmount, new { htmlAttributes = new { @class = "form-control", @type = "number", @step = "0.001" } })
+            @Html.ValidationMessageFor(model => model.HomeInspectionGarbageAmount, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.InspectionHotelCount, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.InspectionHotelCount, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+            @Html.ValidationMessageFor(model => model.InspectionHotelCount, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.InspectionHotelGarbageAmount, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.InspectionHotelGarbageAmount, new { htmlAttributes = new { @class = "form-control", @type = "number", @step = "0.001" } })
+            @Html.ValidationMessageFor(model => model.InspectionHotelGarbageAmount, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ReportTimes, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ReportTimes, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+            @Html.ValidationMessageFor(model => model.ReportTimes, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="儲存" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("返回列表", "Index", new { }, new { @class = "btn btn-default" })
+</div>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<script src="~/Content/assets/js/jquery-2.1.4.min.js"></script>
+<script src="~/Content/assets/js/jquery-ui.min.js"></script>
+<script>
+    $(document).ready(function () {
+        ChangeCity();
+        $('#CityId').change(function () { ChangeCity(); });
+    });
+    function ChangeCity() {
+        var selectedValue = $('#CityId option:selected').val();
+        if ($.trim(selectedValue).length > 0) {
+            GetTowns(selectedValue);
+        }
+    }
+    function GetTowns(cityId) {
+        $.ajax({
+            url: '@Url.Action("Towns", "Geolocation")'+'?isByUser=true&cityId='+cityId,
+            type: 'get',
+            cache: false,
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                $('#TownId').empty();
+                if (data.length > 0) {
+                    $.each(data, function (i, item) {
+                        var townId = @Model.TownId;
+                        if (townId == item.Id) {
+                            $('#TownId').append($('<option selected ></option>').val(item.Id).text(item.Name));
+                        }
+                        else
+                            $('#TownId').append($('<option ></option>').val(item.Id).text(item.Name));
+                    });
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(textStatus);
+            }
+
+        });
+    }
+</script>

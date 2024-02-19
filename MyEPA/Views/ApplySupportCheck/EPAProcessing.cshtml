@@ -1,0 +1,892 @@
+﻿@using MyEPA.Models
+@using MyEPA.Enums
+@using MyEPA.Models.BaseModels
+@model MyEPA.ViewModels.ApplySupportProcessingViewModel
+
+@{
+    ViewBag.Title = "請求支援核定";
+    Layout = "~/Views/_Layout.cshtml";
+
+    int diasterId = ViewBag.DiasterId;
+    List<DiasterModel> Diasters = ViewBag.Diasters;
+    int? townId = ViewBag.TownId;
+    List<TownModel> towns = ViewBag.Towns;
+    int? applyTypeId = ViewBag.ApplyTypeId;
+    Dictionary<string, int> applyTypes = ViewBag.ApplyTypes;
+    Dictionary<string, int> carDic = ViewBag.CarDic;
+    Dictionary<string, int> medicineDic = ViewBag.MedicineDic;
+    Dictionary<string, int> subsidyTypeDic = ViewBag.SubsidyTypeDic;
+    List<ApplySubsidyTypeDetailModel> subsidyTypeDetails = ViewBag.SubsidyTypeDetails;
+    DutyEnum duty = ViewBag.DutyId;
+    List<ApplyStatusEnum> isPending = new List<ApplyStatusEnum> { ApplyStatusEnum.Processing, ApplyStatusEnum.Pending };
+
+    Func<ApplyBaseModel, bool> isCanConfirmProcess = (data) =>
+    {
+
+        return (data.IsToEpa && isPending.Contains(data.EPAConfirmStatus.GetValueOrDefault()) && (duty == DutyEnum.EPA || duty == DutyEnum.Corps))
+                 || (duty == DutyEnum.EPB && isPending.Contains(data.EPBConfirmStatus.GetValueOrDefault()));
+    };
+    Func<ApplyBaseModel, bool> isCanCancelProcess = (data) =>
+    {
+        return (data.IsToEpa && data.EPAConfirmStatus.GetValueOrDefault() == ApplyStatusEnum.Confrim && (duty == DutyEnum.EPA || duty == DutyEnum.Corps))
+           || (duty == DutyEnum.EPB && data.EPBConfirmStatus.GetValueOrDefault() == ApplyStatusEnum.Confrim);
+    };
+    Func<ApplyBaseModel, bool> isShowEPADesc = (data) =>
+    {
+        return data.EPBConfirmStatus.HasValue && data.EPBConfirmStatus.Value == ApplyStatusEnum.SendToEpa;
+    };
+
+}
+
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="row">
+                    <h3 align="center">請求支援核定</h3>
+                    <hr>
+                </div>
+
+                <div class="row">
+                    @using (Html.BeginForm("EPAProcessing", "ApplySupportCheck", new { }, FormMethod.Get, new { }))
+                    {
+                        <table border="0">
+                            <tbody>
+                                <tr>
+                                    <td><h5>災害名稱：</h5></td>
+                                    <td>
+                                        <select name="diasterId">
+                                            @foreach (var item in Diasters)
+                                            {
+                                                <option value="@item.Id" @(item.Id == diasterId ? "selected" : string.Empty)>@item.DiasterName</option>
+                                            }
+                                        </select>
+                                    </td>
+                                </tr>
+                                @*
+                                <tr>
+                                    <td><h5>鄉鎮選擇：</h5></td>
+                                    <td>
+                                        <select name="townId">
+                                            <option value="">全部</option>
+                                            @foreach (var item in towns)
+                                            {
+                                                <option value="@item.Id" @(townId == item.Id ? "selected" : string.Empty)>@item.Name</option>
+                                            }
+                                        </select>
+                                    </td>
+                                </tr>*@
+                                <tr>
+                                    <td><h5>支援項目選擇：</h5></td>
+                                    <td>
+                                        <select name="applyTypeId">
+                                            <option value="">全部</option>
+                                            @foreach (var item in applyTypes)
+                                            {
+                                                <option value="@item.Value" @(applyTypeId == item.Value ? "selected" : string.Empty)>@item.Key</option>
+                                            }
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr><td>&nbsp;</td></tr>
+                                <tr align="center">
+                                    <td colspan="2"><button type="submit" class="btn btn-primary" href=""><i class="fa fa-search"></i>&nbsp;查詢</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+                    <hr>
+                </div>
+                <div class="row">
+                    @if (applyTypeId.HasValue == false || (applyTypeId.HasValue && applyTypeId.Value == ApplyTypeEnum.ApplyPeople.ToInteger()))
+                    {
+                        <table class="table table-detail" width="100%" border="1">
+                            <tbody>
+                                <tr align="center" class="table-header">
+                                    <td colspan="12"><i class="ace-icon fa fa-users"></i>&nbsp;人力支援</td>
+                                </tr>
+                                <tr align="center" bgcolor="lightyellow">
+                                    <td>單位</td>
+                                    <td>需用日期</td>
+                                    <td>清潔隊支援人數</td>
+                                    <td>清潔隊支援天數</td>
+                                    <td>國軍支援人數</td>
+                                    <td>國軍支援天數</td>
+                                    <td>說明</td>
+                                    <td>本局辦理情形</td>
+                                    <td>確認</td>
+                                    <td>本局辦理狀態</td>
+                                    <td>環保署辦理情形</td>
+                                    <td>詳細資料</td>
+                                </tr>
+                                @{
+                                    if (Model.ApplyPeople != null && Model.ApplyPeople.Any())
+                                    {
+                                        foreach (var data in Model.ApplyPeople)
+                                        {
+                                            <tr>
+                                                <td>@towns.FirstOrDefault(c => c.Id == data.TownId).Name</td>
+                                                <td>@data.RequireDate.ToString("yyyy.MM.dd")</td>
+                                                <td>@data.CleaningMemberQuantity</td>
+                                                <td>@data.CleaningMemberDays</td>
+                                                <td>@data.NationalArmyQuantity</td>
+                                                <td>@data.NationalArmyDays</td>
+                                                <td>@data.EstimationMethodDescribe</td>
+                                                <td>
+                                                    @if (isCanConfirmProcess(data))
+                                                    {
+                                                        <a target="_blank" href="@Url.Action("EPAProcessing","ApplyPeople", new { id = @data.Id })" class="btn btn-purple">開始辦理</a>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @if (isCanConfirmProcess(data))
+                                                    {
+                                                        <input type="button" class="btn btn-danger" onclick="confirmProcess('ApplyPeople', @data.Id)" value="確認核定" />
+                                                    }
+                                                    else if(isCanCancelProcess(data))
+                                                    {
+                                                        <input type="button" class="btn btn-danger" onclick="cancelProcess('ApplyPeople', @data.Id)" value="取消核定" />
+                                                    }
+                                                </td>
+                                                <td>@data.EPBConfirmStatus.GetDescription()</td>
+                                                <td>
+                                                    @if (isShowEPADesc(data))
+                                                    {
+                                                        @data.EPAConfirmStatus.GetDescription()
+                                                    }
+                                                </td>
+                                                <td><a class="btn" href="@Url.Action("Details","ApplyPeople",new { @data.Id })"><i class="fa fa-eye">查看</i></a></td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="12">*目前尚無資料</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                        <hr>
+                    }
+                    @if (applyTypeId.HasValue == false || (applyTypeId.HasValue && applyTypeId.Value == ApplyTypeEnum.ApplyCar.ToInteger()))
+                    {
+                        <table class="table table-detail" width="100%" border="1">
+                            <tbody>
+                                <tr align="center" class="table-header">
+                                    <td colspan="11"><i class="ace-icon fa fa-car"></i>&nbsp;車輛設備</td>
+                                </tr>
+                                <tr align="center" bgcolor="lightyellow">
+                                    <td>單位</td>
+                                    <td>需用日期</td>
+                                    <td>車輛名稱</td>
+                                    <td>數量(輛)</td>
+                                    <td>說明</td>
+                                    <td>本局辦理情形</td>
+                                    <td>確認</td>
+                                    <td>本局辦理狀態</td>
+                                    <td>環保署辦理情形</td>
+                                    <td>詳細資料</td>
+                                </tr>
+                                @{
+                                    if (Model.ApplyCar != null && Model.ApplyCar.Any())
+                                    {
+                                        foreach (var data in Model.ApplyCar)
+                                        {
+
+                                            var detailCount = data.Details.Count;
+                                            if (detailCount == 0)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @towns.FirstOrDefault(c => c.Id == data.TownId).Name
+                                                    </td>
+                                                    <td> @data.RequireDate.ToString("yyyy.MM.dd")</td>
+                                                    <td>  </td>
+                                                    <td> </td>
+                                                    <td>@data.EstimationMethodDescribe</td>
+                                                    <td>
+                                                        @if (isCanConfirmProcess(data))
+                                                        {
+                                                            <a target="_blank" href="@Url.Action("EPAProcessing","ApplyCar", new { id = @data.Id })" class="btn btn-purple">開始辦理</a>
+                                                        }
+
+                                                    </td>
+                                                    <td>
+                                                        @if (isCanConfirmProcess(data))
+                                                        {
+                                                            <input type="button" class="btn btn-danger" onclick="confirmProcess('ApplyCar', @data.Id)" value="確認核定" />
+                                                        }
+                                                        else if (isCanCancelProcess(data))
+                                                        {
+                                                            <input type="button" class="btn btn-danger" onclick="cancelProcess('ApplyCar', @data.Id)" value="取消核定" />
+                                                        }
+                                                    </td>
+                                                    <td>@data.EPBConfirmStatus.GetDescription()</td>
+                                                    <td>
+                                                        @if (isShowEPADesc(data))
+                                                        {
+                                                            @data.EPAConfirmStatus.GetDescription()
+                                                        }
+                                                    </td>
+                                                    <td><a class="btn" href="@Url.Action("Details","ApplyCar",new { @data.Id })"><i class="fa fa-eye">查看</i></a></td>
+                                                </tr>
+                                            }
+                                            for (var i = 0; i < detailCount; i++)
+                                            {
+
+                                                var detail = data.Details[i];
+                                                if (i == 0)
+                                                {
+                                                    <tr>
+                                                        <td rowspan="@detailCount">
+                                                            @towns.FirstOrDefault(c => c.Id == data.TownId).Name
+                                                        </td>
+                                                        <td rowspan="@detailCount"> @data.RequireDate.ToString("yyyy.MM.dd")</td>
+                                                        <td> @carDic.FirstOrDefault(c => c.Value == detail.ApplyCarTypeId).Key </td>
+                                                        <td> @detail.Quantity </td>
+                                                        <td rowspan="@detailCount">@data.EstimationMethodDescribe</td>
+                                                        <td rowspan="@detailCount">
+                                                            @if (isCanConfirmProcess(data))
+                                                            {
+                                                                <a target="_blank" href="@Url.Action("EPAProcessing","ApplyCar", new { id = @data.Id })" class="btn btn-purple">開始辦理</a>
+                                                            }
+
+                                                        </td>
+                                                        <td rowspan="@detailCount">
+                                                            @if (isCanConfirmProcess(data))
+                                                            {
+                                                                <input type="button" class="btn btn-danger" onclick="confirmProcess('ApplyCar', @data.Id)" value="確認核定" />
+                                                            }
+                                                            else if (isCanCancelProcess(data))
+                                                            {
+                                                                <input type="button" class="btn btn-danger" onclick="cancelProcess('ApplyCar', @data.Id)" value="取消核定" />
+                                                            }
+                                                        </td>
+                                                        <td rowspan="@detailCount">@data.EPBConfirmStatus.GetDescription()</td>
+                                                        <td>
+                                                            @if (isShowEPADesc(data))
+                                                            {
+                                                                @data.EPAConfirmStatus.GetDescription()
+                                                            }
+                                                        </td>
+                                                        <td rowspan="@detailCount"><a class="btn" href="@Url.Action("Details","ApplyCar",new { @data.Id })"><i class="fa fa-eye">查看</i></a></td>
+                                                    </tr>
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td> @carDic.FirstOrDefault(c => c.Value == detail.ApplyCarTypeId).Key </td>
+                                                        <td> @detail.Quantity </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="11">*目前尚無資料</td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                        <hr>
+                    }
+                    @if (applyTypeId.HasValue == false || (applyTypeId.HasValue && applyTypeId.Value == ApplyTypeEnum.ApplyMedicine.ToInteger()))
+                    {
+                        <table class="table table-detail" width="100%" border="1">
+                            <tbody>
+                                <tr align="center" class="table-header">
+                                    <td colspan="11"><i class="ace-icon fa fa-flask"></i>&nbsp;消毒藥劑</td>
+                                </tr>
+                                <tr align="center" bgcolor="lightyellow">
+                                    <td>單位</td>
+                                    <td>需用日期</td>
+                                    <td>藥劑名稱</td>
+                                    <td>數量</td>
+                                    <td>說明</td>
+                                    <td>本局辦理情形</td>
+                                    <td>確認</td>
+                                    <td>本局辦理狀態</td>
+                                    <td>環保署辦理情形</td>
+                                    <td>詳細資料</td>
+                                </tr>
+                                @{
+                                    if (Model.ApplyMedicine != null && Model.ApplyMedicine.Any())
+                                    {
+                                        foreach (var data in Model.ApplyMedicine)
+                                        {
+
+                                            var detailCount = data.Details.Count;
+                                            if (detailCount == 0)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @towns.FirstOrDefault(c => c.Id == data.TownId).Name
+                                                    </td>
+                                                    <td> @data.RequireDate.ToString("yyyy.MM.dd")</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>@data.EstimationMethodDescribe</td>
+                                                    <td>
+                                                        @if (isCanConfirmProcess(data))
+                                                        {
+                                                            <a target="_blank" href="@Url.Action("EPAProcessing","ApplyMedicine", new { id = @data.Id })" class="btn btn-purple">開始辦理</a>
+                                                        }
+
+                                                    </td>
+                                                    <td>
+                                                        @if (isCanConfirmProcess(data))
+                                                        {
+                                                            <input type="button" class="btn btn-danger" onclick="confirmProcess('ApplyMedicine', @data.Id)" value="確認核定" />
+                                                        }
+                                                        else if (isCanCancelProcess(data))
+                                                        {
+                                                            <input type="button" class="btn btn-danger" onclick="cancelProcess('ApplyMedicine', @data.Id)" value="取消核定" />
+                                                        }
+                                                    </td>
+                                                    <td>@data.EPBConfirmStatus.GetDescription()</td>
+                                                    <td>
+                                                        @if (isShowEPADesc(data))
+                                                        {
+                                                            @data.EPAConfirmStatus.GetDescription()
+                                                        }
+                                                    </td>
+                                                    <td><a class="btn" href="@Url.Action("Details","ApplyMedicine",new { @data.Id})"><i class="fa fa-eye">查看</i></a></td>
+                                                </tr>
+                                            }
+                                            for (var i = 0; i < detailCount; i++)
+                                            {
+
+                                                var detail = data.Details[i];
+                                                if (i == 0)
+                                                {
+                                                    <tr>
+                                                        <td rowspan="@detailCount">
+                                                            @towns.FirstOrDefault(c => c.Id == data.TownId).Name
+                                                        </td>
+                                                        <td rowspan="@detailCount"> @data.RequireDate.ToString("yyyy.MM.dd")</td>
+                                                        <td> @medicineDic.FirstOrDefault(c => c.Value == (int)detail.MedicineType).Key </td>
+                                                        <td> @detail.Quantity </td>
+                                                        <td rowspan="@detailCount">@data.EstimationMethodDescribe</td>
+                                                        <td rowspan="@detailCount">
+                                                            @if (isCanConfirmProcess(data))
+                                                            {
+                                                                <a target="_blank" href="@Url.Action("EPAProcessing","ApplyMedicine", new { id = @data.Id })" class="btn btn-purple">開始辦理</a>
+                                                            }
+
+                                                        </td>
+                                                        <td rowspan="@detailCount">
+                                                            @if (isCanConfirmProcess(data))
+                                                            {
+                                                                <input type="button" class="btn btn-danger" onclick="confirmProcess('ApplyMedicine', @data.Id)" value="確認核定" />
+                                                            }
+                                                            else if (isCanCancelProcess(data))
+                                                            {
+                                                                <input type="button" class="btn btn-danger" onclick="cancelProcess('ApplyMedicine', @data.Id)" value="取消核定" />
+                                                            }
+                                                        </td>
+                                                        <td rowspan="@detailCount">@data.EPBConfirmStatus.GetDescription()</td>
+                                                        <td>
+                                                            @if (isShowEPADesc(data))
+                                                            {
+                                                                @data.EPAConfirmStatus.GetDescription()
+                                                            }
+                                                        </td>
+                                                        <td rowspan="@detailCount"><a class="btn" href="@Url.Action("Details","ApplyMedicine",new { @data.Id })"><i class="fa fa-eye">查看</i></a></td> 
+                                                    </tr>
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td> @medicineDic.FirstOrDefault(c => c.Value == (int)detail.MedicineType).Key </td>
+                                                        <td> @detail.Quantity </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="11">*目前尚無資料</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                        <hr>
+                    }
+                    @if (applyTypeId.HasValue == false || (applyTypeId.HasValue && applyTypeId.Value == ApplyTypeEnum.ApplyDisinfectionEquipment.ToInteger()))
+                    {
+                        <table class="table table-detail" width="100%" border="1">
+                            <tbody>
+                                <tr align="center" class="table-header">
+                                    <td colspan="10"><i class="ace-icon fa fa-paint-brush"></i>&nbsp;環境消毒設備</td>
+                                </tr>
+                                <tr align="center" bgcolor="lightyellow">
+                                    <td>單位</td>
+                                    <td>需用日期</td>
+                                    <td>項目名稱</td>
+                                    <td>數量</td>
+                                    <td>說明</td>
+                                    <td>本局辦理情形</td>
+                                    <td>確認</td>
+                                    <td>本局辦理狀態</td>
+                                    <td>環保署辦理情形</td>
+                                    <td>詳細資料</td>
+                                </tr>
+                                @{
+                                    if (Model.ApplyDisinfectionEquipment != null && Model.ApplyDisinfectionEquipment.Any())
+                                    {
+                                        foreach (var data in Model.ApplyDisinfectionEquipment)
+                                        {
+
+                                            var detailCount = data.Details.Count;
+
+                                            for (var i = 0; i < detailCount; i++)
+                                            {
+
+                                                var detail = data.Details[i];
+                                                if (detailCount == 0)
+                                                {
+                                                                <tr>
+                                                                    <td>
+                                                                        @towns.FirstOrDefault(c => c.Id == data.TownId).Name
+                                                                    </td>
+                                                                    <td> @data.RequireDate.ToString("yyyy.MM.dd")</td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td>@data.EstimationMethodDescribe</td>
+                                                                    <td>
+                                                                        @if (isCanConfirmProcess(data))
+                                                                        {
+                                                                            <a target="_blank" href="@Url.Action("EPAProcessing","ApplyDisinfectionEquipment", new { id = @data.Id })" class="btn btn-purple">開始辦理</a>
+                                                                        }
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @if (isCanConfirmProcess(data))
+                                                                        {
+                                                                            <input type="button" class="btn btn-danger" onclick="confirmProcess('ApplyDisinfectionEquipment', @data.Id)" value="確認核定" />
+                                                                        }
+                                                                        else if (isCanCancelProcess(data))
+                                                                        {
+                                                                            <input type="button" class="btn btn-danger" onclick="cancelProcess('ApplyDisinfectionEquipment', @data.Id)" value="取消核定" />
+                                                                        }
+                                                                    </td>
+                                                                    <td>@data.EPBConfirmStatus.GetDescription()</td>
+                                                                    <td>
+                                                                        @if (isShowEPADesc(data))
+                                                                        {
+                                                                            @data.EPAConfirmStatus.GetDescription()
+                                                                        }
+                                                                    </td>
+                                                                    <td><a class="btn" href="@Url.Action("Details","ApplyDisinfectionEquipment",new { @data.Id })"><i class="fa fa-eye">查看</i></a></td>
+                                                                </tr>
+                                                }
+                                                if (i == 0)
+                                                {
+                            <tr>
+                                <td rowspan="@detailCount">
+                                    @towns.FirstOrDefault(c => c.Id == data.TownId).Name
+                                </td>
+                                <td rowspan="@detailCount"> @data.RequireDate.ToString("yyyy.MM.dd")</td>
+                                <td> @detail.Item </td>
+                                <td> @detail.Quantity </td>
+                                <td rowspan="@detailCount">@data.EstimationMethodDescribe</td>
+                                <td rowspan="@detailCount">
+                                    @if (isCanConfirmProcess(data))
+                                    {
+                                        <a target="_blank" href="@Url.Action("EPAProcessing","ApplyDisinfectionEquipment", new { id = @data.Id })" class="btn btn-purple">開始辦理</a>
+                                    }
+
+                                </td>
+                                <td rowspan="@detailCount">
+                                    @if (isCanConfirmProcess(data))
+                                    {
+                                        <input type="button" class="btn btn-danger" onclick="confirmProcess('ApplyDisinfectionEquipment', @data.Id)" value="確認核定" />
+                                    }
+                                    else if (isCanCancelProcess(data))
+                                    {
+                                        <input type="button" class="btn btn-danger" onclick="cancelProcess('ApplyDisinfectionEquipment', @data.Id)" value="取消核定" />
+                                    }
+                                </td>
+                                <td rowspan="@detailCount">@data.EPBConfirmStatus.GetDescription()</td>
+                                <td>
+                                    @if (isShowEPADesc(data))
+                                    {
+                                        @data.EPAConfirmStatus.GetDescription()
+                                    }
+                                </td>
+                                <td rowspan="@detailCount"><a class="btn" href="@Url.Action("Details","ApplyDisinfectionEquipment",new { @data.Id })"><i class="fa fa-eye">查看</i></a></td>
+                            </tr>
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td> @detail.Item </td>
+                                                        <td> @detail.Quantity </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="11">*目前尚無資料</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                        <hr>
+                    }
+
+
+                    @if (applyTypeId.HasValue == false || (applyTypeId.HasValue && applyTypeId.Value == ApplyTypeEnum.ApplySubsidy.ToInteger()))
+                    {
+                        <table class="table table-detail" width="100%" border="1">
+                            <tbody>
+                                <tr align="center" class="table-header">
+                                    <td colspan="14"><i class="ace-icon fa fa-money"></i>&nbsp;請求補助款</td>
+                                </tr>
+                                <tr align="center" bgcolor="lightyellow">
+                                    <td>單位</td>
+                                    <td>需用日期</td>
+                                    <td>設備項目</td>
+                                    <td>請求細目</td>
+                                    <td>項目金額</td>
+                                    <td>請求數量</td>
+                                    <td>請求天數</td>
+                                    <td>申請經費總計</td>
+                                    <td>說明</td>
+                                    <td>本局辦理情形</td>
+                                    <td>確認</td>
+                                    <td>本局辦理狀態</td>
+                                    <td>環保署辦理情形</td>
+                                    <td>詳細資料</td>
+                                </tr>
+                                @{
+                                    if (Model.ApplySubsidy != null && Model.ApplySubsidy.Any())
+                                    {
+                                        foreach (var data in Model.ApplySubsidy)
+                                        {
+
+                                            var detailCount = data.Details.Count;
+                                            if (detailCount == 0)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @towns.FirstOrDefault(c => c.Id == data.TownId).Name
+                                                    </td>
+                                                    <td> @data.RequireDate.ToString("yyyy.MM.dd")</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td> @data.Details.Sum(c => 
+                                                                { 
+                                                                    switch(c.SubsidyType)
+                                                                    {
+                                                                        case ApplySubsidyTypeEnum.HireTemporaryWorkers:
+                                                                        case ApplySubsidyTypeEnum.RentalCleaningEquipment:
+                                                                        case ApplySubsidyTypeEnum.RentalDisinfectionEquipment:
+                                                                            return c.Price * c.Quantity * c.NeedDays; 
+                                                                        default: 
+                                                                            return c.Price * c.Quantity; 
+                                                                    }
+                                                                }) </td>
+                                                    <td>@data.EstimationMethodDescribe</td>
+                                                    <td>
+                                                        @if (isCanConfirmProcess(data))
+                                                        {
+                                                            <a target="_blank" href="@Url.Action("EPAProcessing","ApplySubsidy", new { id = @data.Id })" class="btn btn-purple">開始辦理</a>
+                                                        }
+
+                                                    </td>
+                                                    <td>
+                                                        @if (isCanConfirmProcess(data))
+                                                        {
+                                                            <input type="button" class="btn btn-danger" onclick="confirmProcess('ApplySubsidy', @data.Id)" value="確認核定" />
+                                                        }
+                                                        else if (isCanCancelProcess(data))
+                                                        {
+                                                            <input type="button" class="btn btn-danger" onclick="cancelProcess('ApplySubsidy', @data.Id)" value="取消核定" />
+                                                        }
+                                                    </td>
+                                                    <td>@data.EPBConfirmStatus.GetDescription()</td>
+                                                    <td>
+                                                        @if (isShowEPADesc(data))
+                                                        {
+                                                            @data.EPAConfirmStatus.GetDescription()
+                                                        }
+                                                    </td>
+                                                    <td><a class="btn" href="@Url.Action("Details","ApplySubsidy",new { @data.Id })"><i class="fa fa-eye">查看</i></a></td>
+                                                </tr>
+                                            }
+                                            for (var i = 0; i < detailCount; i++)
+                                            {
+
+                                                var detail = data.Details[i];
+                                                var foundTypeDetail = subsidyTypeDetails.FirstOrDefault(c => c.ApplySubsidyTypeId == detail.ApplySubsidyTypeId && c.Id == detail.ApplySubsidyTypeDetailId);
+                                                var typeDetail = foundTypeDetail == null ? "" : foundTypeDetail.DisplayName;
+                                                if (foundTypeDetail != null && foundTypeDetail.ApplySubsidyTypeId == 6)
+                                                {
+                                                    typeDetail = detail.Description;
+                                                }
+
+                                                if (i == 0)
+                                                {
+                                                    <tr>
+                                                        <td rowspan="@detailCount">
+                                                            @towns.FirstOrDefault(c => c.Id == data.TownId).Name
+                                                        </td>
+                                                        <td rowspan="@detailCount"> @data.RequireDate.ToString("yyyy.MM.dd")</td>
+                                                        <td>@subsidyTypeDic.FirstOrDefault(c => c.Value == detail.ApplySubsidyTypeId).Key </td>
+                                                        <td>@typeDetail</td>
+                                                        <td>@detail.Price </td>
+                                                        <td>@detail.Quantity </td>
+                                                        <td>
+                                                            @switch (detail.SubsidyType)
+                                                            {
+                                                            case ApplySubsidyTypeEnum.HireTemporaryWorkers:
+                                                            case ApplySubsidyTypeEnum.RentalCleaningEquipment:
+                                                            case ApplySubsidyTypeEnum.RentalDisinfectionEquipment:
+                                                                    <p>@detail.NeedDays</p>;
+                                                                    break;
+                                                            }
+                                                        </td>
+                                                        <td rowspan="@detailCount"> @data.Details.Sum(c =>
+                                                                               {
+                                                                                   switch (c.SubsidyType)
+                                                                                   {
+                                                                                       case ApplySubsidyTypeEnum.HireTemporaryWorkers:
+                                                                                       case ApplySubsidyTypeEnum.RentalCleaningEquipment:
+                                                                                       case ApplySubsidyTypeEnum.RentalDisinfectionEquipment:
+                                                                                           return c.Price * c.Quantity * c.NeedDays;
+                                                                                       default:
+                                                                                           return c.Price * c.Quantity;
+                                                                                   }
+                                                                               }) </td>
+                                                        <td rowspan="@detailCount">@data.EstimationMethodDescribe</td>
+                                                        <td rowspan="@detailCount">
+                                                            @if (isCanConfirmProcess(data))
+                                                            {
+                                                                <a target="_blank" href="@Url.Action("EPAProcessing","ApplySubsidy", new { id = @data.Id })" class="btn btn-purple">開始辦理</a>
+                                                            }
+
+                                                        </td>
+                                                        <td rowspan="@detailCount">
+                                                            @if (isCanConfirmProcess(data))
+                                                            {
+                                                                <input type="button" class="btn btn-danger" onclick="confirmProcess('ApplySubsidy', @data.Id)" value="確認核定" />
+                                                            }
+                                                            else if (isCanCancelProcess(data))
+                                                            {
+                                                                <input type="button" class="btn btn-danger" onclick="cancelProcess('ApplySubsidy', @data.Id)" value="取消核定" />
+                                                            }
+
+                                                        </td>
+                                                        <td rowspan="@detailCount">@data.EPBConfirmStatus.GetDescription()</td>
+                                                        <td>
+                                                            @if (isShowEPADesc(data))
+                                                            {
+                                                                @data.EPAConfirmStatus.GetDescription()
+                                                            }
+                                                        </td>
+                                                        <td rowspan="@detailCount"><a class="btn" href="@Url.Action("Details","ApplySubsidy",new { @data.Id })"><i class="fa fa-eye">查看</i></a></td>
+                                                    </tr>
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td> @subsidyTypeDic.FirstOrDefault(c => c.Value == detail.ApplySubsidyTypeId).Key </td>
+                                                        <td> @typeDetail </td>
+                                                        <td> @detail.Price </td>
+                                                        <td> @detail.Quantity </td>
+                                                        <td>
+                                                            @switch (detail.SubsidyType)
+                                                            {
+                                                                case ApplySubsidyTypeEnum.HireTemporaryWorkers:
+                                                                case ApplySubsidyTypeEnum.RentalCleaningEquipment:
+                                                                case ApplySubsidyTypeEnum.RentalDisinfectionEquipment:
+                                                                    <p>@detail.NeedDays</p>
+                                                                    break;
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="12">*目前尚無資料</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                        <hr>
+                    }
+
+                    @if (applyTypeId.HasValue == false || (applyTypeId.HasValue && applyTypeId.Value == ApplyTypeEnum.ApplyOther.ToInteger()))
+                    {
+                        <table class="table table-detail" width="100%" border="1">
+                            <tbody>
+                                <tr align="center" class="table-header">
+                                    <td colspan="11">其他(包括垃圾場災損)</td>
+                                </tr>
+                                <tr align="center" bgcolor="lightyellow">
+                                    <td>單位</td>
+                                    <td>需用日期</td>
+                                    <td>項目名稱(單位)</td>
+                                    <td>數量</td>
+                                    <td>說明</td>
+                                    <td>本局辦理情形</td>
+                                    <td>確認</td>
+                                    <td>本局辦理狀態</td>
+                                    <td>環保署辦理情形</td>
+                                    <td>詳細資料</td>
+                                </tr>
+                                @{
+                                    if (Model.ApplyOther != null && Model.ApplyOther.Any())
+                                    {
+                                        foreach (var data in Model.ApplyOther)
+                                        {
+                                            var detailCount = data.Details.Count;
+
+                                            for (var i = 0; i < detailCount; i++)
+                                            {
+
+                                                var detail = data.Details[i];
+                                                var itemName = detail.Item + "(" + detail.Unit + ")";
+                                                if (i == 0)
+                                                {
+                                                    <tr>
+                                                        <td rowspan="@detailCount">
+                                                            @towns.FirstOrDefault(c => c.Id == data.TownId).Name
+                                                        </td>
+                                                        <td rowspan="@detailCount"> @data.RequireDate.ToString("yyyy.MM.dd")</td>
+                                                        <td> @itemName </td>
+                                                        <td> @detail.Quantity </td>
+                                                        <td rowspan="@detailCount">@data.EstimationMethodDescribe</td>
+                                                        <td rowspan="@detailCount">
+                                                            @if (isCanConfirmProcess(data))
+                                                            {
+                                                                <a target="_blank" href="@Url.Action("EPAProcessing","ApplyOther", new { id = @data.Id })" class="btn btn-purple">開始辦理</a>
+                                                            }
+
+                                                        </td>
+                                                        <td rowspan="@detailCount">
+                                                            @if (isCanConfirmProcess(data))
+                                                            {
+                                                                <input type="button" class="btn btn-danger" onclick="confirmProcess('ApplyOther', @data.Id)" value="確認核定" />
+                                                            }
+                                                            else if (isCanCancelProcess(data))
+                                                            {
+                                                                <input type="button" class="btn btn-danger" onclick="cancelProcess('ApplyOther', @data.Id)" value="取消核定" />
+                                                            }
+                                                        </td>
+                                                        <td rowspan="@detailCount">@data.EPBConfirmStatus.GetDescription()</td>
+                                                        <td>
+                                                            @if (isShowEPADesc(data))
+                                                            {
+                                                                @data.EPAConfirmStatus.GetDescription()
+                                                            }
+                                                        </td>
+                                                        <td rowspan="@detailCount"><a class="btn" href="@Url.Action("Details","ApplyOther",new { @data.Id })"><i class="fa fa-eye">查看</i></a></td>
+                                                    </tr>
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td> @itemName </td>
+                                                        <td> @detail.Quantity </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="11">*目前尚無資料</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        function confirmProcess(applyType, id) {
+            var data = new FormData();
+            //Hidden 取法
+            data.append('applyType', applyType);
+            data.append('id', id);
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("EPAConfirm")',
+                contentType: false,
+                processData: false,
+                data: data,
+                success: function (result) {
+                    if (result.IsSuccess) { 
+                        alert('核定成功')
+                        window.location.reload();
+                    }
+                    else {
+                        alert(result.ErrorMessage)
+                    }
+
+                },
+                error: function (xhr, status) {
+                    alert('失敗')
+               }
+            });
+        }
+        function cancelProcess(applyType, id) {
+            var data = new FormData();
+            //Hidden 取法
+            data.append('applyType', applyType);
+            data.append('id', id);
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("EPACancel")',
+                contentType: false,
+                processData: false,
+                data: data,
+                success: function (result) {
+                    if (result.IsSuccess) {
+                        alert('取消核定成功')
+                        window.location.reload();
+                    }
+                    else {
+                        alert('失敗')
+                    }
+
+                },
+                error: function (xhr, status) {
+                    alert('取消失敗')
+               }
+            });
+        }
+    </script>
+}

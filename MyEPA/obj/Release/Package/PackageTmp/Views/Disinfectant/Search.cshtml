@@ -1,0 +1,75 @@
+﻿@model IEnumerable<MyEPA.Models.DisinfectantModel>
+
+@{
+    ViewBag.Title = "消毒藥品";
+    Layout = "~/Views/_Layout.cshtml";
+}
+    <p>
+        <a href="#" onclick="history.go(-1)" class="btn btn-success">返回上一頁</a>
+    </p>
+<table class="table">
+    <tr>
+        <th colspan="9" style="text-align:center;color:red;">消毒藥品</th>
+    </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Town)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContactUnit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DrugName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DrugType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DrugState)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Density)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Area)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdateTime)
+        </th>
+    </tr>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Town)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContactUnit)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DrugName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DrugType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DrugState)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Amount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Density)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Area)
+        </td>
+        <td>
+            @item.UpdateTime.ToString("yyyy/MM/dd HH:mm")
+        </td>
+    </tr>
+}
+
+</table>

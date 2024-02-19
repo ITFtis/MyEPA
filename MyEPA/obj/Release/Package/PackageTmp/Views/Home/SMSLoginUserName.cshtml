@@ -1,0 +1,110 @@
+﻿@model MyEPA.Models.SMSLoginUserNameModel
+
+@{
+    ViewBag.Title = "簡訊登入";
+    Layout = "~/Views/Home/_SecondLayout.cshtml";
+}
+<style>
+    .SetIn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+<h1>@ViewBag.Title</h1>
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100 p-l-85 p-r-85 p-t-55 p-b-55">
+            <span class="login100-form-title ">
+                <div class="row">
+                    <div class="col-3"><img src="~/Content/images/epa.png" width="80" height="80" alt="環保署Logo"></div>
+                    <div class="col-9 text-left">
+                        行政院環境保護署<br>
+                        <small>環境災害管理資訊系統</small>
+                    </div>
+                </div>
+                <br>
+            </span>
+            <br />
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+            @using (Html.BeginForm("SMSLoginUserName", "Home"))
+            {
+                <label class="txt1 p-b-11" for="Pwd">
+                    使用者帳號
+                </label>
+
+                <div class="wrap-input100 validate-input m-b-12">
+                    <input name="UserName" required class="input100" />
+
+                </div>
+                <p style="color:red">@ViewBag.Msg</p><br />
+
+                <div class="container-login100-form-btn">
+                    <div class=" col-6 " style="padding: 0 20px 0 0px">
+                        <input type="submit" class="login100-form-btn w-100" value="下一步" />
+                    </div>
+                    <div class=" col-6 SetIn">
+                        @Html.ActionLink("使用密碼登入", "Login", "Home", new { },new { @class=""})
+                    </div>
+                </div>
+            }
+
+
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+
+    $("#sendBtn").click(function () {
+        var userName = $("#UserName").val();
+
+        if (userName === '') {
+
+            return;
+        }
+
+        var data = new FormData();
+        //Hidden 取法
+        data.append('username', userName);
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("SendLogin", "Home")',
+            contentType: false,
+            processData: false,
+            data: data,
+            success: function (result) {
+                var btn = $("#sendBtn");
+                btn.prop('disabled', true);
+                btn.removeClass("login100-form-btn");
+
+                s = 10;
+                reciprocal();
+            },
+            error: function (xhr, status) {
+                alert('發送失敗')
+            }
+        });
+    });
+
+    var s = 0;
+    function reciprocal() {
+        $("#sendBtn").text(`${s} 秒後可重新發送`);
+        s -= 1;
+        if (s >= 0) {
+            setTimeout(reciprocal, 1000);
+        }
+        else {
+            var btn = $("#sendBtn");
+            btn.text(`重新發送`);
+            btn.addClass("login100-form-btn");
+
+            $("#sendBtn").prop('disabled', false);
+        }
+    }
+    </script>
+
+
+
+}

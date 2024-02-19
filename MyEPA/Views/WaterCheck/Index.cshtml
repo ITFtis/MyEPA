@@ -1,0 +1,166 @@
+﻿@model IEnumerable<MyEPA.Models.WaterCheckViewModel>
+@using MyEPA.Models;
+@using MyEPA.Enums;
+@{
+    ViewBag.Title = "水質抽驗結果通報";
+    Layout = "~/Views/_Layout.cshtml";
+    int diasterId = ViewBag.DiasterId;
+    List<DiasterModel> diasters = ViewBag.Diasters;
+}
+    <h3> @ViewBag.Title</h3>
+<div class="btn-group">
+    <button data-toggle="dropdown" class="btn btn-primary btn-white dropdown-toggle" aria-expanded="false">
+        @(diasters.FirstOrDefault(e => e.Id == diasterId).DiasterName)<i class="ace-icon fa fa-angle-down icon-on-right"></i>
+    </button>
+    <ul class="dropdown-menu">
+        @foreach (DiasterModel Item in diasters)
+        {
+            <li>
+                <a href="@Url.Action("Index","WaterCheck",new { diasterId = Item.Id})">@Item.DiasterName</a>
+            </li>
+        }
+    </ul>
+</div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CheckDate)
+        </th>
+        <th>
+            抽檢結果建置
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Memo)
+        </th>
+        <th>本日無災情</th>
+        <th>無法抽驗</th>
+        <th>列印</th>
+    </tr>
+
+    @{
+        int i = 0;
+        foreach (var item in Model)
+        {
+
+            <tr>
+                <td>
+                    @item.CheckDate.ToString("yyyy/MM/dd")
+                </td>
+                <td>
+                    @if ((WaterCheckStatusEnum)item.Status != WaterCheckStatusEnum.NothingHappened)
+                    {
+                        <a href="@Url.Action("Index","WaterCheckDetail",item)">建置</a>
+                    }
+
+                </td>
+                <td>
+                    @if (item.DetailStatus == null)
+                    {
+                @:未檢測
+            }
+            else
+            {
+                @:合格：@item.DetailStatus.Success<br />
+                @:不合格：@item.DetailStatus.Failed<br />
+                @:檢驗中：@item.DetailStatus.Testing<br />
+            }
+                </td>
+                <td>
+                    <a href="@Url.Action("Memo",item)">@(string.IsNullOrEmpty(item.Memo) ? "新增備註" : "修改備註")</a>
+                </td>
+                <td>
+                    @switch ((WaterCheckStatusEnum)item.Status)
+                    {
+                        case WaterCheckStatusEnum.NothingHappened:
+                            @:<input id="NothingHappened[@i]" type="checkbox" onchange="change('NothingHappened[@i]','Failure[@i]',@item.Id,'@item.CheckDate')" checked="checked" @(item.IsHasDateils ? "disabled=\"disabled\"" : string.Empty  )/>
+                            break;
+                        case WaterCheckStatusEnum.Success:
+                        case WaterCheckStatusEnum.Failure:
+                            @:<input id="NothingHappened[@i]" type="checkbox"onchange="change('NothingHappened[@i]','Failure[@i]',@item.Id,'@item.CheckDate')" disabled="disabled" />
+                            break;
+                        case WaterCheckStatusEnum.Pending:
+                            @:<input id="NothingHappened[@i]" type="checkbox" onchange="change('NothingHappened[@i]','Failure[@i]',@item.Id,'@item.CheckDate')" @(item.IsHasDateils ? "disabled=\"disabled\"" : string.Empty  )/>
+                            break;
+                    }
+                </td>
+                <td>
+
+                    @switch ((WaterCheckStatusEnum)item.Status)
+                    {
+                        case WaterCheckStatusEnum.Failure:
+                            @:<input id="Failure[@i]" type="checkbox" onchange="change('Failure[@i]','NothingHappened[@i]',@item.Id,'@item.CheckDate')" checked="checked" />
+                            break;
+                        case WaterCheckStatusEnum.Success:
+                        case WaterCheckStatusEnum.NothingHappened:
+                            @:<input id="Failure[@i]" type="checkbox" onchange="change('Failure[@i]','NothingHappened[@i]',@item.Id,'@item.CheckDate')" disabled="disabled" />
+                            break;
+                        case WaterCheckStatusEnum.Pending:
+                            @:<input id="Failure[@i]" type="checkbox" onchange="change('Failure[@i]','NothingHappened[@i]',@item.Id,'@item.CheckDate')" />
+                            break;
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("輸出 PDF", "DownPrintView", new { id = item.Id })          
+                </td>
+            </tr>
+            i = i + 1;
+        }
+    }
+</table>
+
+<script>
+    function change($id1, $id2, $id, $CheckDate) {
+        var checkbox1 = document.getElementById($id1);
+        var checkbox2 = document.getElementById($id2);
+        checkbox1.disabled = true;
+        checkbox2.disabled = true;
+        if (checkbox1.checked === true) {
+            if ($id1.indexOf('NothingHappened') === 0) {
+                $.when(updateStatus($id,@((int)WaterCheckStatusEnum.NothingHappened), $CheckDate)).done(function () {
+                    checkbox1.disabled = false;
+                    checkbox2.disabled = true;
+                });
+            }
+            else {
+                $.when(updateStatus($id,@((int)WaterCheckStatusEnum.Failure), $CheckDate)).done(function () {
+                    checkbox1.disabled = false;
+                    checkbox2.disabled = true;
+                });
+            }
+        }
+        else {
+            $.when(updateStatus($id,@((int)WaterCheckStatusEnum.Pending), $CheckDate)).done(function ()
+            {
+                checkbox1.disabled = false;
+                checkbox2.disabled = false;
+            });
+            
+        }
+    }
+    function updateStatus($id, $status, $CheckDate,$success) {
+
+        let params = new FormData();
+        params.append('Id', $id);
+        params.append('DiasterId', @diasterId);
+        params.append('Status', $status);
+        params.append('CheckDate', $CheckDate);
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("UpdateStatus","WaterCheck")',
+            contentType: false,
+            processData: false,
+            data: params,
+            success: function (result) {
+                $success();
+            },
+            error: function (xhr, status) {
+                alert('失敗')
+            }
+        });
+    }
+    
+</script>
