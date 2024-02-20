@@ -71,6 +71,14 @@ namespace MyEPA.Controllers
         }
         public ActionResult Reference()
         {
+            //var user = GetUserBrief();
+            //if (user.Duty != DutyEnum.EPA)
+            if (!GetIsAdmin())
+            {
+                //非系統管理者，回首頁                                
+                return RedirectToAction("LoginRedirect", "Home");
+            }
+
             return View();
         }
         

@@ -320,9 +320,14 @@
             <a href="@Url.Action("B6x1","EPB",new {title = "新聞稿(上傳/下載)" })">新聞稿(上傳/下載)</a>
         </li>
         *@
-        <li class="">
-            <a href="@Url.Action("Reference","FileData",new {title = "應變摘要參考資料" })">應變摘要參考資料</a>
-        </li>
+        @{
+            if (ViewBag.IsAdmin)
+            {
+                <li class="">
+                    <a href="@Url.Action("Reference","FileData",new {title = "應變摘要參考資料" })">應變摘要參考資料</a>
+                </li>
+            }
+        }
     </ul>
 </li>
 <li class="">

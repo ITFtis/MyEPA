@@ -9,10 +9,10 @@
     <b class="arrow"></b>
     <ul class="submenu nav-hide" style="display: none;">
         <li class="">
-            <a href="@Url.Action("SubsidyReport","ApplySupport")">請求核定(補助款)</a>
+            <a href="@Url.Action("SubsidyReport", "ApplySupport")">請求核定(補助款)</a>
         </li>
         <li class="">
-            <a href="@Url.Action("ProcessReport","ApplySupport")">請求核定(處理情形)</a>
+            <a href="@Url.Action("ProcessReport", "ApplySupport")">請求核定(處理情形)</a>
         </li>
     </ul>
 </li>
@@ -35,12 +35,12 @@
             <b class="arrow"></b>
             <ul class="submenu">
                 <li class="">
-                    <a href="@Url.Action("Index","ResourcesReport",new { })">應變資源</a>
+                    <a href="@Url.Action("Index", "ResourcesReport", new { })">應變資源</a>
                     <b class="arrow"></b>
                 </li>
 
                 <li class="">
-                    <a href="@Url.Action("Report","Defend",new { })">整備通報</a>
+                    <a href="@Url.Action("Report", "Defend", new { })">整備通報</a>
                     <b class="arrow"></b>
                 </li>
                 <!--
@@ -59,13 +59,13 @@
             <b class="arrow"></b>
             <ul class="submenu">
                 <li class="">
-                    <a href="@Url.Action("Report","WaterCheckDetail")">自來水公司抽驗結果</a>
+                    <a href="@Url.Action("Report", "WaterCheckDetail")">自來水公司抽驗結果</a>
                 </li>
                 <li class="">
-                    <a href="@Url.Action("Search","WaterEquipment")">自來水供水設備</a>
+                    <a href="@Url.Action("Search", "WaterEquipment")">自來水供水設備</a>
                 </li>
                 <li class="">
-                    <a href="@Url.Action("Search","Polymer")">高分子凝聚劑使用</a>
+                    <a href="@Url.Action("Search", "Polymer")">高分子凝聚劑使用</a>
                 </li>
             </ul>
         </li>
@@ -78,13 +78,13 @@
             <b class="arrow"></b>
             <ul class="submenu">
                 <li class="">
-                    <a href="@Url.Action("Search","ApplySupport")">請求支援處理查詢</a>
+                    <a href="@Url.Action("Search", "ApplySupport")">請求支援處理查詢</a>
                 </li>
                 <li class="">
                     @Html.ActionLink("災情及清理通報", "Index", "Damage", new { }, new { })
                 </li>
                 <li class="">
-                    <a href="@Url.Action("FacilityDamage","Damage")">環境設施災損查詢</a>
+                    <a href="@Url.Action("FacilityDamage", "Damage")">環境設施災損查詢</a>
                 </li>
             </ul>
         </li>
@@ -109,10 +109,10 @@
             <b class="arrow"></b>
             <ul class="submenu">
                 <li class="">
-                    <a href="@Url.Action("Search","Notice")">公告事項</a>
+                    <a href="@Url.Action("Search", "Notice")">公告事項</a>
                 </li>
                 <li class="">
-                    <a href="@Url.Action("Search","News")">新聞消息</a>
+                    <a href="@Url.Action("Search", "News")">新聞消息</a>
                 </li>
             </ul>
         </li>
@@ -136,23 +136,23 @@
             <b class="arrow fa fa-angle-down"></b>
             <ul class="submenu">
                 <li class="">
-                    <a href="@Url.Action("CarsCountReport","Vehicle")">環境清潔車輛統計</a>
+                    <a href="@Url.Action("CarsCountReport", "Vehicle")">環境清潔車輛統計</a>
                 </li>
                 <li class="">
-                    <a href="@Url.Action("TownReport","Disinfectant")">環境消毒藥劑統計</a>
+                    <a href="@Url.Action("TownReport", "Disinfectant")">環境消毒藥劑統計</a>
                     <b class="arrow"></b>
                 </li>
                 <li class="">
-                    <a href="@Url.Action("TownReport","Disinfector")">環境消毒設備統計</a>
+                    <a href="@Url.Action("TownReport", "Disinfector")">環境消毒設備統計</a>
                 </li>
                 <li class="">
-                    <a href="@Url.Action("Statistics","WaterCheck")">水質抽驗統計</a>
+                    <a href="@Url.Action("Statistics", "WaterCheck")">水質抽驗統計</a>
                 </li>
                 <li class="">
-                    <a href="@Url.Action("CityStatistics","Damage")">殺菌劑與垃圾量預估</a>
+                    <a href="@Url.Action("CityStatistics", "Damage")">殺菌劑與垃圾量預估</a>
                 </li>
                 <li class="">
-                    <a href="@Url.Action("CityStatistics","Disinfectant")">消毒藥劑過期統計</a>
+                    <a href="@Url.Action("CityStatistics", "Disinfectant")">消毒藥劑過期統計</a>
                 </li>
             </ul>
         </li>
@@ -166,13 +166,13 @@
             <b class="arrow"></b>
             <ul class="submenu">
                 <li class="">
-                    <a href="@Url.Action("CityStatistics","Damage")">災情及環境清理統計</a>
+                    <a href="@Url.Action("CityStatistics", "Damage")">災情及環境清理統計</a>
                 </li>
                 <li class="">
-                    <a href="@Url.Action("CityStatusReport","ApplySupport")">請求支援統計</a>
+                    <a href="@Url.Action("CityStatusReport", "ApplySupport")">請求支援統計</a>
                 </li>
                 <li class="">
-                    <a href="@Url.Action("Statistics","ToiletLocation")">流動廁所佈點</a>
+                    <a href="@Url.Action("Statistics", "ToiletLocation")">流動廁所佈點</a>
                 </li>
             </ul>
         </li>
@@ -198,13 +198,13 @@
             @Html.ActionLink("災情及清理通報", "Report", "Damage", new { }, new { })
         </li>
         <li class="">
-            <a href="@Url.Action("Report","WaterCheck")">環保局水質通報</a>
+            <a href="@Url.Action("Report", "WaterCheck")">環保局水質通報</a>
         </li>
         <li class="">
             @Html.ActionLink("請求支援通報", "Index", "ApplySupport", "", new { })
         </li>
         <li class="">
-            <a href="@Url.Action("Statistics","ToiletLocation")">流動廁所清潔</a>
+            <a href="@Url.Action("Statistics", "ToiletLocation")">流動廁所清潔</a>
         </li>
     </ul>
 </li>
@@ -217,13 +217,12 @@
     <b class="arrow"></b>
     <ul class="submenu">
         <li class="">
-            <a href="@Url.Action("B6x1","EPB",new {title = "資源(上傳/下載)"  })">資源(上傳/下載)</a>
+            <a href="@Url.Action("B6x1", "EPB", new { title = "資源(上傳/下載)" })">資源(上傳/下載)</a>
         </li>
         <li class="">
             @{
                 MyEPA.Enums.SourceTypeEnum sourceType = MyEPA.Enums.SourceTypeEnum.VehicleManagement;
-                <a href="@Url.Action("Index","FileData",new {sourceType = sourceType  })">@sourceType.GetDescription()</a>
-            }
+                <a href="@Url.Action("Index", "FileData", new { sourceType = sourceType })">@sourceType.GetDescription()</a>}
         </li>
         
         @*
@@ -242,9 +241,14 @@
         <li class="">
             <a href="@Url.Action("B6x1","EPB",new { title = "新聞稿(上傳/下載)" })">新聞稿(上傳/下載)</a>
         </li>*@
-        <li class="">
-            <a href="@Url.Action("Reference","FileData",new {title = "應變摘要參考資料" })">應變摘要參考資料</a>
-        </li>
+        @{
+            if (ViewBag.IsAdmin)
+            {
+                    <li class="">
+                        <a href="@Url.Action("Reference", "FileData", new { title = "應變摘要參考資料" })">應變摘要參考資料</a>
+                    </li>
+                }
+            }
         @*
         <li class="">
             <a href="@Url.Action("B6x1","EPB",new { })">各處室簡日報產製</a>
