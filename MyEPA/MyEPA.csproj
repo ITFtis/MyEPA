@@ -1106,6 +1106,7 @@
     <Content Include="Content\assets\select2.min.css" />
     <Content Include="Content\assets\stylesheet.css" />
     <Content Include="Content\assets\ui.jqgrid.min.css" />
+    <Content Include="Content\chart.js" />
     <Content Include="Content\confirmDate.css" />
     <Content Include="Content\css\bootstrap-3.4.1.css" />
     <Content Include="Content\css\bootstrap-4.3.2.css" />
