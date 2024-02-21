@@ -1931,6 +1931,7 @@
     <Content Include="Views\Home\Error.cshtml" />
     <Content Include="Views\Home\LoginEmail.cshtml" />
     <Content Include="Views\Home\forget.cshtml" />
+    <Content Include="Views\Home\ContactPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="C:\NuGetPackages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.7\analyzers\dotnet\cs\Microsoft.CodeAnalysis.VersionCheckAnalyzer.resources.dll" />

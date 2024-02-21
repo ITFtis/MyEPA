@@ -22,7 +22,8 @@ namespace MyEPA.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Title = "聯絡資訊";
+            ////原設計把"聯絡資訊"移到_FirstLayout，導致聯絡資訊重複2次
+            ////ViewBag.Title = "聯絡資訊";
             return View();
         }
 
