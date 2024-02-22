@@ -8,3 +8,6 @@
 /MyEPA/Properties/PublishProfiles/EMIS_本機環境.pubxml
 /MyEPA/.vs
 /MyEPA/Properties/PublishProfiles
+/MyEPA/bin/Microsoft.Windows.Design.Extensibility.dll
+/MyEPA/bin/Microsoft.mshtml.dll
+/MyEPA/bin/zh-Hant/Microsoft.Windows.Design.Extensibility.resources.dll
