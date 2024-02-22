@@ -23,7 +23,7 @@
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">常見問題</a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
 
-                            @Html.ActionLink("操作說明書", "Operation", "Home", "", new { @class = "dropdown-item" })
+                            @*@Html.ActionLink("操作說明書", "Operation", "Home", "", new { @class = "dropdown-item" })*@
                             @Html.ActionLink("其它資源下載", "Resource", "Home", "", new { @class = "dropdown-item" })
                         </div>
                     </li>
@@ -54,9 +54,9 @@
                     </li>
                     <li class="list-group-item"><a class="collapsed card-link" data-toggle="collapse" data-parent="#card-element-content" href="#card-element-content-qa">常見問題</a></li>
                     <div class="collapse" id="card-element-content-qa">
-                        <li class="list-group-item">
+                        @*<li class="list-group-item">
                             @Html.ActionLink("<操作說明書>", "Operation", "Home", new { }, new { @class = "dropdown-item" })
-                        </li>
+                        </li>*@
                         <li class="list-group-item">
                             @Html.ActionLink("<其它資源下載>", "Resource", "Home", new { }, new { @class = "dropdown-item" })
 

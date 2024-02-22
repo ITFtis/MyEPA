@@ -423,7 +423,7 @@ namespace MyEPA.Controllers
         public ActionResult Operation()
         {
             ViewBag.Title = "操作說明書";
-            Response.Redirect("~/HTML5_20201216/Emis_edu/index.html");
+            ////Response.Redirect("~/HTML5_20201216/Emis_edu/index.html");
             return View();
         }
 
