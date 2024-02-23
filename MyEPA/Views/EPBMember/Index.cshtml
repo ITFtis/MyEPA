@@ -306,6 +306,65 @@
                                 </div>
                             </div>
                         </div>
+
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false">
+                                        <h5 style="display: inline-block;">
+                                            <i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                            &nbsp;第五步：環境部災害應變資源調度原則&nbsp;&nbsp;
+                                        </h5>
+                                        @*<p style="font-weight: bold; color: black;font-size: 24px;  display: inline-block; ">
+                                            (每月確認資源)
+                                        </p>*@
+                                        <br />
+                                        <small>平時是建置資源資訊的最佳時機</small>
+                                        <small>你隨時可提出人力、消毒藥劑等支援請求</small>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div class="panel-collapse collapse" id="collapseFive" aria-expanded="false">
+                                <div class="panel-body">
+                                    <button id="btnSupportDownload" type="button" class="btn btn-primary">環境部災害應變資源調度原則</button>
+                                    <br /><br />
+
+                                    一、	目的<br />
+                                    因應環境暖化、氣候變遷，近年來環境災害發生的頻率增加，危害的程度加劇，為統合應變相關資源，擴增應變效能，藉由互助互惠精神協助受災縣市，加速災後環境復原。
+                                    <br /><br />
+                                    二、	標的<br />
+                                    (一)機具、車輛：抓斗車、挖土機、消毒車、鏟裝車(山貓)、運土卡車
+                                    (二)藥品：環境消毒藥劑、登革熱藥劑
+                                    (三)消毒設備：噴霧機、消毒機(器)、熱煙霧機
+                                    (四)人力：本於互助互惠精神，支援衍生經費由提供調度縣市自行支應
+                                    <br /><br />
+                                    三、	調度方式<br />
+                                    (一)調度需求縣市：災害發生，縣市無法自行完成環境復原或短缺應變資源時，向本部請求調度支援，填報表一、應變資源調度需求表。
+                                    (二)提供調度縣市：災害發生，可供本部調度應變資源者。需求縣市提出8小時內，填報表二、應變資源提供調度表（不限一縣市填報），並調度期限8小時前皆可填報，以最後一筆鍵入之資料為調度之依據。
+                                    (三)本部(環境管理署)完成調度：以能配合提供調度項目、數量符合度最多及距離近之縣市優先調度，不足時再行調度其他縣市資源。
+                                    (四)調度流程如圖一
+                                    <br /><br />
+                                    四、	成果考核<br />
+                                    (一)本部補助之資源(含機具、車輛、藥品、設備等)，應無條件接受本部之調度，未配合調度將列入下年度核定補助經費及地方績效考核之參考。
+                                    (二)協助支援之縣市人員，由地方政府辦理敘獎獎勵。
+                                    (三)績效考核規定如下：
+                                    1.因應年度內災害情勢配合本部調度相關應變機具、車輛、人力、物資等，填報應變資源提供調度表得0.5分，(如有異動須更新)，實際配合調度再得0.5分。本項最多2分。
+                                    2.盤點更新應變機具、人力、物資，平常每月20日於EMIS系統填報，海警發布(或事件緊急應變命令發布)後，經本署通知24小時內更新，應變期間每日17時至17時30分前更新，依時更新得1分，未更新每次扣0.1分。
+                                    <br /><br />
+                                    五、	調度演練<br />
+                                    每年分北、中、南三區辦理應變資源調度演練，以實體演練為主。
+                                    <br /><br />
+                                    六、	本原則自核定日施行
+                                    <br /><br />
+
+                                    @*<button id="btnNeed" type="button" class="btn btn-primary" data-toggle="modal" data-target="#NeedModal">需求表</button>
+                                      <button id="btnSupport" type="button" class="btn btn-primary">調度表</button>*@
+
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -419,6 +478,60 @@
             <!-- PAGE CONTENT ENDS -->
         </div><!-- /.col -->
     </div><!-- /.row -->
+
+    <div class="modal fade" id="NeedModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">需求表</h5>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th style="text-align:center;">#</th>
+                                <th style="text-align:center;">First</th>
+                                <th style="text-align:center;">Last</th>
+                                <th style="width:120px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Otto</td>                                
+                                <td>
+                                    <span style="background-color:rgba(255,255,255,0);" class="btn btn-data-manager-ctrl btn-update-data-manager btn-default btn-sm  glyphicon glyphicon-pencil" title="修改" data-user-id="1" data-ctrl="1"></span>
+                                    <span style="background-color:rgba(255,255,255,0);" class="btn btn-data-manager-ctrl btn-delete-data-manager btn-default btn-sm  glyphicon glyphicon-trash" title="刪除" data-ctrl="2"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                                <td>
+                                    <span style="background-color:rgba(255,255,255,0);" class="btn btn-data-manager-ctrl btn-update-data-manager btn-default btn-sm  glyphicon glyphicon-pencil" title="修改" data-user-id="1" data-ctrl="1"></span>
+                                    <span style="background-color:rgba(255,255,255,0);" class="btn btn-data-manager-ctrl btn-delete-data-manager btn-default btn-sm  glyphicon glyphicon-trash" title="刪除" data-ctrl="2"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>Joe</td>
+                                <td>Taipei</td>
+                                <td>
+                                    <span style="background-color:rgba(255,255,255,0);" class="btn btn-data-manager-ctrl btn-update-data-manager btn-default btn-sm  glyphicon glyphicon-pencil" title="修改" data-user-id="1" data-ctrl="1"></span>
+                                    <span style="background-color:rgba(255,255,255,0);" class="btn btn-data-manager-ctrl btn-delete-data-manager btn-default btn-sm  glyphicon glyphicon-trash" title="刪除" data-ctrl="2"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>                    
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section scripts
@@ -440,6 +553,11 @@
             {
                 UpdateApplyData();
                 GetEPBStatusCount();
+            });
+
+            //$('#NeedModal').modal('show');         
+            $("#btnSupportDownload").click(function () {
+                location.href = app.siteRoot + 'FileDatas/環境部災害應變資源調度原則.docx';
             });
         });
         function UpdateApplyData() {

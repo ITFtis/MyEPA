@@ -354,6 +354,7 @@
     <Compile Include="Models\FilterParameter\UsersBriefFilterParameter.cs" />
     <Compile Include="Models\FilterParameter\UsersFilterPaginationParameter.cs" />
     <Compile Include="Models\FilterParameter\UsersFilterParameter.cs" />
+    <Compile Include="Models\ResourceSetModel.cs" />
     <Compile Include="Models\SearchViewModel\ContactManualTeamViewModel.cs" />
     <Compile Include="Models\UsersBriefModel.cs" />
     <Compile Include="Models\UsersEditPwdViewModel.cs" />
