@@ -80,7 +80,7 @@ namespace MyEPA.Helper
             string path = $"S:/{folder}";
             if (SettingHelper.IsDeBug)
             {
-                path = $"C:/{folder}";
+                path = $"D:/temp_web/MyEPA/{folder}";
             }
             if (Directory.Exists(path) == false)
             {
