@@ -27,7 +27,9 @@
     @{Html.RenderPartial("~/Views/Components/TopMenu.cshtml");}
     @{Html.RenderPartial("~/Views/Components/LoginGate.cshtml");}
     @{Html.RenderPartial("~/Views/Components/MiddleMenu.cshtml");}
-    <section>@RenderBody() </section>
+    <div id="m_point">
+        <section>@RenderBody() </section>
+    </div>
     @{Html.RenderPartial("~/Views/Home/ContactPartial.cshtml");}
 
     @RenderSection("scripts", required: false)
