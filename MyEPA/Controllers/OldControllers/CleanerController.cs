@@ -120,6 +120,9 @@ namespace MyEPA.Controllers
                     DistrictUpdateTime = district?.UpdateTime
                 };
             }
+
+            ViewBag.UserDuty = user.Duty.ToString();
+
             return PartialView();
         }
 
