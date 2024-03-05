@@ -675,7 +675,7 @@
             var cityId = $('#city').val();
             var townId = $('#town').val();
             var diasterId = $('#disaster').val();
-            full = `${full}/${controller}/${action}?cityId=${cityId}&townid=${townId}&diasterId=${diasterId}`
+            full = app.siteRoot + `${controller}/${action}?cityId=${cityId}&townid=${townId}&diasterId=${diasterId}`
             window.location = full
         }
     </script>
