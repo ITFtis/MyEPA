@@ -77,7 +77,9 @@ namespace MyEPA.Helper
 
         public static string GetServerMapPath(string folder,string fileName)
         {
-            string path = $"S:/{folder}";
+            //string path = $"S:/{folder}";
+            string path = $"S:/temp_web/MyEPA/{folder}";
+
             if (SettingHelper.IsDeBug)
             {
                 path = $"D:/temp_web/MyEPA/{folder}";
