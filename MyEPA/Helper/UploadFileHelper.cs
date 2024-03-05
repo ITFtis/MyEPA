@@ -82,6 +82,10 @@ namespace MyEPA.Helper
             {
                 path = $"D:/temp_web/MyEPA/{folder}";
             }
+            else if (SettingHelper.isTestWeb)
+            {
+                path = $"D:/temp_web/MyEPA/{folder}";
+            }
             if (Directory.Exists(path) == false)
             {
                 //新增資料夾

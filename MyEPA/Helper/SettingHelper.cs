@@ -23,6 +23,16 @@ namespace MyEPA.Helper
                 return GetAppSetting<bool>("isDeBug", false);
             }
         }
+
+        //測試網站
+        public static bool isTestWeb
+        {
+            get
+            {
+                return GetAppSetting<bool>("isTestWeb", false);
+            }
+        }
+
         public static int SMSVerifyMaxCount
         {
             get
