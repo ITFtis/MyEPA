@@ -144,8 +144,10 @@ namespace MyEPA.Services
             }
             return WaterCheckDetailStatusEnum.Success;
         }
-        private bool IsEColiOK(int ecoliType,int ecoliStand,decimal ecoli)
+        private bool IsEColiOK(int ecoliType,int ecoliStand,decimal? v)
         {
+            decimal ecoli = v ?? 0;
+
             EColiTypeEnum type = (EColiTypeEnum)ecoliType;
             switch(type)
             {
@@ -163,8 +165,10 @@ namespace MyEPA.Services
                     throw new NotImplementedException();
             }
         }
-        private bool IsStandOK(int stand, decimal value)
+        private bool IsStandOK(int stand, decimal? v)
         {
+            decimal value = v ?? 0;
+
             return IsStandOK((WaterCheckDetailStandEnum)stand, value);
         }
         private bool IsStandOK(WaterCheckDetailStandEnum stand, decimal value)

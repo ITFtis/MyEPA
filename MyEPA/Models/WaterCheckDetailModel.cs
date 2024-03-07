@@ -35,12 +35,12 @@ namespace MyEPA.Models
         [DisplayName("水樣別")]
         public WaterCheckDetailTypeEnum Type { get; set; }
         [DisplayName("原水濁度")]
-        public decimal O_Turbidity { get; set; }
+        public decimal? O_Turbidity { get; set; }
         /// <summary>
         /// 餘氯
         /// </summary>
         [DisplayName("自由有效餘氯")]
-        public decimal Chlorine { get; set; }
+        public decimal? Chlorine { get; set; }
         /// <summary>
         /// 餘氯標準值
         /// WaterCheckDetailStandEnum.cs
@@ -55,7 +55,7 @@ namespace MyEPA.Models
         /// 大腸桿菌群
         /// </summary>
         [DisplayName("大腸桿菌群")]
-        public decimal EColi { get; set; }
+        public decimal? EColi { get; set; }
         /// <summary>
         /// EColiTypeEnum.cs
         /// </summary>
@@ -74,7 +74,7 @@ namespace MyEPA.Models
         /// PH值 
         /// </summary>
         [DisplayName("氫離子濃度指數")]
-        public decimal Hydrogen { get; set; }
+        public decimal? Hydrogen { get; set; }
         /// <summary>
         /// PH值標準值 
         /// WaterCheckDetailStandEnum.cs 
@@ -89,7 +89,7 @@ namespace MyEPA.Models
         /// 濁度
         /// </summary>
         [DisplayName("濁度")]
-        public decimal Turbidity { get; set; }
+        public decimal? Turbidity { get; set; }
         /// <summary>
         /// 標準值 
         /// WaterCheckDetailStandEnum.cs
