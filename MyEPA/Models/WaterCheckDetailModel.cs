@@ -133,9 +133,7 @@ namespace MyEPA.Models
         /// <param name="EColi">大腸桿菌群 檢驗值</param>
         /// <returns></returns>
         public static string ToTextEColi(int EColiType, decimal? EColi)
-        {
-            decimal value = EColi ?? 0;
-
+        {            
             string result = "";
             switch(EColiType)
             {
@@ -152,7 +150,15 @@ namespace MyEPA.Models
                     result = "過多無法計數(TNTC)";
                     break;
                 case 4:
-                    result = Math.Round(value, 2).ToString();
+                    if (EColi == null)
+                    {
+                        result = "";
+                    }
+                    else
+                    {
+                        decimal value = EColi ?? 0;
+                        result = Math.Round(value, 2).ToString();
+                    }
                     break;
                 case 5:
                     result = "不檢驗";
