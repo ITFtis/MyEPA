@@ -146,7 +146,7 @@ namespace MyEPA.Models
                     result = "未檢出";
                     break;
                 case 2:
-                    result = "&lt;1";
+                    result = "<1";
                     break;
                 case 3:
                     result = "過多無法計數(TNTC)";
