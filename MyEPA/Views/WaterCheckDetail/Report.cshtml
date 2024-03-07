@@ -129,7 +129,7 @@
                     @Html.DisplayFor(modelItem => item.Chlorine)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.EColi)
+                    @MyEPA.Models.WaterCheckDetailModel.ToTextEColi(item.EColiType, item.EColi)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Hydrogen)
