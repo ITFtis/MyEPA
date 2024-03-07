@@ -62,45 +62,7 @@
         @Html.DisplayFor(modelItem => item.Chlorine)
     </td>
     <td>
-        @{
-            switch (item.EColiType)
-            {
-                case 0:
-                <p>檢驗中</p>
-                    break;
-                case 1:
-    <p>未檢出</p>
-                    break;
-                case 2:
-    <p>&lt;1</p>
-                    break;
-                case 3:
-    <p>過多無法計數(TNTC)</p>
-                    break;
-                case 4:
-                    @Html.DisplayFor(modelItem => item.EColi)
-                    break;
-                case 5:
-    <p>不檢驗</p>
-                    break;
-
-
-
-
-
-
-
-
-            }
-
-
-
-
-
-
-        }
-
-
+        @MyEPA.Models.WaterCheckDetailModel.ToTextEColi(item.EColiType, item.EColi)
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.Hydrogen)

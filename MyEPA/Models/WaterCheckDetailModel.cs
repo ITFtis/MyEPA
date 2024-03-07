@@ -125,6 +125,42 @@ namespace MyEPA.Models
         public WaterCheckDetailStatusEnum Status { get; set; }
 
         public int Recheck { get; set; }
+
+        /// <summary>
+        /// 轉換前台文字 大腸桿菌群類型
+        /// </summary>
+        /// <param name="EColiType">大腸桿菌群類型(下拉)</param>
+        /// <param name="EColi">大腸桿菌群 檢驗值</param>
+        /// <returns></returns>
+        public static string ToTextEColi(int EColiType, decimal? EColi)
+        {
+            decimal value = EColi ?? 0;
+
+            string result = "";
+            switch(EColiType)
+            {
+                case 0:
+                    result = "檢驗中";
+                    break;
+                case 1:
+                    result = "未檢出";
+                    break;
+                case 2:
+                    result = "&lt;1";
+                    break;
+                case 3:
+                    result = "過多無法計數(TNTC)";
+                    break;
+                case 4:
+                    result = Math.Round(value, 2).ToString();
+                    break;
+                case 5:
+                    result = "不檢驗";
+                    break;
+            }
+
+            return result;
+        }
     }
 
 }
