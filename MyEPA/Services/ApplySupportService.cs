@@ -669,8 +669,21 @@ namespace MyEPA.Services
                 foreach (var reportDetail in result.Details)
                 {
                     var id = reportDetail.Id;
-                    var foundDetails = details.Where(c => c.ApplySubsidyId == id);
-                    reportDetail.Quantity = (int)foundDetails.Sum(c => c.Quantity * c.NeedDays * c.Price);
+                    var foundDetails = details.Where(c => c.ApplySubsidyId == id).FirstOrDefault();
+
+                    if (foundDetails != null)
+                    {
+                        if (foundDetails.SubsidyType == ApplySubsidyTypeEnum.HireTemporaryWorkers
+                                    || foundDetails.SubsidyType == ApplySubsidyTypeEnum.RentalCleaningEquipment
+                                    || foundDetails.SubsidyType == ApplySubsidyTypeEnum.RentalDisinfectionEquipment)
+                        {
+                            reportDetail.Quantity = (int)(foundDetails.Quantity * foundDetails.Price * foundDetails.NeedDays);
+                        }
+                        else
+                        {
+                            reportDetail.Quantity = (int)(foundDetails.Quantity * foundDetails.Price);
+                        }
+                    }
                     reportDetail.QuantityString = reportDetail.Quantity.ToString();
                 }
             }
