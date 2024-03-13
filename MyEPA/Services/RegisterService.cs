@@ -51,6 +51,15 @@ namespace MyEPA.Services
                 {
                     var foundTown = new TownRepository().GetByTownName(model.CityId.Value, model.Town);
                     model.TownId = foundTown?.Id;
+
+                    if(model.TownId == null)
+                    {
+                        return new AdminResultModel
+                        {
+                            IsSuccess = false,
+                            ErrorMessage = "抱歉，此鄉鎮並不存在資料表，請通知系統管理員！" + model.Town
+                        };
+                    }
                 }
 
                 registersRepository.Create(model);
