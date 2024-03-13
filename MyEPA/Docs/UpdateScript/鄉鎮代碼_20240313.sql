@@ -2,5 +2,6 @@
 
 Insert Into [Town](CityId, Name, IsTown) Values(16, 'Ãú¥x¶m', 1)
 --SELECT CityId, Name, IsTown FROM [Town] WITH(NOLOCK) Where CityId = 16 AND  Name='Ãú¥x¶m'
+--SELECT * FROM [Town] WITH(NOLOCK) Where CityId = 16
 
 
