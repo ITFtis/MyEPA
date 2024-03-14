@@ -39,10 +39,10 @@
                     <a class="nav-link" href="https://emis.epa.gov.tw/" target="_blank">舊版系統<span class="sr-only">(current)</span></a>
                 </li>*@
             <li class="nav-item">
-                <a class="nav-link" href="https://epamail.moenv.gov.tw/front/mailboxhome" target="_blank">意見信箱</a>
+                <a class="nav-link" href="https://epamail.moenv.gov.tw/front/mailboxhome" title="意見信箱 另開新視窗" target="_blank">意見信箱</a>
             </li>
             <li class="nav-item">
-                @Html.ActionLink("網站導覽", "SiteMap", "Home", new { }, new { @class = "nav-link" })
+                @Html.ActionLink("網站導覽", "SiteMap", "Home", new { }, new { @class = "nav-link", @title = "網站導覽 另開新視窗" })
             </li>
         </ul>
     </div>

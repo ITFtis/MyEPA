@@ -41,8 +41,8 @@
                 <td rowspan="3" class="text-center bg-light" style="vertical-align:middle">上方功能區</td>
                 @*<td><a class="nav-link" href="https://emis.epa.gov.tw/" target="_blank">舊版系統</a></td>*@
             </tr>
-            <tr> <td><a class="nav-link" href="https://epamail.moenv.gov.tw/front/mailboxhome" target="_blank">意見信箱</a></td></tr>
-            <tr><td>@Html.ActionLink("網站導覽(目前)", "SiteMap", "Home", "", new { @class = "nav-link" })</td></tr>
+            <tr> <td><a class="nav-link" href="https://epamail.moenv.gov.tw/front/mailboxhome" title="意見信箱 另開新視窗" target="_blank">意見信箱</a></td></tr>
+            <tr><td>@Html.ActionLink("網站導覽(目前)", "SiteMap", "Home", "", new { @class = "nav-link", @title = "網站導覽(目前) 另開新視窗" })</td></tr>
             <tr>
                 <td class="text-center bg-light" style="vertical-align:middle">登入內容區</td>
                 <td>@Html.ActionLink("登入系統", "Login", "Home", new { @class = "nav-link" })</td>
@@ -60,7 +60,7 @@
                 <td><a class="nav-link" href="#contact">聯絡資訊</a></td>
             </tr>
             <tr><td><a class="nav-link" href="#link">相關連結</a></td></tr>
-            <tr><td><a class="nav-link" href="https://www.moenv.gov.tw/Page/70E67DE2079DF931" target="_blank">網站政策及宣告</a></td></tr>
+            <tr><td><a class="nav-link" href="https://www.moenv.gov.tw/Page/70E67DE2079DF931" title="網站政策及宣告 另開新視窗" target="_blank">網站政策及宣告</a></td></tr>
         </table>
     </div>
 </section>
