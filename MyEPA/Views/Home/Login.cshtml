@@ -86,10 +86,10 @@
 
                 <div class="container-login100-form-btn">
                     <div class=" col-6">
-                        <input type="submit" class="login100-form-btn" value="登入" />
+                        <input type="submit" class="login100-form-btn" role="button" value="登入" />
                     </div>
                     <div class="col-6 SetIn" style="">
-                        @Html.ActionLink("使用SMS簡訊登入", "SMSLoginUserName", "Home", new { })
+                        @Html.ActionLink("使用SMS簡訊登入", "SMSLoginUserName", "Home", new { @role = "button" })
                     </div>
                 </div>
             }
