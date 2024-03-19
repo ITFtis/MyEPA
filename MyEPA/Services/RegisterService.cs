@@ -1,7 +1,9 @@
-﻿using MyEPA.Models;
+﻿using Microsoft.Win32;
+using MyEPA.Models;
 using MyEPA.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Windows.Interop;
 
 namespace MyEPA.Services
 {
@@ -58,6 +60,20 @@ namespace MyEPA.Services
                         {
                             IsSuccess = false,
                             ErrorMessage = "抱歉，此鄉鎮並不存在資料表，請通知系統管理員！" + model.Town
+                        };
+                    }
+                }
+
+                if ((model.CityId != null && model.TownId != null))
+                {
+                    UsersRepository UsersRepository = new UsersRepository();
+                    if (model.MainContacter == "是" && UsersRepository.IsExistsByMainContacter((int)model.CityId, (int)model.TownId))
+                    {
+
+                        return new AdminResultModel
+                        {
+                            IsSuccess = false,
+                            ErrorMessage = "抱歉，主要負責人已存在，不可重覆設定：" + model.City + model.Town
                         };
                     }
                 }
