@@ -38,7 +38,7 @@ namespace MyEPA.Models
         [DisplayName("可消毒面積")]
         public decimal Area { get; set; }
         [DisplayName("使用年限")]
-        public DateTime ServiceLife { get; set; }
+        public DateTime? ServiceLife { get; set; }
         [DisplayName("資料更新日期")]
         public DateTime UpdateTime { get; set; }
         public DateTime? ConfirmTime { get; set; }

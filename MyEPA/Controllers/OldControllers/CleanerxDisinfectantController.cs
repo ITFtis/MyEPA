@@ -99,7 +99,8 @@ namespace MyEPA.Controllers
             string Density = Item.Density;
             decimal Area = Item.Area;
             int UseType = Item.UseType;
-            DateTime ServiceLife = Item.ServiceLife;
+            //DateTime ServiceLife = Item.ServiceLife;            
+            string ServiceLife = Item.ServiceLife == null ? "" : ((DateTime)Item.ServiceLife).ToString("yyyy-MM-dd");
             //因為編輯資料後，要回B1a4的View頁面，ˋ
             //而B1a4預設為顯示現有臨時垃圾堆置場
             //所以呼叫Dump，把該城市的資料叫出來
@@ -108,7 +109,7 @@ namespace MyEPA.Controllers
             ViewBag.Data = ItemList;
             ViewBag.Msg = string.Empty;
 
-            return Json(new { ActiveIngredients1, ActiveIngredients2, City, Town, ContactUnit, DrugName, DrugType, DrugState, Amount, Density, Area, ServiceLife = ServiceLife.ToString("yyyy-MM-dd"), UseType }, JsonRequestBehavior.AllowGet);
+            return Json(new { ActiveIngredients1, ActiveIngredients2, City, Town, ContactUnit, DrugName, DrugType, DrugState, Amount, Density, Area, ServiceLife = ServiceLife, UseType }, JsonRequestBehavior.AllowGet);
         }
 
 
