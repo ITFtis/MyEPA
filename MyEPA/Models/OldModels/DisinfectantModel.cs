@@ -40,7 +40,7 @@ namespace MyEPA.Models
         [DisplayName("使用年限")]
         public DateTime? ServiceLife { get; set; }
         [DisplayName("資料更新日期")]
-        public DateTime UpdateTime { get; set; }
+        public DateTime? UpdateTime { get; set; }
         public DateTime? ConfirmTime { get; set; }
         /// <summary>
         /// 參考 DisinfectantTypeEnum.cs
