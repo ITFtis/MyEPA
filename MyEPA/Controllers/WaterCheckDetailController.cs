@@ -17,8 +17,17 @@ namespace MyEPA.Controllers
         {
             UserBriefModel user = GetUserBrief();
 
-            List<WaterCheckDetailModel> result =
-                WaterCheckDetailService.GetListByWaterCheckId(user, waterCheck);
+            List<WaterCheckDetailModel> result = null;
+            if (waterCheck.Id == 0)
+            {
+                //新增
+                result = WaterCheckDetailService.GetListByWaterCheckId(user, waterCheck);
+            }
+            else
+            {
+                //修改
+                result = WaterCheckDetailService.GetListByWaterCheckId2(user, waterCheck.Id);
+            }
 
             ViewBag.User = user;
             ViewBag.WaterCheck = waterCheck;

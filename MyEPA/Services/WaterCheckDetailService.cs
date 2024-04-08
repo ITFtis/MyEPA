@@ -66,6 +66,18 @@ namespace MyEPA.Services
 
             
         }
+
+        ////Brian：2024/04/08 => 改用DiasterId(查核ID)，跨縣市查詢
+        public List<WaterCheckDetailModel> GetListByWaterCheckId2(UserBriefModel user, int waterCheckId)
+        {
+            var result = WaterCheckDetailRepository.GetByFilter(new WaterCheckDetailFilterParameter
+            {
+                WaterCheckIds = waterCheckId.ToListCollection(),
+                UpdateUsers = new List<string>() { user.UserName }
+            });
+            return result;
+        }
+
         public List<WaterCheckDetailModel> GetListByWaterCheckId(UserBriefModel user, int waterCheckId)
         {
             var wds = CityRepository.GetWaterDivisions();

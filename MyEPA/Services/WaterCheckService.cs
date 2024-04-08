@@ -34,7 +34,7 @@ namespace MyEPA.Services
                 new WaterCheckFilterParameter
                 {
                     
-                     CityIds =cityIds,
+                     ////CityIds =cityIds,
                     DiasterIds = diasterId.ToListCollection(),
                     Types = user.Duty == DutyEnum.Water ? WaterCheckTypeEnum.Water.ToListCollection() : WaterCheckTypeEnum.EPPersonnel.ToListCollection()
                 };
@@ -42,35 +42,41 @@ namespace MyEPA.Services
             var waterChecks = WaterCheckRepository
                 .GetByFilter(filter);
 
-            var waterCheckDics =
-                waterChecks
-                .ToDictionary(e => e.CheckDate, e => e);
+            ////Brian：2024/04/08 => 改用DiasterId(查核ID)，跨縣市查詢
+            ////var waterCheckDics =
+            ////    waterChecks
+            ////    .ToDictionary(e => e.CheckDate, e => e);
 
             List<string> userNames = new List<string>();
             if(user.Duty == DutyEnum.Water)
             {
                 userNames = UsersRepository.GetListByFilter(new UsersBriefFilterParameter
                 {
-                    CityIds = user.CityId.ToListCollection(),
+                    ////CityIds = user.CityId.ToListCollection(),
                     TownIds = user.TownId.ToListCollection()
                 }).Select(e => e.UserName).ToList();
             }
 
             var datails = WaterCheckDetailRepository.GetByFilter(new WaterCheckDetailFilterParameter
             {
-                CityIds = GetCityIds(user),
+                ////CityIds = GetCityIds(user),
                 UpdateUsers = userNames,
                 WaterCheckIds = waterChecks.Select(e => e.Id).ToList()
             }).GroupBy(e => e.WaterCheckId).ToDictionary(e => e.Key, e => e.ToList());
 
             List<WaterCheckViewModel> result = new List<WaterCheckViewModel>();
             WaterCheckDetailService detailService = new WaterCheckDetailService();
-            for (DateTime date = diaster.StartTime.Date; date <= diaster.EndTime.AddDays(7); date = date.AddDays(1))
+            ////for (DateTime date = diaster.StartTime.Date; date <= diaster.EndTime.AddDays(7); date = date.AddDays(1))
+            for (DateTime date = DateTime.Parse("2024/04/08"); date <= diaster.EndTime.AddDays(7); date = date.AddDays(1))
             {
                 WaterCheckViewModel vm = null;
-                if (waterCheckDics.ContainsKey(date))
+
+                var waterCheck = waterChecks.Where(a => a.CheckDate.ToShortDateString() == date.ToShortDateString()).FirstOrDefault();
+
+                ////if (waterCheckDics.ContainsKey(date))
+                if (waterCheck != null)
                 {
-                    WaterCheckModel waterCheck = waterCheckDics[date];
+                    ////WaterCheckModel waterCheck = waterCheckDics[date];
 
                     Dictionary<WaterCheckDetailStatusEnum, int> detailStatus = new Dictionary<WaterCheckDetailStatusEnum, int>();
                     WaterCheckDetailStatusViewModel detailStatusVM = null;

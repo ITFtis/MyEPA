@@ -69,12 +69,17 @@ namespace MyEPA.Controllers
             var user = GetUserBrief();
             var result = WaterCheckService.Get(id);
 
+            if (result == null)
+            {
+                result = new WaterCheckModel();
+            }
+
             string diasterName = DiasterService.GetByFilter(new DiasterFilterParameter
             {
                 Ids = result.DiasterId.ToListCollection()
             })
                 .Select(e => e.DiasterName).FirstOrDefault();
-            ViewBag.Details = WaterCheckDetailService.GetListByWaterCheckId(GetUserBrief(), id);
+            ViewBag.Details = WaterCheckDetailService.GetListByWaterCheckId2(GetUserBrief(), id);
             ViewBag.DiasterName = diasterName;
             result.TownName = user.Town;
             result.CityName = user.City;
