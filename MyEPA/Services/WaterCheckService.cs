@@ -66,11 +66,34 @@ namespace MyEPA.Services
 
             List<WaterCheckViewModel> result = new List<WaterCheckViewModel>();
             WaterCheckDetailService detailService = new WaterCheckDetailService();
-            for (DateTime date = diaster.StartTime.Date; date <= diaster.EndTime.AddDays(7); date = date.AddDays(1))            
+            ////for (DateTime date = diaster.StartTime.Date; date <= diaster.EndTime.AddDays(7); date = date.AddDays(1))                        
+            for (DateTime date = DateTime.Parse("2024/04/8"); date <= diaster.EndTime.AddDays(7); date = date.AddDays(1))
             {
                 WaterCheckViewModel vm = null;
 
-                var waterCheck = waterChecks.Where(a => a.CheckDate.ToShortDateString() == date.ToShortDateString()).FirstOrDefault();
+                var datas = waterChecks.Where(a => a.CheckDate.ToShortDateString() == date.ToShortDateString()).ToList();
+
+                //WaterCheckIds (已檢驗WaterDetail)
+                List<int> WaterCheckIds = new List<int>();
+                foreach (var v in datails.Values)
+                {
+                    var z = v.Where(a => a.UpdateUser == user.UserName)
+                                .Select(a => a.WaterCheckId)
+                                .Distinct().ToList();
+
+                    WaterCheckIds.AddRange(z);
+                }
+                WaterCheckIds = WaterCheckIds.OrderBy(a => a).ToList();
+
+                //水質檢驗的id
+                WaterCheckModel waterCheck = null;
+                if (WaterCheckIds.Count > 0)
+                {
+                    //(已檢驗                    
+                    waterCheck = datas.Where(a => WaterCheckIds.Contains(a.Id)).FirstOrDefault();
+                }
+
+                //var waterCheck = waterChecks.Where(a => a.CheckDate.ToShortDateString() == date.ToShortDateString()).FirstOrDefault();
 
                 ////if (waterCheckDics.ContainsKey(date))
                 if (waterCheck != null)
