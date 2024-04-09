@@ -66,8 +66,7 @@ namespace MyEPA.Services
 
             List<WaterCheckViewModel> result = new List<WaterCheckViewModel>();
             WaterCheckDetailService detailService = new WaterCheckDetailService();
-            ////for (DateTime date = diaster.StartTime.Date; date <= diaster.EndTime.AddDays(7); date = date.AddDays(1))
-            for (DateTime date = DateTime.Parse("2024/04/08"); date <= diaster.EndTime.AddDays(7); date = date.AddDays(1))
+            for (DateTime date = diaster.StartTime.Date; date <= diaster.EndTime.AddDays(7); date = date.AddDays(1))            
             {
                 WaterCheckViewModel vm = null;
 
