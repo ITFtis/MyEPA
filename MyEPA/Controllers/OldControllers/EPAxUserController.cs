@@ -387,7 +387,7 @@ namespace MyEPA.Controllers
 
         public ActionResult Delete()
         {
-            string DeleteId= Request["DeleteId"].ToString().Trim();
+            string DeleteId= Request["DeleteId"].ToString();
             string DeleteDuty= Request["DeleteDuty"].ToString().Trim();
             string DeleteCity = Request["DeleteCity"].ToString().Trim();
 
