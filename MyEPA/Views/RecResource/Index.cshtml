@@ -6,7 +6,8 @@
     Layout = "~/Views/_Layout.cshtml";
     UserBriefModel user = ViewBag.User;
     List<DiasterModel> diasters = ViewBag.Diasters;
-    int diasterId = ViewBag.DiasterId;    
+    int diasterId = ViewBag.DiasterId;
+    List<CityModel> citys = ViewBag.Citys;
 }
 
 <div class="btn-group">
@@ -71,7 +72,7 @@
             <a href="#" onclick="Delete(@item.Id)">删除</a>
         </td>*@
             <td>
-                @Html.DisplayFor(modelItem => item.CityId)
+                @Html.DisplayFor(modelItem => citys.Where(a=>a.Id == item.CityId).FirstOrDefault().City)
             </td>
 
             <td>

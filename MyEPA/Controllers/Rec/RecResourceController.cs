@@ -36,6 +36,8 @@ namespace MyEPA.Controllers
                 return View(new List<RecResourceModel>());
             }
 
+            ViewBag.Citys = CityService.GetAll();
+
             List<RecResourceModel> result =
                 RecResourceService.GetByDiasterId(diasterId.Value, GetUserBrief());
 
@@ -62,7 +64,7 @@ namespace MyEPA.Controllers
 
             UserBriefModel user = GetUserBrief();
             List<CityModel> citys = new List<CityModel>();
-            if (user.Duty == Enums.DutyEnum.EPB)
+            if (!user.IsAdmin)
             {
 
                 citys.Add(CityService.Get(user.CityId));
