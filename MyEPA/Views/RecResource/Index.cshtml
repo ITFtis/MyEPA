@@ -32,9 +32,9 @@
 
 <table class="table">
     <tr>
-        @*<th>
+        <th>
             編修細目
-        </th>*@
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.CityId)
         </th>
@@ -67,10 +67,10 @@
     @foreach (var item in Model)
     {
         <tr>
-            @*<td>
-            <a href="@Url.Action("Edit",new { item.Id})">編輯</a>
+        <td>
+            <a href="@Url.Action("Edit", new { item.Id})">編輯</a>
             <a href="#" onclick="Delete(@item.Id)">删除</a>
-        </td>*@
+        </td>
             <td>
                 @Html.DisplayFor(modelItem => citys.Where(a=>a.Id == item.CityId).FirstOrDefault().City)
             </td>
@@ -103,3 +103,28 @@
     }
 
 </table>
+
+<script>
+    function Delete(id) {
+        if (!window.confirm('確定要刪除?')) {
+            return;
+        };
+        var root = '@Url.Action("Delete")?id=' + id;
+    $.ajax({
+        url: root,
+        method: 'Post',
+        success: function (data) {
+                if (data.IsSuccess) {
+                    alert('刪除成功');
+                    location.reload();
+                }
+                else {
+                    alert('刪除失敗,' + data.ErrorMessage);
+                }
+            },
+        error: function (data) {
+                alert('刪除失敗');
+            }
+        });
+    };
+</script>
