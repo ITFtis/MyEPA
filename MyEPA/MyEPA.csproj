@@ -300,6 +300,7 @@
     <Compile Include="Controllers\FileDataController.cs" />
     <Compile Include="Controllers\PositionController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
+    <Compile Include="Controllers\Rec\RecResourceController.cs" />
     <Compile Include="Controllers\TownController.cs" />
     <Compile Include="Controllers\TWMapController.cs" />
     <Compile Include="Controllers\OldControllers\EPBController.cs" />
@@ -351,9 +352,12 @@
     <Compile Include="Models\ContactManuals\ContactManualDateModel.cs" />
     <Compile Include="Models\ContactManuals\ContactManualDepartmentModel.cs" />
     <Compile Include="Models\ContactManuals\ContactManualDownloadRecordModel.cs" />
+    <Compile Include="Models\FilterParameter\RecResourceFilterParameter.cs" />
     <Compile Include="Models\FilterParameter\UsersBriefFilterParameter.cs" />
     <Compile Include="Models\FilterParameter\UsersFilterPaginationParameter.cs" />
     <Compile Include="Models\FilterParameter\UsersFilterParameter.cs" />
+    <Compile Include="Models\RecModels\RecResourceModel.cs" />
+    <Compile Include="Models\RecModels\RecResourceSetModel.cs" />
     <Compile Include="Models\ResourceSetModel.cs" />
     <Compile Include="Models\SearchViewModel\ContactManualTeamViewModel.cs" />
     <Compile Include="Models\UsersBriefModel.cs" />
@@ -361,6 +365,7 @@
     <Compile Include="Repositories\BaseEMISBaseCreateModelRepository.cs" />
     <Compile Include="Repositories\ContactManualDateRepository.cs" />
     <Compile Include="Repositories\ContactManualDownloadRecordRepository.cs" />
+    <Compile Include="Repositories\RecResourceRepository.cs" />
     <Compile Include="Services\ContactManualServices\ContactManualDownloadRecordService.cs" />
     <Compile Include="Services\ContactManualServices\ContactManualFileDataService.cs" />
     <Compile Include="Services\ContactManualServices\ContactManualPermissionService.cs" />
@@ -368,6 +373,7 @@
     <Compile Include="Services\ContactManualServices\ContactManualSupervisionFileDataService.cs" />
     <Compile Include="Services\ContactManualServices\ContactManualTeamService.cs" />
     <Compile Include="Services\PDFHelper.cs" />
+    <Compile Include="Services\RecResourceService.cs" />
     <Compile Include="Services\SMSLoginService.cs" />
     <Compile Include="ViewModels\ContactManualEPARoleViewModel.cs" />
     <Compile Include="Models\ContactManuals\ContactManualModel.cs" />
@@ -1933,6 +1939,7 @@
     <Content Include="Views\Home\LoginEmail.cshtml" />
     <Content Include="Views\Home\forget.cshtml" />
     <Content Include="Views\Home\ContactPartial.cshtml" />
+    <Content Include="Views\RecResource\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="C:\NuGetPackages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.7\analyzers\dotnet\cs\Microsoft.CodeAnalysis.VersionCheckAnalyzer.resources.dll" />

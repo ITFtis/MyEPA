@@ -1,0 +1,89 @@
+﻿@model IEnumerable<MyEPA.Models.RecResourceModel>
+@using MyEPA.Models;
+@using MyEPA.Enums;
+@{
+    ViewBag.Title = "各縣市資源調度";
+    Layout = "~/Views/_Layout.cshtml";
+    UserBriefModel user = ViewBag.User;
+    //WaterCheckModel waterCheck = ViewBag.WaterCheck;
+}
+
+<h2>資源調度</h2>
+
+<p>
+    @Html.ActionLink("新增", "Create")
+</p>
+
+<table class="table">
+    <tr>
+        @*<th>
+            編修細目
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.CityId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Reason)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContactPerson)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Items)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Spec)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Unit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.USDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UEDate)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            @*<td>
+            <a href="@Url.Action("Edit",new { item.Id})">編輯</a>
+            <a href="#" onclick="Delete(@item.Id)">删除</a>
+        </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.CityId)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Reason)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContactPerson)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Items)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Spec)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.USDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UEDate)
+            </td>
+        </tr>
+    }
+
+</table>

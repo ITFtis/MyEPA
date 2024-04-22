@@ -62,5 +62,8 @@ namespace MyEPA.Models
         public System.Data.Entity.DbSet<MyEPA.Models.ContactManualModel> ContactManualModels { get; set; }
 
         public System.Data.Entity.DbSet<MyEPA.Models.ContactManualDownloadRecordModel> ContactManualDownloadRecordModels { get; set; }
+
+        public System.Data.Entity.DbSet<MyEPA.Models.RecResourceModel> RecResourceModel { get; set; }
+        public System.Data.Entity.DbSet<MyEPA.Models.RecResourceSetModel> RecResourceSetModel { get; set; }
     }
 }
