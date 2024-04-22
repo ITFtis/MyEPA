@@ -2,16 +2,31 @@
 @using MyEPA.Models;
 @using MyEPA.Enums;
 @{
-    ViewBag.Title = "各縣市資源調度";
+    ViewBag.Title = "資源調度";
     Layout = "~/Views/_Layout.cshtml";
     UserBriefModel user = ViewBag.User;
-    //WaterCheckModel waterCheck = ViewBag.WaterCheck;
+    List<DiasterModel> diasters = ViewBag.Diasters;
+    int diasterId = ViewBag.DiasterId;    
 }
+
+<div class="btn-group">
+    <button data-toggle="dropdown" class="btn btn-primary btn-white dropdown-toggle" aria-expanded="false">
+        @(diasters.FirstOrDefault(e => e.Id == diasterId).DiasterName)<i class="ace-icon fa fa-angle-down icon-on-right"></i>
+    </button>
+    <ul class="dropdown-menu">
+        @foreach (DiasterModel Item in diasters)
+        {
+            <li>
+                <a href="@Url.Action("Index", new { diasterId = Item.Id})">@Item.DiasterName</a>
+            </li>
+        }
+    </ul>
+</div>
 
 <h2>資源調度</h2>
 
 <p>
-    @Html.ActionLink("新增", "Create")
+    @Html.ActionLink("新增", "Create", new { type = 1, diasterId })
 </p>
 
 <table class="table">

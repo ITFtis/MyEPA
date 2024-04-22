@@ -39,10 +39,10 @@ namespace MyEPA.Models
         public string Unit { get; set; }
 
         [DisplayName("使用時間(起)")]
-        public string USDate { get; set; }
+        public DateTime USDate { get; set; }
 
         [DisplayName("使用時間(迄)")]
-        public string UEDate { get; set; }
+        public DateTime UEDate { get; set; }
 
         [DisplayName("狀態(1.未完成2.已完成)")]
         public string Status { get; set; }

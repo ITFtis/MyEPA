@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using MyEPA.Helper;
 
 namespace MyEPA.Services
 {
@@ -50,5 +51,12 @@ namespace MyEPA.Services
             ////}
         }
 
+        public void Create(UserBriefModel user, RecResourceModel model)
+        {
+            model.CreateUser = user.UserName;
+            model.CreateDate = DateTime.Now;            
+
+            RecResourceRepository.Create(model);
+        }
     }
 }
