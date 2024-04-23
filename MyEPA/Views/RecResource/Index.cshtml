@@ -218,7 +218,67 @@
                     </table>
                 </div>
                 <div id="tabs-3">
-                    33333333
+                    配置資源
+                    <table class="table">
+                        <tr>
+                            <th>
+                                編修細目
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CityId)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ContactPerson)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Items)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Spec)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Quantity)
+                            </th>
+                            <th>
+                                需用時間
+                            </th>
+                        </tr>
+
+                        @foreach (var item in Model.Where(a => a.Type == 1))
+                        {
+                            <tr>
+                                <td>
+                                    @*<a href="@Url.Action("Edit", new { item.Id })">編輯xxx</a>
+                                    <a href="#" onclick="Delete(@item.Id)">删除xxx</a>*@
+
+                                    <a href="#" onclick="xxxx(@item.Id)">調度</a>
+                                    <a href="#" onclick="xxxx(@item.Id)">結案</a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => citys.Where(a => a.Id == item.CityId).FirstOrDefault().City)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ContactPerson)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Items)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Spec)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Quantity)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.USDate)
+                                    ~
+                                    @Html.DisplayFor(modelItem => item.UEDate)
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
                 </div>
             </div>
         </div>
