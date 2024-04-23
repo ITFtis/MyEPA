@@ -57,6 +57,6 @@ namespace MyEPA.Models
         public string UpdateUser { get; set; }
 
         [DisplayName("修改日")]
-        public DateTime UpdateDate { get; set; }
+        public DateTime? UpdateDate { get; set; }
     }
 }
