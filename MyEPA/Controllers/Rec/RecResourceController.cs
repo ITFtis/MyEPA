@@ -43,19 +43,21 @@ namespace MyEPA.Controllers
                 return View(new List<RecResourceModel>());
             }
 
-            ViewBag.Citys = CityService.GetAll();
-
-            List<RecResourceModel> result =
-                RecResourceService.GetByDiasterId(diasterId.Value);
-
-            var user = GetUserBrief();
+            IEnumerable<RecResourceModel> iquery = RecResourceService.GetByDiasterId(diasterId.Value);
 
             //調度需求(改自己，全部看)
             //提供需求(改自己，)
+            var user = GetUserBrief();
             if (!user.IsAdmin)
             {
-                result = result.Where(a => a.CityId == user.CityId).ToList();
+                iquery = iquery.Where(a => a.CityId == user.CityId);
             }
+
+            ////iquery = iquery.Where(a => a.Type == type);
+            iquery = iquery.OrderByDescending(a => a.Id);
+            List<RecResourceModel> result = iquery.ToList();
+
+            ViewBag.Citys = CityService.GetAll();
 
             //querystring
             ViewBag.DiasterId = diasterId;
@@ -88,10 +90,10 @@ namespace MyEPA.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(RecResourceModel model)
+        public ActionResult Create(int type, RecResourceModel model)
         {
             RecResourceService.Create(GetUserBrief(), model);
-            return RedirectToAction("Index", new { diasterId = model.DiasterId });
+            return RedirectToAction("Index", new { type = model.Type, diasterId = model.DiasterId });
         }
 
         public ActionResult Edit(int? id)
@@ -109,6 +111,9 @@ namespace MyEPA.Controllers
 
             ViewBag.Citys = GetCitys();
 
+            //querystring
+            ViewBag.Type = result.Type;
+
             return View(result);
         }
 
@@ -116,7 +121,11 @@ namespace MyEPA.Controllers
         public ActionResult Edit(RecResourceModel model)
         {
             RecResourceService.Update(GetUserBrief(), model);
-            return RedirectToAction("Index");
+
+            //返回原有tab
+            var entity = RecResourceService.Get(model.Id);
+
+            return RedirectToAction("Index", new { type = entity.Type, diasterId = entity.DiasterId });
         }
 
         [HttpPost]

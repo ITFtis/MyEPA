@@ -74,6 +74,7 @@ namespace MyEPA.Services
 
             return new RecResourceModel
             {
+                Id = id,
                 DiasterId = model.DiasterId,
                 Type = model.Type,
                 CityId = model.CityId,

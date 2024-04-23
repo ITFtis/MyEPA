@@ -77,7 +77,7 @@
                             </th>
                         </tr>
 
-                        @foreach (var item in Model.Where(a => a.Type == 1))
+                        @foreach (var item in Model)
                         {
                             <tr>
                                 <td>
@@ -153,7 +153,7 @@
                             </th>
                         </tr>
 
-                        @foreach (var item in Model.Where(a => a.Type == 2))
+                        @foreach (var item in Model)
                         {
                             <tr>
                                 <td>
@@ -212,12 +212,6 @@
     <script>
         $(function () {
             $("#Tabs2").tabs();
-
-            //$('#Tabs2 [type=3]').find('a').trigger('click');
-            //Tab預設切換
-            if (@type != 0) {                
-                $('#Tabs2 [type=' + @type + ']').find('a').trigger('click');
-            }
         });
 
         //新增

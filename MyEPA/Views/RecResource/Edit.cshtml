@@ -5,6 +5,8 @@
     ViewBag.Title = "資源調度 - 修改";
     Layout = "~/Views/_Layout.cshtml";
 
+    int type = ViewBag.Type;
+
     List<CityModel> Citys = ViewBag.Citys;
 }
 <link rel="stylesheet" href="~/Content/flatpickr.css">
@@ -86,7 +88,7 @@
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" value="修改" class="btn btn-success" />
-            <a href="@Url.Action("Index")">
+            <a href="@Url.Action("Index")?type=@type&diasterId=@Model.DiasterId">
                 <div class="btn align-center">取消</div>
             </a>
         </div>
