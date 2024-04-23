@@ -11,6 +11,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Services.Description;
 
 namespace MyEPA.Controllers
 {
@@ -21,16 +22,20 @@ namespace MyEPA.Controllers
         CityService CityService = new CityService();
 
         // GET: RecResource
-        public ActionResult Index(int? diasterId = null)
+        public ActionResult Index(int? type, int? diasterId = null)
         {
+            if (type.HasValue == false)
+            {
+                type = 1;
+            }
+
             List<DiasterModel> diasters = DiasterService.GetAll();
 
             if (diasterId.HasValue == false)
             {
                 diasterId = diasters.Select(e => e.Id).FirstOrDefault();
             }
-
-            ViewBag.DiasterId = diasterId;
+            
             ViewBag.Diasters = diasters;
 
             if (diasterId.HasValue == false)
@@ -52,7 +57,9 @@ namespace MyEPA.Controllers
                 result = result.Where(a => a.CityId == user.CityId).ToList();
             }
 
+            //querystring
             ViewBag.DiasterId = diasterId;
+            ViewBag.Type = type;
 
             return View(result);
         }
@@ -69,13 +76,13 @@ namespace MyEPA.Controllers
                 Ids = diasterId.ToListCollection()
             })
                 .Select(e => e.DiasterName).FirstOrDefault();
-
-            ViewBag.DiasterId = diasterId;
-            ViewBag.DiasterName = diasterName;
-
             
+            ViewBag.DiasterName = diasterName;            
             ViewBag.Citys = GetCitys();
+
+            //querystring
             ViewBag.Type = type;
+            ViewBag.DiasterId = diasterId;
 
             return View();
         }

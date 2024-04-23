@@ -6,8 +6,11 @@
     Layout = "~/Views/_Layout.cshtml";
     UserBriefModel user = ViewBag.User;
     List<DiasterModel> diasters = ViewBag.Diasters;
-    int diasterId = ViewBag.DiasterId;
     List<CityModel> citys = ViewBag.Citys;
+    
+    //querystring
+    int type = ViewBag.Type ?? 0;
+    int diasterId = ViewBag.DiasterId;
 }
 
 <div class="btn-group">
@@ -27,7 +30,7 @@
 <h2>資源調度</h2>
 
 <p>
-    @Html.ActionLink("新增", "Create", new { type = 1, diasterId })
+    @Html.ActionLink("新增", "Create", new { type = type, diasterId = diasterId })
 </p>
 
 <table class="table">
