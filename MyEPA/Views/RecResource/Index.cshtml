@@ -140,30 +140,28 @@
         $(function () {
             $("#Tabs2").tabs();
         });
-    </script>
-}
 
-<script>
-    function Delete(id) {
+        function Delete(id) {
         if (!window.confirm('確定要刪除?')) {
             return;
         };
         var root = '@Url.Action("Delete")?id=' + id;
-    $.ajax({
-        url: root,
-        method: 'Post',
-        success: function (data) {
-                if (data.IsSuccess) {
-                    alert('刪除成功');
-                    location.reload();
+        $.ajax({
+            url: root,
+            method: 'Post',
+            success: function (data) {
+                    if (data.IsSuccess) {
+                        alert('刪除成功');
+                        location.reload();
+                    }
+                    else {
+                        alert('刪除失敗,' + data.ErrorMessage);
+                    }
+                },
+            error: function (data) {
+                    alert('刪除失敗');
                 }
-                else {
-                    alert('刪除失敗,' + data.ErrorMessage);
-                }
-            },
-        error: function (data) {
-                alert('刪除失敗');
-            }
-        });
-    };
-</script>
+            });
+        };
+    </script>
+}
