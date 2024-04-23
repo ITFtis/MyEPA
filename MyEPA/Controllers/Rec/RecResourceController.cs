@@ -47,17 +47,19 @@ namespace MyEPA.Controllers
 
             //調度需求(改自己，全部看)
             //提供需求(改自己，)
-            var user = GetUserBrief();
-            if (!user.IsAdmin)
-            {
-                iquery = iquery.Where(a => a.CityId == user.CityId);
-            }
+            //var user = GetUserBrief();
+            //if (!user.IsAdmin)
+            //{
+            //    iquery = iquery.Where(a => a.CityId == user.CityId);
+            //}
 
             ////iquery = iquery.Where(a => a.Type == type);
             iquery = iquery.OrderByDescending(a => a.Id);
             List<RecResourceModel> result = iquery.ToList();
 
             ViewBag.Citys = CityService.GetAll();
+            ViewBag.IsAdmin = GetIsAdmin();            
+            ViewBag.User = GetUserBrief();
 
             //querystring
             ViewBag.DiasterId = diasterId;

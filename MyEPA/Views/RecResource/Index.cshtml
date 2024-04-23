@@ -21,7 +21,7 @@
         @foreach (DiasterModel Item in diasters)
         {
             <li>
-                <a href="@Url.Action("Index", new { diasterId = Item.Id})">@Item.DiasterName</a>
+                <a href="@Url.Action("Index", new { diasterId = Item.Id })">@Item.DiasterName</a>
             </li>
         }
     </ul>
@@ -81,8 +81,13 @@
                         {
                             <tr>
                                 <td>
-                                    <a href="@Url.Action("Edit", new { item.Id})">編輯</a>
-                                    <a href="#" onclick="Delete(@item.Id)">删除</a>
+                                    @*1.調度需求(改自己，全部看)*@
+                                    @if (user.IsAdmin
+                                        || (!user.IsAdmin && item.CityId == user.CityId))
+                                    {
+                                        <a href="@Url.Action("Edit", new { item.Id })">編輯</a>
+                                        <a href="#" onclick="Delete(@item.Id)">删除</a>
+                                    }
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => citys.Where(a => a.Id == item.CityId).FirstOrDefault().City)
@@ -151,9 +156,25 @@
                             <th>
                                 @Html.DisplayNameFor(model => model.UEDate)
                             </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CreateDate)
+                            </th>
                         </tr>
 
-                        @foreach (var item in Model.Where(a => a.Type == 2))
+                        @*2.提供需求(改自己，看自己)*@
+                        @{
+                            IEnumerable<RecResourceModel> iquery;
+                            if (!user.IsAdmin)
+                            {
+                                iquery = Model.Where(a => a.CityId == user.CityId);
+                            }
+                            else
+                            {
+                                iquery = Model;
+                            }                            
+                        }
+                        
+                        @foreach (var item in iquery.Where(a => a.Type == 2).ToList())
                         {
                             <tr>
                                 <td>
@@ -187,6 +208,9 @@
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.UEDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreateDate)
                                 </td>
                             </tr>
                         }
