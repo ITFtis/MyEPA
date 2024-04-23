@@ -7,7 +7,7 @@
     UserBriefModel user = ViewBag.User;
     List<DiasterModel> diasters = ViewBag.Diasters;
     List<CityModel> citys = ViewBag.Citys;
-    
+
     //querystring
     int type = ViewBag.Type ?? 0;
     int diasterId = ViewBag.DiasterId;
@@ -27,85 +27,121 @@
     </ul>
 </div>
 
-<h2>資源調度</h2>
+<div class="page-content">
+    <div class="row">
+        <div class="col-xs-12">
+            <h2> 資源調度 </h2>
+            <p>
+                @Html.ActionLink("新增", "Create", new { type = type, diasterId = diasterId }, new { @class = "btn btn-primary" })
+            </p>
 
-<p>
-    @Html.ActionLink("新增", "Create", new { type = type, diasterId = diasterId })
-</p>
+            <div id="Tabs2">
+                <ul>
+                    <li><a href="#tabs-1">調度需求</a></li>
+                    <li><a href="#tabs-2">提供調度</a></li>
+                    <li><a href="#tabs-3">配置資源</a></li>
+                </ul>
+                <div id="tabs-1">
+                    @*調度需求*@
+                    <table class="table">
+                        <tr>
+                            <th>
+                                編修細目
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CityId)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Reason)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ContactPerson)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Items)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Spec)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Quantity)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Unit)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.USDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.UEDate)
+                            </th>
+                        </tr>
 
-<table class="table">
-    <tr>
-        <th>
-            編修細目
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CityId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Reason)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ContactPerson)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Items)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Spec)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Quantity)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Unit)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.USDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UEDate)
-        </th>
-    </tr>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("Edit", new { item.Id})">編輯</a>
+                                    <a href="#" onclick="Delete(@item.Id)">删除</a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => citys.Where(a => a.Id == item.CityId).FirstOrDefault().City)
+                                </td>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-        <td>
-            <a href="@Url.Action("Edit", new { item.Id})">編輯</a>
-            <a href="#" onclick="Delete(@item.Id)">删除</a>
-        </td>
-            <td>
-                @Html.DisplayFor(modelItem => citys.Where(a=>a.Id == item.CityId).FirstOrDefault().City)
-            </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Reason)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ContactPerson)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Items)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Spec)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Quantity)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Unit)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.USDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UEDate)
+                                </td>
+                            </tr>
+                        }
 
-            <td>
-                @Html.DisplayFor(modelItem => item.Reason)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ContactPerson)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Items)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Spec)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Unit)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.USDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UEDate)
-            </td>
-        </tr>
-    }
+                    </table>
+                </div>
+                <div id="tabs-2">
+                    2222222
+                </div>
+                <div id="tabs-3">
+                    33333333
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-</table>
+
+
+@section scripts
+{
+    <script src="~/Content/assets/js/jquery-ui.min.js"></script>
+    <script src="~/Content/assets/js/jquery.ui.touch-punch.min.js"></script>
+    <script src="~/Content/chart.js"></script>
+
+    <script>
+        $(function () {
+            $("#Tabs2").tabs();
+        });
+    </script>
+}
 
 <script>
     function Delete(id) {
