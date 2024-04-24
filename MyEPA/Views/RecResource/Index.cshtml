@@ -77,11 +77,29 @@
                             </th>
                         </tr>
 
-                        @foreach (var item in Model.Where(a => a.Type == 1))
+                        @{
+                            @*1.調度需求(全部看，改自己)*@
+                            IEnumerable<RecResourceModel> iquery1;
+                            if (!user.IsAdmin)
+                            {
+                                //自己縣市
+                                var a1 = Model.Where(a => a.CityId == user.CityId).OrderByDescending(a => a.Id);
+                                //其它縣市
+                                var a2 = Model.Where(a => a.CityId != user.CityId).OrderByDescending(a => a.Id);
+                                iquery1 = a1.Concat(a2);
+                            }
+                            else
+                            {
+                                iquery1 = Model;
+                            }
+
+                            var datas_1 = iquery1.Where(a => a.Type == 1).ToList();
+                        }
+
+                        @foreach (var item in datas_1)
                         {
                             <tr>
                                 <td>
-                                    @*1.調度需求(改自己，全部看)*@
                                     @if (user.IsAdmin
                                         || (!user.IsAdmin && item.CityId == user.CityId))
                                     {
@@ -161,20 +179,22 @@
                             </th>
                         </tr>
 
-                        @*2.提供需求(改自己，看自己)*@
+                        @*2.提供需求(看自己，改自己)*@
                         @{
-                            IEnumerable<RecResourceModel> iquery;
+                            IEnumerable<RecResourceModel> iquery2;
                             if (!user.IsAdmin)
                             {
-                                iquery = Model.Where(a => a.CityId == user.CityId);
+                                iquery2 = Model.Where(a => a.CityId == user.CityId);
                             }
                             else
                             {
-                                iquery = Model;
-                            }                            
+                                iquery2 = Model;
+                            }
+
+                            var datas_2 = iquery2.Where(a => a.Type == 2).ToList();
                         }
-                        
-                        @foreach (var item in iquery.Where(a => a.Type == 2).ToList())
+
+                        @foreach (var item in datas_2)
                         {
                             <tr>
                                 <td>
