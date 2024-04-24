@@ -270,9 +270,16 @@
                                 <td>
                                     @*<a href="@Url.Action("Edit", new { item.Id })">編輯xxx</a>
                                     <a href="#" onclick="Delete(@item.Id)">删除xxx</a>*@
-
-                                    <a href="#" onclick="xxxx(@item.Id)">調度</a>
-                                    <a href="#" onclick="xxxx(@item.Id)">結案</a>
+                                    @if (item.Status == 2)
+                                    {
+                                        <span>@Code.GetRecStatus().Where(a => a.Key == 2).FirstOrDefault().Value</span>
+                                        
+                                    }
+                                    else if (item.Status == 1)
+                                    {
+                                        <a href="#" onclick="xxxx(@item.Id)">調度</a>
+                                        <a href="#" onclick="xxxx(@item.Id)">結案</a>
+                                    }
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => citys.Where(a => a.Id == item.CityId).FirstOrDefault().City)

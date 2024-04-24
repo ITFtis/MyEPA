@@ -14,7 +14,7 @@ namespace MyEPA.Models
         [DisplayName("對應災害主題Id")]
         public int DiasterId { get; set; }
 
-        [DisplayName("類型(1需求2提供)")]
+        [DisplayName("資源調度類型")]
         public int Type { get; set; }
 
         [DisplayName("縣市")]
@@ -44,8 +44,8 @@ namespace MyEPA.Models
         [DisplayName("使用時間(迄)")]
         public DateTime UEDate { get; set; }
 
-        [DisplayName("狀態(1.未完成2.已完成)")]
-        public string Status { get; set; }
+        [DisplayName("資源調度配置狀態")]
+        public int Status { get; set; }
 
         [DisplayName("建檔者")]
         public string CreateUser { get; set; }
