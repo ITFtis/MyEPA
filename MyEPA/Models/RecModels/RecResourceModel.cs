@@ -12,7 +12,7 @@ namespace MyEPA.Models
         public int Id { get; set; }
 
         [DisplayName("對應災害主題Id")]
-        public string DiasterId { get; set; }
+        public int DiasterId { get; set; }
 
         [DisplayName("類型(1需求2提供)")]
         public int Type { get; set; }
