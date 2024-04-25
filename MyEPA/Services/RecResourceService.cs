@@ -57,6 +57,7 @@ namespace MyEPA.Services
 
         public void Create(UserBriefModel user, RecResourceModel model)
         {
+            model.Status = 1;
             model.CreateUser = user.UserName;
             model.CreateDate = DateTime.Now;            
 
