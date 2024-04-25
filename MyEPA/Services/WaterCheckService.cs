@@ -66,7 +66,8 @@ namespace MyEPA.Services
 
             List<WaterCheckViewModel> result = new List<WaterCheckViewModel>();
             WaterCheckDetailService detailService = new WaterCheckDetailService();
-            for (DateTime date = diaster.StartTime.Date; date <= diaster.EndTime.AddDays(7); date = date.AddDays(1))                                                
+            for (DateTime date = diaster.StartTime.Date; date <= diaster.EndTime.AddDays(7); date = date.AddDays(1))
+            //for (DateTime date = DateTime.Parse("2024/04/07"); date <= diaster.EndTime.AddDays(7); date = date.AddDays(1))                                                
             {
                 WaterCheckViewModel vm = null;
 
@@ -92,10 +93,11 @@ namespace MyEPA.Services
                     waterCheck = datas.Where(a => WaterCheckIds.Contains(a.Id)).FirstOrDefault();
                 }
 
-                if (waterCheck == null && datas.Count > 0)
-                {
-                    //本日無災情
-                    waterCheck = datas.First();
+                //本日無災情(自己勾選)
+                var noDisaster = datas.Where(a => a.UpdateUser == user.UserName).FirstOrDefault();
+                if (noDisaster != null)
+                {                    
+                    waterCheck = noDisaster;
                 }
 
                 //var waterCheck = waterChecks.Where(a => a.CheckDate.ToShortDateString() == date.ToShortDateString()).FirstOrDefault();
