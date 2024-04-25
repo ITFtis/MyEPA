@@ -67,7 +67,7 @@ namespace MyEPA.Services
             List<WaterCheckViewModel> result = new List<WaterCheckViewModel>();
             WaterCheckDetailService detailService = new WaterCheckDetailService();
             for (DateTime date = diaster.StartTime.Date; date <= diaster.EndTime.AddDays(7); date = date.AddDays(1))
-            //for (DateTime date = DateTime.Parse("2024/04/07"); date <= diaster.EndTime.AddDays(7); date = date.AddDays(1))                                                
+            //for (DateTime date = DateTime.Parse("2024/04/09"); date <= diaster.EndTime.AddDays(7); date = date.AddDays(1))                                                
             {
                 WaterCheckViewModel vm = null;
 
@@ -114,9 +114,12 @@ namespace MyEPA.Services
                     {
                         List<WaterCheckDetailModel> waterCheckdatails = datails[waterCheck.Id];
 
+                        //綁自己
+                        waterCheckdatails = waterCheckdatails.Where(a => a.UpdateUser == user.UserName).ToList();
+
                         isHasDateils = waterCheckdatails.IsNotEmpty();
 
-                        foreach (var item in datails[waterCheck.Id])
+                        foreach (var item in waterCheckdatails)
                         {
                             WaterCheckDetailStatusEnum status = detailService.GetDetailStatus(item);
                             if (detailStatus.ContainsKey(status) == false)
