@@ -137,6 +137,13 @@ namespace MyEPA.Controllers
             return JsonResult(result);
         }
 
+        [HttpPost]
+        public ActionResult Finish(int id)
+        {
+            AdminResultModel result = RecResourceService.Finish(id);
+            return JsonResult(result);
+        }
+
         private List<CityModel> GetCitys()
         {
             UserBriefModel user = GetUserBrief();

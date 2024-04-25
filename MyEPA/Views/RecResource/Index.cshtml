@@ -278,7 +278,7 @@
                                     else if (item.Status == 1)
                                     {
                                         <a href="#" onclick="xxxx(@item.Id)">調度</a>
-                                        <a href="#" onclick="xxxx(@item.Id)">結案</a>
+                                        <a href="#" onclick="Finish(@item.Id)">結案</a>
                                     }
                                 </td>
                                 <td>
@@ -326,7 +326,7 @@
 
             //$('#Tabs2 [type=3]').find('a').trigger('click');
             //Tab預設切換
-            if (@type != 0) {                
+            if (@type != 0) {
                 $('#Tabs2 [type=' + @type + ']').find('a').trigger('click');
             }
         });
@@ -370,6 +370,30 @@
                 },
             error: function (data) {
                     alert('刪除失敗');
+                }
+            });
+        };
+
+        //結案
+        function Finish(id) {
+        if (!window.confirm('確定要結案?')) {
+            return;
+        };
+        var root = '@Url.Action("Finish")?id=' + id;
+        $.ajax({
+            url: root,
+            method: 'Post',
+            success: function (data) {
+                    if (data.IsSuccess) {
+                        alert('結案成功');
+                        location.reload();
+                    }
+                    else {
+                        alert('結案失敗,' + data.ErrorMessage);
+                    }
+                },
+            error: function (data) {
+                    alert('結案失敗');
                 }
             });
         };

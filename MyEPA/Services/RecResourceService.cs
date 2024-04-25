@@ -136,5 +136,25 @@ namespace MyEPA.Services
                 IsSuccess = true
             };
         }
+
+        public AdminResultModel Finish(int id)
+        {
+            var entity = RecResourceRepository.Get(id);
+
+            if (entity == null)
+                return new AdminResultModel
+                {
+                    IsSuccess = false,
+                    ErrorMessage = "資料不存在"
+                };
+
+            entity.Status = 2;
+            RecResourceRepository.Update(entity);
+
+            return new AdminResultModel
+            {
+                IsSuccess = true
+            };
+        }
     }
 }
