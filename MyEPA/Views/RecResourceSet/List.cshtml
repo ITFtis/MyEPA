@@ -31,7 +31,7 @@
 
     @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)*@
-    @using (Html.BeginForm("Create", "RecResourceSet", new { @type = type, @diasterId = diasterId }, FormMethod.Post, new { @enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("List", "RecResourceSet", new { @type = type, @diasterId = diasterId }, FormMethod.Post, new { @enctype = "multipart/form-data" }))
     {
         @Html.HiddenFor(model => model.RecResourceId, new { @Value = Model.RecResourceId })
 

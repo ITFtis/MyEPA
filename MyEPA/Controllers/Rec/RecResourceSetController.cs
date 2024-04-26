@@ -30,7 +30,7 @@ namespace MyEPA.Controllers.Rec
         /// </summary>
         /// <param name="RecResourceId"></param>
         /// <returns></returns>
-        public ActionResult Create(int RecResourceId = 0)
+        public ActionResult List(int RecResourceId = 0)
         {
             //調度配置
             int type = 3;
@@ -60,7 +60,7 @@ namespace MyEPA.Controllers.Rec
         }
 
         [HttpPost]
-        public ActionResult Create(int type, int diasterId, RecResourceSetModel model)
+        public ActionResult List(int type, int diasterId, RecResourceSetModel model)
         {
             RecResourceSetService.Create(GetUserBrief(), model);
             return RedirectToAction("Index", "RecResource", new { type = 3, diasterId = diasterId });
