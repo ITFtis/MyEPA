@@ -1,0 +1,91 @@
+﻿@model MyEPA.Models.RecResourceSetModel
+@using MyEPA.Models
+
+@{
+    ViewBag.Title = "配置資源 - 新增";
+    Layout = "~/Views/_Layout.cshtml";
+
+    string diasterName = ViewBag.DiasterName;
+
+    //querystring
+    int type = ViewBag.Type;
+    int diasterId = ViewBag.DiasterId;
+    List<CityModel> Citys = ViewBag.Citys;
+}
+
+<h3>新增配置資源</h3>
+
+@section styles{
+    <link rel="stylesheet" href="~/Content/flatpickr.css">
+    <link rel="stylesheet" href="~/Content/confirmDate.css">
+}
+
+<div class="form-horizontal">
+    <hr />
+
+    <div class="form-group">
+        <div class="col-md-6">
+            災害名稱：@diasterName
+        </div>
+    </div>
+
+    @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)*@
+    @using (Html.BeginForm("Create", "RecResourceSet", new { @type = type, @diasterId = diasterId }, FormMethod.Post, new { @enctype = "multipart/form-data" }))
+    {
+        @Html.HiddenFor(model => model.RecResourceId, new { @Value = Model.RecResourceId })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SetCityId, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-6">
+                <select id="SetCityId" name="SetCityId">
+                    @foreach (var item in Citys)
+                    {
+                        <option value="@item.Id" @(item.Id == Model.SetCityId ? "selected" : "")>@item.City</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.SetContactPerson, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.SetContactPerson, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.SetItems, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.SetItems, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.SetSpec, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.SetSpec, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.SetQuantity, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.SetQuantity, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.SetUnit, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.SetUnit, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <hr>
+        <input type="submit" value="確認送出" class="btn align-center" />
+        <a href="@Url.Action("Index", "RecResource")?type=@type&diasterId=@diasterId">
+            <div class="btn align-center">取消</div>
+        </a>
+        <br>
+    }
+</div>
+
+@section scripts{
+    <script src="~/Scripts/confirmDate.js"></script>
+    <script src="~/Scripts/flatpickr.js"></script>
+}

@@ -238,7 +238,7 @@
                     </table>
                 </div>
                 <div id="tabs-3">
-                    配置資源
+                    @*配置資源*@
                     <table class="table">
                         <tr>
                             <th>
@@ -268,16 +268,14 @@
                         {
                             <tr>
                                 <td>
-                                    @*<a href="@Url.Action("Edit", new { item.Id })">編輯xxx</a>
-                                    <a href="#" onclick="Delete(@item.Id)">删除xxx</a>*@
                                     @if (item.Status == 2)
                                     {
                                         <span>@Code.GetRecStatus().Where(a => a.Key == 2).FirstOrDefault().Value</span>
-                                        
+
                                     }
                                     else if (item.Status == 1)
-                                    {
-                                        <a href="#" onclick="xxxx(@item.Id)">調度</a>
+                                    {                                        
+                                        <a href="@Url.Action("Create", "RecResourceSet", new { recResourceId = item.Id })">調度</a>
                                         <a href="#" onclick="Finish(@item.Id)">結案</a>
                                     }
                                 </td>
