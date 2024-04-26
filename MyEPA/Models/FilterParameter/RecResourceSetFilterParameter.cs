@@ -7,6 +7,8 @@ namespace MyEPA.Models.FilterParameter
 {
     public class RecResourceSetFilterParameter
     {
-        ////public List<int> DiasterIds { get; set; }
+        public List<int> RecResourceIds { get; set; }
+
+        public List<int> CityIds { get; set; }
     }
 }

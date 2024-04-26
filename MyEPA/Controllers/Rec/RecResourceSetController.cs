@@ -28,42 +28,44 @@ namespace MyEPA.Controllers.Rec
         /// <summary>
         /// 調度需求Id
         /// </summary>
-        /// <param name="RecResourceId"></param>
+        /// <param name="recResourceId"></param>
         /// <returns></returns>
-        public ActionResult List(int RecResourceId = 0)
+        public ActionResult List(int type, int diasterId, int recResourceId = 0)
         {
             //調度配置
-            int type = 3;
-
-            var entity = RecResourceRepository.Get(RecResourceId);
-
-            if (entity == null)
-            {
-                RedirectToAction("Index", "RecResource");
-            }
-
             string diasterName = DiasterService.GetByFilter(new DiasterFilterParameter
             {
-                Ids = entity.DiasterId.ToListCollection()
+                Ids = diasterId.ToListCollection()
             })
                 .Select(e => e.DiasterName).FirstOrDefault();
 
             ViewBag.DiasterName = diasterName;
             ViewBag.Citys = GetCitys();
-            RecResourceSetModel Model = new RecResourceSetModel(entity);
+            ViewBag.RecResourceId = recResourceId;
+
+            //RecResourceSetModel Model = new RecResourceSetModel(entity);
+            IEnumerable<RecResourceSetModel> iquery = RecResourceSetService.GetByRecResourceId(recResourceId);
+            iquery = iquery.OrderByDescending(a => a.Id);
+            List<RecResourceSetModel> result = iquery.ToList();
 
             //////querystring
             ViewBag.Type = type;
-            ViewBag.DiasterId = entity.DiasterId;
+            ViewBag.DiasterId = diasterId;
 
-            return View(Model);
+            return View(result);
         }
 
         [HttpPost]
-        public ActionResult List(int type, int diasterId, RecResourceSetModel model)
+        public ActionResult List(RecResourceSetModel model)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Create(int type, int diasterId, RecResourceSetModel model)
         {
             RecResourceSetService.Create(GetUserBrief(), model);
-            return RedirectToAction("Index", "RecResource", new { type = 3, diasterId = diasterId });
+            return RedirectToAction("List", new { type = 3, diasterId = diasterId, recResourceId = model.RecResourceId });
         }
 
         private List<CityModel> GetCitys()

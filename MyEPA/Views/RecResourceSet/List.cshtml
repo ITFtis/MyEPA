@@ -1,4 +1,4 @@
-﻿@model MyEPA.Models.RecResourceSetModel
+﻿@model List<MyEPA.Models.RecResourceSetModel>
 @using MyEPA.Models
 
 @{
@@ -6,6 +6,7 @@
     Layout = "~/Views/_Layout.cshtml";
 
     string diasterName = ViewBag.DiasterName;
+    int recResourceId = ViewBag.RecResourceId;
 
     //querystring
     int type = ViewBag.Type;
@@ -31,49 +32,51 @@
 
     @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)*@
-    @using (Html.BeginForm("List", "RecResourceSet", new { @type = type, @diasterId = diasterId }, FormMethod.Post, new { @enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("Create", "RecResourceSet", new { @type = type, @diasterId = diasterId }, FormMethod.Post, new { @enctype = "multipart/form-data" }))
     {
-        @Html.HiddenFor(model => model.RecResourceId, new { @Value = Model.RecResourceId })
+        @*@Html.HiddenFor(model => model.RecResourceId, new { @Value = Model.RecResourceId })*@
+
+        <input type="hidden" name="RecResourceId" value="@recResourceId" />
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SetCityId, htmlAttributes: new { @class = "control-label col-md-1" })
+            <label class="control-label col-md-1" for="SetCityId">縣市</label>
             <div class="col-md-6">
                 <select id="SetCityId" name="SetCityId">
                     @foreach (var item in Citys)
                     {
-                        <option value="@item.Id" @(item.Id == Model.SetCityId ? "selected" : "")>@item.City</option>
+                        <option value="@item.Id">@item.City</option>
                     }
                 </select>
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.SetContactPerson, htmlAttributes: new { @class = "control-label col-md-1" })
+            <label class="control-label col-md-1" for="SetContactPerson">聯絡人</label>
             <div class="col-md-6">
-                @Html.EditorFor(model => model.SetContactPerson, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line" id="SetContactPerson" name="SetContactPerson" type="text" value="">
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.SetItems, htmlAttributes: new { @class = "control-label col-md-1" })
+            <label class="control-label col-md-1" for="SetItems">項目</label>
             <div class="col-md-6">
-                @Html.EditorFor(model => model.SetItems, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line" id="SetItems" name="SetItems" type="text" value="">
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.SetSpec, htmlAttributes: new { @class = "control-label col-md-1" })
+            <label class="control-label col-md-1" for="SetSpec">規格</label>
             <div class="col-md-6">
-                @Html.EditorFor(model => model.SetSpec, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line" id="SetSpec" name="SetSpec" type="text" value="">
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.SetQuantity, htmlAttributes: new { @class = "control-label col-md-1" })
+            <label class="control-label col-md-1" for="SetQuantity">數量</label>
             <div class="col-md-6">
-                @Html.EditorFor(model => model.SetQuantity, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line" id="SetQuantity" name="SetQuantity" type="text" value="">
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.SetUnit, htmlAttributes: new { @class = "control-label col-md-1" })
+            <label class="control-label col-md-1" for="SetUnit">單位</label>
             <div class="col-md-6">
-                @Html.EditorFor(model => model.SetUnit, new { htmlAttributes = new { @class = "form-control" } })
+                <input class="form-control text-box single-line" id="SetUnit" name="SetUnit" type="text" value="">
             </div>
         </div>
         <hr>

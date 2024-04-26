@@ -279,7 +279,7 @@
                         {
                             <tr>
                                 <td>
-                                    <a href="@Url.Action("List", "RecResourceSet", new { recResourceId = item.Id })">調度</a>
+                                    <a href="@Url.Action("List", "RecResourceSet", new { type = 3, diasterId = diasterId, recResourceId = item.Id })">調度</a>
                                 </td>
                                 <td>
                                     @if (item.Status == 2)
@@ -373,9 +373,6 @@
                 //提供調度
                 var url = '@Url.Action("Create")?type=' + type + '&diasterId=' + diasterId;
                 location.href = url;
-            }
-            else if (type == "3") {
-                //配置資源
             }
         }
 
