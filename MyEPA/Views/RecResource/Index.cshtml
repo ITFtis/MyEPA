@@ -37,9 +37,9 @@
 
             <div id="Tabs2">
                 <ul>
-                    <li type="1"><a href="#tabs-1">調度需求</a></li>
-                    <li type="2"><a href="#tabs-2">提供調度</a></li>
-                    <li type="3"><a href="#tabs-3">配置資源</a></li>
+                    <li type="1"><a href="#tabs-1" data-toggle="tab">調度需求</a></li>
+                    <li type="2"><a href="#tabs-2" data-toggle="tab">提供調度</a></li>
+                    <li type="3"><a href="#tabs-3" data-toggle="tab">配置資源</a></li>
                 </ul>
                 <div id="tabs-1">
                     @*調度需求*@
@@ -264,19 +264,28 @@
                             </th>
                         </tr>
 
-                        @foreach (var item in Model.Where(a => a.Type == 1))
+                        @{
+                            @*1.調度需求(全部看，改自己)*@
+                            IEnumerable<RecResourceModel> iquery3;
+                            iquery3 = Model.Where(a => a.Type == 1);
+                            iquery3 = iquery3.OrderBy(a => a.Status).ThenByDescending(a => a.Id);
+
+                            var datas_3 = iquery3.ToList();
+                        }
+                        @foreach (var item in datas_3)
                         {
                             <tr>
                                 <td>
                                     @if (item.Status == 2)
                                     {
-                                        <span>@Code.GetRecStatus().Where(a => a.Key == 2).FirstOrDefault().Value</span>
+                                        //已結案
+                                        <span style="color: #ADADAD">@Code.GetRecStatus().Where(a => a.Key == 2).FirstOrDefault().Value</span>
 
                                     }
                                     else if (item.Status == 1)
-                                    {                                        
+                                    {
                                         <a href="@Url.Action("Create", "RecResourceSet", new { recResourceId = item.Id })">調度</a>
-                                        <a href="#" onclick="Finish(@item.Id)">結案</a>
+                                        <a class="text-primary" href="#" onclick="Finish(@item.Id)">結案</a>
                                     }
                                 </td>
                                 <td>
@@ -310,7 +319,11 @@
     </div>
 </div>
 
-
+<style>
+    .ui-tabs .ui-tabs-nav li.ui-state-default.active > a {
+        color: #eb8f00;
+    }
+</style>
 
 @section scripts
 {
@@ -322,7 +335,12 @@
         $(function () {
             $("#Tabs2").tabs();
 
-            //$('#Tabs2 [type=3]').find('a').trigger('click');
+            //新增按鈕(Tab 點選)
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                var addContent = '新增(' + $('#Tabs2 .ui-state-active').text() + ')';
+                $('.page-content .btn-primary').text(addContent);
+            })
+
             //Tab預設切換
             if (@type != 0) {
                 $('#Tabs2 [type=' + @type + ']').find('a').trigger('click');
