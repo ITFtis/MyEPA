@@ -242,7 +242,10 @@
                     <table class="table">
                         <tr>
                             <th>
-                                編修細目
+                                編修
+                            </th>
+                            <th>
+                                結案
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.CityId)
@@ -276,15 +279,16 @@
                         {
                             <tr>
                                 <td>
+                                    <a href="@Url.Action("Create", "RecResourceSet", new { recResourceId = item.Id })">調度</a>
+                                </td>
+                                <td>
                                     @if (item.Status == 2)
                                     {
                                         //已結案
                                         <span style="color: #ADADAD">@Code.GetRecStatus().Where(a => a.Key == 2).FirstOrDefault().Value</span>
-
                                     }
                                     else if (item.Status == 1)
-                                    {
-                                        <a href="@Url.Action("Create", "RecResourceSet", new { recResourceId = item.Id })">調度</a>
+                                    {                                        
                                         <a class="text-primary" href="#" onclick="Finish(@item.Id)">結案</a>
                                     }
                                 </td>
@@ -339,6 +343,15 @@
             $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
                 var addContent = '新增(' + $('#Tabs2 .ui-state-active').text() + ')';
                 $('.page-content .btn-primary').text(addContent);
+
+                var type = $('#Tabs2 .ui-state-active').attr('type');
+                if (type == "3") {
+                    //配置資源
+                    $('.page-content .btn-primary').hide();
+                }
+                else {
+                    $('.page-content .btn-primary').show();
+                }
             })
 
             //Tab預設切換
