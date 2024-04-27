@@ -35,6 +35,9 @@ namespace MyEPA.Models
         [DisplayName("聯絡人")]
         public string SetContactPerson { get; set; }
 
+        [DisplayName("聯絡人電話")]
+        public string SetContactMobilePhone { get; set; }
+
         [DisplayName("項目")]
         public string SetItems { get; set; }
 

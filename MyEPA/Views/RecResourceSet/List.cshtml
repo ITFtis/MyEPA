@@ -54,6 +54,12 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="control-label col-md-1" for="SetContactMobilePhone">聯絡人電話</label>
+            <div class="col-md-6">
+                <input class="form-control text-box single-line" id="SetContactMobilePhone" name="SetContactMobilePhone" type="text" value="">
+            </div>
+        </div>
+        <div class="form-group">
             <label class="control-label col-md-1" for="SetItems">項目</label>
             <div class="col-md-6">
                 <input class="form-control text-box single-line" id="SetItems" name="SetItems" type="text" value="">
@@ -81,7 +87,7 @@
         <a href="@Url.Action("Index", "RecResource")?type=@type&diasterId=@diasterId">
             <div class="btn align-center">返回調度需求</div>
         </a>
-        <hr>        
+        <hr>
     }
 
     @using (Html.BeginForm("Edit", "RecResourceSet", new { @type = type, @diasterId = diasterId }, FormMethod.Post, new { @enctype = "multipart/form-data", @formAct = "Edit" }))
@@ -108,6 +114,12 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="control-label col-md-1" for="SetContactMobilePhone">聯絡人電話</label>
+            <div class="col-md-6">
+                <input class="form-control text-box single-line" id="SetContactMobilePhone" name="SetContactMobilePhone" type="text" value="">
+            </div>
+        </div>
+        <div class="form-group">
             <label class="control-label col-md-1" for="SetItems">項目</label>
             <div class="col-md-6">
                 <input class="form-control text-box single-line" id="SetItems" name="SetItems" type="text" value="">
@@ -130,7 +142,7 @@
             <div class="col-md-6">
                 <input class="form-control text-box single-line" id="SetUnit" name="SetUnit" type="text" value="">
             </div>
-        </div>        
+        </div>
         <input type="submit" value="確認修改" class="btn btn-primary align-center" />
         <a href="@Url.Action("Index", "RecResource")?type=@type&diasterId=@diasterId">
             <div class="btn align-center">返回調度需求</div>
@@ -160,7 +172,11 @@
                         <button class="btn btn-warning" style="padding:0px;" onclick="Delete('@Item.Id')">刪除</button>
                     </td>
                     <td>@Citys.Where(a => a.Id == Item.SetCityId).FirstOrDefault().City</td>
-                    <td>@Item.SetContactPerson</td>
+                    <td>
+                        @Item.SetContactPerson
+                        <br />
+                        @Item.SetContactMobilePhone
+                    </td>
                     <td>@Item.SetItems</td>
                     <td>@Item.SetSpec</td>
                     <td>@Item.SetQuantity</td>
@@ -217,6 +233,7 @@
                     $form.find('input[name=Id]').val(data.Id);
                     $form.find('select[name=SetCityId]').val(data.SetCityId);
                     $form.find('input[name=SetContactPerson]').val(data.SetContactPerson);
+                    $form.find('input[name=SetContactMobilePhone]').val(data.SetContactMobilePhone);
                     $form.find('input[name=SetItems]').val(data.SetItems);
                     $form.find('input[name=SetSpec]').val(data.SetSpec);
                     $form.find('input[name=SetQuantity]').val(data.SetQuantity);

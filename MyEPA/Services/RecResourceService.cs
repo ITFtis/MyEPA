@@ -68,31 +68,7 @@ namespace MyEPA.Services
         {
             var model = RecResourceRepository.Get(id);
 
-            if (model == null)
-            {
-                return null;
-            }            
-
-            return new RecResourceModel
-            {
-                Id = id,
-                DiasterId = model.DiasterId,
-                Type = model.Type,
-                CityId = model.CityId,
-                Reason = model.Reason,
-                ContactPerson = model.ContactPerson,
-                Items = model.Items,
-                Spec = model.Spec,
-                Quantity = model.Quantity,
-                Unit = model.Unit,
-                USDate = model.USDate,
-                UEDate = model.UEDate,
-                Status = model.Status,
-                CreateUser = model.CreateUser,
-                CreateDate = model.CreateDate,
-                UpdateUser = model.UpdateUser,
-                UpdateDate = model.UpdateDate,
-            };
+            return model;
         }
 
         public void Update(UserBriefModel user, RecResourceModel model)
@@ -105,6 +81,7 @@ namespace MyEPA.Services
             entity.CityId = model.CityId;
             entity.Reason = model.Reason;
             entity.ContactPerson = model.ContactPerson;
+            entity.ContactMobilePhone = model.ContactMobilePhone;
             entity.Items = model.Items;
             entity.Spec = model.Spec;
             entity.Quantity = model.Quantity;

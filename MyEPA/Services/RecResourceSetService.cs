@@ -11,11 +11,18 @@ using System.Web;
 
 namespace MyEPA.Services
 {
-    public class RecResourceSetService : BaseEMISRepository<RecResourceSetModel>
+    public class RecResourceSetService
     {
         RecResourceSetRepository RecResourceSetRepository = new RecResourceSetRepository();
 
         RecResourceRepository RecResourceRepository = new RecResourceRepository();
+
+        public RecResourceSetModel Get(int id)
+        {
+            var model = RecResourceSetRepository.Get(id);
+
+            return model;
+        }
 
         public List<RecResourceSetModel> GetByRecResourceId(int RecResourceId)
         {
@@ -57,6 +64,7 @@ namespace MyEPA.Services
 
             entity.SetCityId = model.SetCityId;
             entity.SetContactPerson = model.SetContactPerson;
+            entity.SetContactMobilePhone = model.SetContactMobilePhone;
             entity.SetItems = model.SetItems;
             entity.SetSpec = model.SetSpec;
             entity.SetQuantity = model.SetQuantity;

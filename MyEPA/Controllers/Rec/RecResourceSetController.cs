@@ -18,7 +18,7 @@ namespace MyEPA.Controllers.Rec
         DiasterService DiasterService = new DiasterService();        
         CityService CityService = new CityService();
         RecResourceRepository RecResourceRepository = new RecResourceRepository();
-        RecResourceSetRepository RecResourceSetRepository = new RecResourceSetRepository();
+        
         // GET: RecResourceSet
         ////////public ActionResult Index()
         ////////{
@@ -80,9 +80,9 @@ namespace MyEPA.Controllers.Rec
         {            
             RecResourceSetService.Update(GetUserBrief(), model);
 
-            var entity = RecResourceSetRepository.Get(model.Id);
+            var result = RecResourceSetService.Get(model.Id);
 
-            return RedirectToAction("List", new { type = type, diasterId = diasterId, recResourceId = entity.RecResourceId });
+            return RedirectToAction("List", new { type = type, diasterId = diasterId, recResourceId = result.RecResourceId });
         }
 
         [HttpPost]

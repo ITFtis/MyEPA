@@ -17,8 +17,8 @@ namespace MyEPA.Controllers
 {
     public class RecResourceController : LoginBaseController
     {
-        DiasterService DiasterService = new DiasterService();
         RecResourceService RecResourceService = new RecResourceService();
+        DiasterService DiasterService = new DiasterService();        
         CityService CityService = new CityService();
 
         // GET: RecResource
