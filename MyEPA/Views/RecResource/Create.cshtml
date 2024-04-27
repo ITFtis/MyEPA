@@ -13,7 +13,9 @@
     List<CityModel> Citys = ViewBag.Citys;
 }
 
-<h3>新增資源調度</h3>
+<h3>
+    新增@(type == 1 ? "調度需求" : "提供資源")
+</h3>
 
 @section styles{
     <link rel="stylesheet" href="~/Content/flatpickr.css">

@@ -38,6 +38,8 @@ namespace MyEPA.Controllers.Rec
             })
                 .Select(e => e.DiasterName).FirstOrDefault();
 
+            RecResourceService RecResourceService = new RecResourceService();
+            ViewBag.RecResource = RecResourceService.Get(recResourceId);
             ViewBag.DiasterName = diasterName;
             ViewBag.Citys = GetCitys();
             ViewBag.RecResourceId = recResourceId;

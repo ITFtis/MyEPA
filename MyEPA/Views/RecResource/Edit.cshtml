@@ -12,7 +12,9 @@
 <link rel="stylesheet" href="~/Content/flatpickr.css">
 <link rel="stylesheet" href="~/Content/confirmDate.css">
 
-<h3>修改資源調度</h3>
+<h3>
+    修改@(type == 1 ? "調度需求" : "提供資源")
+</h3>
 
 @using (Html.BeginForm("Edit", "RecResource", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
