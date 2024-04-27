@@ -22,6 +22,32 @@ namespace MyEPA.Services
         RecResourceRepository RecResourceRepository = new RecResourceRepository();        
         DiasterRepository DiasterRepository = new DiasterRepository();        
         UsersRepository UsersRepository = new UsersRepository();
+
+        public string GetAlter()
+        {
+            string result = "";
+
+            try
+            {
+                var diaster = new DiasterService().GetAll().FirstOrDefault();
+                var recs = GetByDiasterId(diaster.Id);
+
+                recs = recs.Where(a => a.Type == 1)
+                        .Where(a => a.Status == 1).ToList();
+                if (recs.Count > 0)
+                {
+                    string str = "尚有調度需求未結案：" + recs.Count;
+                    result = str;
+                }
+            }
+            catch (Exception ex)
+            {
+                return "";
+            }            
+
+            return result;
+        }
+
         public List<RecResourceModel> GetByDiasterId(int diasterId)
         {
             DiasterModel diaster = DiasterRepository.Get(diasterId);

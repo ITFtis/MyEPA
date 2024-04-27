@@ -33,6 +33,7 @@ namespace MyEPA.Controllers
                 ViewBag.Notices = new NoticeService().GetByFilter(new NoticeFilterParameter());
                 ViewBag.Area = GetArea();
                 ViewBag.ContactManualDuty = GetContactManualDuty();
+                ViewBag.AlertRecResource = new RecResourceService().GetAlter(); //"xxx";
             }
         }
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
