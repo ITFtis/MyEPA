@@ -113,6 +113,10 @@
 
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Reason)
+                                    <br />
+                                    <a href="@Url.Action("DownPDF", new { Id = item.Id })">
+                                        <img width="30" height="30" src="../../images/icon_pdf.png" alt="PDF">
+                                    </a>
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.ContactPerson)
@@ -209,6 +213,10 @@
 
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Reason)
+                                    <br />
+                                    <a href="@Url.Action("DownPDF", new { Id = item.Id })">
+                                        <img width="30" height="30" src="../../images/icon_pdf.png" alt="PDF">
+                                    </a>
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.ContactPerson)

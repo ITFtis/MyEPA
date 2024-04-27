@@ -7,6 +7,7 @@ using MyEPA.ViewModels;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -142,6 +143,18 @@ namespace MyEPA.Controllers
         {
             AdminResultModel result = RecResourceService.Finish(id);
             return JsonResult(result);
+        }
+
+        public ActionResult DownPDF(int Id)
+        {
+            //我要下載的檔案位置
+            string filepath = Server.MapPath("~/FileDatas/環境部災害應變資源調度原則v3.docx");
+            //取得檔案名稱
+            string filename = System.IO.Path.GetFileName(filepath);
+            //讀成串流
+            Stream iStream = new FileStream(filepath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            //回傳出檔案
+            return File(iStream, GetContentType("docx"), filename);
         }
 
         private List<CityModel> GetCitys()
