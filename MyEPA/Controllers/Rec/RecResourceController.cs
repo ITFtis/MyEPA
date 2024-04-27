@@ -1,18 +1,26 @@
-﻿using MyEPA.Extensions;
+﻿using DocumentFormat.OpenXml.Bibliography;
+using MyEPA.Extensions;
 using MyEPA.Models;
 using MyEPA.Models.FilterParameter;
 using MyEPA.Repositories;
 using MyEPA.Services;
 using MyEPA.ViewModels;
+using NPOI.SS.Formula;
+using NPOI.XWPF.UserModel;
 using RestSharp;
+using Spire.Xls.Core.Spreadsheet;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Services.Description;
+using System.Web.UI.WebControls.WebParts;
+using Xceed.Pdf;
+using Xceed.Words.NET;
 
 namespace MyEPA.Controllers
 {
@@ -166,15 +174,106 @@ namespace MyEPA.Controllers
             //取得檔案名稱
             string filename = System.IO.Path.GetFileName(path);
 
-            //using(FileStream stream = File.OpenRead(filepath))
-            //{
+            StringBuilder sb = new StringBuilder();
+            string toFolder = Server.MapPath("~/FileDatas/Temp/");
+            string toFileName = fileName + DateTime.Now.ToString("yyyy-MM-dd") + ".docx";
+            string toPath = toFolder + toFileName;
 
-            //}
+            using (FileStream stream = System.IO.File.OpenRead(path))
+            {
+                XWPFDocument docx = new XWPFDocument(stream);
+
+                Dictionary<string, string> textDic = new Dictionary<string, string>()
+                    {
+                        {"City", GetCitys().Where(a => a.Id == r.CityId).FirstOrDefault().City},
+                        {"CreateDate", r.CreateDate.ToShortDateString() },
+                        {"ContactPerson", r.ContactPerson },
+                        {"ContactMobilePhone", r.ContactMobilePhone },
+                        {"Reason", r.Reason }
+                };
+
+                foreach (XWPFTable table in docx.Tables)
+                {                                        
+                    foreach (XWPFTableRow row in table.Rows)
+                    {
+                        foreach (XWPFTableCell cell in row.GetTableCells())     //遍歷每一行中的每一列
+                        {
+                            foreach (var paragraph in cell.Paragraphs)  // 遍歷當前表格里的所有（段落）段
+                            {                                
+                                foreach (var texts in textDic)
+                                {
+                                    try
+                                    {
+                                        var repStr = "[$" + texts.Key + "$]";
+                                        if (paragraph.Text.Contains(repStr))
+                                            paragraph.ReplaceText(repStr, texts.Value);  // 替换段落中的文字
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        // 不处理
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                //////XWPFDocument XWPFParagraph
+                ////foreach (var para in docx.Paragraphs)
+                ////{
+                ////    foreach(var runs in para.Runs)
+                ////    {
+                ////        var text = runs.Text;
+                ////    }
+
+                ////    //foreach (var texts in textDic)
+                ////    //{
+                ////    //    try
+                ////    //    {
+                ////    //        para.ReplaceText("xxx", texts.Value);
+                ////    //        //para.ReplaceText($"[={texts.Key}]", texts.Value);  // 替换段落中的文字
+                ////    //    }
+                ////    //    catch (Exception ex)
+                ////    //    {
+                ////    //        // 不处理
+                ////    //        continue;
+                ////    //    }
+                ////    //}
+
+                ////}
+
+
+
+                //////读取表格
+                ////foreach (XWPFTable table in docx.Tables)
+                ////{
+                ////    //循环表格行 第5列清單
+                ////    XWPFTableRow listRow = table.Rows[4];
+                ////    //foreach (XWPFTableRow row in table.Rows)
+                ////    //{
+                ////    //    foreach (XWPFTableCell cell in row.GetTableCells())
+                ////    //    {
+                ////    //        sb.Append(cell.GetText());
+                ////    //    }
+                ////    //}
+                ////}                
+
+                if (!Directory.Exists(toFolder))
+                {
+                    Directory.CreateDirectory(toFolder);
+                }
+
+                FileStream xlsFile = new FileStream(toPath, FileMode.Create, FileAccess.Write);
+                docx.Write(xlsFile);
+                xlsFile.Close();
+                docx.Close();
+            }
 
             //讀成串流
-            Stream iStream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+            var iStream = new FileStream(toPath, FileMode.Open, FileAccess.Read, FileShare.Read);
             //回傳出檔案
-            return File(iStream, GetContentType("docx"), filename);
+            return File(iStream, GetContentType("docx"), toFileName);
         }
 
         private List<CityModel> GetCitys()
