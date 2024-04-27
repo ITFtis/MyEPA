@@ -1,4 +1,5 @@
 ﻿using MyEPA.Extensions;
+using MyEPA.Helper;
 using MyEPA.Models;
 using MyEPA.Models.FilterParameter;
 using MyEPA.Repositories;
@@ -45,6 +46,45 @@ namespace MyEPA.Services
             model.CreateDate = DateTime.Now;
 
             RecResourceSetRepository.Create(model);
+        }
+
+        public void Update(UserBriefModel user, RecResourceSetModel model)
+        {
+            var entity = RecResourceSetRepository.Get(model.Id);
+
+            if (entity == null)
+                return;
+
+            entity.SetCityId = model.SetCityId;
+            entity.SetContactPerson = model.SetContactPerson;
+            entity.SetItems = model.SetItems;
+            entity.SetSpec = model.SetSpec;
+            entity.SetQuantity = model.SetQuantity;
+            entity.SetUnit = model.SetUnit;
+
+            entity.UpdateDate = DateTimeHelper.GetCurrentTime();
+            entity.UpdateUser = user.UserName;
+
+            RecResourceSetRepository.Update(entity);
+        }
+
+        public AdminResultModel Delete(int id)
+        {
+            var entity = RecResourceSetRepository.Get(id);
+
+            if (entity == null)
+                return new AdminResultModel
+                {
+                    IsSuccess = false,
+                    ErrorMessage = "資料不存在"
+                };
+
+            RecResourceSetRepository.Delete(id);
+
+            return new AdminResultModel
+            {
+                IsSuccess = true
+            };
         }
     }
 }

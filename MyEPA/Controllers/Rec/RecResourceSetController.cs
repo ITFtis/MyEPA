@@ -18,12 +18,12 @@ namespace MyEPA.Controllers.Rec
         DiasterService DiasterService = new DiasterService();        
         CityService CityService = new CityService();
         RecResourceRepository RecResourceRepository = new RecResourceRepository();
-
+        RecResourceSetRepository RecResourceSetRepository = new RecResourceSetRepository();
         // GET: RecResourceSet
-        public ActionResult Index()
-        {
-            return View();
-        }
+        ////////public ActionResult Index()
+        ////////{
+        ////////    return View();
+        ////////}
 
         /// <summary>
         /// 調度需求Id
@@ -66,6 +66,30 @@ namespace MyEPA.Controllers.Rec
         {
             RecResourceSetService.Create(GetUserBrief(), model);
             return RedirectToAction("List", new { type = 3, diasterId = diasterId, recResourceId = model.RecResourceId });
+        }
+
+        [HttpPost]
+        public ActionResult Get(int id)
+        {
+            var result = RecResourceSetService.Get(id);
+
+            return JsonResult(result);
+        }
+
+        public ActionResult Edit(int type, int diasterId, RecResourceSetModel model)
+        {            
+            RecResourceSetService.Update(GetUserBrief(), model);
+
+            var entity = RecResourceSetRepository.Get(model.Id);
+
+            return RedirectToAction("List", new { type = type, diasterId = diasterId, recResourceId = entity.RecResourceId });
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {            
+            AdminResultModel result = RecResourceSetService.Delete(id);
+            return JsonResult(result);
         }
 
         private List<CityModel> GetCitys()
