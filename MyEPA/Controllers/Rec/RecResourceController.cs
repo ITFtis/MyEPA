@@ -148,9 +148,21 @@ namespace MyEPA.Controllers
         public ActionResult DownPDF(int Id)
         {
             //我要下載的檔案位置
-            string filepath = Server.MapPath("~/FileDatas/環境部災害應變資源調度原則v3.docx");
+            string filepath = Server.MapPath("~/FileDatas/Template/");
+
+            var r = RecResourceService.Get(Id);
+            if (r.Type == 1)
+            {
+                filepath = filepath + "應變資源調度需求表.docx";
+            }
+            else if (r.Type == 2)
+            {
+                filepath = filepath + "應變資源提供調度表.docx";
+            }
+            
             //取得檔案名稱
             string filename = System.IO.Path.GetFileName(filepath);
+
             //讀成串流
             Stream iStream = new FileStream(filepath, FileMode.Open, FileAccess.Read, FileShare.Read);
             //回傳出檔案
