@@ -37,9 +37,9 @@
 
             <div id="Tabs2">
                 <ul>
-                    <li type="1"><a href="#tabs-1" data-toggle="tab">調度需求</a></li>
-                    <li type="2"><a href="#tabs-2" data-toggle="tab">提供資源</a></li>
-                    <li type="3"><a href="#tabs-3" data-toggle="tab">可提供調度</a></li>
+                    <li type="1"><a id="tab1" href="#tabs-1" data-toggle="tab">調度需求</a></li>
+                    <li type="2"><a id="tab2" href="#tabs-2" data-toggle="tab">提供資源</a></li>
+                    <li type="3"><a id="tab3" href="#tabs-3" data-toggle="tab">可提供調度</a></li>
                 </ul>
                 <div id="tabs-1">
                     @*調度需求*@
@@ -350,6 +350,11 @@
     <script>
         $(function () {
             $("#Tabs2").tabs();
+
+            var isAdmin = JSON.parse('@Html.Raw(Json.Encode(@user.IsAdmin))');
+            if (!(isAdmin)) {
+                $('#tab3').hide();
+            }
 
             //新增按鈕(Tab 點選)
             $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
