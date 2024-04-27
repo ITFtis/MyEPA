@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Bibliography;
+using Microsoft.Office.Interop.Word;
 using MyEPA.Extensions;
 using MyEPA.Models;
 using MyEPA.Models.FilterParameter;
@@ -21,6 +22,7 @@ using System.Web.Services.Description;
 using System.Web.UI.WebControls.WebParts;
 using Xceed.Pdf;
 using Xceed.Words.NET;
+using Document = Microsoft.Office.Interop.Word.Document;
 
 namespace MyEPA.Controllers
 {
@@ -176,8 +178,8 @@ namespace MyEPA.Controllers
 
             StringBuilder sb = new StringBuilder();
             string toFolder = Server.MapPath("~/FileDatas/Temp/");
-            string toFileName = fileName + DateTime.Now.ToString("yyyy-MM-dd") + ".docx";
-            string toPath = toFolder + toFileName;
+            string toPdfName = fileName + DateTime.Now.ToString("yyyy-MM-dd") + ".pdf";
+            string toPdfPath = toFolder + toPdfName;
 
             using (FileStream stream = System.IO.File.OpenRead(path))
             {
@@ -264,16 +266,29 @@ namespace MyEPA.Controllers
                     Directory.CreateDirectory(toFolder);
                 }
 
+                string toFileName = fileName + DateTime.Now.ToString("yyyy-MM-dd") + ".docx";
+                string toPath = toFolder + toFileName;
+
                 FileStream xlsFile = new FileStream(toPath, FileMode.Create, FileAccess.Write);
                 docx.Write(xlsFile);
                 xlsFile.Close();
                 docx.Close();
+
+                // 轉換成pdf
+                Application app = new Application();
+                // 開啟 Word 文件
+                Document doc = app.Documents.Open(toPath);
+                // 轉換為 PDF
+                doc.ExportAsFixedFormat(toPdfPath, WdExportFormat.wdExportFormatPDF);
+                //doc.Close();
+                ((Microsoft.Office.Interop.Word._Document)doc).Close(false);
+                ((Microsoft.Office.Interop.Word._Application)app).Quit(false);
             }
 
             //讀成串流
-            var iStream = new FileStream(toPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            var iStream = new FileStream(toPdfPath, FileMode.Open, FileAccess.Read, FileShare.Read);
             //回傳出檔案
-            return File(iStream, GetContentType("docx"), toFileName);
+            return File(iStream, GetContentType("docx"), toPdfName);
         }
 
         private List<CityModel> GetCitys()
