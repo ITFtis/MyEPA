@@ -17,8 +17,7 @@ namespace MyEPA.Controllers.Rec
         RecResourceSetService RecResourceSetService = new RecResourceSetService();
         DiasterService DiasterService = new DiasterService();        
         CityService CityService = new CityService();
-        RecResourceRepository RecResourceRepository = new RecResourceRepository();
-        
+                
         // GET: RecResourceSet
         ////////public ActionResult Index()
         ////////{
