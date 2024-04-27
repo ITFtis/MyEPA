@@ -18,8 +18,8 @@ namespace MyEPA
             List<KeyValuePair<int, string>> result = new List<KeyValuePair<int, string>>()
             {
                 new KeyValuePair<int, string>(1, "調度需求"),
-                new KeyValuePair<int, string>(2, "提供調度"),
-                new KeyValuePair<int, string>(3, "配置資源"),
+                new KeyValuePair<int, string>(2, "提供資源"),
+                new KeyValuePair<int, string>(3, "可提供調度"),
             };
 
             return result;
