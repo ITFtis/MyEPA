@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Bibliography;
+using Microsoft.Office.Interop.Excel;
 using Microsoft.Office.Interop.Word;
 using MyEPA.Extensions;
 using MyEPA.Models;
@@ -6,6 +7,7 @@ using MyEPA.Models.FilterParameter;
 using MyEPA.Repositories;
 using MyEPA.Services;
 using MyEPA.ViewModels;
+using NPOI.OpenXmlFormats.Wordprocessing;
 using NPOI.SS.Formula;
 using NPOI.XWPF.UserModel;
 using RestSharp;
@@ -161,12 +163,12 @@ namespace MyEPA.Controllers
             string filefolder = Server.MapPath("~/FileDatas/Template/");
             string fileName = "";
 
-            var r = RecResourceService.Get(Id);
-            if (r.Type == 1)
+            var z = RecResourceService.Get(Id);
+            if (z.Type == 1)
             {
                 fileName = "應變資源調度需求表.docx";
             }
-            else if (r.Type == 2)
+            else if (z.Type == 2)
             {
                 fileName = "應變資源提供調度表.docx";
             }
@@ -187,11 +189,11 @@ namespace MyEPA.Controllers
 
                 Dictionary<string, string> textDic = new Dictionary<string, string>()
                     {
-                        {"City",  CityService.GetAll().Where(a => a.Id == r.CityId).FirstOrDefault().City},
-                        {"CreateDate", r.CreateDate.ToShortDateString() },
-                        {"ContactPerson", r.ContactPerson },
-                        {"ContactMobilePhone", r.ContactMobilePhone },
-                        {"Reason", r.Reason }
+                        {"City",  CityService.GetAll().Where(a => a.Id == z.CityId).FirstOrDefault().City},
+                        {"CreateDate", z.CreateDate.ToShortDateString() },
+                        {"ContactPerson", z.ContactPerson },
+                        {"ContactMobilePhone", z.ContactMobilePhone },
+                        {"Reason", z.Reason }
                 };
 
                 foreach (XWPFTable table in docx.Tables)
@@ -247,19 +249,104 @@ namespace MyEPA.Controllers
 
 
 
-                //////读取表格
-                ////foreach (XWPFTable table in docx.Tables)
-                ////{
-                ////    //循环表格行 第5列清單
-                ////    XWPFTableRow listRow = table.Rows[4];
-                ////    //foreach (XWPFTableRow row in table.Rows)
-                ////    //{
-                ////    //    foreach (XWPFTableCell cell in row.GetTableCells())
-                ////    //    {
-                ////    //        sb.Append(cell.GetText());
-                ////    //    }
-                ////    //}
-                ////}                
+                //读取表格
+                if (1 == 1)
+                {
+                    XWPFTableCell cell;
+                    XWPFParagraph para;
+                    XWPFRun run;
+                    foreach (XWPFTable table in docx.Tables)
+                    {
+                        //表格第5列(清單)
+                        XWPFTableRow listRow = table.Rows[4];
+                        ////foreach (XWPFTableCell cell in listRow.GetTableCells())
+                        ////{
+                        ////    //sb.Append(cell.GetText());
+                        ////    string aaa = cell.GetText();
+
+                        ////    XWPFParagraph para = cell.AddParagraph();
+                        ////    XWPFRun run = para.CreateRun();
+                        ////    run.SetText("a1");
+
+                        ////}
+
+                        CT_Row ctrow = table.Rows[4].GetCTRow();
+
+                        CT_Row targetRow = new CT_Row();
+                        foreach (CT_Tc item in ctrow.Items)
+                        {
+                            CT_Tc addTc = targetRow.AddNewTc();
+                            addTc.tcPr = item.tcPr;
+
+                            IList<CT_P> list_p = item.GetPList();
+
+                            foreach (var p in list_p)
+                            {
+                                CT_P addP = addTc.AddNewP();
+                                addP.pPr = p.pPr;//段落樣式
+                                IList<CT_R> list_r = p.GetRList();
+                                foreach(CT_R r in list_r)
+                                {
+                                    CT_R addR = addP.AddNewR();
+                                    addR.rPr = r.rPr;//run樣式，包含字體
+                                    List<CT_Text> list_text = r.GetTList();
+
+                                    foreach(CT_Text text in list_text)
+                                    {
+                                        CT_Text addText = addR.AddNewT();
+                                        addText.space = text.space;
+                                        addText.Value = text.Value;
+                                    }
+                                }
+
+                            }
+                        }
+
+                        //新增資料行
+                        XWPFTableRow mrow = new XWPFTableRow(targetRow, table);
+                        table.AddRow(mrow);
+
+                        ////cell = listRow.GetCell(0);
+                        ////CT_Tc ctc = cell.GetCTTc();
+
+                        ////IList<CT_P> ctps = ctc.GetPList();
+                        ////foreach (var p in ctps)
+                        ////{
+
+                        ////    IList<CT_R> ctrs = p.GetRList();
+                        ////}
+
+                        //////項目
+                        ////cell = listRow.GetCell(0);
+                        ////para = cell.AddParagraph();
+                        ////run = para.CreateRun();
+                        ////run.SetText("a0");
+
+                        //////細項(規格)
+                        ////cell = listRow.GetCell(1);
+                        ////para = cell.AddParagraph();
+                        ////run = para.CreateRun();
+                        ////run.SetText("a1");
+
+                        //////數量
+                        ////cell = listRow.GetCell(2);
+                        ////para = cell.AddParagraph();
+                        ////run = para.CreateRun();
+                        ////run.SetText("a2");
+
+                        //////單位
+                        ////cell = listRow.GetCell(3);
+                        ////para = cell.AddParagraph();
+                        ////run = para.CreateRun();
+                        ////run.SetText("a3");
+
+                        //////需用時間
+                        ////cell = listRow.GetCell(4);
+                        ////para = cell.AddParagraph();
+                        ////run = para.CreateRun();
+                        ////run.SetText("a4");
+                    }
+                }
 
                 if (!Directory.Exists(toFolder))
                 {
@@ -274,15 +361,20 @@ namespace MyEPA.Controllers
                 xlsFile.Close();
                 docx.Close();
 
-                // 轉換成pdf
-                Application app = new Application();
-                // 開啟 Word 文件
-                Document doc = app.Documents.Open(toPath);
-                // 轉換為 PDF
-                doc.ExportAsFixedFormat(toPdfPath, WdExportFormat.wdExportFormatPDF);
-                //doc.Close();
-                ((Microsoft.Office.Interop.Word._Document)doc).Close(false);
-                ((Microsoft.Office.Interop.Word._Application)app).Quit(false);
+                //讀成串流
+                var tmpStream = new FileStream(toPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                //回傳出檔案
+                return File(tmpStream, GetContentType("docx"), toFileName);
+
+                ////// 轉換成pdf
+                ////Application app = new Application();
+                ////// 開啟 Word 文件
+                ////Document doc = app.Documents.Open(toPath);
+                ////// 轉換為 PDF
+                ////doc.ExportAsFixedFormat(toPdfPath, WdExportFormat.wdExportFormatPDF);
+                //////doc.Close();
+                ////((Microsoft.Office.Interop.Word._Document)doc).Close(false);
+                ////((Microsoft.Office.Interop.Word._Application)app).Quit(false);
             }
 
             //讀成串流
