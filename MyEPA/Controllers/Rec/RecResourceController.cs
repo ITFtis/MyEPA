@@ -187,7 +187,7 @@ namespace MyEPA.Controllers
 
                 Dictionary<string, string> textDic = new Dictionary<string, string>()
                     {
-                        {"City", GetCitys().Where(a => a.Id == r.CityId).FirstOrDefault().City},
+                        {"City",  CityService.GetAll().Where(a => a.Id == r.CityId).FirstOrDefault().City},
                         {"CreateDate", r.CreateDate.ToShortDateString() },
                         {"ContactPerson", r.ContactPerson },
                         {"ContactMobilePhone", r.ContactMobilePhone },
