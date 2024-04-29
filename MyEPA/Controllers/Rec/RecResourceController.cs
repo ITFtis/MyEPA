@@ -227,10 +227,31 @@ namespace MyEPA.Controllers
                 if (1 == 1)
                 {
                     List<RecResourceModel> sList = RecResourceService.GetByCityId(datas.CityId)
-                                                        .Where(a => a.Type == datas.Type).ToList();
+                                                        .Where(a => a.Type == datas.Type)
+                                                        .OrderByDescending(a => a.Id)
+                                                        .ToList();
 
-                    foreach (RecResourceModel s in sList)
+                    XWPFTable table = docx.Tables[0];
+
+                   
+                    int refn = 0;
+                    if (datas.Type == 1)
                     {
+                        //表格第5列(清單)
+                        refn = 4;                        
+                    }
+                    else if (datas.Type == 2)
+                    {
+                        //表格第4列(清單)
+                        refn = 3;                        
+                    }
+
+                    XWPFTableRow refRows = table.Rows[refn];
+
+                    //清單資料
+                    int count = 0;
+                    foreach (RecResourceModel s in sList)
+                    {                        
                         Dictionary<int, string> sdic = new Dictionary<int, string>()
                         {
                             { 0, s.Items},
@@ -239,22 +260,8 @@ namespace MyEPA.Controllers
                             { 3, s.Unit},
                             { 4, s.USDate.ToShortDateString() + "~" + s.UEDate.ToShortDateString()}
                         };
-
-                        XWPFTable table = docx.Tables[0];
-
-                        XWPFTableRow listRow = null;
-                        if (datas.Type == 1)
-                        {
-                            //表格第5列(清單)
-                            listRow = table.Rows[4];
-                        }
-                        else if (datas.Type == 2)
-                        {
-                            //表格第4列(清單)
-                            listRow = table.Rows[3];
-                        }
-
-                        CT_Row ctrow = listRow.GetCTRow();
+                        
+                        CT_Row ctrow = refRows.GetCTRow();
                         CT_Row targetRow = new CT_Row();
 
                         int index = 0;
@@ -294,12 +301,20 @@ namespace MyEPA.Controllers
 
                                 index++;
                             }
-                        }
+                        }                        
 
                         //新增資料行
                         XWPFTableRow mrow = new XWPFTableRow(targetRow, table);
                         table.AddRow(mrow);
                     }
+
+                    //刪除字型保留列(xx)
+                    if (count == 0)
+                    {
+                        //refRows
+                        table.RemoveRow(refn);
+                    }
+                    count++;
                 }
 
                 if (!Directory.Exists(toFolder))
@@ -315,20 +330,20 @@ namespace MyEPA.Controllers
                 xlsFile.Close();
                 docx.Close();
 
-                //讀成串流
-                var tmpStream = new FileStream(toPath, FileMode.Open, FileAccess.Read, FileShare.Read);
-                //回傳出檔案
-                return File(tmpStream, GetContentType("docx"), toFileName);
+                //////讀成串流
+                ////var tmpStream = new FileStream(toPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                //////回傳出檔案
+                ////return File(tmpStream, GetContentType("docx"), toFileName);
 
-                ////// 轉換成pdf
-                ////Application app = new Application();
-                ////// 開啟 Word 文件
-                ////Document doc = app.Documents.Open(toPath);
-                ////// 轉換為 PDF
-                ////doc.ExportAsFixedFormat(toPdfPath, WdExportFormat.wdExportFormatPDF);
-                //////doc.Close();
-                ////((Microsoft.Office.Interop.Word._Document)doc).Close(false);
-                ////((Microsoft.Office.Interop.Word._Application)app).Quit(false);
+                // 轉換成pdf
+                var app = new Microsoft.Office.Interop.Word.Application();
+                // 開啟 Word 文件
+                Document doc = app.Documents.Open(toPath);
+                // 轉換為 PDF
+                doc.ExportAsFixedFormat(toPdfPath, WdExportFormat.wdExportFormatPDF);
+                //doc.Close();
+                ((Microsoft.Office.Interop.Word._Document)doc).Close(false);
+                ((Microsoft.Office.Interop.Word._Application)app).Quit(false);
             }
 
             //讀成串流
