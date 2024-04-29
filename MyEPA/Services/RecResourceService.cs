@@ -97,6 +97,11 @@ namespace MyEPA.Services
             return model;
         }
 
+        public List<RecResourceModel> GetByCityId(int cityId)
+        {            
+            return RecResourceRepository.GetByCityId(cityId);
+        }
+
         public void Update(UserBriefModel user, RecResourceModel model)
         {
             var entity = RecResourceRepository.Get(model.Id);

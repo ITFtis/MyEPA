@@ -21,6 +21,14 @@ namespace MyEPA.Repositories
         ////    string whereSQL = GetWhereSQLByFilter(filter);
         ////    return GetCountByWhereSQL(whereSQL, filter);
         ////}
+
+        public List<RecResourceModel> GetByCityId(int cityId)
+        {
+            string whereSQL = "Where CityId = @cityId";
+
+            return GetListByWhereSQL(whereSQL, new { CityId = @cityId});
+        }
+
         private string GetWhereSQLByFilter(RecResourceFilterParameter filter)
         {
             string wherwSQL = "Where 1=1";

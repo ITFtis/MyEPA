@@ -163,12 +163,12 @@ namespace MyEPA.Controllers
             string filefolder = Server.MapPath("~/FileDatas/Template/");
             string fileName = "";
 
-            var z = RecResourceService.Get(Id);
-            if (z.Type == 1)
+            var datas = RecResourceService.Get(Id);
+            if (datas.Type == 1)
             {
                 fileName = "應變資源調度需求表.docx";
             }
-            else if (z.Type == 2)
+            else if (datas.Type == 2)
             {
                 fileName = "應變資源提供調度表.docx";
             }
@@ -189,11 +189,11 @@ namespace MyEPA.Controllers
 
                 Dictionary<string, string> textDic = new Dictionary<string, string>()
                     {
-                        {"City",  CityService.GetAll().Where(a => a.Id == z.CityId).FirstOrDefault().City},
-                        {"CreateDate", z.CreateDate.ToShortDateString() },
-                        {"ContactPerson", z.ContactPerson },
-                        {"ContactMobilePhone", z.ContactMobilePhone },
-                        {"Reason", z.Reason }
+                        {"City",  CityService.GetAll().Where(a => a.Id == datas.CityId).FirstOrDefault().City},
+                        {"CreateDate", datas.CreateDate.ToShortDateString() },
+                        {"ContactPerson", datas.ContactPerson },
+                        {"ContactMobilePhone", datas.ContactMobilePhone },
+                        {"Reason", datas.Reason }
                 };
 
                 foreach (XWPFTable table in docx.Tables)
@@ -226,74 +226,80 @@ namespace MyEPA.Controllers
                 //讀取表格
                 if (1 == 1)
                 {
-                    Dictionary<int, string> sdic = new Dictionary<int, string>()
+                    List<RecResourceModel> sList = RecResourceService.GetByCityId(datas.CityId)
+                                                        .Where(a => a.Type == datas.Type).ToList();
+
+                    foreach (RecResourceModel s in sList)
+                    {
+                        Dictionary<int, string> sdic = new Dictionary<int, string>()
                         {
-                            { 0, "項目"},
-                            { 1, "細項"},
-                            { 2, "數量"},
-                            { 3, "單位"},
-                            { 4, "需用時間"}
+                            { 0, s.Items},
+                            { 1, s.Spec},
+                            { 2, s.Quantity.ToString()},
+                            { 3, s.Unit},
+                            { 4, s.USDate.ToShortDateString() + "~" + s.UEDate.ToShortDateString()}
                         };
 
-                    XWPFTable table = docx.Tables[0];
+                        XWPFTable table = docx.Tables[0];
 
-                    XWPFTableRow listRow = null;
-                    if (z.Type == 1)
-                    {
-                        //表格第5列(清單)
-                        listRow = table.Rows[4];
-                    }
-                    else if (z.Type == 2)
-                    {
-                        //表格第4列(清單)
-                        listRow = table.Rows[3];
-                    }                   
-
-                    CT_Row ctrow = listRow.GetCTRow();
-                    CT_Row targetRow = new CT_Row();
-
-                    int index = 0;
-                    foreach (CT_Tc item in ctrow.Items)
-                    {
-                        CT_Tc addTc = targetRow.AddNewTc();
-                        addTc.tcPr = item.tcPr;
-
-                        IList<CT_P> list_p = item.GetPList();
-
-                        foreach (var p in list_p)
+                        XWPFTableRow listRow = null;
+                        if (datas.Type == 1)
                         {
-                            CT_P addP = addTc.AddNewP();
-                            addP.pPr = p.pPr;//段落樣式
-                            IList<CT_R> list_r = p.GetRList();
-                            foreach (CT_R r in list_r)
-                            {
-                                CT_R addR = addP.AddNewR();
-                                addR.rPr = r.rPr;//run樣式，包含字體
-                                List<CT_Text> list_text = r.GetTList();
+                            //表格第5列(清單)
+                            listRow = table.Rows[4];
+                        }
+                        else if (datas.Type == 2)
+                        {
+                            //表格第4列(清單)
+                            listRow = table.Rows[3];
+                        }
 
-                                //設定Text內容
-                                string text = sdic[index];
-                                for (int i = 0; i < text.Length; i++)
+                        CT_Row ctrow = listRow.GetCTRow();
+                        CT_Row targetRow = new CT_Row();
+
+                        int index = 0;
+                        foreach (CT_Tc item in ctrow.Items)
+                        {
+                            CT_Tc addTc = targetRow.AddNewTc();
+                            addTc.tcPr = item.tcPr;
+
+                            IList<CT_P> list_p = item.GetPList();
+
+                            foreach (var p in list_p)
+                            {
+                                CT_P addP = addTc.AddNewP();
+                                addP.pPr = p.pPr;//段落樣式
+                                IList<CT_R> list_r = p.GetRList();
+                                foreach (CT_R r in list_r)
                                 {
-                                    CT_Text addText = addR.AddNewT();
-                                    addText.Value = text.Substring(i, 1);
+                                    CT_R addR = addP.AddNewR();
+                                    addR.rPr = r.rPr;//run樣式，包含字體
+                                    List<CT_Text> list_text = r.GetTList();
+
+                                    //設定Text內容
+                                    string text = sdic[index];
+                                    for (int i = 0; i < text.Length; i++)
+                                    {
+                                        CT_Text addText = addR.AddNewT();
+                                        addText.Value = text.Substring(i, 1);
+                                    }
+
+                                    ////foreach (CT_Text text in list_text)
+                                    ////{
+                                    ////    CT_Text addText = addR.AddNewT();
+                                    ////    addText.space = text.space;
+                                    ////    addText.Value = text.Value;
+                                    ////}
                                 }
 
-                                ////foreach (CT_Text text in list_text)
-                                ////{
-                                ////    CT_Text addText = addR.AddNewT();
-                                ////    addText.space = text.space;
-                                ////    addText.Value = text.Value;
-                                ////}
+                                index++;
                             }
-
-                            index++;
                         }
-                    }
 
-                    //新增資料行
-                    XWPFTableRow mrow = new XWPFTableRow(targetRow, table);
-                    table.AddRow(mrow);
+                        //新增資料行
+                        XWPFTableRow mrow = new XWPFTableRow(targetRow, table);
+                        table.AddRow(mrow);
+                    }
                 }
 
                 if (!Directory.Exists(toFolder))
