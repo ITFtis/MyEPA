@@ -27,8 +27,8 @@
     @Html.HiddenFor(model => model.Id)
 
     <div class="form-group">
-        @Html.LabelFor(model => model.CityId, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
+        @Html.LabelFor(model => model.CityId, htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-6">
             <select id="CityId" name="CityId">
                 @foreach (var item in Citys)
                 {
@@ -39,44 +39,44 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.Reason, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
+        @Html.LabelFor(model => model.Reason, htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-6">
             @Html.EditorFor(model => model.Reason, new { htmlAttributes = new { @class = "form-control" } })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.ContactPerson, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
+        @Html.LabelFor(model => model.ContactPerson, htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-6">
             @Html.EditorFor(model => model.ContactPerson, new { htmlAttributes = new { @class = "form-control" } })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.ContactMobilePhone, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
+        @Html.LabelFor(model => model.ContactMobilePhone, htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-6">
             @Html.EditorFor(model => model.ContactMobilePhone, new { htmlAttributes = new { @class = "form-control" } })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.Items, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
+        @Html.LabelFor(model => model.Items, htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-6">
             @Html.EditorFor(model => model.Items, new { htmlAttributes = new { @class = "form-control" } })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.Spec, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
+        @Html.LabelFor(model => model.Spec, htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-6">
             @Html.EditorFor(model => model.Spec, new { htmlAttributes = new { @class = "form-control" } })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
+        @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-6">
             @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.Unit, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
+        @Html.LabelFor(model => model.Unit, htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-6">
             @Html.EditorFor(model => model.Unit, new { htmlAttributes = new { @class = "form-control" } })
         </div>
     </div>
@@ -89,11 +89,11 @@
             { lblUSDate = "提供時間(起)"; }
         }
         
-        <label class="control-label col-md-2" for="">
+        <label class="control-label col-md-1" for="">
             <span class="text-danger">*</span>
             @lblUSDate
         </label>        
-        <div class="col-md-10">
+        <div class="col-md-6">
             @Html.TextBox("USDate", Model.USDate.ToString("yyyy-MM-dd"), new { @type = "Date", required = "required" })
         </div>
     </div>
@@ -105,18 +105,18 @@
             else if (type == 2)
             { lblUEDate = "提供時間(迄)"; }
         }
-        <label class="control-label col-md-2" for="">
+        <label class="control-label col-md-1" for="">
             <span class="text-danger">*</span>
             @lblUEDate
         </label>
 
-        <div class="col-md-10">
+        <div class="col-md-6">
             @Html.TextBox("UEDate", Model.UEDate.ToString("yyyy-MM-dd"), new { @type = "Date", required = "required" })
         </div>
     </div>
 
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
+        <div class="col-md-offset-2 col-md-6">
             <input type="submit" value="修改" class="btn btn-success" />
             <a href="@Url.Action("Index")?type=@type&diasterId=@Model.DiasterId">
                 <div class="btn align-center">取消</div>
