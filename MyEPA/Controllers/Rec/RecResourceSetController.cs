@@ -41,7 +41,7 @@ namespace MyEPA.Controllers.Rec
             RecResourceService RecResourceService = new RecResourceService();
             ViewBag.RecResource = RecResourceService.Get(recResourceId);
             ViewBag.DiasterName = diasterName;
-            ViewBag.Citys = GetCitys();
+            ViewBag.Citys = SysFunc.GetCitysF1(GetUserBrief());
             ViewBag.RecResourceId = recResourceId;
 
             //RecResourceSetModel Model = new RecResourceSetModel(entity);
@@ -91,26 +91,6 @@ namespace MyEPA.Controllers.Rec
         {            
             AdminResultModel result = RecResourceSetService.Delete(id);
             return JsonResult(result);
-        }
-
-        private List<CityModel> GetCitys()
-        {
-            UserBriefModel user = GetUserBrief();
-            List<CityModel> citys = new List<CityModel>();
-            if (!user.IsAdmin)
-            {
-                citys.Add(CityService.Get(user.CityId));
-            }
-            else
-            {
-                citys = CityService.GetAll().Select(e => new CityModel
-                {
-                    City = e.City,
-                    Id = e.Id,
-                }).ToList();
-            }
-
-            return citys;
-        }
+        }        
     }
 }

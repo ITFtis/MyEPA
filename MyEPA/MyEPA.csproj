@@ -917,6 +917,7 @@
     <Compile Include="ViewModels\WaterCheckStatisticsViewModel.cs" />
     <Compile Include="ViewModels\YearReportViewModel.cs" />
     <Compile Include="_core\Code.cs" />
+    <Compile Include="_core\SysFunc.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\EPA.mdf" />

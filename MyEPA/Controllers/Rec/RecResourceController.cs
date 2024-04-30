@@ -94,8 +94,8 @@ namespace MyEPA.Controllers
             })
                 .Select(e => e.DiasterName).FirstOrDefault();
             
-            ViewBag.DiasterName = diasterName;            
-            ViewBag.Citys = GetCitys();
+            ViewBag.DiasterName = diasterName;
+            ViewBag.Citys = SysFunc.GetCitysF1(GetUserBrief());
 
             //querystring
             ViewBag.Type = type;
@@ -124,7 +124,7 @@ namespace MyEPA.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Citys = GetCitys();
+            ViewBag.Citys = SysFunc.GetCitysF1(GetUserBrief());
 
             //querystring
             ViewBag.Type = result.Type;
@@ -352,24 +352,6 @@ namespace MyEPA.Controllers
             return File(iStream, GetContentType("docx"), toPdfName);
         }
 
-        private List<CityModel> GetCitys()
-        {
-            UserBriefModel user = GetUserBrief();
-            List<CityModel> citys = new List<CityModel>();
-            if (!user.IsAdmin)
-            {
-                citys.Add(CityService.Get(user.CityId));
-            }
-            else
-            {
-                citys = CityService.GetAll().Select(e => new CityModel
-                {
-                    City = e.City,
-                    Id = e.Id,
-                }).ToList();
-            }
-
-            return citys;
-        }
+        
     }
 }
