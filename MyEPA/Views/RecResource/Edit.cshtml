@@ -88,9 +88,13 @@
             else if (type == 2)
             { lblUSDate = "提供時間(起)"; }
         }
-        @Html.Label(lblUSDate, htmlAttributes: new { @class = "control-label col-md-2" })
+        
+        <label class="control-label col-md-2" for="">
+            <span class="text-danger">*</span>
+            @lblUSDate
+        </label>        
         <div class="col-md-10">
-            @Html.EditorFor(model => model.USDate, new { htmlAttributes = new { @class = "form-control flatpickr flatpickr-input", @placeholder = @lblUSDate } })
+            @Html.TextBox("USDate", Model.USDate.ToString("yyyy-MM-dd"), new { @type = "Date", required = "required" })
         </div>
     </div>
     <div class="form-group">
@@ -101,9 +105,13 @@
             else if (type == 2)
             { lblUEDate = "提供時間(迄)"; }
         }
-        @Html.Label(lblUEDate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <label class="control-label col-md-2" for="">
+            <span class="text-danger">*</span>
+            @lblUEDate
+        </label>
+
         <div class="col-md-10">
-            @Html.EditorFor(model => model.UEDate, new { htmlAttributes = new { @class = "form-control flatpickr flatpickr-input", @placeholder = @lblUEDate } })
+            @Html.TextBox("UEDate", Model.UEDate.ToString("yyyy-MM-dd"), new { @type = "Date", required = "required" })
         </div>
     </div>
 
