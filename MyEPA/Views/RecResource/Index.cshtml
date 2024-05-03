@@ -11,6 +11,7 @@
     //querystring
     int type = ViewBag.Type ?? 0;
     int diasterId = ViewBag.DiasterId;
+    bool IsAdmin = ViewBag.IsAdmin;
 }
 
 <div class="btn-group">
@@ -80,7 +81,7 @@
                         @{
                             @*1.調度需求(全部看，改自己)*@
                             IEnumerable<RecResourceModel> iquery1;
-                            if (!user.IsAdmin)
+                            if (!IsAdmin)
                             {
                                 //自己縣市
                                 var a1 = Model.Where(a => a.CityId == user.CityId).OrderByDescending(a => a.Id);
@@ -100,8 +101,8 @@
                         {
                             <tr>
                                 <td>
-                                    @if (user.IsAdmin
-                                        || (!user.IsAdmin && item.CityId == user.CityId))
+                                    @if (IsAdmin
+                                        || (!IsAdmin && item.CityId == user.CityId))
                                     {
                                         <a href="@Url.Action("Edit", new { item.Id })">編輯</a>
                                         <a href="#" onclick="Delete(@item.Id)">删除</a>
@@ -188,7 +189,7 @@
                         @*2.提供需求(看自己，改自己)*@
                         @{
                             IEnumerable<RecResourceModel> iquery2;
-                            if (!user.IsAdmin)
+                            if (!IsAdmin)
                             {
                                 iquery2 = Model.Where(a => a.CityId == user.CityId);
                             }
@@ -348,11 +349,13 @@
     <script src="~/Content/chart.js"></script>
 
     <script>
+
+        var IsAdmin = '@IsAdmin'.toLowerCase() == 'true';
+
         $(function () {
             $("#Tabs2").tabs();
-
-            var isAdmin = JSON.parse('@Html.Raw(Json.Encode(@user.IsAdmin))');
-            if (!(isAdmin)) {
+            
+            if (!(IsAdmin)) {
                 $('#tab3').hide();
             }
 
