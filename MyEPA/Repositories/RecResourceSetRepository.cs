@@ -30,9 +30,9 @@ namespace MyEPA.Repositories
                 wherwSQL += " AND CityId IN @CityIds";
             }
 
-            if (filter.RecResourceIds.IsNotEmpty())
+            if (filter.RecResourceIdNeeds.IsNotEmpty())
             {
-                wherwSQL += " AND RecResourceId IN @RecResourceIds";
+                wherwSQL += " AND RecResourceIdNeed IN @RecResourceIdNeeds";
             }
 
             ////if (filter.Types.IsNotEmpty())

@@ -1,4 +1,4 @@
-﻿@model List<MyEPA.Models.RecResourceSetModel>
+﻿@model List<MyEPA.Models.RecResourceModel>
 @using MyEPA.Models
 
 @{
@@ -43,160 +43,35 @@
         </div>
     </div>
 
-    @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)*@
-    @using (Html.BeginForm("Create", "RecResourceSet", new { @type = type, @diasterId = diasterId }, FormMethod.Post, new { @enctype = "multipart/form-data", @formAct = "Create" }))
-    {
-        <input type="hidden" name="RecResourceId" value="@recResourceId" />
-
-        <div class="form-group">
-            <label class="control-label col-md-1" for="SetCityId">縣市</label>
-            <div class="col-md-6">
-                <select id="SetCityId" name="SetCityId">
-                    @foreach (var item in Citys)
-                    {
-                        <option value="@item.Id">@item.City</option>
-                    }
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-1" for="SetContactPerson">聯絡人</label>
-            <div class="col-md-6">
-                <input class="form-control text-box single-line" id="SetContactPerson" name="SetContactPerson" type="text" value="">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-1" for="SetContactMobilePhone">聯絡人電話</label>
-            <div class="col-md-6">
-                <input class="form-control text-box single-line" id="SetContactMobilePhone" name="SetContactMobilePhone" type="text" value="">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-1" for="SetItems">項目</label>
-            <div class="col-md-6">
-                <input class="form-control text-box single-line" id="SetItems" name="SetItems" type="text" value="">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-1" for="SetSpec">規格</label>
-            <div class="col-md-6">
-                <input class="form-control text-box single-line" id="SetSpec" name="SetSpec" type="text" value="">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-1" for="SetQuantity">數量</label>
-            <div class="col-md-6">
-                <input class="form-control text-box single-line" id="SetQuantity" name="SetQuantity" type="text" value="">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-1" for="SetUnit">單位</label>
-            <div class="col-md-6">
-                <input class="form-control text-box single-line" id="SetUnit" name="SetUnit" type="text" value="">
-            </div>
-        </div>
-        <input type="submit" value="確認新增" class="btn btn-danger align-center" />
-        <a href="@Url.Action("Index", "RecResource")?type=@type&diasterId=@diasterId">
-            <div class="btn align-center">返回調度需求</div>
-        </a>
-        <hr>
-    }
-
-    @using (Html.BeginForm("Edit", "RecResourceSet", new { @type = type, @diasterId = diasterId }, FormMethod.Post, new { @enctype = "multipart/form-data", @formAct = "Edit" }))
-    {
-        @*@Html.HiddenFor(model => model.RecResourceId, new { @Value = Model.RecResourceId })*@
-
-        <input type="hidden" name="Id" value="999" />
-
-        <div class="form-group">
-            <label class="control-label col-md-1" for="SetCityId">縣市</label>
-            <div class="col-md-6">
-                <select id="SetCityId" name="SetCityId">
-                    @foreach (var item in Citys)
-                    {
-                        <option value="@item.Id">@item.City</option>
-                    }
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-1" for="SetContactPerson">聯絡人</label>
-            <div class="col-md-6">
-                <input class="form-control text-box single-line" id="SetContactPerson" name="SetContactPerson" type="text" value="">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-1" for="SetContactMobilePhone">聯絡人電話</label>
-            <div class="col-md-6">
-                <input class="form-control text-box single-line" id="SetContactMobilePhone" name="SetContactMobilePhone" type="text" value="">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-1" for="SetItems">項目</label>
-            <div class="col-md-6">
-                <input class="form-control text-box single-line" id="SetItems" name="SetItems" type="text" value="">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-1" for="SetSpec">規格</label>
-            <div class="col-md-6">
-                <input class="form-control text-box single-line" id="SetSpec" name="SetSpec" type="text" value="">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-1" for="SetQuantity">數量</label>
-            <div class="col-md-6">
-                <input class="form-control text-box single-line" id="SetQuantity" name="SetQuantity" type="text" value="">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-1" for="SetUnit">單位</label>
-            <div class="col-md-6">
-                <input class="form-control text-box single-line" id="SetUnit" name="SetUnit" type="text" value="">
-            </div>
-        </div>
-        <input type="submit" value="確認修改" class="btn btn-primary align-center" />
-        <a href="@Url.Action("Index", "RecResource")?type=@type&diasterId=@diasterId">
-            <div class="btn align-center">返回調度需求</div>
-        </a>
-        <hr>
-    }
-
     <font size="3">
         <table class="table table-bordered table-striped">
             <tr>
-                <th class="text-center">
-                    <button id="btnBackAdd" class="btn btn-danger" style="padding:0px;" onclick="UiAdd()">返回新增</button>
-                </th>
+                <th class="text-center"></th>
                 <th>縣市</th>
                 <th>聯絡人</th>
                 <th>項目</th>
                 <th>細項(規格)</th>
                 <th>數量</th>
-                <th>單位</th>
-                <th>更新時間</th>
+                <th>單位</th>                
             </tr>
-            @foreach (RecResourceSetModel Item in Model)
+            @foreach (RecResourceModel Item in Model)
             {
                 <tr>
                     <td style="text-align:center">
-                        <button class="btn btn-primary" style="padding:0px;" onclick="UiEdit(@Item.Id)">修改</button>
-                        <button class="btn btn-warning" style="padding:0px;" onclick="Delete('@Item.Id')">刪除</button>
+                        <button class="btn btn-primary" style="padding:0px;" onclick="Edit(@Item.Id)">調度</button>                        
                     </td>
                     <td>                        
-                        @Citys.Where(a => a.Id == Item.SetCityId).FirstOrDefault().City
+                        @Citys.Where(a => a.Id == Item.CityId).FirstOrDefault().City
                     </td>
                     <td>
-                        @Item.SetContactPerson
+                        @Item.ContactPerson
                         <br />
-                        @Item.SetContactMobilePhone
+                        @Item.ContactMobilePhone
                     </td>
-                    <td>@Item.SetItems</td>
-                    <td>@Item.SetSpec</td>
-                    <td>@Item.SetQuantity</td>
-                    <td>@Item.SetUnit</td>
-                    <td>@(Item.UpdateDate.HasValue ? Item.UpdateDate.Value.ToString("yyyy/MM/dd HH:mm:ss") : string.Empty)</td>
+                    <td>@Item.Items</td>
+                    <td>@Item.Spec</td>
+                    <td>@Item.Quantity</td>
+                    <td>@Item.Unit</td>                    
                 </tr>
             }
         </table>
@@ -218,74 +93,9 @@
 }
 
 <script>
-    function UiAdd() {
-        $('html,body').animate({ scrollTop: 0 }, 333);
 
-        $('#btnAdd').show();
-        $('[formact="Create"]').show();
-        $('#btnEdit').hide();
-        $('[formact="Edit"]').hide();
-        $('#btnBackAdd').hide();
+    function Edit(id) {
+        alert('Edit');
     }
-
-    function UiEdit(id) {
-        $('html,body').animate({ scrollTop: 0 }, 333);
-
-        $('#btnAdd').hide();
-        $('[formact="Create"]').hide();
-        $('#btnEdit').show();
-        $('[formact="Edit"]').show();
-        $('#btnBackAdd').show();
-
-        //修改資料
-        var root = '@Url.Action("Get")?id=' + id;
-        $.ajax({
-            url: root,
-            method: 'Post',
-            success: function (data) {
-                if (data != null) {
-                    var $form = $('[formact="Edit"]');
-                    $form.find('input[name=Id]').val(data.Id);
-                    $form.find('select[name=SetCityId]').val(data.SetCityId);
-                    $form.find('input[name=SetContactPerson]').val(data.SetContactPerson);
-                    $form.find('input[name=SetContactMobilePhone]').val(data.SetContactMobilePhone);
-                    $form.find('input[name=SetItems]').val(data.SetItems);
-                    $form.find('input[name=SetSpec]').val(data.SetSpec);
-                    $form.find('input[name=SetQuantity]').val(data.SetQuantity);
-                    $form.find('input[name=SetUnit]').val(data.SetUnit);
-                }
-                else {
-                    alert('修改設定失敗,' + data.ErrorMessage);
-                }
-            },
-            error: function (data) {
-                alert('修改失敗');
-            }
-        });
-    }
-
-    //刪除
-    function Delete(id) {
-    if (!window.confirm('確定要刪除?')) {
-        return;
-    };
-    var root = '@Url.Action("Delete")?id=' + id;
-    $.ajax({
-        url: root,
-        method: 'Post',
-        success: function (data) {
-                if (data.IsSuccess) {
-                    alert('刪除成功');
-                    location.reload();
-                }
-                else {
-                    alert('刪除失敗,' + data.ErrorMessage);
-                }
-            },
-        error: function (data) {
-                alert('刪除失敗');
-            }
-        });
-    };
 
 </script>

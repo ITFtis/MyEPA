@@ -44,10 +44,10 @@ namespace MyEPA.Controllers.Rec
             ViewBag.Citys = SysFunc.GetCitysRecResource(GetUserBrief());
             ViewBag.RecResourceId = recResourceId;
 
-            //RecResourceSetModel Model = new RecResourceSetModel(entity);
-            IEnumerable<RecResourceSetModel> iquery = RecResourceSetService.GetByRecResourceId(recResourceId);
-            iquery = iquery.OrderByDescending(a => a.Id);
-            List<RecResourceSetModel> result = iquery.ToList();
+            //(可提供資源為主表)設定數量(input)
+            IEnumerable<RecResourceModel> iquery = RecResourceService.GetByDiasterId(diasterId);
+            iquery = iquery.Where(a => a.Type == 2).OrderByDescending(a => a.Id);
+            List<RecResourceModel> result = iquery.ToList();
 
             //////querystring
             ViewBag.Type = type;
@@ -62,12 +62,12 @@ namespace MyEPA.Controllers.Rec
             return View();
         }
 
-        [HttpPost]
-        public ActionResult Create(int type, int diasterId, RecResourceSetModel model)
-        {
-            RecResourceSetService.Create(GetUserBrief(), model);
-            return RedirectToAction("List", new { type = 3, diasterId = diasterId, recResourceId = model.RecResourceId });
-        }
+        ////[HttpPost]
+        ////public ActionResult Create(int type, int diasterId, RecResourceSetModel model)
+        ////{
+        ////    RecResourceSetService.Create(GetUserBrief(), model);
+        ////    return RedirectToAction("List", new { type = 3, diasterId = diasterId, recResourceId = model.RecResourceId });
+        ////}
 
         [HttpPost]
         public ActionResult Get(int id)
@@ -83,7 +83,7 @@ namespace MyEPA.Controllers.Rec
 
             var result = RecResourceSetService.Get(model.Id);
 
-            return RedirectToAction("List", new { type = type, diasterId = diasterId, recResourceId = result.RecResourceId });
+            return RedirectToAction("List", new { type = type, diasterId = diasterId, recResourceId = result.RecResourceIdNeed });
         }
 
         [HttpPost]

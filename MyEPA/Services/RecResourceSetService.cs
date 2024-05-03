@@ -37,7 +37,7 @@ namespace MyEPA.Services
                 new RecResourceSetFilterParameter
                 {
 
-                    RecResourceIds = RecResourceId.ToListCollection(),
+                    RecResourceIdNeeds = RecResourceId.ToListCollection(),
                     //Types = user.Duty == DutyEnum.Water ? WaterCheckTypeEnum.Water.ToListCollection() : WaterCheckTypeEnum.EPPersonnel.ToListCollection()
                 };
 

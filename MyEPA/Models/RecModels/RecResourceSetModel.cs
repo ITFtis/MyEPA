@@ -9,25 +9,28 @@ namespace MyEPA.Models
     public class RecResourceSetModel
     {
         public RecResourceSetModel() { }
-        public RecResourceSetModel(RecResourceModel rec)
-        {
-            if (rec != null)
-            {
-                RecResourceId = rec.Id;
-                SetCityId = rec.CityId;
-                SetContactPerson = rec.ContactPerson;
-                SetItems = rec.Items;
-                SetSpec = rec.Spec;
-                SetQuantity = rec.Quantity;
-                SetUnit = rec.Unit;
-            }
-        }
+        ////public RecResourceSetModel(RecResourceModel rec)
+        ////{
+        ////    if (rec != null)
+        ////    {
+        ////        RecResourceId = rec.Id;
+        ////        SetCityId = rec.CityId;
+        ////        SetContactPerson = rec.ContactPerson;
+        ////        SetItems = rec.Items;
+        ////        SetSpec = rec.Spec;
+        ////        SetQuantity = rec.Quantity;
+        ////        SetUnit = rec.Unit;
+        ////    }
+        ////}
 
         [AutoKey]
         public int Id { get; set; }
 
-        [DisplayName("對應調度需求Id")]
-        public int RecResourceId { get; set; }
+        [DisplayName("對應調度需求Id 需求")]
+        public int RecResourceIdNeed { get; set; }
+
+        [DisplayName("對應調度需求Id 支援")]
+        public int RecResourceIdHelp { get; set; }
 
         [DisplayName("縣市")]
         public int SetCityId { get; set; }
