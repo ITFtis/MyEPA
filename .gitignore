@@ -14,3 +14,5 @@
 /MyEPA/bin/itextsharp.xml
 /MyEPA/bin/Xamarin.Forms.Core.xml
 /MyEPA/FileDatas/Temp
+/MyEPA/Views/RecResourceSet/backup1_List.cshtml
+/MyEPA/Controllers/Rec/backup1_RecResourceSetController.cs
