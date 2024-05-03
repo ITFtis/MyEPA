@@ -38,7 +38,8 @@
             、@RecResource.Items
             、@RecResource.Spec
             、@RecResource.Quantity
-            、@RecResource.Unit            
+            、@RecResource.Unit
+            、@Citys.Where(a => a.Id == RecResource.CityId).FirstOrDefault().City
         </div>
     </div>
 
@@ -183,9 +184,8 @@
                         <button class="btn btn-primary" style="padding:0px;" onclick="UiEdit(@Item.Id)">修改</button>
                         <button class="btn btn-warning" style="padding:0px;" onclick="Delete('@Item.Id')">刪除</button>
                     </td>
-                    <td>
-                        xxxxx
-                        @*@Citys.Where(a => a.Id == Item.SetCityId).FirstOrDefault().City*@
+                    <td>                        
+                        @Citys.Where(a => a.Id == Item.SetCityId).FirstOrDefault().City
                     </td>
                     <td>
                         @Item.SetContactPerson

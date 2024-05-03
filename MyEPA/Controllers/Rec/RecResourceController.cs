@@ -90,7 +90,7 @@ namespace MyEPA.Controllers
                 .Select(e => e.DiasterName).FirstOrDefault();
             
             ViewBag.DiasterName = diasterName;
-            ViewBag.Citys = SysFunc.GetCitysF1(GetUserBrief());
+            ViewBag.Citys = SysFunc.GetCitysRecResource(GetUserBrief());
 
             //querystring
             ViewBag.Type = type;
@@ -119,7 +119,7 @@ namespace MyEPA.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Citys = SysFunc.GetCitysF1(GetUserBrief());
+            ViewBag.Citys = SysFunc.GetCitysRecResource(GetUserBrief());
 
             //querystring
             ViewBag.Type = result.Type;

@@ -34,5 +34,30 @@ namespace MyEPA
 
             return citys;
         }
+
+        /// <summary>
+        /// (權限)縣市清單 客製化給調度資源
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public static List<CityModel> GetCitysRecResource(UserBriefModel user)
+        {
+            List<CityModel> citys = new List<CityModel>();
+            bool isAdmin = user.Town.Trim() == "環境督察總隊".Trim() || user.IsAdmin;
+            if (!isAdmin)
+            {
+                citys.Add(CityService.Get(user.CityId));
+            }
+            else
+            {
+                citys = CityService.GetAll().Select(e => new CityModel
+                {
+                    City = e.City,
+                    Id = e.Id,
+                }).ToList();
+            }
+
+            return citys;
+        }
     }
 }

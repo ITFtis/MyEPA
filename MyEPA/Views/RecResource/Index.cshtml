@@ -39,8 +39,8 @@
             <div id="Tabs2">
                 <ul>
                     <li type="1"><a id="tab1" href="#tabs-1" data-toggle="tab">調度需求</a></li>
-                    <li type="2"><a id="tab2" href="#tabs-2" data-toggle="tab">提供資源</a></li>
-                    <li type="3"><a id="tab3" href="#tabs-3" data-toggle="tab">可提供調度</a></li>
+                    <li type="2"><a id="tab2" href="#tabs-2" data-toggle="tab">可提供資源</a></li>
+                    <li type="3"><a id="tab3" href="#tabs-3" data-toggle="tab">調度審核情形</a></li>
                 </ul>
                 <div id="tabs-1">
                     @*調度需求*@
@@ -148,7 +148,7 @@
                     </table>
                 </div>
                 <div id="tabs-2">
-                    @*提供資源*@
+                    @*可提供資源*@
                     <table class="table">
                         <tr>
                             <th>
@@ -251,7 +251,7 @@
                     </table>
                 </div>
                 <div id="tabs-3">
-                    @*可提供調度*@
+                    @*調度審核情形*@
                     <table class="table">
                         <tr>
                             <th>
@@ -311,6 +311,8 @@
 
                                 <td>
                                     @Html.DisplayFor(modelItem => item.ContactPerson)
+                                    <br />
+                                    @Html.DisplayFor(modelItem => item.ContactMobilePhone)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Items)
@@ -366,7 +368,7 @@
 
                 var type = $('#Tabs2 .ui-state-active').attr('type');
                 if (type == "3") {
-                    //可提供調度
+                    //調度審核情形
                     $('.page-content .btn-primary').hide();
                 }
                 else {
@@ -390,7 +392,7 @@
                 location.href = url;
             }
             else if (type == "2") {
-                //提供資源
+                //可提供資源
                 var url = '@Url.Action("Create")?type=' + type + '&diasterId=' + diasterId;
                 location.href = url;
             }

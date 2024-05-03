@@ -41,7 +41,7 @@ namespace MyEPA.Controllers.Rec
             RecResourceService RecResourceService = new RecResourceService();
             ViewBag.RecResource = RecResourceService.Get(recResourceId);
             ViewBag.DiasterName = diasterName;
-            ViewBag.Citys = SysFunc.GetCitysF1(GetUserBrief());
+            ViewBag.Citys = SysFunc.GetCitysRecResource(GetUserBrief());
             ViewBag.RecResourceId = recResourceId;
 
             //RecResourceSetModel Model = new RecResourceSetModel(entity);
