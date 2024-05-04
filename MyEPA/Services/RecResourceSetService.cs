@@ -39,12 +39,12 @@ namespace MyEPA.Services
             return recResource;
         }
 
-        public List<RecResourceSetModel> GetByRecResourceIdHelp(int RecResourceIdHelp)
+        public List<RecResourceSetModel> GetByNeedHelp(int RecResourceIdNeed, int RecResourceIdHelp)
         {
             RecResourceSetFilterParameter filter =
                 new RecResourceSetFilterParameter
                 {
-
+                    RecResourceIdNeeds = RecResourceIdNeed.ToListCollection(),
                     RecResourceIdHelps = RecResourceIdHelp.ToListCollection(),                    
                 };
 

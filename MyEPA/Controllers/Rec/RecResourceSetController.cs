@@ -83,7 +83,7 @@ namespace MyEPA.Controllers.Rec
             }
 
             RecResourceSetModel entity = new RecResourceSetModel();
-            var entitys = RecResourceSetService.GetByRecResourceIdHelp(obj.RecResourceIdHelp);
+            var entitys = RecResourceSetService.GetByNeedHelp(obj.RecResourceIdNeed, obj.RecResourceIdHelp);
             if (entitys.Count == 0)
             {
                 //新增
