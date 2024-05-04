@@ -1,4 +1,4 @@
-﻿@model List<MyEPA.Models.RecResourceModel>
+﻿@model List<MyEPA.Models.RecResourceViewModel>
 @using MyEPA.Models
 
 @{
@@ -7,7 +7,7 @@
 
     string diasterName = ViewBag.DiasterName;
     int recResourceId = ViewBag.RecResourceId;
-    MyEPA.Models.RecResourceModel RecResource = ViewBag.RecResource;
+    MyEPA.Models.RecResourceModel RecResourceNeed = ViewBag.RecResourceNeed;
 
     //querystring
     int type = ViewBag.Type;
@@ -34,33 +34,38 @@
     <div class="form-group">
         <div class="col-md-6 text-primary">
             調度需求：
-            @(RecResource.ContactPerson + "(" + RecResource.ContactMobilePhone + ")")
-            、@RecResource.Items
-            、@RecResource.Spec
-            、@RecResource.Quantity
-            、@RecResource.Unit
-            、@Citys.Where(a => a.Id == RecResource.CityId).FirstOrDefault().City
+            @(Citys.Where(a => a.Id == RecResourceNeed.CityId).FirstOrDefault().City + "(" + @RecResourceNeed.Unit + ")")
+            、@(RecResourceNeed.ContactPerson + "(" + RecResourceNeed.ContactMobilePhone + ")")
+            、@RecResourceNeed.Items
+            、@RecResourceNeed.Spec
+            、@RecResourceNeed.Quantity
         </div>
     </div>
 
     <font size="3">
         <table class="table table-bordered table-striped">
             <tr>
-                <th class="text-center"></th>
-                <th>縣市</th>
-                <th>聯絡人</th>
-                <th>項目</th>
-                <th>細項(規格)</th>
-                <th>數量</th>
-                <th>單位</th>                
+                <th width="5%" class="text-center"></th>
+                <th width="5%">調度數量</th>
+                <th width="10%">縣市</th>
+                <th width="15%">聯絡人</th>
+                <th width="10%">項目</th>
+                <th width="10%">細項(規格)</th>
+                <th width="5%">數量</th>
+                <th width="10%">單位</th>
             </tr>
-            @foreach (RecResourceModel Item in Model)
+            @foreach (RecResourceViewModel Item in Model)
             {
                 <tr>
                     <td style="text-align:center">
-                        <button class="btn btn-primary" style="padding:0px;" onclick="Edit(@Item.Id)">調度</button>                        
+                        <button class="btn btn-primary" style="padding:0px;" onclick="Edit(this)">調度</button>
+                        @*<a href="@Url.Action("Edit", new { type = type, diasterId = diasterId })">編輯</a>*@                            
                     </td>
-                    <td>                        
+                    <td>
+                        @Html.Hidden("IdHelp", @Item.Id)
+                        <input name="SetQuantity" type="number" value="@Item.SetQuantity">
+                    </td>
+                    <td>
                         @Citys.Where(a => a.Id == Item.CityId).FirstOrDefault().City
                     </td>
                     <td>
@@ -71,11 +76,12 @@
                     <td>@Item.Items</td>
                     <td>@Item.Spec</td>
                     <td>@Item.Quantity</td>
-                    <td>@Item.Unit</td>                    
+                    <td>@Item.Unit</td>
                 </tr>
             }
         </table>
     </font>
+    
 </div>
 
 @section scripts{
@@ -83,19 +89,34 @@
     <script src="~/Scripts/flatpickr.js"></script>
 
     <script>
-        //ini
-        $(document).ready(function () {
-            $('#btnEdit').hide();
-            $('[formact="Edit"]').hide();
-            $('#btnBackAdd').hide();
-        });  
+        function Edit(obj) {
+            $tr = $(obj).closest('tr');
+
+            var obj = {};
+
+            obj.RecResourceIdNeed = @recResourceId;
+            obj.RecResourceIdHelp = $tr.find('#IdHelp').val();
+            obj.SetQuantity = $tr.find('input[name="SetQuantity"]').val();
+
+            //修改資料
+            var root = '@Url.Action("Edit")';
+            $.ajax({
+                url: root,
+                method: 'Post',
+                data: { obj: obj },
+                success: function (data) {
+                    if (data.IsSuccess) {
+                        alert('調度成功');
+                    }
+                    else {
+                        alert('調度失敗,' + data.ErrorMessage);
+                    }
+                },
+                error: function (data) {
+                    alert('修改失敗');
+                }
+            });
+        }
+
     </script>
 }
-
-<script>
-
-    function Edit(id) {
-        alert('Edit');
-    }
-
-</script>

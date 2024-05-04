@@ -8,21 +8,6 @@ namespace MyEPA.Models
 {
     public class RecResourceSetModel
     {
-        public RecResourceSetModel() { }
-        ////public RecResourceSetModel(RecResourceModel rec)
-        ////{
-        ////    if (rec != null)
-        ////    {
-        ////        RecResourceId = rec.Id;
-        ////        SetCityId = rec.CityId;
-        ////        SetContactPerson = rec.ContactPerson;
-        ////        SetItems = rec.Items;
-        ////        SetSpec = rec.Spec;
-        ////        SetQuantity = rec.Quantity;
-        ////        SetUnit = rec.Unit;
-        ////    }
-        ////}
-
         [AutoKey]
         public int Id { get; set; }
 

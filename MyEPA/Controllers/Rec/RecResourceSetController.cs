@@ -15,6 +15,7 @@ namespace MyEPA.Controllers.Rec
     public class RecResourceSetController : LoginBaseController
     {
         RecResourceSetService RecResourceSetService = new RecResourceSetService();
+        RecResourceService RecResourceService = new RecResourceService();
         DiasterService DiasterService = new DiasterService();        
         CityService CityService = new CityService();
                 
@@ -39,7 +40,8 @@ namespace MyEPA.Controllers.Rec
                 .Select(e => e.DiasterName).FirstOrDefault();
 
             RecResourceService RecResourceService = new RecResourceService();
-            ViewBag.RecResource = RecResourceService.Get(recResourceId);
+            ViewBag.RecResourceNeed = RecResourceService.Get(recResourceId);
+
             ViewBag.DiasterName = diasterName;
             ViewBag.Citys = SysFunc.GetCitysRecResource(GetUserBrief());
             ViewBag.RecResourceId = recResourceId;
@@ -49,48 +51,65 @@ namespace MyEPA.Controllers.Rec
             iquery = iquery.Where(a => a.Type == 2).OrderByDescending(a => a.Id);
             List<RecResourceModel> result = iquery.ToList();
 
+            //將helps回前台
+            List<RecResourceViewModel> model = RecResourceViewModel.CopyByBase(result);
+
             //////querystring
             ViewBag.Type = type;
             ViewBag.DiasterId = diasterId;
 
-            return View(result);
+            return View(model);
         }
 
         [HttpPost]
-        public ActionResult List(RecResourceSetModel model)
+        public ActionResult Edit(RecResourceViewModel obj)
         {
-            return View();
-        }
+            //可提供調度
+            var help = RecResourceService.Get(obj.RecResourceIdHelp);
+            if (help == null)
+            {
+                return JsonResult(new AdminResultModel() { IsSuccess = false, ErrorMessage = "取調度資料失敗(RecResourceId)：" + obj.RecResourceIdHelp });
+            }
 
-        ////[HttpPost]
-        ////public ActionResult Create(int type, int diasterId, RecResourceSetModel model)
-        ////{
-        ////    RecResourceSetService.Create(GetUserBrief(), model);
-        ////    return RedirectToAction("List", new { type = 3, diasterId = diasterId, recResourceId = model.RecResourceId });
-        ////}
+            RecResourceSetModel entity = new RecResourceSetModel();
+            var entitys = RecResourceSetService.GetByRecResourceIdHelp(obj.RecResourceIdHelp);
+            if (entitys.Count == 0)
+            {
+                //新增
+                entity = new RecResourceSetModel();
+            }
+            else
+            {
+                //修改
+                entity = entitys.First();
+            }
 
-        [HttpPost]
-        public ActionResult Get(int id)
-        {
-            var result = RecResourceSetService.Get(id);
+            entity.RecResourceIdNeed = obj.RecResourceIdNeed;
+            entity.RecResourceIdHelp = obj.RecResourceIdHelp;
+            entity.SetQuantity = obj.SetQuantity;
+            entity.SetCityId = help.CityId;
+            entity.SetContactPerson = help.ContactPerson;
+            entity.SetContactMobilePhone = help.ContactMobilePhone;
+            entity.SetItems = help.Items;
+            entity.SetSpec = help.Spec;            
+            entity.SetUnit = help.Unit;
+
+            if (entitys.Count == 0)
+            {
+                //新增
+                RecResourceSetService.Create(GetUserBrief(), entity);
+            }
+            else
+            {
+                //修改
+                RecResourceSetService.Update(GetUserBrief(), entity);
+            }
+
+            AdminResultModel result = new AdminResultModel() { 
+                IsSuccess = true,
+            };
 
             return JsonResult(result);
         }
-
-        public ActionResult Edit(int type, int diasterId, RecResourceSetModel model)
-        {            
-            RecResourceSetService.Update(GetUserBrief(), model);
-
-            var result = RecResourceSetService.Get(model.Id);
-
-            return RedirectToAction("List", new { type = type, diasterId = diasterId, recResourceId = result.RecResourceIdNeed });
-        }
-
-        [HttpPost]
-        public ActionResult Delete(int id)
-        {            
-            AdminResultModel result = RecResourceSetService.Delete(id);
-            return JsonResult(result);
-        }        
     }
 }

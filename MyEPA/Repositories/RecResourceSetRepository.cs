@@ -35,6 +35,11 @@ namespace MyEPA.Repositories
                 wherwSQL += " AND RecResourceIdNeed IN @RecResourceIdNeeds";
             }
 
+            if (filter.RecResourceIdHelps.IsNotEmpty())
+            {
+                wherwSQL += " AND RecResourceIdHelp IN @RecResourceIdHelps";
+            }
+
             ////if (filter.Types.IsNotEmpty())
             ////{
             ////    wherwSQL += " AND Type IN @Types";

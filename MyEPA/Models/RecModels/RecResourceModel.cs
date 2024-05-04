@@ -2,10 +2,51 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 
 namespace MyEPA.Models
 {
+    public class RecResourceViewModel : RecResourceModel
+    {
+        /// <summary>
+        /// Copy屬性 利用繼承Class
+        /// </summary>
+        /// <param name="origs"></param>
+        /// <returns></returns>
+        public static List<RecResourceViewModel> CopyByBase(List<RecResourceModel> origs)
+        {
+            if (origs == null) 
+                return new List<RecResourceViewModel>();
+
+            List<RecResourceViewModel> result = new List<RecResourceViewModel>();
+
+            foreach (var orig in origs)
+            {
+                RecResourceViewModel model = new RecResourceViewModel();
+
+                PropertyInfo[] infos = typeof(RecResourceModel).GetProperties();
+                foreach (PropertyInfo info in infos)
+                {
+                    info.SetValue(model, info.GetValue(orig, null), null);
+                }
+
+                result.Add(model);
+            }
+
+            return result;
+        }
+
+        [DisplayName("對應調度需求Id 需求")]
+        public int RecResourceIdNeed { get; set; }
+
+        [DisplayName("對應調度需求Id 支援")]
+        public int RecResourceIdHelp { get; set; }
+
+        [DisplayName("支援數量")]
+        public int SetQuantity { get; set; }
+    }
+
     public class RecResourceModel
     {
         [AutoKey]

@@ -24,6 +24,21 @@ namespace MyEPA.Services
             return model;
         }
 
+        public List<RecResourceSetModel> GetByRecResourceIdHelp(int RecResourceIdHelp)
+        {
+            RecResourceSetFilterParameter filter =
+                new RecResourceSetFilterParameter
+                {
+
+                    RecResourceIdHelps = RecResourceIdHelp.ToListCollection(),                    
+                };
+
+            var recResource = RecResourceSetRepository
+                .GetByFilter(filter);
+
+            return recResource;
+        }
+
         public List<RecResourceSetModel> GetByRecResourceId(int RecResourceId)
         {
             RecResourceModel rec = RecResourceRepository.Get(RecResourceId);
@@ -57,23 +72,10 @@ namespace MyEPA.Services
 
         public void Update(UserBriefModel user, RecResourceSetModel model)
         {
-            var entity = RecResourceSetRepository.Get(model.Id);
+            model.UpdateDate = DateTimeHelper.GetCurrentTime();
+            model.UpdateUser = user.UserName;
 
-            if (entity == null)
-                return;
-
-            entity.SetCityId = model.SetCityId;
-            entity.SetContactPerson = model.SetContactPerson;
-            entity.SetContactMobilePhone = model.SetContactMobilePhone;
-            entity.SetItems = model.SetItems;
-            entity.SetSpec = model.SetSpec;
-            entity.SetQuantity = model.SetQuantity;
-            entity.SetUnit = model.SetUnit;
-
-            entity.UpdateDate = DateTimeHelper.GetCurrentTime();
-            entity.UpdateUser = user.UserName;
-
-            RecResourceSetRepository.Update(entity);
+            RecResourceSetRepository.Update(model);
         }
 
         public AdminResultModel Delete(int id)
