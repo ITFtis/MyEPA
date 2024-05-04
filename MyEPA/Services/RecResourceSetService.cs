@@ -24,6 +24,21 @@ namespace MyEPA.Services
             return model;
         }
 
+        public List<RecResourceSetModel> GetByRecResourceIdNeed(int RecResourceIdNeed)
+        {
+            RecResourceSetFilterParameter filter =
+                new RecResourceSetFilterParameter
+                {
+
+                    RecResourceIdNeeds = RecResourceIdNeed.ToListCollection(),
+                };
+
+            var recResource = RecResourceSetRepository
+                .GetByFilter(filter);
+
+            return recResource;
+        }
+
         public List<RecResourceSetModel> GetByRecResourceIdHelp(int RecResourceIdHelp)
         {
             RecResourceSetFilterParameter filter =

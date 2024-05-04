@@ -49,16 +49,27 @@ namespace MyEPA.Controllers.Rec
             //(可提供資源為主表)設定數量(input)
             IEnumerable<RecResourceModel> iquery = RecResourceService.GetByDiasterId(diasterId);
             iquery = iquery.Where(a => a.Type == 2).OrderByDescending(a => a.Id);
-            List<RecResourceModel> result = iquery.ToList();
+            List<RecResourceModel> helps = iquery.ToList();
 
-            //將helps回前台
-            List<RecResourceViewModel> model = RecResourceViewModel.CopyByBase(result);
+            //主表：Copy helps
+            List<RecResourceViewModel> result = RecResourceViewModel.CopyByHelp(helps);
+
+            //已調度
+            List<RecResourceSetModel> sets = RecResourceSetService.GetByRecResourceIdNeed(recResourceId);
+
+            //關聯已調度數量
+            foreach (var r in result)
+            {
+                var v = sets.Where(a => a.RecResourceIdHelp == r.RecResourceIdHelp).FirstOrDefault();
+                if (v != null)
+                    r.SetQuantity = v.SetQuantity;
+            }
 
             //////querystring
             ViewBag.Type = type;
             ViewBag.DiasterId = diasterId;
 
-            return View(model);
+            return View(result);
         }
 
         [HttpPost]

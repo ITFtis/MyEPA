@@ -10,26 +10,28 @@ namespace MyEPA.Models
     public class RecResourceViewModel : RecResourceModel
     {
         /// <summary>
-        /// Copy屬性 利用繼承Class
+        /// 以Helps主表，List資料
         /// </summary>
-        /// <param name="origs"></param>
+        /// <param name="helps"></param>
         /// <returns></returns>
-        public static List<RecResourceViewModel> CopyByBase(List<RecResourceModel> origs)
+        public static List<RecResourceViewModel> CopyByHelp(List<RecResourceModel> helps)
         {
-            if (origs == null) 
+            if (helps == null) 
                 return new List<RecResourceViewModel>();
 
             List<RecResourceViewModel> result = new List<RecResourceViewModel>();
 
-            foreach (var orig in origs)
+            foreach (var hhh in helps)
             {
                 RecResourceViewModel model = new RecResourceViewModel();
 
                 PropertyInfo[] infos = typeof(RecResourceModel).GetProperties();
                 foreach (PropertyInfo info in infos)
                 {
-                    info.SetValue(model, info.GetValue(orig, null), null);
+                    info.SetValue(model, info.GetValue(hhh, null), null);
                 }
+
+                model.RecResourceIdHelp = hhh.Id;                
 
                 result.Add(model);
             }
