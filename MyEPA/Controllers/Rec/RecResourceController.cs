@@ -146,9 +146,9 @@ namespace MyEPA.Controllers
         }
 
         [HttpPost]
-        public ActionResult Finish(int id)
+        public ActionResult Finish(int id, int status)
         {
-            AdminResultModel result = RecResourceService.Finish(id);
+            AdminResultModel result = RecResourceService.Finish(id, status);
             return JsonResult(result);
         }
 

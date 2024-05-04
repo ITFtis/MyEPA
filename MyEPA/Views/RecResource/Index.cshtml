@@ -299,10 +299,12 @@
                                     {
                                         //已結案
                                         <span style="color: #ADADAD">@Code.GetRecStatus().Where(a => a.Key == 2).FirstOrDefault().Value</span>
+                                        <br />
+                                        <a class="text-primary" href="#" onclick="Finish(@item.Id, 1)">退回</a>
                                     }
                                     else if (item.Status == 1)
                                     {
-                                        <a class="text-primary" href="#" onclick="Finish(@item.Id)">結案</a>
+                                        <a class="text-primary" href="#" onclick="Finish(@item.Id, 2)">結案</a>
                                     }
                                 </td>
                                 <td>
@@ -423,15 +425,16 @@
         };
 
         //結案
-        function Finish(id) {
-        if (!window.confirm('確定要結案?')) {
-            return;
-        };
-        var root = '@Url.Action("Finish")?id=' + id;
-        $.ajax({
-            url: root,
-            method: 'Post',
-            success: function (data) {
+        function Finish(id, status) {
+            if (!window.confirm('確定要結案?')) {
+                return;
+            };
+
+            var root = '@Url.Action("Finish")?id=' + id + "&status=" + status;
+            $.ajax({
+                url: root,
+                method: 'Post',
+                success: function (data) {
                     if (data.IsSuccess) {
                         alert('結案成功');
                         location.reload();
@@ -440,7 +443,7 @@
                         alert('結案失敗,' + data.ErrorMessage);
                     }
                 },
-            error: function (data) {
+                error: function (data) {
                     alert('結案失敗');
                 }
             });

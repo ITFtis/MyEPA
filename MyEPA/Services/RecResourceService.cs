@@ -145,7 +145,7 @@ namespace MyEPA.Services
             };
         }
 
-        public AdminResultModel Finish(int id)
+        public AdminResultModel Finish(int id, int status)
         {
             var entity = RecResourceRepository.Get(id);
 
@@ -156,7 +156,7 @@ namespace MyEPA.Services
                     ErrorMessage = "資料不存在"
                 };
 
-            entity.Status = 2;
+            entity.Status = status;
             RecResourceRepository.Update(entity);
 
             return new AdminResultModel
