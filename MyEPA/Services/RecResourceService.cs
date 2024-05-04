@@ -145,7 +145,7 @@ namespace MyEPA.Services
             };
         }
 
-        public AdminResultModel Finish(int id, int status)
+        public AdminResultModel UpdateStatus(int id, int status)
         {
             var entity = RecResourceRepository.Get(id);
 
