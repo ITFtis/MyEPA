@@ -68,6 +68,9 @@ namespace MyEPA.Controllers
             //總計已調度
             var IdNeeds = iquery.Where(a => a.Type == 1).Select(a => a.Id).ToList();
             var recs = RecResourceSetService.GetByRecResourceIdNeed(IdNeeds);
+            //設備尚未刪除
+            var equIds = iquery.Where(a => a.Type == 2).Select(a => a.Id);
+            recs = recs.Where(a => equIds.Any(b => b == a.RecResourceIdHelp)).ToList();
             var countIdNeeds = recs.GroupBy(a => a.RecResourceIdNeed)
                                     .Select(a => new
                                     {
