@@ -33,6 +33,7 @@ namespace MyEPA.Controllers
         RecResourceService RecResourceService = new RecResourceService();
         DiasterService DiasterService = new DiasterService();        
         CityService CityService = new CityService();
+        RecResourceSetService RecResourceSetService = new RecResourceSetService();
 
         // GET: RecResource
         public ActionResult Index(int? type, int? diasterId = null)
@@ -62,12 +63,23 @@ namespace MyEPA.Controllers
             iquery = iquery.OrderByDescending(a => a.Id);
             List<RecResourceModel> result = iquery.ToList();
 
+            //總計已調度
+            var IdNeeds = iquery.Where(a => a.Type == 1).Select(a => a.Id).ToList();
+            var recs = RecResourceSetService.GetByRecResourceIdNeed(IdNeeds);
+            var countIdNeeds = recs.GroupBy(a => a.RecResourceIdNeed)
+                                    .Select(a => new
+                                    {
+                                        Id = a.Key,
+                                        Count = a.Sum(b => b.SetQuantity),
+                                    }).ToList();            
+
             var user = GetUserBrief();
 
             ViewBag.Citys = CityService.GetAll();
             ////環衛組：視為admin
             ViewBag.IsAdmin = user.Town.Trim() == "環境督察總隊".Trim() || GetIsAdmin();
             ViewBag.User = user;
+            ViewBag.CountIdNeeds = countIdNeeds;
 
             //querystring
             ViewBag.DiasterId = diasterId;

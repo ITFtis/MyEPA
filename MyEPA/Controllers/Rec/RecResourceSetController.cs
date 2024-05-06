@@ -38,9 +38,9 @@ namespace MyEPA.Controllers.Rec
                 Ids = diasterId.ToListCollection()
             })
                 .Select(e => e.DiasterName).FirstOrDefault();
-
-            RecResourceService RecResourceService = new RecResourceService();
-            ViewBag.RecResourceNeed = RecResourceService.Get(recResourceId);
+            
+            var RecResourceNeed = RecResourceService.Get(recResourceId);
+            ViewBag.RecResourceNeed = RecResourceNeed;
 
             ViewBag.DiasterName = diasterName;
             ViewBag.Citys = SysFunc.GetCitysRecResource(GetUserBrief());
@@ -48,14 +48,19 @@ namespace MyEPA.Controllers.Rec
 
             //(可提供資源為主表)設定數量(input)
             IEnumerable<RecResourceModel> iquery = RecResourceService.GetByDiasterId(diasterId);
-            iquery = iquery.Where(a => a.Type == 2).OrderByDescending(a => a.Id);
+
+            iquery = iquery.Where(a => a.Type == 2)
+                            .Where(a => a.Items == RecResourceNeed.Items);
+
+            iquery = iquery.OrderByDescending(a => a.Id);
+
             List<RecResourceModel> helps = iquery.ToList();
 
             //主表：Copy helps
             List<RecResourceViewModel> result = RecResourceViewModel.Copy(2, helps);
 
             //已調度
-            List<RecResourceSetModel> sets = RecResourceSetService.GetByRecResourceIdNeed(recResourceId);
+            List<RecResourceSetModel> sets = RecResourceSetService.GetByRecResourceIdNeed(new List<int> { recResourceId });
 
             //關聯已調度數量
             foreach (var r in result)

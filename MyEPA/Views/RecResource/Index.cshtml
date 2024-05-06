@@ -1,12 +1,17 @@
 ﻿@model IEnumerable<MyEPA.Models.RecResourceModel>
 @using MyEPA.Models;
 @using MyEPA.Enums;
+@using Newtonsoft.Json.Linq;
+@using System.Web.Script.Serialization;
+@using Newtonsoft.Json;
+
 @{
     ViewBag.Title = "資源調度";
     Layout = "~/Views/_Layout.cshtml";
     UserBriefModel user = ViewBag.User;
     List<DiasterModel> diasters = ViewBag.Diasters;
     List<CityModel> citys = ViewBag.Citys;
+    var countIdNeeds = ViewBag.CountIdNeeds;
 
     //querystring
     int type = ViewBag.Type ?? 0;
@@ -32,7 +37,7 @@
     <div class="row">
         <div class="col-xs-12">
             <h2> 資源調度 </h2>
-            <p>                
+            <p>
                 <a href="#" class="btn btn-primary" onclick="Create('@diasterId')">新增</a>
             </p>
 
@@ -260,6 +265,9 @@
                             <th>
                                 結案
                             </th>
+                            <td>
+                                已調度總數量
+                            </td>
                             <th>
                                 @Html.DisplayNameFor(model => model.CityId)
                             </th>
@@ -305,6 +313,28 @@
                                     else if (item.Status == 1)
                                     {
                                         <a class="text-primary" href="#" onclick="UpdateStatus(@item.Id, 2)">結案</a>
+                                    }
+                                </td>
+                                <td>
+                                    @foreach (var v in countIdNeeds)
+                                    {
+                                        if (v != null)
+                                        {
+                                            string text = new JavaScriptSerializer().Serialize(v);
+                                            //var data = (JObject)JsonConvert.DeserializeObject(text);
+
+                                            JObject obj = JObject.Parse(text);
+                                            int Id = 0;
+                                            int Count = 0;
+                                            int.TryParse((string)obj["Id"], out Id);
+                                            int.TryParse((string)obj["Count"], out Count);
+
+                                            if (Id == item.Id)
+                                            {
+                                                @Count;
+                                                continue;
+                                            }
+                                        }
                                     }
                                 </td>
                                 <td>
@@ -358,7 +388,7 @@
 
         $(function () {
             $("#Tabs2").tabs();
-            
+
             if (!(IsAdmin)) {
                 $('#tab3').hide();
             }

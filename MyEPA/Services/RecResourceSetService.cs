@@ -24,13 +24,13 @@ namespace MyEPA.Services
             return model;
         }
 
-        public List<RecResourceSetModel> GetByRecResourceIdNeed(int RecResourceIdNeed)
+        public List<RecResourceSetModel> GetByRecResourceIdNeed(List<int> RecResourceIdNeed)
         {
             RecResourceSetFilterParameter filter =
                 new RecResourceSetFilterParameter
                 {
 
-                    RecResourceIdNeeds = RecResourceIdNeed.ToListCollection(),
+                    RecResourceIdNeeds = RecResourceIdNeed,
                 };
 
             var recResource = RecResourceSetRepository
@@ -54,28 +54,28 @@ namespace MyEPA.Services
             return recResource;
         }
 
-        public List<RecResourceSetModel> GetByRecResourceId(int RecResourceId)
-        {
-            RecResourceModel rec = RecResourceRepository.Get(RecResourceId);
+        ////////public List<RecResourceSetModel> GetByRecResourceId(int RecResourceId)
+        ////////{
+        ////////    RecResourceModel rec = RecResourceRepository.Get(RecResourceId);
 
-            if (rec == null)
-            {
-                return new List<RecResourceSetModel>();
-            }
+        ////////    if (rec == null)
+        ////////    {
+        ////////        return new List<RecResourceSetModel>();
+        ////////    }
 
-            RecResourceSetFilterParameter filter =
-                new RecResourceSetFilterParameter
-                {
+        ////////    RecResourceSetFilterParameter filter =
+        ////////        new RecResourceSetFilterParameter
+        ////////        {
 
-                    RecResourceIdNeeds = RecResourceId.ToListCollection(),
-                    //Types = user.Duty == DutyEnum.Water ? WaterCheckTypeEnum.Water.ToListCollection() : WaterCheckTypeEnum.EPPersonnel.ToListCollection()
-                };
+        ////////            RecResourceIdNeeds = RecResourceId.ToListCollection(),
+        ////////            //Types = user.Duty == DutyEnum.Water ? WaterCheckTypeEnum.Water.ToListCollection() : WaterCheckTypeEnum.EPPersonnel.ToListCollection()
+        ////////        };
 
-            var recResource = RecResourceSetRepository
-                .GetByFilter(filter);
+        ////////    var recResource = RecResourceSetRepository
+        ////////        .GetByFilter(filter);
 
-            return recResource;
-        }
+        ////////    return recResource;
+        ////////}
 
         public void Create(UserBriefModel user, RecResourceSetModel model)
         {
