@@ -292,7 +292,7 @@
                         {
                             <tr>
                                 <td>
-                                    <a href="@Url.Action("List", "RecResourceSet", new { type = 3, diasterId = diasterId, recResourceId = item.Id })">調度審核</a>
+                                    <a style="color:red" href="@Url.Action("List", "RecResourceSet", new { type = 3, diasterId = diasterId, recResourceId = item.Id })">調度審核</a>
                                 </td>
                                 <td>
                                     @if (item.Status == 2)

@@ -9,36 +9,6 @@ namespace MyEPA.Models
 {
     public class RecResourceViewModel : RecResourceModel
     {
-        /// <summary>
-        /// 以Helps主表，List資料
-        /// </summary>
-        /// <param name="helps"></param>
-        /// <returns></returns>
-        public static List<RecResourceViewModel> CopyByHelp(List<RecResourceModel> helps)
-        {
-            if (helps == null) 
-                return new List<RecResourceViewModel>();
-
-            List<RecResourceViewModel> result = new List<RecResourceViewModel>();
-
-            foreach (var hhh in helps)
-            {
-                RecResourceViewModel model = new RecResourceViewModel();
-
-                PropertyInfo[] infos = typeof(RecResourceModel).GetProperties();
-                foreach (PropertyInfo info in infos)
-                {
-                    info.SetValue(model, info.GetValue(hhh, null), null);
-                }
-
-                model.RecResourceIdHelp = hhh.Id;                
-
-                result.Add(model);
-            }
-
-            return result;
-        }
-
         [DisplayName("對應調度需求Id 需求")]
         public int RecResourceIdNeed { get; set; }
 
@@ -47,6 +17,46 @@ namespace MyEPA.Models
 
         [DisplayName("支援數量")]
         public int SetQuantity { get; set; }
+
+        /// <summary>
+        /// 以Helps主表，List資料
+        /// </summary>
+        /// <param name="type">1調度需求,2可提供調度</param>
+        /// <param name="vws"></param>
+        /// <returns></returns>
+        public static List<RecResourceViewModel> Copy(int type, List<RecResourceModel> vws)
+        {
+            if (vws == null) 
+                return new List<RecResourceViewModel>();
+
+            List<RecResourceViewModel> result = new List<RecResourceViewModel>();
+
+            foreach (var v in vws)
+            {
+                RecResourceViewModel model = new RecResourceViewModel();
+
+                PropertyInfo[] infos = typeof(RecResourceModel).GetProperties();
+                foreach (PropertyInfo info in infos)
+                {
+                    info.SetValue(model, info.GetValue(v, null), null);
+                }
+
+                if (type == 1)
+                {
+                    //1調度需求
+                    model.RecResourceIdNeed = v.Id;
+                }
+                else if (type == 2)
+                {
+                    //2可提供調度
+                    model.RecResourceIdHelp = v.Id;
+                }
+
+                result.Add(model);
+            }
+
+            return result;
+        }        
     }
 
     public class RecResourceModel

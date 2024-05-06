@@ -52,7 +52,7 @@ namespace MyEPA.Controllers.Rec
             List<RecResourceModel> helps = iquery.ToList();
 
             //主表：Copy helps
-            List<RecResourceViewModel> result = RecResourceViewModel.CopyByHelp(helps);
+            List<RecResourceViewModel> result = RecResourceViewModel.Copy(2, helps);
 
             //已調度
             List<RecResourceSetModel> sets = RecResourceSetService.GetByRecResourceIdNeed(recResourceId);
