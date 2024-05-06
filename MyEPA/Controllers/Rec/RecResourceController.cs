@@ -401,8 +401,15 @@ namespace MyEPA.Controllers
                 string receiveAddr = "brianlin12345@gmail.com";
                 string receiveName = "林正祥";
 
+                string diasterName = DiasterService.GetByFilter(new DiasterFilterParameter
+                {
+                    Ids = model.DiasterId.ToListCollection()
+                })
+                .Select(e => e.DiasterName).FirstOrDefault();
+
                 var user = GetUserBrief();
                 body = body.Replace("[receiveName]", receiveName)
+                        .Replace("[diasterName]", diasterName)
                         .Replace("[DateNow]", DateFormat.ToDate4(DateTime.Now))
                         .Replace("[Unit]", model.Unit)
                         .Replace("[Items]", model.Items)
@@ -490,8 +497,15 @@ namespace MyEPA.Controllers
                 string receiveAddr = "brianlin12345@gmail.com";
                 string receiveName = "林正祥";
 
+                string diasterName = DiasterService.GetByFilter(new DiasterFilterParameter
+                {
+                    Ids = model.DiasterId.ToListCollection()
+                })
+                .Select(e => e.DiasterName).FirstOrDefault();
+
                 var user = GetUserBrief();
                 body = body.Replace("[receiveName]", receiveName)
+                        .Replace("[diasterName]", diasterName)
                         .Replace("[DateNow]", DateFormat.ToDate4(DateTime.Now))
                         .Replace("[Unit]", model.Unit)
                         .Replace("[Items]", model.Items)
