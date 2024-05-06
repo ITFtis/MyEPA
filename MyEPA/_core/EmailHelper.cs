@@ -1,0 +1,374 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Mail;
+using System.Net;
+using System.Web;
+
+namespace MyEPA
+{
+    public class EmailHelper
+    {
+        private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+        private string _mailServer = "";
+
+        private int _mailPort = 0;
+
+        private string _account = "";
+
+        private string _password = "";
+
+        private string _mailFrom = "";
+
+        private string _mailFromName = "";
+
+        private string _subject = "";
+
+        private bool _isBodyHtml = true;
+
+        private string _body = "";
+
+        private string _errorMessage;
+
+        private bool _isSendEmail;
+
+        private bool _enableSSL = false;
+
+        private List<MailAddress> _toMailList;
+
+        private List<MailAddress> _ccMailList;
+
+        private List<MailAddress> _bccMailList;
+
+        private List<string> _attachmentList;
+
+        public bool EnableSSL
+        {
+            get
+            {
+                return _enableSSL;
+            }
+            set
+            {
+                _enableSSL = value;
+            }
+        }
+
+        public bool IsSendEmail
+        {
+            get
+            {
+                return _isSendEmail;
+            }
+            set
+            {
+                _isSendEmail = value;
+            }
+        }
+
+        public string ErrorMessage
+        {
+            get
+            {
+                return _errorMessage;
+            }
+            set
+            {
+                _errorMessage = value;
+            }
+        }
+
+        public int MailPort
+        {
+            get
+            {
+                return _mailPort;
+            }
+            set
+            {
+                _mailPort = value;
+            }
+        }
+
+        public string Account
+        {
+            get
+            {
+                return _account;
+            }
+            set
+            {
+                _account = value;
+            }
+        }
+
+        public string Password
+        {
+            get
+            {
+                return _password;
+            }
+            set
+            {
+                _password = value;
+            }
+        }
+
+        public string MailServer
+        {
+            get
+            {
+                return _mailServer;
+            }
+            set
+            {
+                _mailServer = value;
+            }
+        }
+
+        public string MailFrom
+        {
+            get
+            {
+                return _mailFrom;
+            }
+            set
+            {
+                _mailFrom = value;
+            }
+        }
+
+        public string MailFromName
+        {
+            get
+            {
+                return _mailFromName;
+            }
+            set
+            {
+                _mailFromName = value;
+            }
+        }
+
+        public List<MailAddress> ToMailList
+        {
+            get
+            {
+                return _toMailList;
+            }
+            set
+            {
+                _toMailList = value;
+            }
+        }
+
+        public List<MailAddress> CCMailList
+        {
+            get
+            {
+                return _ccMailList;
+            }
+            set
+            {
+                _ccMailList = value;
+            }
+        }
+
+        public List<MailAddress> BCCMailList
+        {
+            get
+            {
+                return _bccMailList;
+            }
+            set
+            {
+                _bccMailList = value;
+            }
+        }
+
+        public string Subject
+        {
+            get
+            {
+                return _subject;
+            }
+            set
+            {
+                _subject = value;
+            }
+        }
+
+        public bool IsBodyHtml
+        {
+            get
+            {
+                return _isBodyHtml;
+            }
+            set
+            {
+                _isBodyHtml = value;
+            }
+        }
+
+        public string Body
+        {
+            get
+            {
+                return _body;
+            }
+            set
+            {
+                _body = value;
+            }
+        }
+
+        public List<string> AttachmentList
+        {
+            get
+            {
+                return _attachmentList;
+            }
+            set
+            {
+                _attachmentList = value;
+            }
+        }
+
+        public EmailHelper()
+        {
+            _mailServer = "";
+            _mailPort = 0;
+            _account = "";
+            _password = "";
+            _mailFrom = "";
+            _mailFromName = "";
+            _subject = "";
+            _isBodyHtml = true;
+            _body = "";
+            _errorMessage = "";
+            _isSendEmail = true;
+            _enableSSL = false;
+            _toMailList = new List<MailAddress>();
+            _ccMailList = new List<MailAddress>();
+            _bccMailList = new List<MailAddress>();
+            _attachmentList = new List<string>();
+        }
+
+        public bool SendBySmtp()
+        {
+            bool result = false;
+            try
+            {
+                _errorMessage = string.Empty;
+                SmtpClient smtpClient = new SmtpClient();
+                MailMessage mailMessage = new MailMessage();
+                if (_mailServer == string.Empty)
+                {
+                    _errorMessage = "未設定mail server";
+                    return false;
+                }
+
+                if (_mailPort == 0)
+                {
+                    _errorMessage = "未設定mail server port";
+                    return false;
+                }
+
+                smtpClient.Host = _mailServer;
+                smtpClient.EnableSsl = _enableSSL;
+                smtpClient.Port = _mailPort;
+                if (_account != string.Empty || _password != string.Empty)
+                {
+                    smtpClient.Credentials = new NetworkCredential(_account, _password);
+                }
+
+                mailMessage.From = new System.Net.Mail.MailAddress(_mailFrom, _mailFromName);
+                foreach (MailAddress toMail in _toMailList)
+                {
+                    if (toMail.DisplayName == "")
+                    {
+                        mailMessage.To.Add(toMail.Address);
+                    }
+                    else
+                    {
+                        mailMessage.To.Add(new System.Net.Mail.MailAddress(toMail.Address, toMail.DisplayName));
+                    }
+                }
+
+                foreach (MailAddress ccMail in _ccMailList)
+                {
+                    if (ccMail.DisplayName == "")
+                    {
+                        mailMessage.CC.Add(ccMail.Address);
+                    }
+                    else
+                    {
+                        mailMessage.CC.Add(new System.Net.Mail.MailAddress(ccMail.Address, ccMail.DisplayName));
+                    }
+                }
+
+                foreach (MailAddress bccMail in _bccMailList)
+                {
+                    if (bccMail.DisplayName == "")
+                    {
+                        mailMessage.Bcc.Add(bccMail.Address);
+                    }
+                    else
+                    {
+                        mailMessage.Bcc.Add(new System.Net.Mail.MailAddress(bccMail.Address, bccMail.DisplayName));
+                    }
+                }
+
+                mailMessage.Subject = _subject;
+                mailMessage.IsBodyHtml = _isBodyHtml;
+                mailMessage.Body = _body;
+                if (_attachmentList.Count > 0)
+                {
+                    foreach (string attachment in _attachmentList)
+                    {
+                        mailMessage.Attachments.Add(new Attachment(attachment));
+                    }
+                }
+
+                if (_isSendEmail)
+                {
+                    smtpClient.Send(mailMessage);
+                }
+
+                result = true;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                logger.Error(ex.StackTrace);
+            }
+
+            return result;
+        }
+
+        public void AddTo(string address, string displayName)
+        {
+            if (address != "")
+            {
+                _toMailList.Add(new MailAddress(address, displayName));
+            }
+        }
+
+        public void AddCC(string address, string displayName)
+        {
+            if (address != "")
+            {
+                _ccMailList.Add(new MailAddress(address, displayName));
+            }
+        }
+
+        public void AddBCC(string address, string displayName)
+        {
+            if (address != "")
+            {
+                _bccMailList.Add(new MailAddress(address, displayName));
+            }
+        }
+    }
+}

@@ -117,6 +117,17 @@ namespace MyEPA.Controllers
         public ActionResult Create(int type, RecResourceModel model)
         {
             RecResourceService.Create(GetUserBrief(), model);
+
+            //信件通知
+            if (type == 1)
+            {
+                ToSendNeed(model);
+            }
+            else if (type == 2)
+            {
+                ToSendHelp (model);
+            }
+
             return RedirectToAction("Index", new { type = model.Type, diasterId = model.DiasterId });
         }
 
@@ -143,7 +154,7 @@ namespace MyEPA.Controllers
 
         [HttpPost]
         public ActionResult Edit(RecResourceModel model)
-        {
+        {            
             RecResourceService.Update(GetUserBrief(), model);
 
             //返回原有tab
@@ -361,6 +372,182 @@ namespace MyEPA.Controllers
             return File(iStream, GetContentType("docx"), toPdfName);
         }
 
-        
+        private bool ToSendNeed(RecResourceModel model)
+        {
+            try
+            {
+                //https處理 REF: https://stackoverflow.com/a/39534068/288936
+                ServicePointManager.SecurityProtocol =
+                    SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls |
+                    SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+
+                //(1)設定內容 (特休結算通知)
+                string body = "";
+                string path = AppConfig.HtmlTemplatePath + "1_調度需求.html";
+                using (StreamReader reader = System.IO.File.OpenText(path))
+                {
+                    body = reader.ReadToEnd();
+                }
+
+                if (body == "")
+                {
+                    logger.Error("ToSend - body取出無內容：" + path);
+                    return false;
+                }
+
+                string receiveAddr = "brianlin12345@gmail.com";
+                string receiveName = "林正祥";
+
+                var user = GetUserBrief();
+                body = body.Replace("[receiveName]", receiveName)
+                        .Replace("[DateNow]", DateFormat.ToDate4(DateTime.Now))
+                        .Replace("[Unit]", model.Unit)
+                        .Replace("[Items]", model.Items)
+                        .Replace("[Spec]", model.Spec)
+                        .Replace("[Quantity]", model.Quantity.ToString())
+                        .Replace("[UseDate]", DateFormat.ToDate4(model.USDate) + "~" + DateFormat.ToDate4(model.UEDate))
+                        .Replace("[LoginUser]", user.Name)
+                        .Replace("[ContactPerson]", model.ContactPerson)
+                        .Replace("[ContactMobilePhone]", model.ContactMobilePhone)
+                        .Replace("[Reason]", model.Reason);
+
+                //(2)設定Helper
+                EmailHelper email = new EmailHelper();
+                email.MailServer = AppConfig.SMTPServer;
+                email.MailPort = AppConfig.SMTPPort;
+                if (AppConfig.EmailPassword != String.Empty)
+                {
+                    email.Account = AppConfig.EmailAddress;
+                    email.Password = AppConfig.EmailPassword;
+                }
+                email.MailFrom = AppConfig.EmailAddress;
+                email.MailFromName = AppConfig.EmailFromName;
+                email.EnableSSL = false; //產基會Mail Server無設定SSL(根據驗證程序，遠端憑證是無效的) AppConfig.EnableSSL;
+                string subject = "調度需求";  //row["sen_subject"].ToString();                
+                bool isSend = AppConfig.SendEmail;
+                email.Subject = subject;
+                email.Body = body;
+
+                //(3)收件人員
+                //1 收件者(AddTo), 2 副本(AddCC), 3 密件副本(AddBCC)                                
+                //收件者                
+                string addr1 = AppConfig.TestEmailAddress != "" ? AppConfig.TestEmailAddress : receiveAddr;
+                email.AddTo(addr1, receiveName);
+
+                //副本
+                foreach (string addr in AppConfig.EmailAddressCC.Split(','))
+                {
+                    if (addr != "")
+                    {
+                        email.AddCC(addr, "");
+                    }
+                }
+
+                email.IsSendEmail = isSend;
+                bool success = email.SendBySmtp();
+                if (!success)
+                {
+                    logger.Error("ToSend - 信件寄發失敗:" + addr1);
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error("ToSend - 信件寄發錯誤");
+                logger.Error(ex.Message);
+                logger.Error(ex.StackTrace);
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool ToSendHelp(RecResourceModel model)
+        {
+            try
+            {
+                //https處理 REF: https://stackoverflow.com/a/39534068/288936
+                ServicePointManager.SecurityProtocol =
+                    SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls |
+                    SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+
+                //(1)設定內容 (特休結算通知)
+                string body = "";
+                string path = AppConfig.HtmlTemplatePath + "1_可提供調度.html";
+                using (StreamReader reader = System.IO.File.OpenText(path))
+                {
+                    body = reader.ReadToEnd();
+                }
+
+                if (body == "")
+                {
+                    logger.Error("ToSend - body取出無內容：" + path);
+                    return false;
+                }
+
+                string receiveAddr = "brianlin12345@gmail.com";
+                string receiveName = "林正祥";
+
+                var user = GetUserBrief();
+                body = body.Replace("[receiveName]", receiveName)
+                        .Replace("[DateNow]", DateFormat.ToDate4(DateTime.Now))
+                        .Replace("[Unit]", model.Unit)
+                        .Replace("[Items]", model.Items)
+                        .Replace("[Spec]", model.Spec)
+                        .Replace("[Quantity]", model.Quantity.ToString())
+                        .Replace("[UseDate]", DateFormat.ToDate4(model.USDate) + "~" + DateFormat.ToDate4(model.UEDate))
+                        .Replace("[LoginUser]", user.Name)
+                        .Replace("[ContactPerson]", model.ContactPerson)
+                        .Replace("[ContactMobilePhone]", model.ContactMobilePhone)
+                        .Replace("[Reason]", model.Reason);
+
+                //(2)設定Helper
+                EmailHelper email = new EmailHelper();
+                email.MailServer = AppConfig.SMTPServer;
+                email.MailPort = AppConfig.SMTPPort;
+                if (AppConfig.EmailPassword != String.Empty)
+                {
+                    email.Account = AppConfig.EmailAddress;
+                    email.Password = AppConfig.EmailPassword;
+                }
+                email.MailFrom = AppConfig.EmailAddress;
+                email.MailFromName = AppConfig.EmailFromName;
+                email.EnableSSL = false; //產基會Mail Server無設定SSL(根據驗證程序，遠端憑證是無效的) AppConfig.EnableSSL;
+                string subject = "可提供調度";  //row["sen_subject"].ToString();                
+                bool isSend = AppConfig.SendEmail;
+                email.Subject = subject;
+                email.Body = body;
+
+                //(3)收件人員
+                //1 收件者(AddTo), 2 副本(AddCC), 3 密件副本(AddBCC)                                
+                //收件者                
+                string addr1 = AppConfig.TestEmailAddress != "" ? AppConfig.TestEmailAddress : receiveAddr;
+                email.AddTo(addr1, receiveName);
+
+                //副本
+                foreach (string addr in AppConfig.EmailAddressCC.Split(','))
+                {
+                    if (addr != "")
+                    {
+                        email.AddCC(addr, "");
+                    }
+                }
+
+                email.IsSendEmail = isSend;
+                bool success = email.SendBySmtp();
+                if (!success)
+                {
+                    logger.Error("ToSend - 信件寄發失敗:" + addr1);
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error("ToSend - 信件寄發錯誤");
+                logger.Error(ex.Message);
+                logger.Error(ex.StackTrace);
+                return false;
+            }
+
+            return true;
+        }
     }
 }

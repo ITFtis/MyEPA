@@ -920,7 +920,10 @@
     <Compile Include="ViewModels\UserEPAViewModel.cs" />
     <Compile Include="ViewModels\WaterCheckStatisticsViewModel.cs" />
     <Compile Include="ViewModels\YearReportViewModel.cs" />
+    <Compile Include="_core\AppConfig.cs" />
     <Compile Include="_core\Code.cs" />
+    <Compile Include="_core\DateFormat.cs" />
+    <Compile Include="_core\EmailHelper.cs" />
     <Compile Include="_core\SysFunc.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1224,6 +1227,8 @@
     <Content Include="Content\images\notice_icon.png" />
     <Content Include="Content\images\notice_icon2.png" />
     <Content Include="Content\images\service_man.png" />
+    <Content Include="HtmlTemplate\1_可提供調度.html" />
+    <Content Include="HtmlTemplate\1_調度需求.html" />
     <Content Include="images\banner_car.jpg" />
     <Content Include="images\customer.png" />
     <Content Include="images\epa_icon.png" />
