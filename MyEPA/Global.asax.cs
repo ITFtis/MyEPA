@@ -20,6 +20,10 @@ namespace MyEPA
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            //log4net
+            log4net.Config.XmlConfigurator.Configure(); // must have this line
+            var Logger = log4net.LogManager.GetLogger(typeof(MvcApplication));
         }
 
         protected void Application_PreSendRequestHeaders(object sender, EventArgs e)

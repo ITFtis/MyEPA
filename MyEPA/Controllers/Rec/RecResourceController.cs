@@ -30,6 +30,8 @@ namespace MyEPA.Controllers
 {
     public class RecResourceController : LoginBaseController
     {
+        private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         RecResourceService RecResourceService = new RecResourceService();
         DiasterService DiasterService = new DiasterService();        
         CityService CityService = new CityService();
@@ -37,7 +39,7 @@ namespace MyEPA.Controllers
 
         // GET: RecResource
         public ActionResult Index(int? type, int? diasterId = null)
-        {
+        {            
             if (type.HasValue == false)
             {
                 type = 1;
