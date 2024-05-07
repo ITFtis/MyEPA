@@ -300,7 +300,12 @@
                         {
                             <tr>
                                 <td>
-                                    <a style="color:red" href="@Url.Action("List", "RecResourceSet", new { type = 3, diasterId = diasterId, recResourceId = item.Id })">調度審核</a>
+                                    @{ 
+                                        string btnText = item.Status == 2 ? "檢視" : "編輯";
+                                    }
+                                    <a style="color:red" href="@Url.Action("List", "RecResourceSet", new { type = 3, diasterId = diasterId, recResourceId = item.Id })">
+                                        @btnText
+                                    </a>
                                 </td>
                                 <td>
                                     @if (item.Status == 2)

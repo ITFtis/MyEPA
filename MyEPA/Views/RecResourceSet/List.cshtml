@@ -165,6 +165,12 @@
                 }
             });
 
+            if (objs.length == 0)
+            {
+                alert('無資料儲存');
+                return;
+            }
+
             //修改資料
             var root = '@Url.Action("Save")';
             $.ajax({
