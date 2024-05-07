@@ -34,11 +34,11 @@
     <div class="form-group">
         <div class="col-md-6 text-primary">
             調度需求：
-            @(Citys.Where(a => a.Id == RecResourceNeed.CityId).FirstOrDefault().City + "(" + @RecResourceNeed.Unit + ")")
+            @(Citys.Where(a => a.Id == RecResourceNeed.CityId).FirstOrDefault().City)
             、@(RecResourceNeed.ContactPerson + "(" + RecResourceNeed.ContactMobilePhone + ")")
             、@(Code.GetRecItems().Where(a => a.Key == RecResourceNeed.Items).FirstOrDefault().Value)
             、@RecResourceNeed.Spec
-            、@RecResourceNeed.Quantity
+            、@(RecResourceNeed.Quantity + "(" + @RecResourceNeed.Unit + ")")
 
             @if (RecResourceNeed.Status == 2)
             {
@@ -75,7 +75,7 @@
                 <th width="15%">提供時間</th>
             </tr>
             @foreach (RecResourceViewModel Item in Model)
-            {
+    {
                 <tr>
                     <td name="Serial">@( ((Int32) 1) + @Model.IndexOf(Item) )</td>
                     @*
