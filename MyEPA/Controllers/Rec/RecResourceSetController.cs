@@ -77,55 +77,86 @@ namespace MyEPA.Controllers.Rec
             return View(result);
         }
 
+        ////[HttpPost]
+        ////public ActionResult Edit(RecResourceViewModel obj)
+        ////{
+        ////    AdminResultModel result = Update(obj);
+        ////    return JsonResult(result);
+        ////}
+
         [HttpPost]
-        public ActionResult Edit(RecResourceViewModel obj)
+        public ActionResult Save(List<RecResourceViewModel> objs)
         {
-            //可提供調度
-            var help = RecResourceService.Get(obj.RecResourceIdHelp);
-            if (help == null)
+            AdminResultModel result = null;
+            foreach (var obj in objs)
             {
-                return JsonResult(new AdminResultModel() { IsSuccess = false, ErrorMessage = "取調度資料失敗(RecResourceId)：" + obj.RecResourceIdHelp });
+                result = Update(obj);
+
+                if (!result.IsSuccess)
+                {
+                    return JsonResult(result);
+                }
             }
 
-            RecResourceSetModel entity = new RecResourceSetModel();
-            var entitys = RecResourceSetService.GetByNeedHelp(obj.RecResourceIdNeed, obj.RecResourceIdHelp);
-            if (entitys.Count == 0)
+            return JsonResult(result);
+        }
+
+        private AdminResultModel Update(RecResourceViewModel obj)
+        {
+            try
             {
-                //新增
-                entity = new RecResourceSetModel();
+                //可提供調度
+                var help = RecResourceService.Get(obj.RecResourceIdHelp);
+                if (help == null)
+                {
+                    return new AdminResultModel() { IsSuccess = false, ErrorMessage = "取調度資料失敗(RecResourceId)：" + obj.RecResourceIdHelp };
+                }
+
+                RecResourceSetModel entity = new RecResourceSetModel();
+                var entitys = RecResourceSetService.GetByNeedHelp(obj.RecResourceIdNeed, obj.RecResourceIdHelp);
+                if (entitys.Count == 0)
+                {
+                    //新增
+                    entity = new RecResourceSetModel();
+                }
+                else
+                {
+                    //修改
+                    entity = entitys.First();
+                }
+
+                entity.RecResourceIdNeed = obj.RecResourceIdNeed;
+                entity.RecResourceIdHelp = obj.RecResourceIdHelp;
+                entity.SetQuantity = obj.SetQuantity;
+                entity.SetCityId = help.CityId;
+                entity.SetContactPerson = help.ContactPerson;
+                entity.SetContactMobilePhone = help.ContactMobilePhone;
+                entity.SetItems = help.Items;
+                entity.SetSpec = help.Spec;
+                entity.SetUnit = help.Unit;
+
+                if (entitys.Count == 0)
+                {
+                    //新增
+                    RecResourceSetService.Create(GetUserBrief(), entity);
+                }
+                else
+                {
+                    //修改
+                    RecResourceSetService.Update(GetUserBrief(), entity);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                //修改
-                entity = entitys.First();
+                return new AdminResultModel() { IsSuccess = false, ErrorMessage = ex.Message};
             }
 
-            entity.RecResourceIdNeed = obj.RecResourceIdNeed;
-            entity.RecResourceIdHelp = obj.RecResourceIdHelp;
-            entity.SetQuantity = obj.SetQuantity;
-            entity.SetCityId = help.CityId;
-            entity.SetContactPerson = help.ContactPerson;
-            entity.SetContactMobilePhone = help.ContactMobilePhone;
-            entity.SetItems = help.Items;
-            entity.SetSpec = help.Spec;            
-            entity.SetUnit = help.Unit;
-
-            if (entitys.Count == 0)
+            AdminResultModel result = new AdminResultModel()
             {
-                //新增
-                RecResourceSetService.Create(GetUserBrief(), entity);
-            }
-            else
-            {
-                //修改
-                RecResourceSetService.Update(GetUserBrief(), entity);
-            }
-
-            AdminResultModel result = new AdminResultModel() { 
                 IsSuccess = true,
             };
 
-            return JsonResult(result);
+            return result;
         }
     }
 }

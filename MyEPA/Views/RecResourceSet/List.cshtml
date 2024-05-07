@@ -42,35 +42,37 @@
         </div>
     </div>
 
+    <input type="submit" value="儲存" class="btn btn-danger align-center" onclick="Save()" />
     <a href="@Url.Action("Index", "RecResource")?type=@type&diasterId=@diasterId">
         <div class="btn align-center">返回</div>
     </a>
     <hr />
 
     <font size="3">
-        <table class="table table-bordered table-striped">
+        <table id="_table" class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th colspan="8" class="text-center">可提供資源</th>
                 </tr>
             </thead>
-            <tr>
-                <th width="5%" class="text-center"></th>
+            <tr>                
                 <th width="5%">調度數量</th>
                 <th width="10%">縣市</th>
                 <th width="15%">聯絡人</th>
                 <th width="10%">項目</th>
                 <th width="10%">細項(規格)</th>
                 <th width="5%">數量</th>
-                <th width="10%">單位</th>
+                <th width="15%">提供時間</th>
             </tr>
             @foreach (RecResourceViewModel Item in Model)
             {
                 <tr>
-                    <td style="text-align:center">
-                        <button class="btn btn-primary" style="padding:0px;" onclick="Edit(this)">儲存</button>
-                        @*<a href="@Url.Action("Edit", new { type = type, diasterId = diasterId })">編輯</a>*@
-                    </td>
+                    @*
+                        <td style="text-align:center">
+                            <button class="btn btn-primary" style="padding:0px;" onclick="Edit(this)">儲存</button>
+                            <a href="@Url.Action("Edit", new { type = type, diasterId = diasterId })">編輯</a>
+                        </td>
+                    *@
                     <td>
                         @Html.Hidden("IdHelp", @Item.Id)
                         <input name="SetQuantity" type="number" value="@Item.SetQuantity">
@@ -86,7 +88,7 @@
                     <td>@Item.Items</td>
                     <td>@Item.Spec</td>
                     <td>@Item.Quantity</td>
-                    <td>@Item.Unit</td>
+                    <td>@(DateFormat.ToDate4(Item.USDate) + " ~ " + DateFormat.ToDate4(Item.UEDate))</td>
                 </tr>
             }
         </table>
@@ -99,12 +101,15 @@
     <script src="~/Scripts/flatpickr.js"></script>
 
     <script>
+
+        var IdNeed = @recResourceId;
+
         function Edit(obj) {
             $tr = $(obj).closest('tr');
 
             var obj = {};
 
-            obj.RecResourceIdNeed = @recResourceId;
+            obj.RecResourceIdNeed = IdNeed;
             obj.RecResourceIdHelp = $tr.find('#IdHelp').val();
             obj.SetQuantity = $tr.find('input[name="SetQuantity"]').val();
 
@@ -126,6 +131,43 @@
                     alert('修改失敗');
                 }
             });
+        }
+
+        function Save() {
+            var objs = [];
+            $.each($('#_table tbody tr'), function (index, value) {
+                var $tr = $(this);
+
+                if ($tr.find('td').length > 0) {
+                    var obj = {};
+
+                    obj.RecResourceIdNeed = IdNeed;
+                    obj.RecResourceIdHelp = $tr.find('#IdHelp').val();
+                    obj.SetQuantity = $tr.find('input[name="SetQuantity"]').val();
+
+                    objs.push(obj)
+                }
+            });
+
+            //修改資料
+            var root = '@Url.Action("Save")';
+            $.ajax({
+                url: root,
+                method: 'Post',
+                data: { objs: objs },
+                success: function (data) {
+                    if (data.IsSuccess) {
+                        alert('儲存成功');
+                    }
+                    else {
+                        alert('儲存失敗,' + data.ErrorMessage);
+                    }
+                },
+                error: function (data) {
+                    alert('修改失敗');
+                }
+            });
+
         }
 
     </script>
