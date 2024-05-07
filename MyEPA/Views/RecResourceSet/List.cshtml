@@ -36,7 +36,7 @@
             調度需求：
             @(Citys.Where(a => a.Id == RecResourceNeed.CityId).FirstOrDefault().City + "(" + @RecResourceNeed.Unit + ")")
             、@(RecResourceNeed.ContactPerson + "(" + RecResourceNeed.ContactMobilePhone + ")")
-            、@RecResourceNeed.Items
+            、@(Code.GetRecItems().Where(a => a.Key == RecResourceNeed.Items).FirstOrDefault().Value)
             、@RecResourceNeed.Spec
             、@RecResourceNeed.Quantity
 
@@ -96,7 +96,7 @@
                         <br />
                         @Item.ContactMobilePhone
                     </td>
-                    <td>@Item.Items</td>
+                    <td>@(Code.GetRecItems().Where(a => a.Key == Item.Items).FirstOrDefault().Value)</td>
                     <td>@Item.Spec</td>
                     <td name="Quantity">@Item.Quantity</td>
                     <td>@(DateFormat.ToDate4(Item.USDate) + " ~ " + DateFormat.ToDate4(Item.UEDate))</td>

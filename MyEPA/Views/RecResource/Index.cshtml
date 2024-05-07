@@ -130,7 +130,7 @@
                                     @Html.DisplayFor(modelItem => item.ContactMobilePhone)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Items)
+                                    @Html.DisplayFor(modelItem => Code.GetRecItems().Where(a=>a.Key == item.Items).FirstOrDefault().Value)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Spec)
@@ -229,8 +229,8 @@
                                     <br />
                                     @Html.DisplayFor(modelItem => item.ContactMobilePhone)
                                 </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Items)
+                                <td>                                    
+                                    @Html.DisplayFor(modelItem => Code.GetRecItems().Where(a => a.Key == item.Items).FirstOrDefault().Value)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Spec)
@@ -351,8 +351,8 @@
                                     <br />
                                     @Html.DisplayFor(modelItem => item.ContactMobilePhone)
                                 </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Items)
+                                <td>                                    
+                                    @Html.DisplayFor(modelItem => Code.GetRecItems().Where(a => a.Key == item.Items).FirstOrDefault().Value)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Spec)
