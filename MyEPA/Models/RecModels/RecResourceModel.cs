@@ -83,7 +83,7 @@ namespace MyEPA.Models
         public string ContactMobilePhone { get; set; }
 
         [DisplayName("項目")]
-        public string Items { get; set; }
+        public int Items { get; set; }
 
         [DisplayName("細項(規格)")]
         public string Spec { get; set; }
