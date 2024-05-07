@@ -277,7 +277,7 @@ namespace MyEPA.Controllers
                     {                        
                         Dictionary<int, string> sdic = new Dictionary<int, string>()
                         {
-                            { 0, s.Items.ToString()},
+                            { 0, Code.GetRecItems().Where(a => a.Key == s.Items).FirstOrDefault().Value },
                             { 1, s.Spec},
                             { 2, s.Quantity.ToString()},
                             { 3, s.Unit},
@@ -412,7 +412,7 @@ namespace MyEPA.Controllers
                         .Replace("[diasterName]", diasterName)
                         .Replace("[DateNow]", DateFormat.ToDate4(DateTime.Now))
                         .Replace("[Unit]", model.Unit)
-                        .Replace("[Items]", model.Items.ToString())
+                        .Replace("[Items]", Code.GetRecItems().Where(a => a.Key == model.Items).FirstOrDefault().Value)
                         .Replace("[Spec]", model.Spec)
                         .Replace("[Quantity]", model.Quantity.ToString())
                         .Replace("[UseDate]", DateFormat.ToDate4(model.USDate) + "~" + DateFormat.ToDate4(model.UEDate))
@@ -508,7 +508,7 @@ namespace MyEPA.Controllers
                         .Replace("[diasterName]", diasterName)
                         .Replace("[DateNow]", DateFormat.ToDate4(DateTime.Now))
                         .Replace("[Unit]", model.Unit)
-                        .Replace("[Items]", model.Items.ToString())
+                        .Replace("[Items]", Code.GetRecItems().Where(a => a.Key == model.Items).FirstOrDefault().Value)
                         .Replace("[Spec]", model.Spec)
                         .Replace("[Quantity]", model.Quantity.ToString())
                         .Replace("[UseDate]", DateFormat.ToDate4(model.USDate) + "~" + DateFormat.ToDate4(model.UEDate))
