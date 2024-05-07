@@ -110,7 +110,7 @@
                                         || (!IsAdmin && item.CityId == user.CityId))
                                     {
                                         <a href="@Url.Action("Edit", new { item.Id })">編輯</a>
-                                        <a href="#" onclick="Delete(@item.Id)">删除</a>
+                                        <a href="#" onclick="Delete(@item.Id, @diasterId)">删除</a>
                                     }
                                 </td>
                                 <td>
@@ -211,7 +211,7 @@
                             <tr>
                                 <td>
                                     <a href="@Url.Action("Edit", new { item.Id})">編輯</a>
-                                    <a href="#" onclick="Delete(@item.Id)">删除</a>
+                                    <a href="#" onclick="Delete(@item.Id, @diasterId)">删除</a>
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => citys.Where(a => a.Id == item.CityId).FirstOrDefault().City)
@@ -431,7 +431,7 @@
         }
 
         //刪除
-        function Delete(id) {
+        function Delete(id, diasterId) {
         if (!window.confirm('確定要刪除?')) {
             return;
         };
@@ -441,8 +441,10 @@
             method: 'Post',
             success: function (data) {
                     if (data.IsSuccess) {
-                        alert('刪除成功');
-                        location.reload();
+                        alert('刪除成功');                  
+                        var type = $('#Tabs2 .ui-state-active').attr('type');
+                        var url = '@Url.Action("Index")?type=' + type + '&diasterId=' + diasterId;
+                        location.href = url;
                     }
                     else {
                         alert('刪除失敗,' + data.ErrorMessage);
