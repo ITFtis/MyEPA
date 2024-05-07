@@ -55,7 +55,8 @@
                     <th colspan="8" class="text-center">可提供資源</th>
                 </tr>
             </thead>
-            <tr>                
+            <tr>
+                <th width="5%">序號</th>
                 <th width="5%">調度數量</th>
                 <th width="10%">縣市</th>
                 <th width="15%">聯絡人</th>
@@ -67,6 +68,7 @@
             @foreach (RecResourceViewModel Item in Model)
             {
                 <tr>
+                    <td name="Serial">@( ((Int32) 1) + @Model.IndexOf(Item) )</td>
                     @*
                         <td style="text-align:center">
                             <button class="btn btn-primary" style="padding:0px;" onclick="Edit(this)">儲存</button>
@@ -87,7 +89,7 @@
                     </td>
                     <td>@Item.Items</td>
                     <td>@Item.Spec</td>
-                    <td>@Item.Quantity</td>
+                    <td name="Quantity">@Item.Quantity</td>
                     <td>@(DateFormat.ToDate4(Item.USDate) + " ~ " + DateFormat.ToDate4(Item.UEDate))</td>
                 </tr>
             }
@@ -134,6 +136,11 @@
         }
 
         function Save() {
+
+            if (!ToValidate()) {
+                return;
+            }
+
             var objs = [];
             $.each($('#_table tbody tr'), function (index, value) {
                 var $tr = $(this);
@@ -168,6 +175,35 @@
                 }
             });
 
+        }
+
+        function ToValidate()
+        {
+            var errors = [];
+
+            $.each($('#_table tbody tr'), function (index, value) {
+                var $tr = $(this);
+
+                if ($tr.find('td').length > 0) {
+                    var obj = {};
+
+                    serial = $tr.find('td[name="Serial"]').text();                    
+                    setQuantity = parseInt($tr.find('input[name="SetQuantity"]').val());                    
+                    quantity = parseInt($tr.find('td[name="Quantity"]').text());
+
+                    if (setQuantity > quantity) {
+                        var error = '第' + serial + '筆，調度數量(' + setQuantity + ')已超過可提供數量(' + quantity + ')';
+                        errors.push(error);
+                    }
+                }
+            });
+
+            if (errors.length > 0) {
+                alert(errors.join('\n'));
+                return false;
+            }
+
+            return true;
         }
 
     </script>
