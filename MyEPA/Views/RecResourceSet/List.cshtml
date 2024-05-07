@@ -52,7 +52,7 @@
         <input type="submit" value="儲存" class="btn btn-danger align-center" onclick="Save()" />
     }
 
-    <a href="@Url.Action("Index", "RecResource")?type=@type&diasterId=@diasterId">
+    <a onclick="Cancel()">
         <div class="btn align-center">返回</div>
     </a>
     <hr />
@@ -114,6 +114,11 @@
     <script>
 
         var IdNeed = @recResourceId;
+        var isChanged = false;
+
+        $('#_table input[name=SetQuantity]').on('change', function () {
+            isChanged = true;
+        });
 
         function Edit(obj) {
             $tr = $(obj).closest('tr');
@@ -179,6 +184,7 @@
                 data: { objs: objs },
                 success: function (data) {
                     if (data.IsSuccess) {
+                        isChanged = false;
                         alert('儲存成功');
                     }
                     else {
@@ -192,6 +198,19 @@
 
         }
 
+        function Cancel() {            
+            var url = '@Url.Action("Index", "RecResource")?type=@type&diasterId=@diasterId';
+            if (isChanged)
+            {
+                if (confirm('資料已變更，確認是否返回')) {
+                    location.href = url;
+                }
+            }
+            else {
+                location.href = url;
+            }
+        }
+
         function ToValidate()
         {
             var errors = [];
@@ -202,8 +221,8 @@
                 if ($tr.find('td').length > 0) {
                     var obj = {};
 
-                    serial = $tr.find('td[name="Serial"]').text();                    
-                    setQuantity = parseInt($tr.find('input[name="SetQuantity"]').val());                    
+                    serial = $tr.find('td[name="Serial"]').text();
+                    setQuantity = parseInt($tr.find('input[name="SetQuantity"]').val());
                     quantity = parseInt($tr.find('td[name="Quantity"]').text());
 
                     if (setQuantity > quantity) {
