@@ -36,7 +36,7 @@ namespace MyEPA.Services
                         .Where(a => a.Status == 1).ToList();
                 if (recs.Count > 0)
                 {
-                    string str = string.Format("{0} (資源調度未結案：{1}筆)", diaster.DiasterName, recs.Count);
+                    string str = string.Format("災害名稱：{0} (資源調度未結案：{1}筆)", diaster.DiasterName, recs.Count);
                     result = str;
                 }
             }
