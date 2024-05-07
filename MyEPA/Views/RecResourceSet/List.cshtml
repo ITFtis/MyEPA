@@ -43,12 +43,17 @@
     </div>
 
     <a href="@Url.Action("Index", "RecResource")?type=@type&diasterId=@diasterId">
-        <div class="btn align-center">返回調度需求</div>
+        <div class="btn align-center">返回</div>
     </a>
     <hr />
 
     <font size="3">
         <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th colspan="8" class="text-center">可提供資源</th>
+                </tr>
+            </thead>
             <tr>
                 <th width="5%" class="text-center"></th>
                 <th width="5%">調度數量</th>
