@@ -94,10 +94,10 @@ namespace MyEPA.Models
         [DisplayName("單位")]
         public string Unit { get; set; }
 
-        [DisplayName("使用時間(起)")]
+        [DisplayName("使用期間(起)")]
         public DateTime USDate { get; set; }
 
-        [DisplayName("使用時間(迄)")]
+        [DisplayName("使用期間(迄)")]
         public DateTime UEDate { get; set; }
 
         [DisplayName("資源調度配置狀態")]
