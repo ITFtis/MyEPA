@@ -172,6 +172,15 @@ namespace MyEPA.Controllers.Rec
 
             var datas = RecResourceService.Get(Id);
 
+            //調度配置
+            string diasterName = DiasterService.GetByFilter(new DiasterFilterParameter
+            {
+                Ids = datas.DiasterId.ToListCollection()
+            })
+                .Select(e => e.DiasterName).FirstOrDefault();
+
+            var citys = SysFunc.GetCitysRecResource(GetUserBrief());
+
             string path = filefolder + fileName;
 
             //取得檔案名稱
@@ -186,41 +195,43 @@ namespace MyEPA.Controllers.Rec
             {
                 XWPFDocument docx = new XWPFDocument(stream);
 
-                ////Dictionary<string, string> textDic = new Dictionary<string, string>()
-                ////    {
-                ////        {"City",  CityService.GetAll().Where(a => a.Id == datas.CityId).FirstOrDefault().City},
-                ////        {"CreateDate", datas.CreateDate.ToShortDateString() },
-                ////        {"ContactPerson", datas.ContactPerson },
-                ////        {"ContactMobilePhone", datas.ContactMobilePhone },
-                ////        {"Reason", datas.Reason }
-                ////};
+                Dictionary<string, string> textDic = new Dictionary<string, string>()
+                    {
+                        {"diasterName", diasterName },
+                        {"City", citys.Where(a => a.Id == datas.CityId).FirstOrDefault().City },
+                        {"CreateDate", datas.CreateDate.ToShortDateString() },
+                        {"Items", Code.GetRecItems().Where(a => a.Key == datas.Items).FirstOrDefault().Value },
+                        {"Spec", datas.Spec },
+                        {"ContactPerson", datas.ContactPerson },
+                        {"ContactMobilePhone", datas.ContactMobilePhone },
+                };
 
-                ////foreach (XWPFTable table in docx.Tables)
-                ////{
-                ////    foreach (XWPFTableRow row in table.Rows)
-                ////    {
-                ////        foreach (XWPFTableCell cell in row.GetTableCells())     //遍歷每一行中的每一列
-                ////        {
-                ////            foreach (var paragraph in cell.Paragraphs)  // 遍歷當前表格里的所有（段落）段
-                ////            {
-                ////                foreach (var texts in textDic)
-                ////                {
-                ////                    try
-                ////                    {
-                ////                        var repStr = "[$" + texts.Key + "$]";
-                ////                        if (paragraph.Text.Contains(repStr))
-                ////                            paragraph.ReplaceText(repStr, texts.Value);  // 替换段落中的文字
-                ////                    }
-                ////                    catch (Exception ex)
-                ////                    {
-                ////                        // 不处理
-                ////                        continue;
-                ////                    }
-                ////                }
-                ////            }
-                ////        }
-                ////    }
-                ////}
+                foreach (XWPFTable table in docx.Tables)
+                {
+                    foreach (XWPFTableRow row in table.Rows)
+                    {
+                        foreach (XWPFTableCell cell in row.GetTableCells())     //遍歷每一行中的每一列
+                        {
+                            foreach (var paragraph in cell.Paragraphs)  // 遍歷當前表格里的所有（段落）段
+                            {
+                                foreach (var texts in textDic)
+                                {
+                                    try
+                                    {
+                                        var repStr = "[$" + texts.Key + "$]";
+                                        if (paragraph.Text.Contains(repStr))
+                                            paragraph.ReplaceText(repStr, texts.Value);  // 替换段落中的文字
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        // 不处理
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
 
                 //////讀取表格
                 ////if (1 == 1)
