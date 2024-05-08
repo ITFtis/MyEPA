@@ -9,7 +9,7 @@ CREATE TABLE [dbo].[RecResource](
 	[Reason] [nvarchar](300) NULL,
 	[ContactPerson] [nvarchar](50) NULL,
 	[ContactMobilePhone] [nvarchar](50) NULL,
-	[Items] [nvarchar](100) NULL,
+	[Items] [int] NULL,
 	[Spec] [nvarchar](50) NULL,
 	[Quantity] [int] NULL,
 	[Unit] [nvarchar](50) NULL,
@@ -29,11 +29,12 @@ GO
 
 CREATE TABLE [dbo].[RecResourceSet](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[RecResourceId] [int] NULL,
+	[RecResourceIdNeed] [int] NULL,
+	[RecResourceIdHelp] [int] NULL,
 	[SetCityId] [int] NULL,
 	[SetContactPerson] [nvarchar](50) NULL,
 	[SetContactMobilePhone] [nvarchar](50) NULL,
-	[SetItems] [nvarchar](100) NULL,
+	[SetItems] [int] NULL,
 	[SetSpec] [nvarchar](50) NULL,
 	[SetQuantity] [int] NULL,
 	[SetUnit] [nvarchar](50) NULL,
@@ -47,4 +48,3 @@ CREATE TABLE [dbo].[RecResourceSet](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-
