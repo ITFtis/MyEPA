@@ -121,15 +121,15 @@ namespace MyEPA.Controllers
         {
             RecResourceService.Create(GetUserBrief(), model);
 
-            //信件通知
-            if (type == 1)
-            {
-                ToSendNeed(model);
-            }
-            else if (type == 2)
-            {
-                ToSendHelp (model);
-            }
+            //////信件通知
+            ////if (type == 1)
+            ////{
+            ////    ToSendNeed(model);
+            ////}
+            ////else if (type == 2)
+            ////{
+            ////    ToSendHelp (model);
+            ////}
 
             return RedirectToAction("Index", new { type = model.Type, diasterId = model.DiasterId });
         }
