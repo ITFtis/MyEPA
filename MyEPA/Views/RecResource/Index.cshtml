@@ -313,11 +313,11 @@
                                         //已結案
                                         <span style="color: #ADADAD">@Code.GetRecStatus().Where(a => a.Key == 2).FirstOrDefault().Value</span>
                                         <br />
-                                        <a class="text-primary" href="#" onclick="UpdateStatus(@item.Id, 1)">退回</a>
+                                        <a class="text-primary" href="#" onclick="UpdateStatus(@item.Id, @diasterId, 1)">取消結案</a>
                                     }
                                     else if (item.Status == 1)
                                     {
-                                        <a class="text-primary" href="#" onclick="UpdateStatus(@item.Id, 2)">結案</a>
+                                        <a class="text-primary" href="#" onclick="UpdateStatus(@item.Id, @diasterId, 2)">結案</a>
                                     }
                                 </td>
                                 <td>
@@ -446,7 +446,7 @@
             method: 'Post',
             success: function (data) {
                     if (data.IsSuccess) {
-                        alert('刪除成功');                  
+                        alert('刪除成功');
                         var type = $('#Tabs2 .ui-state-active').attr('type');
                         var url = '@Url.Action("Index")?type=' + type + '&diasterId=' + diasterId;
                         location.href = url;
@@ -462,11 +462,11 @@
         };
 
         //結案
-        function UpdateStatus(id, status) {
+        function UpdateStatus(id, diasterId, status) {
 
             var act = '';
             if (status == '1') {
-                act = '退回';
+                act = '取消結案';
             }
             else {
                 act = '結案';
@@ -483,7 +483,10 @@
                 success: function (data) {
                     if (data.IsSuccess) {
                         alert(act + '成功');
-                        location.reload();
+                        //location.reload();
+                        var type = $('#Tabs2 .ui-state-active').attr('type');
+                        var url = '@Url.Action("Index")?type=' + type + '&diasterId=' + diasterId;
+                        location.href = url;
                     }
                     else {
                         alert(act + '失敗,' + data.ErrorMessage);
