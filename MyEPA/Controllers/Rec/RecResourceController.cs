@@ -189,11 +189,11 @@ namespace MyEPA.Controllers
             var datas = RecResourceService.Get(Id);
             if (datas.Type == 1)
             {
-                fileName = "應變資源調度需求表.docx";
+                fileName = "(範本)應變資源調度需求表.docx";
             }
             else if (datas.Type == 2)
             {
-                fileName = "應變資源提供調度表.docx";
+                fileName = "(範本)應變資源提供調度表.docx";
             }
             
             string path = filefolder + fileName;
@@ -358,6 +358,9 @@ namespace MyEPA.Controllers
                 //////回傳出檔案
                 ////return File(tmpStream, GetContentType("docx"), toFileName);
 
+                //移除(範本)文字
+                toPdfPath = toPdfPath.Replace("(範本)", "");
+
                 // 轉換成pdf
                 var app = new Microsoft.Office.Interop.Word.Application();
                 // 開啟 Word 文件
@@ -368,11 +371,11 @@ namespace MyEPA.Controllers
                 ((Microsoft.Office.Interop.Word._Document)doc).Close(false);
                 ((Microsoft.Office.Interop.Word._Application)app).Quit(false);
             }
-
+            
             //讀成串流
             var iStream = new FileStream(toPdfPath, FileMode.Open, FileAccess.Read, FileShare.Read);
             //回傳出檔案
-            return File(iStream, GetContentType("docx"), toPdfName);
+            return File(iStream, GetContentType("docx"), Path.GetFileName(toPdfPath));
         }
 
         private bool ToSendNeed(RecResourceModel model)

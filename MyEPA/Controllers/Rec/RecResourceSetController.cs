@@ -146,7 +146,7 @@ namespace MyEPA.Controllers.Rec
         {
             //我要下載的檔案位置
             string filefolder = Server.MapPath("~/FileDatas/Template/");
-            string fileName = "應變資源調度審核情形.docx";
+            string fileName = "(範本)應變資源調度審核情形.docx";
 
             var RecResourceNeed = RecResourceService.Get(Id);
 
@@ -310,6 +310,9 @@ namespace MyEPA.Controllers.Rec
                 //////回傳出檔案
                 ////return File(tmpStream, GetContentType("docx"), toFileName);
 
+                //移除(範本)文字
+                toPdfPath = toPdfPath.Replace("(範本)", "");
+
                 // 轉換成pdf
                 var app = new Microsoft.Office.Interop.Word.Application();
                 // 開啟 Word 文件
@@ -319,12 +322,12 @@ namespace MyEPA.Controllers.Rec
                 //doc.Close();
                 ((Microsoft.Office.Interop.Word._Document)doc).Close(false);
                 ((Microsoft.Office.Interop.Word._Application)app).Quit(false);
-            }
+            }            
 
             //讀成串流
             var iStream = new FileStream(toPdfPath, FileMode.Open, FileAccess.Read, FileShare.Read);
             //回傳出檔案
-            return File(iStream, GetContentType("docx"), toPdfName);
+            return File(iStream, GetContentType("docx"), Path.GetFileName(toPdfPath));
         }
     
         //取得List主表資料
