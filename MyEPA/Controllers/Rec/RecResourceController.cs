@@ -281,7 +281,7 @@ namespace MyEPA.Controllers
                             { 1, s.Spec},
                             { 2, s.Quantity.ToString()},
                             { 3, s.Unit},
-                            { 4, s.USDate.ToShortDateString() + "~" + s.UEDate.ToShortDateString()}
+                            { 4, s.USDate.ToShortDateString() + " ~ " + s.UEDate.ToShortDateString()}
                         };
                         
                         CT_Row ctrow = refRows.GetCTRow();
