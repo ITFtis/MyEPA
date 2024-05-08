@@ -148,12 +148,12 @@ namespace MyEPA.Controllers.Rec
             string filefolder = Server.MapPath("~/FileDatas/Template/");
             string fileName = "應變資源調度審核情形.docx";
 
-            var datas = RecResourceService.Get(Id);
+            var RecResourceNeed = RecResourceService.Get(Id);
 
             //調度配置
             string diasterName = DiasterService.GetByFilter(new DiasterFilterParameter
             {
-                Ids = datas.DiasterId.ToListCollection()
+                Ids = RecResourceNeed.DiasterId.ToListCollection()
             })
                 .Select(e => e.DiasterName).FirstOrDefault();
 
@@ -176,12 +176,12 @@ namespace MyEPA.Controllers.Rec
                 Dictionary<string, string> textDic = new Dictionary<string, string>()
                     {
                         {"diasterName", diasterName },
-                        {"City", citys.Where(a => a.Id == datas.CityId).FirstOrDefault().City },
-                        {"CreateDate", datas.CreateDate.ToShortDateString() },
-                        {"Items", Code.GetRecItems().Where(a => a.Key == datas.Items).FirstOrDefault().Value },
-                        {"Spec", datas.Spec },
-                        {"ContactPerson", datas.ContactPerson },
-                        {"ContactMobilePhone", datas.ContactMobilePhone },
+                        {"City", citys.Where(a => a.Id == RecResourceNeed.CityId).FirstOrDefault().City },
+                        {"CreateDate", RecResourceNeed.CreateDate.ToShortDateString() },
+                        {"Items", Code.GetRecItems().Where(a => a.Key == RecResourceNeed.Items).FirstOrDefault().Value },
+                        {"Spec", RecResourceNeed.Spec },
+                        {"ContactPerson", RecResourceNeed.ContactPerson },
+                        {"ContactMobilePhone", RecResourceNeed.ContactMobilePhone },
                 };
 
                 foreach (XWPFTable table in docx.Tables)
@@ -211,99 +211,86 @@ namespace MyEPA.Controllers.Rec
                     }
                 }
 
-                //////讀取表格
-                ////if (1 == 1)
-                ////{
-                ////    List<RecResourceModel> sList = RecResourceService.GetByCityId(datas.CityId)
-                ////                                        .Where(a => a.Type == datas.Type)
-                ////                                        .OrderByDescending(a => a.Id)
-                ////                                        .ToList();
+                //讀取表格
+                if (1 == 1)
+                {
+                    int recResourceId = Id;
+                    List<RecResourceViewModel> sList = GetMasterList(RecResourceNeed.DiasterId, recResourceId, RecResourceNeed);
 
-                ////    XWPFTable table = docx.Tables[0];
+                    XWPFTable table = docx.Tables[0];
 
+                    //表格第7列(清單)
+                    int refn = 6;
 
-                ////    int refn = 0;
-                ////    if (datas.Type == 1)
-                ////    {
-                ////        //表格第5列(清單)
-                ////        refn = 4;
-                ////    }
-                ////    else if (datas.Type == 2)
-                ////    {
-                ////        //表格第4列(清單)
-                ////        refn = 3;
-                ////    }
+                    XWPFTableRow refRows = table.Rows[refn];
 
-                ////    XWPFTableRow refRows = table.Rows[refn];
+                    //清單資料
+                    int count = 0;
+                    int serial = 0;
+                    foreach (RecResourceViewModel s in sList)
+                    {
+                        serial++;
 
-                ////    //清單資料
-                ////    int count = 0;
-                ////    foreach (RecResourceModel s in sList)
-                ////    {
-                ////        Dictionary<int, string> sdic = new Dictionary<int, string>()
-                ////        {
-                ////            { 0, Code.GetRecItems().Where(a => a.Key == s.Items).FirstOrDefault().Value },
-                ////            { 1, s.Spec},
-                ////            { 2, s.Quantity.ToString()},
-                ////            { 3, s.Unit},
-                ////            { 4, s.USDate.ToShortDateString() + "~" + s.UEDate.ToShortDateString()}
-                ////        };
+                        Dictionary<int, string> sdic = new Dictionary<int, string>()
+                        {
+                            { 0, serial.ToString() },
+                            { 1, s.SetQuantity.ToString() },
+                            { 2,  citys.Where(a => a.Id == s.CityId).FirstOrDefault().City },
+                            { 3, s.ContactPerson + "\n" + s.ContactMobilePhone },                            
+                            { 4, Code.GetRecItems().Where(a => a.Key == s.Items).FirstOrDefault().Value },
+                            { 5, s.Spec },
+                            { 6, s.Quantity.ToString() },
+                            { 7, DateFormat.ToDate4(s.USDate) + " ~ " + DateFormat.ToDate4(s.UEDate) },                            
+                        };
 
-                ////        CT_Row ctrow = refRows.GetCTRow();
-                ////        CT_Row targetRow = new CT_Row();
+                        CT_Row ctrow = refRows.GetCTRow();
+                        CT_Row targetRow = new CT_Row();
 
-                ////        int index = 0;
-                ////        foreach (CT_Tc item in ctrow.Items)
-                ////        {
-                ////            CT_Tc addTc = targetRow.AddNewTc();
-                ////            addTc.tcPr = item.tcPr;
+                        int index = 0;
+                        foreach (CT_Tc item in ctrow.Items)
+                        {
+                            CT_Tc addTc = targetRow.AddNewTc();
+                            addTc.tcPr = item.tcPr;
 
-                ////            IList<CT_P> list_p = item.GetPList();
+                            IList<CT_P> list_p = item.GetPList();
 
-                ////            foreach (var p in list_p)
-                ////            {
-                ////                CT_P addP = addTc.AddNewP();
-                ////                addP.pPr = p.pPr;//段落樣式
-                ////                IList<CT_R> list_r = p.GetRList();
-                ////                foreach (CT_R r in list_r)
-                ////                {
-                ////                    CT_R addR = addP.AddNewR();
-                ////                    addR.rPr = r.rPr;//run樣式，包含字體
-                ////                    List<CT_Text> list_text = r.GetTList();
+                            foreach (var p in list_p)
+                            {
+                                CT_P addP = addTc.AddNewP();
+                                addP.pPr = p.pPr;//段落樣式
+                                IList<CT_R> list_r = p.GetRList();
+                                foreach (CT_R r in list_r)
+                                {
+                                    CT_R addR = addP.AddNewR();
+                                    addR.rPr = r.rPr;//run樣式，包含字體
+                                    List<CT_Text> list_text = r.GetTList();
 
-                ////                    //設定Text內容
-                ////                    string text = sdic[index];
-                ////                    for (int i = 0; i < text.Length; i++)
-                ////                    {
-                ////                        CT_Text addText = addR.AddNewT();
-                ////                        addText.Value = text.Substring(i, 1);
-                ////                    }
+                                    //設定Text內容
+                                    string text = sdic[index];
+                                    for (int i = 0; i < text.Length; i++)
+                                    {
+                                        CT_Text addText = addR.AddNewT();
+                                        addText.Value = text.Substring(i, 1);
+                                    }
+                                }
 
-                ////                    ////foreach (CT_Text text in list_text)
-                ////                    ////{
-                ////                    ////    CT_Text addText = addR.AddNewT();
-                ////                    ////    addText.space = text.space;
-                ////                    ////    addText.Value = text.Value;
-                ////                    ////}
-                ////                }
+                                index++;
+                            }
+                        }
 
-                ////                index++;
-                ////            }
-                ////        }
+                        //新增資料行
+                        XWPFTableRow mrow = new XWPFTableRow(targetRow, table);
+                        table.AddRow(mrow);
+                    }
 
-                ////        //新增資料行
-                ////        XWPFTableRow mrow = new XWPFTableRow(targetRow, table);
-                ////        table.AddRow(mrow);
-                ////    }
-
-                ////    //刪除字型保留列(xx)
-                ////    if (count == 0)
-                ////    {
-                ////        //refRows
-                ////        table.RemoveRow(refn);
-                ////    }
-                ////    count++;
-                ////}
+                    //刪除字型保留列(xx)
+                    if (count == 0)
+                    {
+                        //refRows
+                        table.RemoveRow(refn);
+                    }
+                    count++;
+                }
 
                 if (!Directory.Exists(toFolder))
                 {
@@ -318,20 +305,20 @@ namespace MyEPA.Controllers.Rec
                 xlsFile.Close();
                 docx.Close();
 
-                //讀成串流
-                var tmpStream = new FileStream(toPath, FileMode.Open, FileAccess.Read, FileShare.Read);
-                //回傳出檔案
-                return File(tmpStream, GetContentType("docx"), toFileName);
+                //////讀成串流
+                ////var tmpStream = new FileStream(toPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                //////回傳出檔案
+                ////return File(tmpStream, GetContentType("docx"), toFileName);
 
-                ////// 轉換成pdf
-                ////var app = new Microsoft.Office.Interop.Word.Application();
-                ////// 開啟 Word 文件
-                ////Document doc = app.Documents.Open(toPath);
-                ////// 轉換為 PDF
-                ////doc.ExportAsFixedFormat(toPdfPath, WdExportFormat.wdExportFormatPDF);
-                //////doc.Close();
-                ////((Microsoft.Office.Interop.Word._Document)doc).Close(false);
-                ////((Microsoft.Office.Interop.Word._Application)app).Quit(false);
+                // 轉換成pdf
+                var app = new Microsoft.Office.Interop.Word.Application();
+                // 開啟 Word 文件
+                Document doc = app.Documents.Open(toPath);
+                // 轉換為 PDF
+                doc.ExportAsFixedFormat(toPdfPath, WdExportFormat.wdExportFormatPDF);
+                //doc.Close();
+                ((Microsoft.Office.Interop.Word._Document)doc).Close(false);
+                ((Microsoft.Office.Interop.Word._Application)app).Quit(false);
             }
 
             //讀成串流
