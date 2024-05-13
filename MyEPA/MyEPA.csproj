@@ -326,6 +326,7 @@
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\Rec\RecResourceController.cs" />
     <Compile Include="Controllers\Rec\RecResourceSetController.cs" />
+    <Compile Include="Controllers\Rec\TestMailController.cs" />
     <Compile Include="Controllers\TownController.cs" />
     <Compile Include="Controllers\TWMapController.cs" />
     <Compile Include="Controllers\OldControllers\EPBController.cs" />
@@ -1978,6 +1979,7 @@
     <Content Include="Views\RecResource\Create.cshtml" />
     <Content Include="Views\RecResource\Edit.cshtml" />
     <Content Include="Views\RecResourceSet\List.cshtml" />
+    <Content Include="Views\TestMail\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="C:\NuGetPackages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.7\analyzers\dotnet\cs\Microsoft.CodeAnalysis.VersionCheckAnalyzer.resources.dll" />
