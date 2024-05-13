@@ -382,11 +382,6 @@ namespace MyEPA.Controllers
         {
             try
             {
-                //https處理 REF: https://stackoverflow.com/a/39534068/288936
-                ServicePointManager.SecurityProtocol =
-                    SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls |
-                    SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
-
                 //(1)設定內容 (特休結算通知)
                 string body = "";
                 string path = AppConfig.HtmlTemplatePath + "1_調度需求.html";
@@ -478,11 +473,6 @@ namespace MyEPA.Controllers
         {
             try
             {
-                //https處理 REF: https://stackoverflow.com/a/39534068/288936
-                ServicePointManager.SecurityProtocol =
-                    SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls |
-                    SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
-
                 //(1)設定內容 (特休結算通知)
                 string body = "";
                 string path = AppConfig.HtmlTemplatePath + "1_可提供調度.html";

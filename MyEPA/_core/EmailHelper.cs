@@ -43,6 +43,11 @@ namespace MyEPA
 
         private List<string> _attachmentList;
 
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+
         public bool EnableSSL
         {
             get
@@ -149,6 +154,12 @@ namespace MyEPA
             {
                 _mailFromName = value;
             }
+        }
+
+        //view丟至後端(多筆 ','區別)
+        public string ToMails
+        {
+            get; set;
         }
 
         public List<MailAddress> ToMailList
@@ -260,6 +271,11 @@ namespace MyEPA
             bool result = false;
             try
             {
+                //https處理 REF: https://stackoverflow.com/a/39534068/288936
+                ServicePointManager.SecurityProtocol =
+                    SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls |
+                    SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+
                 _errorMessage = string.Empty;
                 SmtpClient smtpClient = new SmtpClient();
                 MailMessage mailMessage = new MailMessage();
