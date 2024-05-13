@@ -1228,6 +1228,7 @@
     <Content Include="Content\images\notice_icon.png" />
     <Content Include="Content\images\notice_icon2.png" />
     <Content Include="Content\images\service_man.png" />
+    <Content Include="HtmlTemplate\0_測試Mail.html" />
     <Content Include="HtmlTemplate\1_可提供調度.html" />
     <Content Include="HtmlTemplate\1_調度需求.html" />
     <Content Include="images\banner_car.jpg" />

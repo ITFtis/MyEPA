@@ -19,7 +19,21 @@ namespace MyEPA.Controllers.Rec
                 return RedirectToAction("LoginRedirect", "Home", new { });
             }
 
-            return View();
+            EmailHelper email = new EmailHelper();            
+            email.MailFrom = "ftis@meet.ftis.org.tw";
+            email.MailFromName = "產基會測試信";
+            email.Account = "ftis@meet.ftis.org.tw";
+            email.Password = "Ftis01801726";
+            email.MailServer = "120.100.100.240";
+            email.MailPort = 25;
+            email.EnableSSL = false;
+
+            return View(email);
+        }
+        
+        public ActionResult TestSend(EmailHelper email)
+        {
+            return RedirectToAction("Index");
         }
     }
 }

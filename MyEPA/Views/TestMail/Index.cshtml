@@ -1,14 +1,83 @@
-﻿@model MyEPA.Models.RecResourceModel
-@using MyEPA.Models
+﻿@model MyEPA.EmailHelper
+@using MyEPA
 
 @{
-    ViewBag.Title = "Email 測試";
+    ViewBag.Title = "測試Email";
     Layout = "~/Views/_Layout.cshtml";
 }
 <link rel="stylesheet" href="~/Content/flatpickr.css">
 <link rel="stylesheet" href="~/Content/confirmDate.css">
 
 <h3>
-    Email 測試
+    測試Email
 </h3>
 
+@using (Html.BeginForm("TestSend", "TestMail", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    <div class="form-horizontal">
+        <hr />
+
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                MailFrom
+            </label>
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.MailFrom, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                MailFromName
+            </label>
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.MailFromName, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                Account
+            </label>
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.Account, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                Password
+            </label>
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                MailServer
+            </label>
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.MailServer, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                MailPort
+            </label>
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.MailPort, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                EnableSSL
+            </label>
+            <div class="col-md-6">
+                @Html.CheckBoxFor(model => model.EnableSSL, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-6">
+                <input type="submit" value="寄發測試信件" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
