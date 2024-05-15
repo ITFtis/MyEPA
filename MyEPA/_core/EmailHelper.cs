@@ -271,6 +271,12 @@ namespace MyEPA
             bool result = false;
             try
             {
+                //測試連線
+                if (!CommonFunc.TestMailServerSmtpIp(_mailServer, _mailPort))
+                {
+                    return result;
+                }
+
                 //https處理 REF: https://stackoverflow.com/a/39534068/288936
                 ServicePointManager.SecurityProtocol =
                     SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls |

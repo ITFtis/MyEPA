@@ -923,6 +923,7 @@
     <Compile Include="ViewModels\YearReportViewModel.cs" />
     <Compile Include="_core\AppConfig.cs" />
     <Compile Include="_core\Code.cs" />
+    <Compile Include="_core\CommonFunc.cs" />
     <Compile Include="_core\DateFormat.cs" />
     <Compile Include="_core\EmailHelper.cs" />
     <Compile Include="_core\SysFunc.cs" />
