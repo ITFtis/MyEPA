@@ -23,12 +23,19 @@ namespace MyEPA.Services
         DiasterRepository DiasterRepository = new DiasterRepository();        
         UsersRepository UsersRepository = new UsersRepository();
 
-        public string GetAlter()
+        public string GetAlter(UserBriefModel user)
         {
             string result = "";
 
             try
             {
+                bool isAdmin = user.Town.Trim() == "環境督察總隊".Trim() || user.IsAdmin;
+                //非管理者，不顯示內容
+                if (!isAdmin)
+                {
+                    return result;
+                }
+
                 var diaster = new DiasterService().GetAll().FirstOrDefault();
                 var recs = GetByDiasterId(diaster.Id);
 

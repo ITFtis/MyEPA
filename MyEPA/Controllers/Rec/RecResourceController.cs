@@ -82,7 +82,7 @@ namespace MyEPA.Controllers
 
             ViewBag.Citys = CityService.GetAll();
             ////環衛組：視為admin
-            ViewBag.IsAdmin = user.Town.Trim() == "環境督察總隊".Trim() || GetIsAdmin();
+            ViewBag.IsAdmin = user.Town.Trim() == "環境督察總隊".Trim() || user.IsAdmin;
             ViewBag.User = user;
             ViewBag.CountIdNeeds = countIdNeeds;
 
