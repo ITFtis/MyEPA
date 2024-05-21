@@ -1,5 +1,5 @@
 CREATE TABLE [dbo].[Users_Delete_20240521](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Id] [int] NOT NULL,
 	[UserName] [nvarchar](50) NULL,
 	[Name] [nvarchar](50) NULL,
 	[Pwd] [nvarchar](50) NULL,
