@@ -22,7 +22,7 @@
 
 </h3>
 
-@using (Html.BeginForm("TestSend", "TestMail", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("MyAction", "TestMail", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     <div class="form-horizontal">
         <hr />
@@ -102,7 +102,19 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-6">
-                <input type="submit" value="寄發測試信件" class="btn btn-success" />
+                @*<input type="submit" value="寄發測試信件" class="btn btn-success" />*@
+
+                <button class="btn btn-primary"
+                        name="submitButton" type="submit"
+                        value="DoSend">
+                    寄發測試信件
+                </button>
+                <button class="btn btn-success"
+                        name="submitButton" type="submit"
+                        value="DoSave">
+                    更新Mail設定值(json)
+                </button>
+
             </div>
         </div>
     </div>

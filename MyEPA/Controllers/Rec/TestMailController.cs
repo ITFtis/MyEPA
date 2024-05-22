@@ -51,11 +51,23 @@ namespace MyEPA.Controllers.Rec
 
             return View(email);
         }
-        
-        public ActionResult TestSend(EmailHelper model)
+
+        public ActionResult MyAction(string submitButton, EmailHelper model)
         {
+            if (submitButton == "DoSend")
+            {
+                return DoSend(model);
+            }
+
+            return RedirectToAction("Index", model);
+        }
+
+        private ActionResult DoSend(EmailHelper model)
+        {
+            ActionResult result = null;
+
             EmailHelper email = (EmailHelper)model.Clone();
-            
+
             //(1)設定內容 (特休結算通知)
             string body = "";
             string path = AppConfig.HtmlTemplatePath + "0_測試Mail.html";
@@ -67,17 +79,16 @@ namespace MyEPA.Controllers.Rec
             if (string.IsNullOrEmpty(body))
             {
                 logger.Error("ToSend - body取出無內容：" + path);
-                return RedirectToAction("Index");
-                /////////////return false;
+                return RedirectToAction("Index", model);                
             }
 
             var user = GetUserBrief();
-            body = body.Replace("[DateNow]", DateFormat.ToDate4(DateTime.Now))                    
+            body = body.Replace("[DateNow]", DateFormat.ToDate4(DateTime.Now))
                     .Replace("[LoginUser]", user.Name);
 
 
             //(2)設定Helper            
-            string subject = "測試信件(TestMail)";            
+            string subject = "測試信件(TestMail)";
             email.Subject = subject;
             email.Body = body;
 
@@ -114,7 +125,9 @@ namespace MyEPA.Controllers.Rec
                 sendMsg = "信件寄發失敗";
             }
 
-            return RedirectToAction("Index", new { model, sendMsg = sendMsg });
+            result = RedirectToAction("Index", new { model, sendMsg = sendMsg });
+            
+            return result;
         }
     }
 }
