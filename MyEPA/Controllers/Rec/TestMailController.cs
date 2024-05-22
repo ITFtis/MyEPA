@@ -26,7 +26,8 @@ namespace MyEPA.Controllers.Rec
             EmailHelper email = new EmailHelper();
             if (model == null || string.IsNullOrEmpty(model.Password))
             {
-                email.ToMails = "brianlin12345@gmail.com,brianlin12345@taiglobal.com.tw,";
+                email.ToMails = "brianlin12345@gmail.com,";
+                email.BCCMails = "brianlin12345@taiglobal.com.tw,";
                 email.MailFrom = "ftis@meet.ftis.org.tw";
                 email.MailFromName = "產基會測試信";
                 email.Account = "ftis@meet.ftis.org.tw";
@@ -77,6 +78,14 @@ namespace MyEPA.Controllers.Rec
                 if (addr != "")
                 {
                     email.AddTo(addr, "");
+                }
+            }
+
+            foreach (string addr in email.BCCMails.Split(','))
+            {
+                if (addr != "")
+                {
+                    email.AddBCC(addr, "");
                 }
             }
 

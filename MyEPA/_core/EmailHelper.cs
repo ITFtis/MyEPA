@@ -156,7 +156,7 @@ namespace MyEPA
             }
         }
 
-        //view丟至後端(多筆 ','區別)
+        //view丟至後端(多筆 ','區別) 收件者
         public string ToMails
         {
             get; set;
@@ -184,6 +184,12 @@ namespace MyEPA
             {
                 _ccMailList = value;
             }
+        }
+
+        //view丟至後端(多筆 ','區別) 密件副本
+        public string BCCMails
+        {
+            get; set;
         }
 
         public List<MailAddress> BCCMailList
