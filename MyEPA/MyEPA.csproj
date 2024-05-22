@@ -927,6 +927,7 @@
     <Compile Include="_core\DateFormat.cs" />
     <Compile Include="_core\EmailHelper.cs" />
     <Compile Include="_core\SysFunc.cs" />
+    <Compile Include="_json\TestMailParam.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\EPA.mdf" />

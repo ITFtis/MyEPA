@@ -26,15 +26,21 @@ namespace MyEPA.Controllers.Rec
             EmailHelper email = new EmailHelper();
             if (model == null || string.IsNullOrEmpty(model.Password))
             {
-                email.ToMails = "brianlin12345@gmail.com,";
-                email.BCCMails = "brianlin12345@taiglobal.com.tw,";
-                email.MailFrom = "ftis@meet.ftis.org.tw";
-                email.MailFromName = "產基會測試信";
-                email.Account = "ftis@meet.ftis.org.tw";
-                email.Password = "Ftis01801726";
-                email.MailServer = "120.100.100.240";
-                email.MailPort = 25;
-                email.EnableSSL = false;
+                using (StreamReader sr = new StreamReader(Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath(("~/FileDatas/json")), "TestMailParam.json")))
+                {
+                    string text = sr.ReadToEnd().Replace("\r\n", "");
+                    TestMailParam obj = Newtonsoft.Json.JsonConvert.DeserializeObject<TestMailParam>(text);
+
+                    email.ToMails = obj.ToMails;
+                    email.BCCMails = obj.BCCMails;
+                    email.MailFrom = obj.MailFrom;
+                    email.MailFromName = obj.MailFromName;
+                    email.Account = obj.Account;
+                    email.Password = obj.Password;
+                    email.MailServer = obj.MailServer;
+                    email.MailPort = obj.MailPort;
+                    email.EnableSSL = obj.EnableSSL;
+                }
             }
             else
             {
