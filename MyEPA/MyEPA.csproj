@@ -927,7 +927,7 @@
     <Compile Include="_core\DateFormat.cs" />
     <Compile Include="_core\EmailHelper.cs" />
     <Compile Include="_core\SysFunc.cs" />
-    <Compile Include="_json\TestMailParam.cs" />
+    <Compile Include="_dataClass\TestMailParam.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\EPA.mdf" />
@@ -1648,6 +1648,7 @@
     <Folder Include="Views\CleanerxDefend\" />
     <Folder Include="Views\Geolocation\" />
     <Folder Include="Views\Register\" />
+    <Folder Include="_json\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
