@@ -3,13 +3,23 @@
 
 @{
     ViewBag.Title = "測試Email";
-    Layout = "~/Views/_Layout.cshtml";
+    Layout = "~/Views/_Layout.cshtml";  
 }
 <link rel="stylesheet" href="~/Content/flatpickr.css">
 <link rel="stylesheet" href="~/Content/confirmDate.css">
 
 <h3>
     測試Email
+
+    @{ 
+        if (ViewBag.SendMsg != "")
+        {
+            <script>
+                alert('@ViewBag.SendMsg');
+            </script>
+        }
+    }
+
 </h3>
 
 @using (Html.BeginForm("TestSend", "TestMail", FormMethod.Post, new { @enctype = "multipart/form-data" }))

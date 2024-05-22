@@ -13,7 +13,7 @@ namespace MyEPA.Controllers.Rec
         private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         // GET: TestMail
-        public ActionResult Index(EmailHelper model = null)
+        public ActionResult Index(EmailHelper model = null, string sendMsg = "")
         {
             bool isAdmin = GetIsAdmin();
 
@@ -40,6 +40,8 @@ namespace MyEPA.Controllers.Rec
             {
                 email = model;
             }
+
+            ViewBag.SendMsg = sendMsg;
 
             return View(email);
         }
@@ -96,7 +98,17 @@ namespace MyEPA.Controllers.Rec
                 logger.Error("ToSend - 信件寄發失敗:" + email.ToMails);
             }
 
-            return RedirectToAction("Index", model);
+            string sendMsg;
+            if (success)
+            {
+                sendMsg = "信件已寄出";
+            }
+            else
+            {
+                sendMsg = "信件寄發失敗";
+            }
+
+            return RedirectToAction("Index", new { model, sendMsg = sendMsg });
         }
     }
 }
