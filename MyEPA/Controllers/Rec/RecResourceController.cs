@@ -283,7 +283,14 @@ namespace MyEPA.Controllers
                             { 3, s.Unit},
                             { 4, s.USDate.ToShortDateString() + " ~ " + s.UEDate.ToShortDateString()}
                         };
-                        
+
+                        //null預設空值
+                        for (int i = 0; i < sdic.Count; i++)
+                        {
+                            if (sdic[i] == null)
+                                sdic[i] = "";
+                        }
+
                         CT_Row ctrow = refRows.GetCTRow();
                         CT_Row targetRow = new CT_Row();
 

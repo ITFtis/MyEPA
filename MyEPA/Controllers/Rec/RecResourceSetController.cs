@@ -243,6 +243,13 @@ namespace MyEPA.Controllers.Rec
                             { 7, DateFormat.ToDate4(s.USDate) + " ~ " + DateFormat.ToDate4(s.UEDate) },                            
                         };
 
+                        //null預設空值
+                        for (int i = 0; i < sdic.Count; i++)
+                        {
+                            if (sdic[i] == null)
+                                sdic[i] = "";
+                        }
+
                         CT_Row ctrow = refRows.GetCTRow();
                         CT_Row targetRow = new CT_Row();
 
