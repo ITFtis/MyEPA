@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace MyEPA.Controllers.Rec
 {
@@ -58,6 +60,10 @@ namespace MyEPA.Controllers.Rec
             {
                 return DoSend(model);
             }
+            else if (submitButton == "DoSaveJson")
+            {
+                return DoSaveJson(model);
+            }
 
             return RedirectToAction("Index", model);
         }
@@ -78,8 +84,8 @@ namespace MyEPA.Controllers.Rec
 
             if (string.IsNullOrEmpty(body))
             {
-                logger.Error("ToSend - body取出無內容：" + path);
-                return RedirectToAction("Index", model);                
+                logger.Error("ToSend - html body取出無內容：" + path);
+                return RedirectToAction("Index", new { model, sendMsg = "html body取出無內容" });
             }
 
             var user = GetUserBrief();
@@ -127,6 +133,31 @@ namespace MyEPA.Controllers.Rec
 
             result = RedirectToAction("Index", new { model, sendMsg = sendMsg });
             
+            return result;
+        }
+
+        private ActionResult DoSaveJson(EmailHelper model)
+        {
+            ActionResult result;
+
+            try
+            {
+                string path = System.Web.Hosting.HostingEnvironment.MapPath("~/FileDatas/json/TestMailParam.json");
+                using (var streamWriter = System.IO.File.CreateText(path))
+                {
+                    var text = new JavaScriptSerializer().Serialize(model);
+                    streamWriter.Write(text);
+                }
+            }
+            catch (Exception ex)
+            {                
+                logger.Error("更新Mail設定值(json)失敗：" + ex.Message);
+                logger.Error(ex.StackTrace);
+                return RedirectToAction("Index", new { model, sendMsg = "更新Mail設定值(json)失敗" });
+            }
+
+            result = RedirectToAction("Index", new { model, sendMsg = "更新Mail設定值成功" });
+
             return result;
         }
     }
