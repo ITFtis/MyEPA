@@ -262,6 +262,10 @@ LEFT JOIN Position P ON P.Id = U.PositionId
             {
                 whereSQL += " AND U.Id IN @UserIds";
             }
+            if (filter.UserNames.IsNotEmpty())
+            {
+                whereSQL += " AND U.UserName IN @UserNames";
+            }
             if (filter.DepartmentIds.IsNotEmpty())
             {
                 whereSQL += " AND U.DepartmentId IN @DepartmentIds";
