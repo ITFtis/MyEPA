@@ -642,14 +642,17 @@
                                                             @(data.IsToEpa ? "署內" : "環保局")
                                                         </td>
                                                         <td rowspan="@detailCount">
-                                                            <a target="_blank" href="@Url.Action("Processing","ApplySubsidy", new { id = @data.Id })" class="btn btn-purple">開始辦理</a>
+                                                            @if (isCanConfirmProcess(data))
+                                                            {
+                                                                <a target="_blank" href="@Url.Action("Processing", "ApplySubsidy", new { id = @data.Id })" class="btn btn-purple">開始辦理</a>
+                                                            }
                                                         </td>
-                                                        <td rowspan="@detailCount">
-                                                            @if (data.EPBConfirmStatus == MyEPA.Enums.ApplyStatusEnum.Pending || data.EPBConfirmStatus == MyEPA.Enums.ApplyStatusEnum.Processing)
+                                                        <td rowspan="@detailCount">                                                            
+                                                            @if (isCanConfirmProcess(data))
                                                             {
                                                                 <input type="button" class="btn btn-danger" onclick="confirmProcess('ApplySubsidy', @data.Id)" value="確認核定" />
-                                                            }
-                                                            else if (data.EPBConfirmStatus == MyEPA.Enums.ApplyStatusEnum.Confrim)
+                                                            }                                                            
+                                                            else if (isCanCancelProcess(data))
                                                             {
                                                                 <input type="button" class="btn btn-danger" onclick="cancelProcess('ApplySubsidy', @data.Id)" value="取消核定" />
                                                             }
@@ -771,7 +774,10 @@
                                                             @(data.IsToEpa ? "署內" : "環保局")
                                                         </td>
                                                         <td rowspan="@detailCount">
-                                                            <a target="_blank" href="@Url.Action("Processing","ApplyOther", new { id = @data.Id })" class="btn btn-purple">開始辦理</a>
+                                                            @if (isCanConfirmProcess(data))
+                                                            {
+                                                                <a target="_blank" href="@Url.Action("Processing", "ApplyOther", new { id = @data.Id })" class="btn btn-purple">開始辦理</a>
+                                                            }
                                                         </td>
                                                         <td rowspan="@detailCount">
                                                             @if (isCanConfirmProcess(data))
