@@ -9,5 +9,10 @@ namespace MyEPA.ViewModels
         public string CityName { get; set; }
 
         public string TownName { get; set; }
+
+        /// <summary>
+        /// 建立者單位
+        /// </summary>
+        public string CreateUserDuty { get; set; }
     }
 }

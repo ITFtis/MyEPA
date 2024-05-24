@@ -102,10 +102,10 @@
                                 <td>國軍支援人數</td>
                                 <td>國軍支援天數</td>
                                 <td>說明</td>
+                                <td>(建檔/確認)機關</td>
                                 <td>本局辦理情形</td>
                                 <td>確認</td>
-                                <td>本局辦理狀態</td>
-                                <td>環保署辦理情形</td>
+                                <td>辦理狀態</td>
                                 @*<td>詳細資料</td>*@
                             </tr>
                             @{ if (Model.ApplyPeople != null && Model.ApplyPeople.Any())
@@ -120,6 +120,11 @@
                                             <td>@data.NationalArmyQuantity</td>
                                             <td>@data.NationalArmyDays</td>
                                             <td>@data.EstimationMethodDescribe</td>
+                                            <td>
+                                                @data.CreateUserDuty
+                                                =>
+                                                @(data.IsToEpa ? "署內" : "環保局")
+                                            </td>
                                             <td>
                                                 @if (isCanConfirmProcess(data))
                                                 {
@@ -138,8 +143,7 @@
                                                 }
 
                                             </td>
-                                            <td>@data.EPBConfirmStatus.GetDescription()</td>
-                                            <td>@data.EPAConfirmStatus.GetDescription()</td>
+                                            <td>@(data.IsToEpa ? data.EPAConfirmStatus.GetDescription() : data.EPBConfirmStatus.GetDescription())</td>                                            
                                         </tr>
  }
                                 }
@@ -163,10 +167,10 @@
                                 <td>車輛名稱</td>
                                 <td>數量(輛)</td>
                                 <td>說明</td>
+                                <td>(建檔/確認)機關</td>
                                 <td>本局辦理情形</td>
-                                <td>(建檔/確認)機關</td>                                
-                                <td>確認</td>                                
-                                <td>辦理情形</td>
+                                <td>確認</td>
+                                <td>辦理狀態</td>
                                 @*<td>詳細資料</td>*@
                             </tr>
                             @{ if (Model.ApplyCar != null && Model.ApplyCar.Any())
@@ -185,16 +189,16 @@
                                                             <td> 0 </td>
                                                             <td>@data.EstimationMethodDescribe</td>
                                                             <td>
+                                                                @data.CreateUserDuty
+                                                                =>
+                                                                @(data.IsToEpa ? "署內" : "環保局")
+                                                            </td>
+                                                            <td>
                                                                 @if (isCanConfirmProcess(data))
                                                                 {
                                                                     <a target="_blank" href="@Url.Action("Processing","ApplyCar", new { id = @data.Id })" class="btn btn-purple">開始辦理</a>
                                                                 }
 
-                                                            </td>
-                                                            <td>
-                                                                @data.CreateUserDuty
-                                                                =>
-                                                                @(data.IsToEpa ? "署內" : "環保局")
                                                             </td>
                                                             <td>
                                                                 @if (isCanConfirmProcess(data))
@@ -206,7 +210,7 @@
                                                                     <input type="button" class="btn btn-danger" onclick="cancelProcess('ApplyCar', @data.Id)" value="取消核定" />
                                                                 }
                                                             </td>
-                                                            <td>@(data.IsToEpa ? data.EPAConfirmStatus.GetDescription() : data.EPBConfirmStatus.GetDescription())</td>                                                            
+                                                            <td>@(data.IsToEpa ? data.EPAConfirmStatus.GetDescription() : data.EPBConfirmStatus.GetDescription())</td>
                                                         </tr>
                                         }
                                         else
@@ -225,18 +229,18 @@
                                                         <td> @carDic.FirstOrDefault(c => c.Value == detail.ApplyCarTypeId).Key </td>
                                                         <td> @detail.Quantity </td>
                                                         <td rowspan="@detailCount">@data.EstimationMethodDescribe</td>
+                                                        <td>
+                                                            @data.CreateUserDuty
+                                                            =>
+                                                            @(data.IsToEpa ? "署內" : "環保局")
+                                                        </td>
                                                         <td rowspan="@detailCount">
                                                             @if (isCanConfirmProcess(data))
                                                             {
                                                                 <a target="_blank" href="@Url.Action("Processing","ApplyCar", new { id = data.Id })" class="btn btn-purple">開始辦理</a>
                                                             }
 
-                                                        </td>
-                                                        <td>
-                                                            @data.CreateUserDuty
-                                                            =>
-                                                            @(data.IsToEpa ? "署內" : "環保局")
-                                                        </td>
+                                                        </td>                                                        
                                                         <td rowspan="@detailCount">
                                                             @if (isCanConfirmProcess(data))
                                                             {
@@ -285,10 +289,10 @@
                                 <td>藥劑名稱</td>
                                 <td>數量</td>
                                 <td>說明</td>
+                                <td>(建檔/確認)機關</td>
                                 <td>本局辦理情形</td>
                                 <td>確認</td>
-                                <td>本局辦理狀態</td>
-                                <td>環保署辦理情形</td>
+                                <td>辦理狀態</td>
                                 @*<td>詳細資料</td>*@
                             </tr>
                             @{ if (Model.ApplyMedicine != null && Model.ApplyMedicine.Any())
@@ -306,6 +310,11 @@
                                                 <td> </td>
                                                 <td> 0 </td>
                                                 <td>@data.EstimationMethodDescribe</td>
+                                                <td>
+                                                    @data.CreateUserDuty
+                                                    =>
+                                                    @(data.IsToEpa ? "署內" : "環保局")
+                                                </td>
                                                 <td>
                                                     @if (isCanConfirmProcess(data))
                                                     {
@@ -327,8 +336,7 @@
                                                     
 
                                                 </td>
-                                                <td>@data.EPBConfirmStatus.GetDescription()</td>
-                                                <td>@data.EPAConfirmStatus.GetDescription()</td>
+                                                <td>@(data.IsToEpa ? data.EPAConfirmStatus.GetDescription() : data.EPBConfirmStatus.GetDescription())</td>                                                
                                             </tr>
                                         }
                                         else
@@ -347,6 +355,11 @@
                                                         <td> @medicineDic.FirstOrDefault(c => c.Value == (int)detail.MedicineType).Key </td>
                                                         <td> @detail.Quantity </td>
                                                         <td rowspan="@detailCount">@data.EstimationMethodDescribe</td>
+                                                        <td>
+                                                            @data.CreateUserDuty
+                                                            =>
+                                                            @(data.IsToEpa ? "署內" : "環保局")
+                                                        </td>
                                                         <td rowspan="@detailCount">
                                                             @if (data.IsToEpa == false)
                                                             {
@@ -364,8 +377,7 @@
                                                                 <input type="button" class="btn btn-danger" onclick="cancelProcess('ApplyMedicine', @data.Id)" value="取消核定" />
                                                             }
                                                         </td>
-                                                        <td rowspan="@detailCount">@data.EPBConfirmStatus.GetDescription()</td>
-                                                        <td rowspan="@detailCount">@data.EPAConfirmStatus.GetDescription()</td>
+                                                        <td rowspan="@detailCount">@(data.IsToEpa ? data.EPAConfirmStatus.GetDescription() : data.EPBConfirmStatus.GetDescription())</td>                                                        
                                                     </tr>
                                                 }
                                                 else
@@ -400,10 +412,10 @@
                                 <td>項目名稱</td>
                                 <td>數量</td>
                                 <td>說明</td>
+                                <td>(建檔/確認)機關</td>
                                 <td>本局辦理情形</td>
                                 <td>確認</td>
-                                <td>本局辦理狀態</td>
-                                <td>環保署辦理情形</td>
+                                <td>辦理狀態</td>
                             </tr>
                             @{ if (Model.ApplyDisinfectionEquipment != null && Model.ApplyDisinfectionEquipment.Any())
                                 {
@@ -423,6 +435,11 @@
                                                 <td> 0 </td>
                                                 <td>@data.EstimationMethodDescribe</td>
                                                 <td>
+                                                    @data.CreateUserDuty
+                                                    =>
+                                                    @(data.IsToEpa ? "署內" : "環保局")
+                                                </td>
+                                                <td>
                                                     @if (isCanConfirmProcess(data))
                                                     {
                                                         <a target="_blank" href="@Url.Action("EPAProcessing","ApplyDisinfectionEquipment", new { id = @data.Id })" class="btn btn-purple">開始辦理</a>
@@ -438,8 +455,7 @@
                                                         <input type="button" class="btn btn-danger" onclick="cancelProcess('ApplyDisinfectionEquipment', @data.Id)" value="取消核定" />
                                                     }
                                                 </td>
-                                                <td>@data.EPBConfirmStatus.GetDescription()</td>
-                                                <td>@data.EPAConfirmStatus.GetDescription()</td>
+                                                <td>@(data.IsToEpa ? data.EPAConfirmStatus.GetDescription() : data.EPBConfirmStatus.GetDescription())</td>                                                
                                             </tr>
                                         }
                                         else
@@ -458,6 +474,11 @@
                                                         <td> @detail.Item </td>
                                                         <td> @detail.Quantity </td>
                                                         <td rowspan="@detailCount">@data.EstimationMethodDescribe</td>
+                                                        <td>
+                                                            @data.CreateUserDuty
+                                                            =>
+                                                            @(data.IsToEpa ? "署內" : "環保局")
+                                                        </td>
                                                         <td rowspan="@detailCount">
                                                             @if (isCanConfirmProcess(data))
                                                             {
@@ -474,8 +495,7 @@
                                                                 <input type="button" class="btn btn-danger" onclick="cancelProcess('ApplyDisinfectionEquipment', @data.Id)" value="取消核定" />
                                                             }
                                                         </td>
-                                                        <td rowspan="@detailCount">@data.EPBConfirmStatus.GetDescription()</td>
-                                                        <td rowspan="@detailCount">@data.EPAConfirmStatus.GetDescription()</td>
+                                                        <td rowspan="@detailCount">@(data.IsToEpa ? data.EPAConfirmStatus.GetDescription() : data.EPBConfirmStatus.GetDescription())</td>                                                        
                                                     </tr>
                                                 }
                                                 else
@@ -513,10 +533,10 @@
                                 <td>請求天數</td>
                                 <td>申請經費總計</td>
                                 <td>說明</td>
+                                <td>(建檔/確認)機關</td>
                                 <td>本局辦理情形</td>
                                 <td>確認</td>
-                                <td>本局辦理狀態</td>
-                                <td>環保署辦理情形</td>
+                                <td>辦理狀態</td>                                
                                 @*<td>詳細資料</td>*@
                             </tr>
                             @{ if (Model.ApplySubsidy != null && Model.ApplySubsidy.Any())
@@ -544,6 +564,11 @@
                                                 </td>
                                                 <td>@data.EstimationMethodDescribe</td>
                                                 <td>
+                                                    @data.CreateUserDuty
+                                                    =>
+                                                    @(data.IsToEpa ? "署內" : "環保局")
+                                                </td>
+                                                <td>
                                                     @if (isCanConfirmProcess(data))
                                                     {
                                                         <a target="_blank" href="@Url.Action("Processing","ApplySubsidy", new { id = @data.Id })" class="btn btn-purple">開始辦理</a>
@@ -559,8 +584,7 @@
                                                         <input type="button" class="btn btn-danger" onclick="cancelProcess('ApplySubsidy', @data.Id)" value="取消核定" />
                                                     }
                                                 </td>
-                                                <td>@data.EPBConfirmStatus.GetDescription()</td>
-                                                <td>@data.EPAConfirmStatus.GetDescription()</td>
+                                                <td>@(data.IsToEpa ? data.EPAConfirmStatus.GetDescription() : data.EPBConfirmStatus.GetDescription())</td>                                                
                                             </tr>
                                         }
                                         else
@@ -612,6 +636,11 @@
                                                             })
                                                         </td>
                                                         <td rowspan="@detailCount">@data.EstimationMethodDescribe</td>
+                                                        <td>
+                                                            @data.CreateUserDuty
+                                                            =>
+                                                            @(data.IsToEpa ? "署內" : "環保局")
+                                                        </td>
                                                         <td rowspan="@detailCount">
                                                             <a target="_blank" href="@Url.Action("Processing","ApplySubsidy", new { id = @data.Id })" class="btn btn-purple">開始辦理</a>
                                                         </td>
@@ -625,8 +654,7 @@
                                                                 <input type="button" class="btn btn-danger" onclick="cancelProcess('ApplySubsidy', @data.Id)" value="取消核定" />
                                                             }
                                                         </td>
-                                                        <td rowspan="@detailCount">@data.EPBConfirmStatus.GetDescription()</td>
-                                                        <td rowspan="@detailCount">@data.EPAConfirmStatus.GetDescription()</td>
+                                                        <td rowspan="@detailCount">@(data.IsToEpa ? data.EPAConfirmStatus.GetDescription() : data.EPBConfirmStatus.GetDescription())</td>                                                        
                                                         @*<td rowspan="@detailCount"><a class="btn" href=""><i class="fa fa-eye">查看</i></a></td>*@
                                                     </tr>
                                                 }
@@ -674,10 +702,10 @@
                                 <td>項目名稱(單位)</td>
                                 <td>數量</td>
                                 <td>說明</td>
+                                <td>(建檔/確認)機關</td>
                                 <td>本局辦理情形</td>
                                 <td>確認</td>
-                                <td>本局辦理狀態</td>
-                                <td>環保署辦理情形</td>
+                                <td>辦理狀態</td>
                                 @*<td>詳細資料</td>*@
                             </tr>
                             @{ if (Model.ApplyOther != null && Model.ApplyOther.Any())
@@ -696,6 +724,11 @@
                                                 <td> 0 </td>
                                                 <td>@data.EstimationMethodDescribe</td>
                                                 <td>
+                                                    @data.CreateUserDuty
+                                                    =>
+                                                    @(data.IsToEpa ? "署內" : "環保局")
+                                                </td>
+                                                <td>
                                                     @if (isCanConfirmProcess(data))
                                                     {
                                                         <a target="_blank" href="@Url.Action("Processing","ApplyOther", new { id = @data.Id })" class="btn btn-purple">開始辦理</a>
@@ -712,8 +745,7 @@
                                                         <input type="button" class="btn btn-danger" onclick="cancelProcess('ApplyOther', @data.Id)" value="取消核定" />
                                                     }
                                                 </td>
-                                                <td>@data.EPBConfirmStatus.GetDescription()</td>
-                                                <td>@data.EPAConfirmStatus.GetDescription()</td>
+                                                <td>@(data.IsToEpa ? @data.EPAConfirmStatus.GetDescription() : data.EPBConfirmStatus.GetDescription())</td>                                                
                                             </tr>
                                         }
                                         else
@@ -733,6 +765,11 @@
                                                         <td> @itemName </td>
                                                         <td> @detail.Quantity </td>
                                                         <td rowspan="@detailCount">@data.EstimationMethodDescribe</td>
+                                                        <td>
+                                                            @data.CreateUserDuty
+                                                            =>
+                                                            @(data.IsToEpa ? "署內" : "環保局")
+                                                        </td>
                                                         <td rowspan="@detailCount">
                                                             <a target="_blank" href="@Url.Action("Processing","ApplyOther", new { id = @data.Id })" class="btn btn-purple">開始辦理</a>
                                                         </td>
@@ -746,8 +783,7 @@
                                                                 <input type="button" class="btn btn-danger" onclick="cancelProcess('ApplyOther', @data.Id)" value="取消核定" />
                                                             }
                                                         </td>
-                                                        <td rowspan="@detailCount">@data.EPBConfirmStatus.GetDescription()</td>
-                                                        <td rowspan="@detailCount">@data.EPAConfirmStatus.GetDescription()</td>
+                                                        <td rowspan="@detailCount">@(data.IsToEpa ? data.EPAConfirmStatus.GetDescription() : data.EPBConfirmStatus.GetDescription())</td>                                                        
                                                         @*<td rowspan="@detailCount"><a class="btn" href=""><i class="fa fa-eye">查看</i></a></td>*@
                                                     </tr>
                                                 }

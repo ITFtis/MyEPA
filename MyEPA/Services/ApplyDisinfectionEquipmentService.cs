@@ -209,6 +209,21 @@ namespace MyEPA.Services
             var applyRequests = ApplyDisinfectionEquipmentRepository.GetByFilter(filter);
             var viewModels = applyRequests.Select(c => MappedViewModel(c, false))
                                           .ToList();
+
+            //建檔者單位取得
+            UsersRepository UsersRepository = new UsersRepository();
+            var users = UsersRepository.GetUsersInfoByFilter(new UsersInfoFilterParameter
+            {
+                UserNames = applyRequests.Select(a => a.CreateUser)
+            });
+            foreach (var vw in viewModels)
+            {
+                var u = users.Where(a => a.UserName == vw.CreateUser).FirstOrDefault();
+                if (u != null)
+                    vw.CreateUserDuty = u.Duty;
+            }
+
+
             return viewModels;
         }
 
