@@ -19,8 +19,10 @@ namespace MyEPA.Models
         [Required]
         [DisplayName("簽約日期")]
         public DateTime KeyInDate { get; set; }
+        [Required]
         [DisplayName("合約起始")]
         public DateTime OContractDateBegin { get; set; }
+        [Required]
         [DisplayName("合約截止")]
         public DateTime OContractDateEnd { get; set; }
         [Required]
@@ -29,9 +31,11 @@ namespace MyEPA.Models
         [Required]
         [DisplayName("負責人")]
         public string Owner { get; set; }
+        [Required]
         [DisplayName("聯絡電話")]
         public string TEL { get; set; }
-     
+
+        [Required]
         [DisplayName("行動電話")]
         public string MobileTEL { get; set; }
         public int Status { get; set; }

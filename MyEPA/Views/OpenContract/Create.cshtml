@@ -29,7 +29,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.KeyInDate, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.KeyInDate, new { htmlAttributes = new { @class = "form-control flatpickr flatpickr-input", @placeholder = "簽約日期" } })
+            @Html.EditorFor(model => model.KeyInDate, new { htmlAttributes = new { @class = "form-control flatpickr flatpickr-input", @placeholder = "簽約日期", @required = "required" } })
             @Html.ValidationMessageFor(model => model.KeyInDate, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -37,7 +37,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.OContractDateBegin, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.OContractDateBegin, new { htmlAttributes = new { @class = "form-control flatpickr flatpickr-input", @placeholder = "開始日期" } })
+            @Html.EditorFor(model => model.OContractDateBegin, new { htmlAttributes = new { @class = "form-control flatpickr flatpickr-input", @placeholder = "開始日期", @required = "required" } })
             @Html.ValidationMessageFor(model => model.OContractDateBegin, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -45,7 +45,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.OContractDateEnd, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.OContractDateEnd, new { htmlAttributes = new { @class = "form-control flatpickr flatpickr-input", @placeholder = "結束日期" } })
+            @Html.EditorFor(model => model.OContractDateEnd, new { htmlAttributes = new { @class = "form-control flatpickr flatpickr-input", @placeholder = "結束日期", @required = "required" } })
             @Html.ValidationMessageFor(model => model.OContractDateEnd, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -70,7 +70,7 @@
         @Html.LabelFor(model => model.TEL, htmlAttributes: new { @class = "control-label col-md-2" })
 
         <div class="col-md-10">
-            @Html.EditorFor(model => model.TEL, new { htmlAttributes = new { @class = "form-control", @pattern = RegexUtility.TEL } })
+            @Html.EditorFor(model => model.TEL, new { htmlAttributes = new { @class = "form-control", @pattern = RegexUtility.TEL, @required = "required" } })
             @Html.ValidationMessageFor(model => model.TEL, "", new { @class = "text-danger" })
             EX.012-34567890#12345
         </div>
@@ -80,7 +80,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.MobileTEL, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.MobileTEL, new { htmlAttributes = new { @class = "form-control", @pattern = RegexUtility.Mobile } })
+            @Html.EditorFor(model => model.MobileTEL, new { htmlAttributes = new { @class = "form-control", @pattern = RegexUtility.Mobile, @required = "required" } })
             @Html.ValidationMessageFor(model => model.MobileTEL, "", new { @class = "text-danger" })
             EX.0912-345678
         </div>
