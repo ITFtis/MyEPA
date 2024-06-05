@@ -122,18 +122,20 @@ namespace MyEPA.Services
 
             OpenContractRepository.Update(entity);
 
-            if(model.FileData == null || file != null)
+            if (file != null)
             {
+                //刪除檔案
                 FileService.DeleteFileBySource(SourceTypeEnum.OpenContract, model.Id);
-            }
 
-            FileService.UploadFileByGuidName(new UploadFileBaseModel
-            {
-                File = file,
-                SourceId = entity.Id,
-                SourceType = SourceTypeEnum.OpenContract,
-                User = user.UserName
-            });
+                //新增檔案
+                FileService.UploadFileByGuidName(new UploadFileBaseModel
+                {
+                    File = file,
+                    SourceId = entity.Id,
+                    SourceType = SourceTypeEnum.OpenContract,
+                    User = user.UserName
+                });
+            }
         }
 
         private void CheckUserCity(int userCityId,int cityId)
