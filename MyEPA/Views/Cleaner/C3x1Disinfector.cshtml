@@ -75,7 +75,7 @@
                 </tr>
                 <tr>
                     <td>購買年份(民國)：</td>
-                    <td>民國 @Html.TextBox("EditROCyear")年</td>
+                    <td>民國 @Html.TextBox("EditROCyear", "", new { @maxlength = "3" })年</td>
                 </tr>
                 <tr>
                     <td colspan="2" align="center">
@@ -140,8 +140,8 @@
             <tr>
                 <td>購買年份(民國)：</td>
                 <td>
-                    民國&nbsp;
-                    @Html.TextBox("ROCyear")年
+                    民國&nbsp;                    
+                    @Html.TextBox("ROCyear", "", new { @maxlength = "3" })年
                 </td>
             </tr>
             <tr>
