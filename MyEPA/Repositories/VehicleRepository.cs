@@ -51,12 +51,7 @@ GROUP BY VTName";
         {
             string sql = @"SELECT City CityName, VT.Name VehicleName,COUNT(1)COUNT
 FROM Vehicle V
-JOIN (
-select Type, CASE 
-           WHEN Name IN ('子母式垃圾車', '密封式壓縮垃圾車', '密封式轉運垃圾車', '密封式垃圾車', '其他框式垃圾車') THEN '垃圾車'
-           ELSE Name
-       END AS Name from VehicleType
-) VT ON ISNULL(v.VehicleType, 'nullvalue') = VT.Type
+JOIN  VehicleType VT ON ISNULL(v.VehicleType, 'nullvalue') = VT.Type
 
 GROUP BY VT.Name,City
 ";
