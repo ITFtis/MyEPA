@@ -101,6 +101,8 @@ namespace MyEPA.Controllers.Report
                         {"B08",  tmp1Car.Where(a => a.Type == "B08").FirstOrDefault().Count.ToString()},
                         {"B09",  tmp1Car.Where(a => a.Type == "B09").FirstOrDefault().Count.ToString()},
                         {"B10",  tmp1Car.Where(a => a.Type == "B10").FirstOrDefault().Count.ToString()},
+                        {"TotalType",  carTypes.Count.ToString()},
+                        {"TotalCount",  tmp1Car.Sum(a => a.Count).ToString()},
                 };
 
 
@@ -132,6 +134,16 @@ namespace MyEPA.Controllers.Report
                                         {
                                             var text = cellValue.Replace(repStr, texts.Value);  // 替换段落中的文字
 
+                                            //Cell 多個Replace
+                                            if (texts.Key == "TotalType" || texts.Key == "TotalCount")
+                                            {
+                                                var str = cellValue.Replace("[1_$TotalType$]", dic1["TotalType"])
+                                                                    .Replace("[1_$TotalCount$]", dic1["TotalCount"]);
+                                                cell.SetCellValue(str);
+                                                continue;
+                                            }
+
+                                            //Cell 單一Replace
                                             int tryInt;//測試數字
                                             if (int.TryParse(text, out tryInt))
                                             {                                   
