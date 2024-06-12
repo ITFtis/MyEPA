@@ -14,6 +14,9 @@ alter TABLE [User] ALTER COLUMN [Name] [nvarchar](200) NOT NULL
 --Select Name From [UserBasic]
 alter TABLE [UserBasic] ALTER COLUMN [Name] [nvarchar](200) NULL
 
+--Select Name From [UserBasicHis]
+alter TABLE [UserBasicHis] ALTER COLUMN [Name] [nvarchar](200) NULL
+
 --Select Name From [ConUnitPerson]
 alter TABLE [ConUnitPerson] ALTER COLUMN [Name] [nvarchar](200) NULL
 
