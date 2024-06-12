@@ -2,3 +2,15 @@
     ViewBag.Title = "緊急應變統計表";
     Layout = "~/Views/_Layout.cshtml";
 }
+
+<div class="form-horizontal">
+    <hr />
+
+    <div class="page-content">
+        <div class="row">
+            <div class="col-xs-12">
+                <a href="@Url.Action("ExportDisasterResponseReport")" class="btn btn-primary" role="button">匯出緊急應變統計表(.xlsx)</a>
+            </div>
+        </div>
+    </div>
+</div>
