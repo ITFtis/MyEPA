@@ -4,10 +4,13 @@ using Microsoft.Office.Interop.Word;
 using MyEPA.Models;
 using MyEPA.Repositories;
 using MyEPA.Services;
+using NPOI.HSSF.UserModel;
 using NPOI.OpenXmlFormats.Wordprocessing;
+using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using NPOI.XWPF.UserModel;
 using Spire.Pdf.Graphics;
+using Spire.Xls;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,6 +18,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using Xceed.Words.NET;
 
 namespace MyEPA.Controllers.Report
 {
@@ -51,10 +55,10 @@ namespace MyEPA.Controllers.Report
             //CityService CityService = new CityService();
 
             //var cars = VehicleService.GetCarTypes();
-            var cars = VehicleTypeRepository.GetList();
-            var carsDatas = VehicleService.GetCarsCountByCity();
+            var carTypes = VehicleTypeRepository.GetList();
+            var carDatas = VehicleService.GetCarsCountByCity();
 
-            var car1 = cars.GroupJoin(carsDatas, a => a.Name, b => b.VehicleName, (o, c) => new
+            var tmp1Car = carTypes.GroupJoin(carDatas, a => a.Name, b => b.VehicleName, (o, c) => new
             {
                 Type = o.Type.Trim(),
                 TypeName = o.Name.Trim(),
@@ -64,7 +68,7 @@ namespace MyEPA.Controllers.Report
             //匯出Excel
             //我要下載的檔案位置
             string filefolder = Server.MapPath("~/FileDatas/Template/");
-            string fileName = "(範本)應變支援內容說明.xlsx";
+            string fileName = "(範本)緊急應變統計表.xlsx";
             string path = filefolder + fileName;
 
             //取得檔案名稱
@@ -79,7 +83,79 @@ namespace MyEPA.Controllers.Report
             {
                 XSSFWorkbook workbook = new XSSFWorkbook(stream);
                 XSSFSheet sheet = (XSSFSheet)workbook.GetSheetAt(0);
-                workbook.SetSheetName(workbook.GetSheetIndex(sheet), "環保資源整備與應變簡報");
+                workbook.SetSheetName(workbook.GetSheetIndex(sheet), "緊急應變統計表");
+
+                //dic 對應
+                Dictionary<string, string> dic1 = new Dictionary<string, string>()
+                {
+                        {"A01",  tmp1Car.Where(a => a.Type == "A01").FirstOrDefault().Count.ToString()},
+                        {"A02",  tmp1Car.Where(a => a.Type == "A02").FirstOrDefault().Count.ToString()},
+                        {"A03",  tmp1Car.Where(a => a.Type == "A03").FirstOrDefault().Count.ToString()},
+                        {"B01",  tmp1Car.Where(a => a.Type == "B01").FirstOrDefault().Count.ToString()},
+                        {"B02",  tmp1Car.Where(a => a.Type == "B02").FirstOrDefault().Count.ToString()},
+                        {"B03",  tmp1Car.Where(a => a.Type == "B03").FirstOrDefault().Count.ToString()},
+                        {"B04",  tmp1Car.Where(a => a.Type == "B04").FirstOrDefault().Count.ToString()},
+                        {"B05",  tmp1Car.Where(a => a.Type == "B05").FirstOrDefault().Count.ToString()},
+                        {"B06",  tmp1Car.Where(a => a.Type == "B06").FirstOrDefault().Count.ToString()},
+                        {"B07",  tmp1Car.Where(a => a.Type == "B07").FirstOrDefault().Count.ToString()},
+                        {"B08",  tmp1Car.Where(a => a.Type == "B08").FirstOrDefault().Count.ToString()},
+                        {"B09",  tmp1Car.Where(a => a.Type == "B09").FirstOrDefault().Count.ToString()},
+                        {"B10",  tmp1Car.Where(a => a.Type == "B10").FirstOrDefault().Count.ToString()},
+                };
+
+
+                //遍歷每一列中的每一個Cell
+                for (int rowIndex = 0; rowIndex <= sheet.LastRowNum; rowIndex++)
+                {
+                    IRow row = sheet.GetRow(rowIndex);
+
+                    if (row != null)
+                    {
+                        ICellStyle cellstyle = workbook.CreateCellStyle();
+
+                        for (int cellIndex = 0; cellIndex < row.LastCellNum; cellIndex++)
+                        {
+                            var cell = row.GetCell(cellIndex);
+
+                            if (cell != null)
+                            {
+                                // Get the cell value as a string
+                                string cellValue = cell.ToString();
+
+                                //第1區塊
+                                foreach (var texts in dic1)
+                                {
+                                    try
+                                    {
+                                        var repStr = "[1_$" + texts.Key + "$]";
+                                        if (cellValue.Contains(repStr))
+                                        {
+                                            var text = cellValue.Replace(repStr, texts.Value);  // 替换段落中的文字
+
+                                            int tryInt;//測試數字
+                                            if (int.TryParse(text, out tryInt))
+                                            {                                   
+                                                cell.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat("#,##0");
+                                                cell.CellStyle.Alignment = HorizontalAlignment.Right;
+                                                cell.SetCellValue(tryInt);
+                                            }
+                                            else
+                                            {
+                                                cell.SetCellValue(text);
+                                            }
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        // 不处理
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                        Console.WriteLine(); // Move to the next row
+                    }
+                }
 
                 if (!Directory.Exists(toFolder))
                 {
