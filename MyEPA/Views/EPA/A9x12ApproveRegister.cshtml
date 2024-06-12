@@ -4,6 +4,18 @@
 @{ 
     WebGrid grid = new WebGrid(Model);
 }
+
+<style>
+    .field-Name {
+        width: 6%;
+    }
+
+    .table tbody tr td {
+        word-break: break-all;
+    }
+
+</style>
+
 <div class="text-center">
     <br />
     <h5>註冊審查</h5>
@@ -14,7 +26,7 @@
 @grid.GetHtml(tableStyle: "table table-bordered", columns: new[]
     {
         grid.Column("Id","帳號"),
-        grid.Column("Name","姓名"),
+        grid.Column("Name","姓名", style: "field-Name"),
         grid.Column("Pwd","密碼"),
         grid.Column("Duty","機關類別(角色)"),
         grid.Column("City","機關名稱(縣市)"),

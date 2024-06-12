@@ -3,6 +3,17 @@
     ViewBag.Title = "聯絡人資料維護";
     var positions = ((List<PositionModel>)ViewBag.Positions).ToDictionary(e => e.Id, e => e);
 }
+
+<style>
+    .field-Name {
+        width: 6%;
+    }
+
+    .table tbody tr td {
+        word-break: break-all;
+    }
+</style>
+
 <font size="3">
     <table class="table table-bordered table-striped">
         <tr>
@@ -28,7 +39,7 @@
                 <td>@Item.Duty</td>
                 <td>@Item.City</td>
                 <td>@Item.Town</td>
-                <td>@Item.Name</td>
+                <td class="field-Name">@Item.Name</td>
                 <td>@Item.HumanType</td>
                 <td>@(positions.ContainsKey(Item.PositionId) ? positions[(int)Item.PositionId].Name : string.Empty)</td>
                 <td>@(Item.UpdateDate.HasValue ? Item.UpdateDate.Value.ToString("yyyy/MM/dd HH:mm:ss") : string.Empty)</td>

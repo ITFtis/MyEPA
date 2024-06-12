@@ -7,6 +7,17 @@
     List<TownModel> towns = ViewBag.Towns;
     DutyEnum duty = ViewBag.DutyId;
 }
+
+<style>
+    .field-Name {
+        width: 6%;
+    }
+
+    .table tbody tr td {
+        word-break: break-all;
+    }
+</style>
+
 @if (duty == DutyEnum.EPB)
 {
     <form name="SearchForm">
@@ -54,7 +65,7 @@
                     <td>@Item.Duty</td>
                     <td>@Item.City</td>
                     <td>@Item.Town</td>
-                    <td>@Item.Name</td>
+                    <td class="field-Name">@Item.Name</td>
                     <td>@Item.MobilePhone</td>
                     <td>@Item.OfficePhone</td>
                     <td>@Item.Email</td>
