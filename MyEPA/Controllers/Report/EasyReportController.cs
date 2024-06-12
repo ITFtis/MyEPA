@@ -57,13 +57,17 @@ namespace MyEPA.Controllers.Report
             //var cars = VehicleService.GetCarTypes();
             var carTypes = VehicleTypeRepository.GetList();
             var carDatas = VehicleService.GetCarsCountByCity();
-
             var tmp1Car = carTypes.GroupJoin(carDatas, a => a.Name, b => b.VehicleName, (o, c) => new
             {
                 Type = o.Type.Trim(),
                 TypeName = o.Name.Trim(),
                 Count = c.Sum(a => a.Count),
             }).ToList();
+
+            //2.1 消毒設備
+            DisinfectorService DisinfectorService = new DisinfectorService();
+            var disinfectorDatas = DisinfectorService.GetSummaryCityReport();
+            var tmp2Disinfector = disinfectorDatas;
 
             //匯出Excel
             //我要下載的檔案位置
@@ -77,7 +81,7 @@ namespace MyEPA.Controllers.Report
             StringBuilder sb = new StringBuilder();
             string toFolder = Server.MapPath("~/FileDatas/Temp/");
             string toFileName = fileName + DateTime.Now.ToString("yyyy-MM-dd") + ".xlsx";
-            string toPath = toFolder + toFileName;
+            string toPath = toFolder + toFileName.Replace("(範本)", "");
 
             using (FileStream stream = System.IO.File.OpenRead(path))
             {
@@ -105,6 +109,10 @@ namespace MyEPA.Controllers.Report
                         {"TotalCount",  tmp1Car.Sum(a => a.Count).ToString()},
                 };
 
+                Dictionary<string, string> dic2 = new Dictionary<string, string>()
+                {
+                        {"TotalDisinfectorCount",  tmp2Disinfector.Sum(a => a.SprayerCount).ToString()},
+                };
 
                 //遍歷每一列中的每一個Cell
                 for (int rowIndex = 0; rowIndex <= sheet.LastRowNum; rowIndex++)
@@ -147,6 +155,37 @@ namespace MyEPA.Controllers.Report
                                             int tryInt;//測試數字
                                             if (int.TryParse(text, out tryInt))
                                             {                                   
+                                                cell.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat("#,##0");
+                                                cell.CellStyle.Alignment = HorizontalAlignment.Right;
+                                                cell.SetCellValue(tryInt);
+                                            }
+                                            else
+                                            {
+                                                cell.SetCellValue(text);
+                                            }
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        // 不处理
+                                        continue;
+                                    }
+                                }
+
+                                //第2區塊
+                                foreach (var texts in dic2)
+                                {
+                                    try
+                                    {
+                                        var repStr = "[2_$" + texts.Key + "$]";
+                                        if (cellValue.Contains(repStr))
+                                        {
+                                            var text = cellValue.Replace(repStr, texts.Value);  // 替换段落中的文字
+
+                                            //Cell 單一Replace
+                                            int tryInt;//測試數字
+                                            if (int.TryParse(text, out tryInt))
+                                            {
                                                 cell.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat("#,##0");
                                                 cell.CellStyle.Alignment = HorizontalAlignment.Right;
                                                 cell.SetCellValue(tryInt);
