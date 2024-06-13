@@ -1,7 +1,10 @@
-﻿using DocumentFormat.OpenXml.Office2010.Excel;
+﻿using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.Office.Interop.Word;
+using MyEPA.Enums;
 using MyEPA.Models;
+using MyEPA.Models.FilterParameter;
 using MyEPA.Repositories;
 using MyEPA.Services;
 using NPOI.HSSF.UserModel;
@@ -112,10 +115,20 @@ namespace MyEPA.Controllers.Report
                 //dic2 對應
                 Dictionary<string, string> dic2 = new Dictionary<string, string>();
                 
-                int ss1 = tmp2Disinfector.Sum(a => a.SprayerCount + a.DisinfectorCount + a.HotSmokeSachineCount
+                //消毒設備
+                int d21_count = tmp2Disinfector.Sum(a => a.SprayerCount + a.DisinfectorCount + a.HotSmokeSachineCount
                                                 + a.PressureWasherCount + a.SprayerCAR + a.SprayeSrHI
                                                 + a.SprayeSrLO + a.SMOK + a.OtherCount);
-                dic2.Add("TotalDisinfectorCount", ss1.ToString());
+                dic2.Add("TotalDisinfectorCount", d21_count.ToString());
+
+                //消毒藥劑
+                DisinfectantService DisinfectantService = new DisinfectantService();
+                var d22_disinfectants = DisinfectantService.GetTownReport(new DisinfectantReportFilterParameter
+                {
+                    UseType = DisinfectantUseTypeEnum.Environment,
+                });
+                dic2.Add("DisinfectantSolidCount", d22_disinfectants.Where(a => a.DrugState == "固體").Count().ToString());
+                dic2.Add("DisinfectantLiquidCount", d22_disinfectants.Where(a => a.DrugState == "液體").Count().ToString());
 
                 //遍歷每一列中的每一個Cell
                 for (int rowIndex = 0; rowIndex <= sheet.LastRowNum; rowIndex++)
