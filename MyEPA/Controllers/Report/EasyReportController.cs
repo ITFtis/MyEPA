@@ -89,7 +89,7 @@ namespace MyEPA.Controllers.Report
                 XSSFSheet sheet = (XSSFSheet)workbook.GetSheetAt(0);
                 workbook.SetSheetName(workbook.GetSheetIndex(sheet), "緊急應變統計表");
 
-                //dic 對應
+                //dic1 對應
                 Dictionary<string, string> dic1 = new Dictionary<string, string>()
                 {
                         {"A01",  tmp1Car.Where(a => a.Type == "A01").FirstOrDefault().Count.ToString()},
@@ -109,10 +109,13 @@ namespace MyEPA.Controllers.Report
                         {"TotalCount",  tmp1Car.Sum(a => a.Count).ToString()},
                 };
 
-                Dictionary<string, string> dic2 = new Dictionary<string, string>()
-                {
-                        {"TotalDisinfectorCount",  tmp2Disinfector.Sum(a => a.SprayerCount).ToString()},
-                };
+                //dic2 對應
+                Dictionary<string, string> dic2 = new Dictionary<string, string>();
+                
+                int ss1 = tmp2Disinfector.Sum(a => a.SprayerCount + a.DisinfectorCount + a.HotSmokeSachineCount
+                                                + a.PressureWasherCount + a.SprayerCAR + a.SprayeSrHI
+                                                + a.SprayeSrLO + a.SMOK + a.OtherCount);
+                dic2.Add("TotalDisinfectorCount", ss1.ToString());
 
                 //遍歷每一列中的每一個Cell
                 for (int rowIndex = 0; rowIndex <= sheet.LastRowNum; rowIndex++)
