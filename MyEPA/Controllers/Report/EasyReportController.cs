@@ -120,15 +120,24 @@ namespace MyEPA.Controllers.Report
                                                 + a.PressureWasherCount + a.SprayerCAR + a.SprayeSrHI
                                                 + a.SprayeSrLO + a.SMOK + a.OtherCount);
                 dic2.Add("TotalDisinfectorCount", d21_count.ToString());
-
-                //消毒藥劑
+                
+                //2.2 消毒藥劑 => 環境消毒
                 DisinfectantService DisinfectantService = new DisinfectantService();
                 var d22_disinfectants = DisinfectantService.GetTownReport(new DisinfectantReportFilterParameter
                 {
                     UseType = DisinfectantUseTypeEnum.Environment,
                 });
-                dic2.Add("DisinfectantSolidCount", d22_disinfectants.Where(a => a.DrugState == "固體").Count().ToString());
-                dic2.Add("DisinfectantLiquidCount", d22_disinfectants.Where(a => a.DrugState == "液體").Count().ToString());
+                dic2.Add("EnvironmentSolidAmount", d22_disinfectants.Where(a => a.DrugState == "固體").Sum(a => a.Amount).ToString());
+                dic2.Add("EnvironmentLiquidAmount", d22_disinfectants.Where(a => a.DrugState == "液體").Sum(a => a.Amount).ToString());
+
+                //2.3 => 登革熱
+                var d23_disinfectants = DisinfectantService.GetTownReport(new DisinfectantReportFilterParameter
+                {
+                    UseType = DisinfectantUseTypeEnum.Dengue,
+                });
+                dic2.Add("DengueSolidAmount", d23_disinfectants.Where(a => a.DrugState == "固體").Sum(a => a.Amount).ToString());
+                dic2.Add("DengueLiquidAmount", d23_disinfectants.Where(a => a.DrugState == "液體").Sum(a => a.Amount).ToString());
+                dic2.Add("DengueEmulsionAmount", d23_disinfectants.Where(a => a.DrugState == "乳劑").Sum(a => a.Amount).ToString());
 
                 //遍歷每一列中的每一個Cell
                 for (int rowIndex = 0; rowIndex <= sheet.LastRowNum; rowIndex++)
