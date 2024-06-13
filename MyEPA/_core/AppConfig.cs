@@ -10,6 +10,8 @@ namespace MyEPA
     {
         #region 私有變數
 
+        private static string _DEDSWebSite;
+
         private static string _htmlTemplatePath;
         private static string _emailAddress;
         private static string _emailFromName;
@@ -27,6 +29,8 @@ namespace MyEPA
 
         static AppConfig()
         {
+            _DEDSWebSite = ConfigurationManager.AppSettings["DEDSWebSite"].ToString();
+
             _htmlTemplatePath = ConfigurationManager.AppSettings["HtmlTemplatePath"].ToString();
             _emailAddress = ConfigurationManager.AppSettings["EmailAddress"].ToString();
             _emailPassword = ConfigurationManager.AppSettings["EmailPassword"].ToString();
@@ -43,6 +47,14 @@ namespace MyEPA
         #endregion
 
         #region 公用屬性        
+
+        /// <summary>
+        ///網站網址
+        /// </summary>
+        public static string DEDSWebSite
+        {
+            get { return _DEDSWebSite; }
+        }
 
         /// <summary>
         ///Html樣式路徑
