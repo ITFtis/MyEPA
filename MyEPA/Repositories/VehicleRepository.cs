@@ -37,12 +37,19 @@ namespace MyEPA.Repositories
             string querySql = GetSQLByFilter(filter);
 
             string sql = $@"
-SELECT VTName VehicleType,COUNT(1) VehicleQuantity
-FROM
+Select aaa.Type, aaa.Name AS VehicleType, IsNull(VehicleQuantity, 0) AS VehicleQuantity
+From VehicleType aaa
+Left Join
 (
-	{querySql}
-) AS VReport
-GROUP BY VTName";
+    SELECT VTType, COUNT(1) VehicleQuantity
+    FROM
+    (
+	    {querySql}
+    ) AS VReport
+    GROUP BY VTType
+)bbb On aaa.Type = bbb.VTType
+Order By aaa.Type
+";
 
             return GetListBySQL<VehicleReportModel>(sql, filter);
         }
@@ -62,10 +69,10 @@ GROUP BY VT.Name,City
         {
             string where = GetWhereSQLByFilter(filter);
             string sql = $@"
-                            SELECT V.*,VT.Name VTName
+                            SELECT V.*,VT.Name VTName,VT.Type AS VTType
                             FROM [dbo].[Vehicle] V
                             JOIN City C ON V.City = C.City
-                            JOIN Town T ON V.Town = T.Name AND T.CityId = C.Id
+                            ----JOIN Town T ON V.Town = T.Name AND T.CityId = C.Id
                             JOIN VehicleType VT ON ISNULL(v.VehicleType, 'nullvalue') = VT.Type
                             {where}";
             return sql;

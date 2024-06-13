@@ -31,8 +31,14 @@ namespace MyEPA.Services
         {
             List<string> VehicleType=new List<string>();
             //VehicleType.Add("垃圾車");
-            VehicleType.AddRange(VehicleTypeRepository.GetList().GroupBy(e => e.Name).Select(e => e.Key).ToList());
-            VehicleType.RemoveAll(s => s == "子母式垃圾車" || s == "密封式壓縮垃圾車" || s == "密封式轉運垃圾車" || s == "密封式垃圾車" || s == "其他框式垃圾車");
+            //VehicleType.AddRange(VehicleTypeRepository.GetList().GroupBy(e => e.Name).Select(e => e.Key).ToList());
+            //VehicleType.RemoveAll(s => s == "子母式垃圾車" || s == "密封式壓縮垃圾車" || s == "密封式轉運垃圾車" || s == "密封式垃圾車" || s == "其他框式垃圾車");
+
+            VehicleType.AddRange(VehicleTypeRepository.GetList()
+                            .GroupBy(e => new { Name = e.Name, Type = e.Type })
+                            .OrderBy(b => b.Key.Type)
+                            .Select(e => e.Key.Name).ToList());
+
             return VehicleType;
         }
     }
