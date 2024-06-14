@@ -24,7 +24,9 @@ namespace MyEPA.Controllers
         public ActionResult Add(DisinfectantModel model)
         {
             var user = GetUserBrief();
+            model.UpdateUser = user.UserName;
             model.UpdateTime = DateTimeHelper.GetCurrentTime();
+            model.ConfirmTime = model.UpdateTime;
             model.City = user.City;
             model.Town = user.Town;
             DisinfectantRepository.Create(model);
@@ -115,6 +117,9 @@ namespace MyEPA.Controllers
 
         public ActionResult Update()
         {
+            var user = GetUserBrief();
+            string UserName = user.UserName;
+
             DisinfectantModel Disinfectant = new DisinfectantModel();
             string Id = Request["EditId"];
             string City = Session["AuthenticateCity"].ToString().Trim();
@@ -131,7 +136,7 @@ namespace MyEPA.Controllers
             string ActiveIngredients2 = Request["ActiveIngredients2"];
             int UseType = Request["EditUseType"].TryToInt().GetValueOrDefault();
             
-            string Msg = Disinfectant.Update(Id, City, Town, ContactUnit, DrugName, DrugType, DrugState, Amount, Density, Area, ServiceLife, UseType, ActiveIngredients1, ActiveIngredients2);
+            string Msg = Disinfectant.Update(Id, City, Town, ContactUnit, DrugName, DrugType, DrugState, Amount, Density, Area, ServiceLife, UseType, ActiveIngredients1, ActiveIngredients2, UserName);
 
             return RedirectToAction("C3x1Disinfectant", "Cleaner");
         }

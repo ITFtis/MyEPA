@@ -52,8 +52,8 @@
             <th>濃度</th>
             <th>可消毒面積</th>
             <th>使用年限</th>
-            <th>更新時間</th>
             <th>確認時間</th>
+            <th>更新人員</th>
         </tr>
         @foreach (var Item in ViewBag.Data)
         {
@@ -85,8 +85,8 @@
         <td>@Item.Density</td>
         <td>@Item.Area</td>
         <td>@Item.ServiceLife</td>
-        <td>@Item.UpdateTime</td>
         <td>@Item.ConfirmTime</td>
+        <td>@Item.UpdateUser</td>
 
 
     </tr>

@@ -41,6 +41,8 @@ namespace MyEPA.Models
         public DateTime? ServiceLife { get; set; }
         [DisplayName("資料更新日期")]
         public DateTime? UpdateTime { get; set; }
+        [DisplayName("資料更新者")]
+        public string UpdateUser { get; set; }
         public DateTime? ConfirmTime { get; set; }
         /// <summary>
         /// 參考 DisinfectantTypeEnum.cs
@@ -50,12 +52,12 @@ namespace MyEPA.Models
         public string ActiveIngredients1 { get; set; }
         public string ActiveIngredients2 { get; set; }
 
-        public String Update(string Id, string City, string Town, string ContactUnit,string DrugName, string DrugType, string DrugState, string Amount, string Density, string Area, string ServiceLife,int UseType, string ActiveIngredients1, string ActiveIngredients2)
+        public String Update(string Id, string City, string Town, string ContactUnit,string DrugName, string DrugType, string DrugState, string Amount, string Density, string Area, string ServiceLife,int UseType, string ActiveIngredients1, string ActiveIngredients2, string UserName)
         {
             try
-            {
+            {         
                 X.Open();
-                string G = "Update Disinfectant Set ContactUnit=@ContactUnit, DrugName=@DrugName, DrugType=@DrugType,DrugState=@DrugState, Amount=@Amount, Density=@Density, Area =@Area, ServiceLife=@ServiceLife,UseType=@UseType,UpdateTime=@UpdateTime,ActiveIngredients1=@ActiveIngredients1,ActiveIngredients2=@ActiveIngredients2 where Id=@Id";
+                string G = "Update Disinfectant Set ContactUnit=@ContactUnit, DrugName=@DrugName, DrugType=@DrugType,DrugState=@DrugState, Amount=@Amount, Density=@Density, Area =@Area, ServiceLife=@ServiceLife,UseType=@UseType,UpdateTime=@UpdateTime,UpdateUser=@UpdateUser,ConfirmTime=@UpdateTime,ActiveIngredients1=@ActiveIngredients1,ActiveIngredients2=@ActiveIngredients2 where Id=@Id";
 
                 //string G = "Update Disinfectant Set ContactUnit=@ContactUnit, DrugName=@DrugName, DrugType=@DrugType,DrugState=@DrugState, Amount=@Amount, Density=@Density, Area =@Area, ServiceLife=@ServiceLife, UpdateTime=@UpdateTime where Id=@Id";
                 SqlCommand Q = new SqlCommand(G, X);
@@ -80,6 +82,7 @@ namespace MyEPA.Models
                 var TaipeiTimeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
                 DateTime TaipeiLocalTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TaipeiTimeZoneInfo);
                 Q.Parameters.AddWithValue("@UpdateTime", TaipeiLocalTime.ToString("yyyy/MM/dd HH: mm:ss"));
+                Q.Parameters.AddWithValue("@UpdateUser", UserName);
 
                 Q.ExecuteNonQuery();
                 X.Close();
