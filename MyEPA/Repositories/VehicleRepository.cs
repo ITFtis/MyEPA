@@ -72,7 +72,7 @@ GROUP BY VT.Name,City
                             SELECT V.*,VT.Name VTName,VT.Type AS VTType
                             FROM [dbo].[Vehicle] V
                             JOIN City C ON V.City = C.City
-                            ----JOIN Town T ON V.Town = T.Name AND T.CityId = C.Id
+                            Left JOIN Town T ON V.Town = T.Name AND T.CityId = C.Id
                             JOIN VehicleType VT ON ISNULL(v.VehicleType, 'nullvalue') = VT.Type
                             {where}";
             return sql;
