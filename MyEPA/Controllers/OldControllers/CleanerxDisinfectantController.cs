@@ -59,6 +59,7 @@ namespace MyEPA.Controllers
 
             foreach (var item in disinfectants)
             {
+                item.UpdateUser = user.UserName;
                 item.ConfirmTime = DateTimeHelper.GetCurrentTime();
             }
 
