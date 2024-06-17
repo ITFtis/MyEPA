@@ -17,6 +17,7 @@ namespace MyEPA.Controllers
         public ActionResult Search(VehicleFilterParameter filter)
         {
             var result = VehicleService.GetByFilter(filter);
+            result = result.OrderBy(a => a.City).ThenBy(b => b.Town).ToList();
 
             ViewBag.Summary = VehicleService.GetReportByFilter(filter);
 
