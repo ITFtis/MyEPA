@@ -53,9 +53,9 @@
                 <th>辦公室電話</th>
                 <th>Email</th>
                 <th>人員類別</th>
-                <th>職稱</th>
-                <th>更新時間</th>
+                <th>職稱</th>                
                 <th>確認時間</th>
+                <th>確認人員</th>
             </tr>
         </thead>
         <tbody>
@@ -70,9 +70,9 @@
                     <td>@Item.OfficePhone</td>
                     <td>@Item.Email</td>
                     <td>@Item.HumanType</td>
-                    <td>@(positions.ContainsKey(Item.PositionId) ? positions[(int)Item.PositionId].Name : string.Empty)</td>
-                    <td>@(Item.UpdateDate.HasValue ? Item.UpdateDate.Value.ToString("yyyy/MM/dd HH:mm:ss") : string.Empty)</td>
-                     <td>@(Item.ConfirmTime.HasValue ? Item.ConfirmTime.Value.ToString("yyyy/MM/dd HH:mm:ss") : string.Empty)</td>
+                    <td>@(positions.ContainsKey(Item.PositionId) ? positions[(int)Item.PositionId].Name : string.Empty)</td>                    
+                    <td>@(Item.ConfirmTime.HasValue ? Item.ConfirmTime.Value.ToString("yyyy/MM/dd HH:mm:ss") : string.Empty)</td>
+                    <td>@Item.UpdateUser</td>
                 </tr>
             }
         </tbody>

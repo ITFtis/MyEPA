@@ -130,12 +130,12 @@ namespace MyEPA.Controllers
 
                     return RedirectToAction("A9x12ApproveRegister", "EPAxUser", new { });
                 }
+                var user = GetUserBrief();
                 int userId = UsersRepository.CreateAndResultIdentity<int>(new UsersModel 
                 {
                     City = register.City,
                     IsAdmin = false,
-                    CityId = register.CityId,
-                    ConfirmTime = null,
+                    CityId = register.CityId,                    
                     DepartmentId = departmentId,
                     Duty = duty.GetDescription(),
                     DutyId = duty.ToInteger(),
@@ -156,7 +156,9 @@ namespace MyEPA.Controllers
                     Remark = string.Empty,
                     ContactManualDuty= ContactManualDutyEnum.User,
                     ReportPriority = register.ReportPriority,
-                    UpdateDate = DateTimeHelper.GetCurrentTime()
+                    UpdateDate = DateTimeHelper.GetCurrentTime(),
+                    UpdateUser = user.UserName,
+                    ConfirmTime = DateTimeHelper.GetCurrentTime(),
                 });
                 if (areaEnum.HasValue)
                 {
@@ -445,6 +447,7 @@ namespace MyEPA.Controllers
                 }
             }
 
+            var u = GetUserBrief();
             switch (duty)
             {
                 case DutyEnum.EPA:
@@ -496,6 +499,8 @@ namespace MyEPA.Controllers
             user.ISEnvironmentalProtectionDepartment = model.SearchISEnvironmentalProtectionDepartment;
             user.ISBook = model.SearchISBook;
             user.UpdateDate = DateTimeHelper.GetCurrentTime();
+            user.ConfirmTime = user.UpdateDate;
+            user.UpdateUser = u.UserName;
             if (user.CityId.HasValue)
             {
                 user.TownId = new TownRepository().GetByTownName(user.CityId.Value,model.EditingTown)?.Id;

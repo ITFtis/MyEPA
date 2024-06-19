@@ -115,6 +115,8 @@ namespace MyEPA.Models
 
         [DisplayName("資料更新日期")]
         public DateTime? UpdateDate { get; set; }
+        [DisplayName("資料更新者")]
+        public string UpdateUser { get; set; }
         public DateTime? ConfirmTime { get; set; }
         public bool IsAdmin { get; set; }
         public ContactManualDutyEnum ContactManualDuty { get; set; }

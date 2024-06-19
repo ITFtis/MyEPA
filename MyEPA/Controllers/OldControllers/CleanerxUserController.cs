@@ -241,7 +241,8 @@ namespace MyEPA.Controllers
 
             foreach (var item in users)
             {
-                item.ConfirmTime = DateTimeHelper.GetCurrentTime();
+                item.UpdateUser = user.UserName;
+                item.ConfirmTime = DateTimeHelper.GetCurrentTime();                
             }
 
             UsersRepository.Update(users);
