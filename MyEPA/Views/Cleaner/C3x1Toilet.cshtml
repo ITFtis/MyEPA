@@ -137,7 +137,11 @@
             $("#EditSlotNumber").val(data.SlotNumber);
             $("#EditToiletType").val(data.ToiletType);
             $("#EditROCyear").val(data.ROCyear);
-        });
+        }).done(function () {
+
+            //移動到頂端
+            $('html,body').animate({ scrollTop: 0 }, 333);
+        });;
     }
 </script>
 
@@ -147,6 +151,9 @@
         $("#EditArea").hide();
         $("#DeleteArea").show();
         $("#DeleteId").val(id);
+
+        //移動到頂端
+        $('html,body').animate({ scrollTop: 0 }, 333);
     }
 </script>
 

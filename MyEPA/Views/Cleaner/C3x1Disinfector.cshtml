@@ -176,6 +176,9 @@
             $("#EditROCyear").val(data.ROCyear);
             $("#EditUseType").val(data.UseType);
         });
+
+        //移動到頂端
+        $('html,body').animate({ scrollTop: 0 }, 333);
     }
 </script>
 
@@ -184,6 +187,9 @@
         $("#AddArea").hide(); $("#EditArea").hide();
         $("#DeleteArea").show();
         $("#DeleteId").val(id);
+
+        //移動到頂端
+        $('html,body').animate({ scrollTop: 0 }, 333);
     }
 </script>
 
