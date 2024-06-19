@@ -19,6 +19,7 @@ namespace MyEPA.Services
         public void Create(ToiletModel model)
         {
             model.UpdateTime = DateTimeHelper.GetCurrentTime();
+            model.ConfirmTime = model.UpdateTime;
             ToiletRepository.Create(model);
         }
         public void Delete(int id)
@@ -33,7 +34,7 @@ namespace MyEPA.Services
         {
             return ToiletRepository.GetReportByFilter(filter);
         }
-        public void Update(ToiletEditViewModel model)
+        public void Update(ToiletEditViewModel model, UserBriefModel user)
         {
             var entity = ToiletRepository.Get(model.EditId);
             //找不到資料暫時不處理，內部系統比較不會發生
@@ -47,6 +48,8 @@ namespace MyEPA.Services
             entity.ToiletType = model.EditToiletType;
             entity.Unit = model.EditUnit;
             entity.UpdateTime = DateTimeHelper.GetCurrentTime();
+            entity.UpdateUser = user.UserName;
+            entity.ConfirmTime = entity.UpdateTime;
             ToiletRepository.Update(entity);
         }
         public void Confirm(UserBriefModel user, int? townId)
@@ -85,6 +88,7 @@ namespace MyEPA.Services
             foreach (var item in toilets)
             {
                 item.ConfirmTime = DateTimeHelper.GetCurrentTime();
+                item.UpdateUser = user.UserName;
             }
             ToiletRepository.Update(toilets);
         }

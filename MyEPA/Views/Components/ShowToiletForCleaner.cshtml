@@ -43,9 +43,9 @@
             <th>數量</th>
             <th>每座便器數</th>
             <th>類別</th>
-            <th>購置年份(民國)</th>
-            <th>更新時間</th>
+            <th>購置年份(民國)</th>            
             <th>確認時間</th>
+            <th>確認人員</th>
         </tr>
         @foreach (var Item in ViewBag.Data)
         {
@@ -61,9 +61,9 @@
                 <td>@Item.Amount</td>
                 <td>@Item.SlotNumber</td>
                 <td>@Item.ToiletType</td>
-                <td>@Item.ROCyear</td>
-                <td>@Item.UpdateTime</td>
+                <td>@Item.ROCyear</td>                
                 <td>@Item.ConfirmTime</td>
+                <td>@Item.UpdateUser</td>
             </tr>
         }
     </table>

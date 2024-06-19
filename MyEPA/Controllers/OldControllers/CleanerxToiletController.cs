@@ -20,7 +20,9 @@ namespace MyEPA.Controllers
         {
             model.City = Session["AuthenticateCity"].ToString().Trim();
             model.Town = Session["AuthenticateTown"].ToString().Trim();
-           
+
+            var user = GetUserBrief();
+            model.UpdateUser = user.UserName;
             ToiletService.Create(model);
 
             return RedirectToAction("C3x1Toilet", "Cleaner", new { });
@@ -52,7 +54,8 @@ namespace MyEPA.Controllers
         }
         public ActionResult Update(ToiletEditViewModel model)
         {
-            ToiletService.Update(model);
+            var user = GetUserBrief();
+            ToiletService.Update(model, user);
             return RedirectToAction("C3x1Toilet", "Cleaner", new { });
         }
     }

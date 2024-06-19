@@ -5,6 +5,7 @@ using System.Web;
 using System.Data.SqlClient;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Configuration;
+using System.ComponentModel;
 namespace MyEPA.Models
 {
     public class ToiletModel
@@ -19,6 +20,8 @@ namespace MyEPA.Models
         public string ToiletType { get; set; }
         public string ROCyear{ get; set; }
         public DateTime UpdateTime { get; set; }
+        [DisplayName("資料更新者")]
+        public string UpdateUser { get; set; }
         public DateTime? ConfirmTime { get; set; }
     }
 }
