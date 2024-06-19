@@ -88,6 +88,8 @@ namespace MyEPA.Controllers
 
         public ActionResult Update()
         {
+            var user = GetUserBrief();
+
             DisinfectorModel Disinfector = new DisinfectorModel();
             string Id = Request["EditId"];
             string City = Session["AuthenticateCity"].ToString().Trim();
@@ -98,7 +100,8 @@ namespace MyEPA.Controllers
             string Amount = Request["EditAmount"];
             string ROCyear = Request["EditROCyear"];
             int? UseType = Request["EditUseType"].TryToInt();
-            string Msg = Disinfector.Update(Id, City, Town, ContactUnit, Instrument, Standard, Amount, ROCyear, UseType);
+            string UserName = user.UserName;
+            string Msg = Disinfector.Update(Id, City, Town, ContactUnit, Instrument, Standard, Amount, ROCyear, UseType, UserName);
             ViewBag.Msg = Msg;
             ViewBag.City = City;
             return RedirectToAction("C3x1Disinfector", "Cleaner");

@@ -36,11 +36,12 @@ namespace MyEPA.Models
         public String ROCyear { get; set; }
         [DisplayName("資料更新日期")]
         public DateTime? UpdateTime { get; set; }
-
+        [DisplayName("資料更新者")]
+        public string UpdateUser { get; set; }
         public DateTime? ConfirmTime { get; set; }
         public int? UseType { get; set; }
 
-        public String Update(string Id, string City, string Town, string ContactUnit, string DisinfectInstrument, string Standard, string Amount, string ROCyear,int? UseType)
+        public String Update(string Id, string City, string Town, string ContactUnit, string DisinfectInstrument, string Standard, string Amount, string ROCyear,int? UseType, string UserName)
         {
             try
             {
@@ -53,6 +54,8 @@ Set ContactUnit = @ContactUnit
 , Amount = @Amount
 , ROCyear = @ROCyear 
 , UpdateTime = @UpdateTime
+, ConfirmTime = @ConfirmTime
+, UpdateUser = @UpdateUser
 , UseType = @UseType
 where Id=@Id";
                 SqlCommand Q = new SqlCommand(G, X);
@@ -65,7 +68,9 @@ where Id=@Id";
                 Q.Parameters.AddWithValue("@Amount", Amount);
                 Q.Parameters.AddWithValue("@ROCyear", ROCyear);
                 Q.Parameters.AddWithValue("@UpdateTime", DateTimeHelper.GetCurrentTime());
+                Q.Parameters.AddWithValue("@ConfirmTime", DateTimeHelper.GetCurrentTime());
                 Q.Parameters.AddWithValue("@UseType", UseType);
+                Q.Parameters.AddWithValue("@UpdateUser", UserName);
                 Q.ExecuteNonQuery();
                 X.Close();
                 StatisticsModel Statistics = new StatisticsModel();

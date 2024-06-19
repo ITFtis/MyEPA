@@ -23,6 +23,7 @@ namespace MyEPA.Controllers
         DisinfectorRepository DisinfectorRepository = new DisinfectorRepository();
         public ActionResult Add()
         {
+            var user = GetUserBrief();
 
             string City = Session["AuthenticateCity"].ToString().Trim();
             string Town = Session["AuthenticateTown"].ToString().Trim();
@@ -36,7 +37,10 @@ namespace MyEPA.Controllers
                 DisinfectInstrument = Request["DisinfectInstrument"],
                 Standard = Request["Standard"],
                 ROCyear = Request["ROCyear"],
-                UseType = Request["UseType"].TryToInt()
+                UseType = Request["UseType"].TryToInt(),
+                UpdateTime = DateTimeHelper.GetCurrentTime(),                
+                UpdateUser = user.UserName,
+                ConfirmTime = DateTimeHelper.GetCurrentTime(),
             });
             //string ResponseMsg = B.Add(Id, City, Town, ContactUnit, DisinfectInstrument, Standard, Amount, ROCyear);
 
@@ -98,6 +102,7 @@ namespace MyEPA.Controllers
             foreach (var item in disinfectors)
             {
                 item.ConfirmTime = DateTimeHelper.GetCurrentTime();
+                item.UpdateUser = user.UserName;
             }
 
             DisinfectorRepository.Update(disinfectors);
@@ -126,6 +131,8 @@ namespace MyEPA.Controllers
 
         public ActionResult Update()
         {
+            var user = GetUserBrief();
+
             DisinfectorModel Disinfector = new DisinfectorModel();
             string Id = Request["EditId"];
             string City = Session["AuthenticateCity"].ToString().Trim();
@@ -136,7 +143,8 @@ namespace MyEPA.Controllers
             string Amount = Request["EditAmount"];
             string ROCyear = Request["EditROCyear"];
             int? UseType = Request["EditUseType"].TryToInt();
-            string Msg = Disinfector.Update(Id, City, Town, ContactUnit, Instrument, Standard, Amount, ROCyear, UseType);
+            string UserName = user.UserName;
+            string Msg = Disinfector.Update(Id, City, Town, ContactUnit, Instrument, Standard, Amount, ROCyear, UseType, UserName);
             ViewBag.Msg = Msg;
             ViewBag.City = City;
             ViewBag.Town = Town;
