@@ -22,6 +22,24 @@ CREATE TABLE [dbo].[DisinfectantType](
 ) ON [PRIMARY]
 GO
 
+SET IDENTITY_INSERT [dbo].[DisinfectantType] ON 
+
+INSERT [dbo].[DisinfectantType] ([Id], [Type], [Name]) VALUES (1, N'A01', N'環境消毒(固態Kg)')
+INSERT [dbo].[DisinfectantType] ([Id], [Type], [Name]) VALUES (3, N'A02', N'環境消毒(液態L)')
+INSERT [dbo].[DisinfectantType] ([Id], [Type], [Name]) VALUES (4, N'A03', N'登革熱(固態Kg)')
+INSERT [dbo].[DisinfectantType] ([Id], [Type], [Name]) VALUES (5, N'A04', N'登革熱(液態L)')
+SET IDENTITY_INSERT [dbo].[DisinfectantType] OFF
+GO
+SET IDENTITY_INSERT [dbo].[DisinfectorType] ON 
+
+INSERT [dbo].[DisinfectorType] ([Id], [Type], [Name]) VALUES (1, N'A01', N'噴霧機')
+INSERT [dbo].[DisinfectorType] ([Id], [Type], [Name]) VALUES (2, N'A02', N'熱煙霧機')
+INSERT [dbo].[DisinfectorType] ([Id], [Type], [Name]) VALUES (3, N'A03', N'高壓清洗機')
+INSERT [dbo].[DisinfectorType] ([Id], [Type], [Name]) VALUES (4, N'A04', N'割草機')
+INSERT [dbo].[DisinfectorType] ([Id], [Type], [Name]) VALUES (5, N'A05', N'鏈鋸機')
+SET IDENTITY_INSERT [dbo].[DisinfectorType] OFF
+GO
+
 --3.新增欄位(RecResource => TypeItems)
 alter Table RecResource add TypeItems int
 alter TABLE RecResource ALTER COLUMN Items  [nvarchar](100)
