@@ -1,6 +1,26 @@
 --1.新增資料表及資料(DisinfectorType)
+CREATE TABLE [dbo].[DisinfectorType](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Type] [nvarchar](200) NOT NULL,
+	[Name] [nvarchar](200) NOT NULL,
+ CONSTRAINT [PK_DisinfectorType] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
 
 --2.新增資料表及資料(DisinfectantType)
+CREATE TABLE [dbo].[DisinfectantType](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Type] [nvarchar](200) NOT NULL,
+	[Name] [nvarchar](200) NOT NULL,
+ CONSTRAINT [PK_DisinfectantType] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
 
 --3.新增欄位(RecResource => TypeItems)
 alter Table RecResource add TypeItems int
