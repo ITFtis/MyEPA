@@ -4,3 +4,7 @@
 
 --3.·s¼WÄæ¦ì(RecResource => TypeItems)
 alter Table RecResource add TypeItems int
+alter TABLE RecResource ALTER COLUMN Items  [nvarchar](100)
+
+alter Table RecResourceSet add SetTypeItems int
+alter TABLE RecResourceSet ALTER COLUMN SetItems  [nvarchar](100)
