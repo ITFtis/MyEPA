@@ -120,6 +120,7 @@ namespace MyEPA.Services
             entity.Reason = model.Reason;
             entity.ContactPerson = model.ContactPerson;
             entity.ContactMobilePhone = model.ContactMobilePhone;
+            entity.TypeItems = model.TypeItems;
             entity.Items = model.Items;
             entity.Spec = model.Spec;
             entity.Quantity = model.Quantity;

@@ -56,18 +56,37 @@
             @Html.EditorFor(model => model.ContactMobilePhone, new { htmlAttributes = new { @class = "form-control" } })
         </div>
     </div>
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.Items, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-6">
+                <select id="Items" name="Items">
+                    @foreach (var item in Code.GetRecItems())
+                    {
+                        <option value="@item.Key" @(Model.Items == item.Key ? "selected" : string.Empty)>@item.Value</option>
+                    }
+                </select>
+            </div>
+        </div>*@
+
     <div class="form-group">
-        @Html.LabelFor(model => model.Items, htmlAttributes: new { @class = "control-label col-md-1" })
+        @Html.LabelFor(model => model.TypeItems, htmlAttributes: new { @class = "control-label col-md-1" })
         <div class="col-md-6">
-            @*@Html.EditorFor(model => model.Items, new { htmlAttributes = new { @class = "form-control" } })*@
-            <select id="Items" name="Items">
-                @foreach (var item in Code.GetRecItems())
+            <select id="TypeItems" name="TypeItems" onchange="ChangeTypeItems(this)">
+                @foreach (var item in Code.GetRecTypeItems())
                 {
-                    <option value="@item.Key" @(Model.Items == item.Key ? "selected" : string.Empty)>@item.Value</option>
+                    <option value="@item.Key" @(Model.TypeItems == item.Key ? "selected" : string.Empty)>@item.Value</option>
                 }
             </select>
         </div>
     </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Items, htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-6">
+            <select id="Items" name="Items">
+            </select>
+        </div>
+    </div>
+
     <div class="form-group">
         @Html.LabelFor(model => model.Spec, htmlAttributes: new { @class = "control-label col-md-1" })
         <div class="col-md-6">
@@ -94,11 +113,11 @@
             else if (type == 2)
             { lblUSDate = "提供期間(起)"; }
         }
-        
+
         <label class="control-label col-md-1" for="">
             <span class="text-danger">*</span>
             @lblUSDate
-        </label>        
+        </label>
         <div class="col-md-6">
             @Html.TextBox("USDate", Model.USDate.ToString("yyyy-MM-dd"), new { @type = "Date", required = "required" })
         </div>
@@ -131,5 +150,47 @@
     </div>
 </div>
 }
-<script src="~/Scripts/confirmDate.js"></script>
-<script src="~/Scripts/flatpickr.js"></script>
+
+@section scripts{
+    <script src="~/Scripts/confirmDate.js"></script>
+    <script src="~/Scripts/flatpickr.js"></script>
+
+    <script>
+    $(document).ready(function () {
+        ChangeTypeItems($("#TypeItems"));
+
+        var items = '@Model.Items';
+        $("#Items").val(items);
+    });
+
+    function ChangeTypeItems(target) {
+        $("#Items").empty();
+        //$("#Items").append('<option value title="">選擇項目</option>');
+        var typeItems = $(target).val();
+
+        $.ajax({
+            type: "Get",
+            url: '@Url.Action("GetRecTypeItems", "Codes")',
+            data: { typeItems: typeItems },
+            async: false,        
+            success: function (result) {
+                if (result.success) {
+                    if (result.items.length != 0) {
+                        $.each(result.items, function (index, v) {
+                            $("#Items").append('<option value=' + v.Type + '>' + v.Name + '</option>');
+                        });
+                    }
+                }
+                else {
+                    alert(result.errorMessage);
+                }
+
+            },
+            error: function (xhr, status) {
+                alert('更新失敗');
+           }
+        });
+    }
+    </script>
+
+}

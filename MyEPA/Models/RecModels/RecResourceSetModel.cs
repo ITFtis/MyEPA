@@ -26,8 +26,11 @@ namespace MyEPA.Models
         [DisplayName("聯絡人電話")]
         public string SetContactMobilePhone { get; set; }
 
+        [DisplayName("類別項目")]
+        public int SetTypeItems { get; set; }
+
         [DisplayName("項目")]
-        public int SetItems { get; set; }
+        public string SetItems { get; set; }
 
         [DisplayName("細項(規格)")]
         public string SetSpec { get; set; }

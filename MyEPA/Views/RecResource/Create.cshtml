@@ -69,17 +69,25 @@
                 @Html.EditorFor(model => model.ContactMobilePhone, new { htmlAttributes = new { @class = "form-control" } })
             </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Items, htmlAttributes: new { @class = "control-label col-md-1" })
-            <div class="col-md-6">                
-                <select id="Items" name="Items">
-                    @foreach (var item in Code.GetRecItems())
+        <div class="form-group">            
+            @Html.LabelFor(model => model.TypeItems, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-6">
+                <select id="TypeItems" name="TypeItems" onchange="ChangeTypeItems(this)">
+                    @foreach (var item in Code.GetRecTypeItems())
                     {
                         <option value="@item.Key">@item.Value</option>
                     }
                 </select>
             </div>
         </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Items, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-6">
+                <select id="Items" name="Items">
+                </select>
+            </div>
+        </div>
+
         <div class="form-group">
             @Html.LabelFor(model => model.Spec, htmlAttributes: new { @class = "control-label col-md-1" })
             <div class="col-md-6">
@@ -110,7 +118,7 @@
             <label class="control-label col-md-1" for="">
                 <span class="text-danger">*</span>
                 @lblUSDate
-            </label>            
+            </label>
             <div class="col-md-6">
                 @Html.TextBox("USDate", "", new { @type = "Date", required = "required" })
             </div>
@@ -127,7 +135,7 @@
             <label class="control-label col-md-1" for="">
                 <span class="text-danger">*</span>
                 @lblUEDate
-            </label>            
+            </label>
             <div class="col-md-6">
                 @Html.TextBox("UEDate", "", new { @type = "Date", required = "required" })
             </div>
@@ -141,7 +149,43 @@
     }
 </div>
 
-@section scripts{    
+
+
+@section scripts{
     <script src="~/Scripts/confirmDate.js"></script>
     <script src="~/Scripts/flatpickr.js"></script>
+
+    <script>
+    $(document).ready(function () {
+        ChangeTypeItems($("#TypeItems"));
+    });
+
+    function ChangeTypeItems(target) {
+        $("#Items").empty();
+        //$("#Items").append('<option value title="">選擇項目</option>');
+        var typeItems = $(target).val();
+
+        $.ajax({
+            type: "Get",
+            url: '@Url.Action("GetRecTypeItems", "Codes")',
+            data: { typeItems: typeItems },
+            success: function (result) {
+                if (result.success) {
+                    if (result.items.length != 0) {
+                        $.each(result.items, function (index, v) {
+                            $("#Items").append('<option value=' + v.Type + '>' + v.Name + '</option>');
+                        });
+                    }
+                }
+                else {
+                    alert(result.errorMessage);
+                }
+
+            },
+            error: function (xhr, status) {
+                alert('更新失敗');
+           }
+        });
+    }
+    </script>
 }

@@ -290,6 +290,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\APICon\CodesController.cs" />
     <Compile Include="Controllers\ContactManuals\AdminFunctionContactManualController.cs" />
     <Compile Include="Controllers\ApplyCarController.cs" />
     <Compile Include="Controllers\ApplyDisinfectionEquipmentrController.cs" />
@@ -379,6 +380,8 @@
     <Compile Include="Models\ContactManuals\ContactManualDateModel.cs" />
     <Compile Include="Models\ContactManuals\ContactManualDepartmentModel.cs" />
     <Compile Include="Models\ContactManuals\ContactManualDownloadRecordModel.cs" />
+    <Compile Include="Models\DisinfectantTypeModel.cs" />
+    <Compile Include="Models\DisinfectorTypeModel.cs" />
     <Compile Include="Models\FilterParameter\RecResourceFilterParameter.cs" />
     <Compile Include="Models\FilterParameter\RecResourceSetFilterParameter.cs" />
     <Compile Include="Models\FilterParameter\UsersBriefFilterParameter.cs" />
@@ -393,6 +396,8 @@
     <Compile Include="Repositories\BaseEMISBaseCreateModelRepository.cs" />
     <Compile Include="Repositories\ContactManualDateRepository.cs" />
     <Compile Include="Repositories\ContactManualDownloadRecordRepository.cs" />
+    <Compile Include="Repositories\DisinfectantTypeRepository.cs" />
+    <Compile Include="Repositories\DisinfectorTypeRepository.cs" />
     <Compile Include="Repositories\RecResourceRepository.cs" />
     <Compile Include="Repositories\RecResourceSetRepository.cs" />
     <Compile Include="Services\ContactManualServices\ContactManualDownloadRecordService.cs" />
@@ -922,6 +927,7 @@
     <Compile Include="ViewModels\UserEPAViewModel.cs" />
     <Compile Include="ViewModels\WaterCheckStatisticsViewModel.cs" />
     <Compile Include="ViewModels\YearReportViewModel.cs" />
+    <Compile Include="_applyClass\TypeItems.cs" />
     <Compile Include="_core\AppConfig.cs" />
     <Compile Include="_core\Code.cs" />
     <Compile Include="_core\CommonFunc.cs" />
@@ -1647,6 +1653,7 @@
     <Folder Include="Views\Base\" />
     <Folder Include="Views\CleanerxApply\" />
     <Folder Include="Views\CleanerxDefend\" />
+    <Folder Include="Views\Codes\" />
     <Folder Include="Views\Geolocation\" />
     <Folder Include="Views\Register\" />
     <Folder Include="_json\" />

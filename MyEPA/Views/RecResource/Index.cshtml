@@ -13,6 +13,10 @@
     List<CityModel> citys = ViewBag.Citys;
     var countIdNeeds = ViewBag.CountIdNeeds;
 
+    List<VehicleTypeModel> vehicleTypes = ViewBag.VehicleTypeRepository;
+    List<DisinfectorTypeModel> disinfectorTypes = ViewBag.DisinfectorTypeRepository;
+    List<DisinfectantTypeModel> disinfectantTypes = ViewBag.DisinfectantTypeRepository;
+
     //querystring
     int type = ViewBag.Type ?? 0;
     int diasterId = ViewBag.DiasterId;
@@ -64,6 +68,9 @@
                                 @Html.DisplayNameFor(model => model.ContactPerson)
                             </th>
                             <th>
+                                @Html.DisplayNameFor(model => model.TypeItems)
+                            </th>
+                            <th>
                                 @Html.DisplayNameFor(model => model.Items)
                             </th>
                             <th>
@@ -107,7 +114,7 @@
                             <tr>
                                 <td>
                                     @if (IsAdmin
-                                        || (!IsAdmin && item.CityId == user.CityId))
+|| (!IsAdmin && item.CityId == user.CityId))
                                     {
                                         <a href="@Url.Action("Edit", new { item.Id })">編輯</a>
                                         <a href="#" onclick="Delete(@item.Id, @diasterId)">删除</a>
@@ -130,7 +137,34 @@
                                     @Html.DisplayFor(modelItem => item.ContactMobilePhone)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => Code.GetRecItems().Where(a=>a.Key == item.Items).FirstOrDefault().Value)
+                                    @{ 
+                                        string strTypeItems = "";
+                                        var v = Code.GetRecTypeItems().Where(a => a.Key == item.TypeItems);
+
+                                        strTypeItems = v.Count() > 0 ? v.First().Value : "";
+                                    }
+                                    @strTypeItems
+                                </td>
+                                <td>
+                                    @{  
+                                        string strItems = item.Items;
+                                        if (item.TypeItems == 1)
+                                        {
+                                            var dd1 = vehicleTypes.Where(a => a.Type == item.Items).FirstOrDefault();
+                                            strItems = dd1 != null ? dd1.Name : item.Items;
+                                        }
+                                        else if (item.TypeItems == 2)
+                                        {
+                                            var dd2 = disinfectorTypes.Where(a => a.Type == item.Items).FirstOrDefault();
+                                            strItems = dd2 != null ? dd2.Name : item.Items;
+                                        }
+                                        else if (item.TypeItems == 3)
+                                        {
+                                            var dd3 = disinfectantTypes.Where(a => a.Type == item.Items).FirstOrDefault();
+                                            strItems = dd3 != null ? dd3.Name : item.Items;
+                                        }
+                                    }
+                                    @strItems                                    
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Spec)
@@ -167,6 +201,9 @@
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.ContactPerson)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.TypeItems)
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.Items)
@@ -229,8 +266,35 @@
                                     <br />
                                     @Html.DisplayFor(modelItem => item.ContactMobilePhone)
                                 </td>
-                                <td>                                    
-                                    @Html.DisplayFor(modelItem => Code.GetRecItems().Where(a => a.Key == item.Items).FirstOrDefault().Value)
+                                <td>
+                                    @{
+                                        string strTypeItems = "";
+                                        var v = Code.GetRecTypeItems().Where(a => a.Key == item.TypeItems);
+
+                                        strTypeItems = v.Count() > 0 ? v.First().Value : "";
+                                    }
+                                    @strTypeItems
+                                </td>
+                                <td>
+                                    @{
+                                        string strItems = item.Items;
+                                        if (item.TypeItems == 1)
+                                        {
+                                            var dd1 = vehicleTypes.Where(a => a.Type == item.Items).FirstOrDefault();
+                                            strItems = dd1 != null ? dd1.Name : item.Items;
+                                        }
+                                        else if (item.TypeItems == 2)
+                                        {
+                                            var dd2 = disinfectorTypes.Where(a => a.Type == item.Items).FirstOrDefault();
+                                            strItems = dd2 != null ? dd2.Name : item.Items;
+                                        }
+                                        else if (item.TypeItems == 3)
+                                        {
+                                            var dd3 = disinfectantTypes.Where(a => a.Type == item.Items).FirstOrDefault();
+                                            strItems = dd3 != null ? dd3.Name : item.Items;
+                                        }
+                                    }
+                                    @strItems
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Spec)
@@ -351,8 +415,26 @@
                                     <br />
                                     @Html.DisplayFor(modelItem => item.ContactMobilePhone)
                                 </td>
-                                <td>                                    
-                                    @Html.DisplayFor(modelItem => Code.GetRecItems().Where(a => a.Key == item.Items).FirstOrDefault().Value)
+                                <td>
+                                    @{
+                                        string strItems = item.Items;
+                                        if (item.TypeItems == 1)
+                                        {
+                                            var dd1 = vehicleTypes.Where(a => a.Type == item.Items).FirstOrDefault();
+                                            strItems = dd1 != null ? dd1.Name : item.Items;
+                                        }
+                                        else if (item.TypeItems == 2)
+                                        {
+                                            var dd2 = disinfectorTypes.Where(a => a.Type == item.Items).FirstOrDefault();
+                                            strItems = dd2 != null ? dd2.Name : item.Items;
+                                        }
+                                        else if (item.TypeItems == 3)
+                                        {
+                                            var dd3 = disinfectantTypes.Where(a => a.Type == item.Items).FirstOrDefault();
+                                            strItems = dd3 != null ? dd3.Name : item.Items;
+                                        }
+                                    }
+                                    @strItems
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Spec)

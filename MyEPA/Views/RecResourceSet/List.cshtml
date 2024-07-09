@@ -9,6 +9,10 @@
     int recResourceId = ViewBag.RecResourceId;
     MyEPA.Models.RecResourceModel RecResourceNeed = ViewBag.RecResourceNeed;
 
+    List<VehicleTypeModel> vehicleTypes = ViewBag.VehicleTypeRepository;
+    List<DisinfectorTypeModel> disinfectorTypes = ViewBag.DisinfectorTypeRepository;
+    List<DisinfectantTypeModel> disinfectantTypes = ViewBag.DisinfectantTypeRepository;
+
     //querystring
     int type = ViewBag.Type;
     int diasterId = ViewBag.DiasterId;
@@ -38,10 +42,30 @@
 
     <div class="form-group">
         <div class="col-md-6 text-primary">
+
+            @{
+                string needItems = RecResourceNeed.Items;
+                if (RecResourceNeed.TypeItems == 1)
+                {
+                    var dd1 = vehicleTypes.Where(a => a.Type == RecResourceNeed.Items).FirstOrDefault();
+                    needItems = dd1 != null ? dd1.Name : RecResourceNeed.Items;
+                }
+                else if (RecResourceNeed.TypeItems == 2)
+                {
+                    var dd2 = disinfectorTypes.Where(a => a.Type == RecResourceNeed.Items).FirstOrDefault();
+                    needItems = dd2 != null ? dd2.Name : RecResourceNeed.Items;
+                }
+                else if (RecResourceNeed.TypeItems == 3)
+                {
+                    var dd3 = disinfectantTypes.Where(a => a.Type == RecResourceNeed.Items).FirstOrDefault();
+                    needItems = dd3 != null ? dd3.Name : RecResourceNeed.Items;
+                }
+            }
+
             調度需求：
             @(Citys.Where(a => a.Id == RecResourceNeed.CityId).FirstOrDefault().City)
             、@(RecResourceNeed.ContactPerson + "(" + RecResourceNeed.ContactMobilePhone + ")")
-            、@(Code.GetRecItems().Where(a => a.Key == RecResourceNeed.Items).FirstOrDefault().Value)
+            、@needItems
             、@RecResourceNeed.Spec
             、@(RecResourceNeed.Quantity + "(" + @RecResourceNeed.Unit + ")")
 
@@ -101,7 +125,27 @@
                         <br />
                         @Item.ContactMobilePhone
                     </td>
-                    <td>@(Code.GetRecItems().Where(a => a.Key == Item.Items).FirstOrDefault().Value)</td>
+                    <td>
+                        @{
+                            string strItems = Item.Items;
+                            if (Item.TypeItems == 1)
+                            {
+                                var dd1 = vehicleTypes.Where(a => a.Type == Item.Items).FirstOrDefault();
+                                strItems = dd1 != null ? dd1.Name : Item.Items;
+                            }
+                            else if (Item.TypeItems == 2)
+                            {
+                                var dd2 = disinfectorTypes.Where(a => a.Type == Item.Items).FirstOrDefault();
+                                strItems = dd2 != null ? dd2.Name : Item.Items;
+                            }
+                            else if (Item.TypeItems == 3)
+                            {
+                                var dd3 = disinfectantTypes.Where(a => a.Type == Item.Items).FirstOrDefault();
+                                strItems = dd3 != null ? dd3.Name : Item.Items;
+                            }
+                        }
+                        @strItems
+                    </td>
                     <td>@Item.Spec</td>
                     <td name="Quantity">@Item.Quantity</td>
                     <td>@(DateFormat.ToDate4(Item.USDate) + " ~ " + DateFormat.ToDate4(Item.UEDate))</td>

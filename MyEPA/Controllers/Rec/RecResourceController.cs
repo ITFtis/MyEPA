@@ -86,6 +86,14 @@ namespace MyEPA.Controllers
             ViewBag.User = user;
             ViewBag.CountIdNeeds = countIdNeeds;
 
+            //代碼
+            VehicleTypeRepository VehicleTypeRepository = new VehicleTypeRepository();
+            DisinfectorTypeRepository DisinfectorTypeRepository = new DisinfectorTypeRepository();
+            DisinfectantTypeRepository DisinfectantTypeRepository = new DisinfectantTypeRepository();
+            ViewBag.VehicleTypeRepository = VehicleTypeRepository.GetList();
+            ViewBag.DisinfectorTypeRepository = DisinfectorTypeRepository.GetList();
+            ViewBag.DisinfectantTypeRepository = DisinfectantTypeRepository.GetList();
+
             //querystring
             ViewBag.DiasterId = diasterId;
             ViewBag.Type = type;
@@ -277,7 +285,7 @@ namespace MyEPA.Controllers
                     {                        
                         Dictionary<int, string> sdic = new Dictionary<int, string>()
                         {
-                            { 0, Code.GetRecItems().Where(a => a.Key == s.Items).FirstOrDefault().Value },
+                            { 0, Code.GetOneRecItems(s.TypeItems, s.Items)},
                             { 1, s.Spec},
                             { 2, s.Quantity.ToString()},
                             { 3, s.Unit},
@@ -417,7 +425,7 @@ namespace MyEPA.Controllers
                         .Replace("[diasterName]", diasterName)
                         .Replace("[DateNow]", DateFormat.ToDate4(DateTime.Now))
                         .Replace("[Unit]", model.Unit)
-                        .Replace("[Items]", Code.GetRecItems().Where(a => a.Key == model.Items).FirstOrDefault().Value)
+                        .Replace("[Items]", Code.GetOneRecItems(model.TypeItems, model.Items))
                         .Replace("[Spec]", model.Spec)
                         .Replace("[Quantity]", model.Quantity.ToString())
                         .Replace("[UseDate]", DateFormat.ToDate4(model.USDate) + "~" + DateFormat.ToDate4(model.UEDate))
@@ -508,7 +516,7 @@ namespace MyEPA.Controllers
                         .Replace("[diasterName]", diasterName)
                         .Replace("[DateNow]", DateFormat.ToDate4(DateTime.Now))
                         .Replace("[Unit]", model.Unit)
-                        .Replace("[Items]", Code.GetRecItems().Where(a => a.Key == model.Items).FirstOrDefault().Value)
+                        .Replace("[Items]", Code.GetOneRecItems(model.TypeItems, model.Items))
                         .Replace("[Spec]", model.Spec)
                         .Replace("[Quantity]", model.Quantity.ToString())
                         .Replace("[UseDate]", DateFormat.ToDate4(model.USDate) + "~" + DateFormat.ToDate4(model.UEDate))

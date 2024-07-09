@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
+using MyEPA.Repositories;
 
 namespace MyEPA
 {
@@ -41,27 +43,51 @@ namespace MyEPA
         }
 
         /// <summary>
-        /// 資源調度項目
+        /// 資源調度類別項目
         /// </summary>
         /// <returns></returns>
-        public static IEnumerable<KeyValuePair<int, string>> GetRecItems()
+        public static IEnumerable<KeyValuePair<int, string>> GetRecTypeItems()
         {
             List<KeyValuePair<int, string>> result = new List<KeyValuePair<int, string>>()
             {
-                new KeyValuePair<int, string>(1, "子母式垃圾車"),
-                new KeyValuePair<int, string>(2, "水肥車"),
-                new KeyValuePair<int, string>(3, "抓斗車"),
-                new KeyValuePair<int, string>(4, "挖土機"),
-                new KeyValuePair<int, string>(5, "消毒車"),
-                new KeyValuePair<int, string>(6, "密封式壓縮垃圾車"),
-                new KeyValuePair<int, string>(7, "掃(洗)街車"),
-                new KeyValuePair<int, string>(8, "清溝(溝泥)車"),
-                new KeyValuePair<int, string>(9, "鏟裝車(山貓)"),
-                new KeyValuePair<int, string>(10, "資源(含廚餘)回收垃圾車"),
-                new KeyValuePair<int, string>(11, "轉運車"),
-                new KeyValuePair<int, string>(12, "推土機"),
-                new KeyValuePair<int, string>(13, "框式垃圾車"),
+                new KeyValuePair<int, string>(1, "車輛"),
+                new KeyValuePair<int, string>(2, "消毒設備"),
+                new KeyValuePair<int, string>(3, "消毒藥劑"),
             };
+
+            return result;
+        }
+
+        /// <summary>
+        /// (單筆)資源調度項目
+        /// </summary>
+        /// <returns></returns>
+        public static string GetOneRecItems(int typeItems, string items)
+        {
+            string result = items;
+
+            //3選1
+            if (typeItems == 1)
+            {
+                VehicleTypeRepository VehicleTypeRepository = new VehicleTypeRepository();
+                var dd1 = VehicleTypeRepository.GetList().Where(a => a.Type == items).FirstOrDefault();
+                if (dd1 != null)
+                    result = dd1.Name;
+            }
+            else if (typeItems == 2)
+            {
+                DisinfectorTypeRepository DisinfectorTypeRepository = new DisinfectorTypeRepository();
+                var dd2 = DisinfectorTypeRepository.GetList().Where(a => a.Type == items).FirstOrDefault();
+                if (dd2 != null)
+                    result = dd2.Name;
+            }
+            else if (typeItems == 3)
+            {
+                DisinfectantTypeRepository DisinfectantTypeRepository = new DisinfectantTypeRepository();
+                var dd3 = DisinfectantTypeRepository.GetList().Where(a => a.Type == items).FirstOrDefault();
+                if (dd3 != null)
+                    result = dd3.Name;
+            }
 
             return result;
         }

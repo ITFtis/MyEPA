@@ -53,6 +53,14 @@ namespace MyEPA.Controllers.Rec
 
             var result = GetMasterList(diasterId, recResourceId, RecResourceNeed);
 
+            //代碼
+            VehicleTypeRepository VehicleTypeRepository = new VehicleTypeRepository();
+            DisinfectorTypeRepository DisinfectorTypeRepository = new DisinfectorTypeRepository();
+            DisinfectantTypeRepository DisinfectantTypeRepository = new DisinfectantTypeRepository();
+            ViewBag.VehicleTypeRepository = VehicleTypeRepository.GetList();
+            ViewBag.DisinfectorTypeRepository = DisinfectorTypeRepository.GetList();
+            ViewBag.DisinfectantTypeRepository = DisinfectantTypeRepository.GetList();
+
             //////querystring
             ViewBag.Type = type;
             ViewBag.DiasterId = diasterId;
@@ -178,7 +186,7 @@ namespace MyEPA.Controllers.Rec
                         {"diasterName", diasterName },
                         {"City", citys.Where(a => a.Id == RecResourceNeed.CityId).FirstOrDefault().City },
                         {"CreateDate", RecResourceNeed.CreateDate.ToShortDateString() },
-                        {"Items", Code.GetRecItems().Where(a => a.Key == RecResourceNeed.Items).FirstOrDefault().Value },
+                        {"Items", Code.GetOneRecItems(RecResourceNeed.TypeItems, RecResourceNeed.Items)},
                         {"Spec", RecResourceNeed.Spec },
                         {"ContactPerson", RecResourceNeed.ContactPerson },
                         {"ContactMobilePhone", RecResourceNeed.ContactMobilePhone },
@@ -237,7 +245,7 @@ namespace MyEPA.Controllers.Rec
                             { 1, s.SetQuantity.ToString() },
                             { 2,  citys.Where(a => a.Id == s.CityId).FirstOrDefault().City },
                             { 3, s.ContactPerson + "\n" + s.ContactMobilePhone },                            
-                            { 4, Code.GetRecItems().Where(a => a.Key == s.Items).FirstOrDefault().Value },
+                            { 4, Code.GetOneRecItems(s.TypeItems, s.Items) },
                             { 5, s.Spec },
                             { 6, s.Quantity.ToString() },
                             { 7, DateFormat.ToDate4(s.USDate) + " ~ " + DateFormat.ToDate4(s.UEDate) },                            
@@ -344,7 +352,7 @@ namespace MyEPA.Controllers.Rec
             IEnumerable<RecResourceModel> iquery = RecResourceService.GetByDiasterId(diasterId);
 
             iquery = iquery.Where(a => a.Type == 2)
-                            .Where(a => a.Items == RecResourceNeed.Items);
+                            .Where(a => a.TypeItems == RecResourceNeed.TypeItems && a.Items == RecResourceNeed.Items);
 
             iquery = iquery.OrderByDescending(a => a.Id);
 
