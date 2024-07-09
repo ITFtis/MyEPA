@@ -259,6 +259,7 @@ namespace MyEPA.Controllers
                 {
                     List<RecResourceModel> sList = RecResourceService.GetByCityId(datas.CityId)
                                                         .Where(a => a.Type == datas.Type)
+                                                        .Where(a => a.DiasterId == datas.DiasterId)
                                                         .OrderByDescending(a => a.Id)
                                                         .ToList();
 
