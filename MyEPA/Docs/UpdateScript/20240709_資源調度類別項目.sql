@@ -25,9 +25,9 @@ GO
 SET IDENTITY_INSERT [dbo].[DisinfectantType] ON 
 
 INSERT [dbo].[DisinfectantType] ([Id], [Type], [Name]) VALUES (1, N'A01', N'環境消毒(固態Kg)')
-INSERT [dbo].[DisinfectantType] ([Id], [Type], [Name]) VALUES (3, N'A02', N'環境消毒(液態L)')
-INSERT [dbo].[DisinfectantType] ([Id], [Type], [Name]) VALUES (4, N'A03', N'登革熱(固態Kg)')
-INSERT [dbo].[DisinfectantType] ([Id], [Type], [Name]) VALUES (5, N'A04', N'登革熱(液態L)')
+INSERT [dbo].[DisinfectantType] ([Id], [Type], [Name]) VALUES (2, N'A02', N'環境消毒(液態L)')
+INSERT [dbo].[DisinfectantType] ([Id], [Type], [Name]) VALUES (3, N'A03', N'登革熱(固態Kg)')
+INSERT [dbo].[DisinfectantType] ([Id], [Type], [Name]) VALUES (4, N'A04', N'登革熱(液態L)')
 SET IDENTITY_INSERT [dbo].[DisinfectantType] OFF
 GO
 SET IDENTITY_INSERT [dbo].[DisinfectorType] ON 
