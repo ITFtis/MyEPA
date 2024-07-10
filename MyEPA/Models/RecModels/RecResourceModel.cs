@@ -82,7 +82,7 @@ namespace MyEPA.Models
         [DisplayName("聯絡人電話")]
         public string ContactMobilePhone { get; set; }
 
-        [DisplayName("類別項目")]
+        [DisplayName("類別")]
         public int TypeItems { get; set; }
 
         [DisplayName("項目")]

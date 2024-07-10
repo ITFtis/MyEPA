@@ -17,7 +17,7 @@ namespace MyEPA.Controllers.APICon
         //}
 
         /// <summary>
-        /// 取得資源調度(類別項目)
+        /// 取得資源調度(類別)
         /// </summary>
         /// <param name="GSLCode"></param>
         /// <returns></returns>

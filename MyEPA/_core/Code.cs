@@ -43,7 +43,7 @@ namespace MyEPA
         }
 
         /// <summary>
-        /// 資源調度類別項目
+        /// 資源調度類別
         /// </summary>
         /// <returns></returns>
         public static IEnumerable<KeyValuePair<int, string>> GetRecTypeItems()
