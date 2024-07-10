@@ -51,7 +51,7 @@ namespace MyEPA
             List<KeyValuePair<int, string>> result = new List<KeyValuePair<int, string>>()
             {
                 new KeyValuePair<int, string>(1, "車輛"),
-                new KeyValuePair<int, string>(2, "消毒設備"),
+                new KeyValuePair<int, string>(2, "設備"),
                 new KeyValuePair<int, string>(3, "消毒藥劑"),
             };
 
