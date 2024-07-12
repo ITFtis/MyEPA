@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static iTextSharp.text.pdf.qrcode.Version;
 
 namespace MyEPA.Controllers
 {
@@ -53,8 +54,11 @@ namespace MyEPA.Controllers
         {
             var user = GetUserBrief();
 
-            int cityId = GetUserCityId();
-            ViewBag.UnNotifications = DefendService.GetUnNotifications(diasterId.Value, cityId);
+            if (user.Duty == DutyEnum.EPB)
+            {
+                int cityId = GetUserCityId();
+                ViewBag.UnNotifications = DefendService.GetUnNotifications(diasterId.Value, cityId);
+            }
 
             DefendViewModel defend = new DefendViewModel 
             {
