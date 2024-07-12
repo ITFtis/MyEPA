@@ -23,6 +23,8 @@ namespace MyEPA.Repositories
                             GROUP BY C.City,T.Name";
             return GetListBySQL<DefendCityCountQueryModel>(sql, new { DiasterId = diasterId});
         }
+
+        //鄉鎮未通報
         public List<UnNotificationJoinDefendModel> GetUnNotifications(int diasterId, int cityId)
         {
             string sql = @"
@@ -30,7 +32,8 @@ namespace MyEPA.Repositories
                             FROM Town T
                             LEFT JOIN Defend D ON T.Id = D.TownId AND D.DiasterId = @DiasterId
                             LEFT JOIN Users U ON T.CityId = U.CityId AND T.Id = U.TownId AND U.MainContacter = '是'
-                            WHERE D.Id IS NULL AND T.CityId = @CityId";
+                            WHERE IsTown = 1 --鄉鎮通報
+                            And D.Id IS NULL AND T.CityId = @CityId";
             return GetListBySQL<UnNotificationJoinDefendModel>(sql, new { DiasterId = diasterId, CityId = cityId });
         }
         public DefendModel Get(int dutyId, int diasterId, int cityId, int townId)

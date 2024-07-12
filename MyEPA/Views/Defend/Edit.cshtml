@@ -1,6 +1,8 @@
 ﻿@model MyEPA.Models.DefendViewModel
 @using MyEPA.Extensions;
 @using MyEPA.Enums;
+@using MyEPA.Models;
+
 @{
     ViewBag.Title = "整備通報-修改";
     DutyEnum duty = ViewBag.DutyId;
@@ -8,6 +10,9 @@
     bool IsConfirm = Model.Status == MyEPA.Enums.DefendStatusEnum.Confirm;
     bool IsEdit = IsDiasterNotRuning == false && IsConfirm == false;
     int? diasterId = ViewBag.DefendDiasterId;
+
+    //未通報鄉鎮
+    List<UnNotificationJoinDefendModel> UnNotifications = ViewBag.UnNotifications;
 }
 @using (Html.BeginForm("Index", "Defend", new { }, FormMethod.Post, new { @class = "DefendForm" }))
 {
@@ -73,7 +78,7 @@
         </table>
         @if (IsEdit)
         {
-            <div onclick="DefendFormEdit()" class="btn" )>確認完成通報</div>
+            <div id="divDefendFormEdit" onclick="DefendFormEdit()" class="btn" )>確認完成通報</div>
         }
         else
         {
@@ -83,12 +88,38 @@
         {
             <a class="btn" href="@Url.Action("ConfirmList","Defend")">整備通報確認(鄉鎮市)</a>
         }
-
+        
+        <span id="pNote" class="text-danger"></span>
     </div>
 }
 
-<script>
-     function DefendFormEdit() {
+<section>
+    <script src="~/Content/assets/js/jquery-2.1.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            //webconfig 通報驗證(Y/N)
+            var IsValidDefend = '@AppConfig.IsValidDefend'.toLowerCase() == 'true';
+            if (IsValidDefend) {
+                var aryUnNotifications = JSON.parse('@Html.Raw(Json.Encode(ViewBag.UnNotifications))');
+                if (aryUnNotifications != null) {
+                    if (aryUnNotifications.length > 0) {
+                        var towns = aryUnNotifications.map(x => x.Town);
+                        var str = "<br /><br />無法進行通報作業，因尚有鄉鎮未通報：<br />" + towns.join(', ');
+                        $('#pNote').html(str);
+
+                        //disabled通報功能
+                        $("#divDefendFormEdit").attr('disabled', 'false');
+                        $('#divDefendFormEdit').prop("onclick", null);
+                    }
+                }
+            }
+        });
+    </script>
+</section>
+
+<script>        
+    function DefendFormEdit() {        
         var dataForm =  $('.DefendForm').serialize();
         var url = '@Url.Action("Edit",new { })';
         var type = 'post';

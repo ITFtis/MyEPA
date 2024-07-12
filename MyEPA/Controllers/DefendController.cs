@@ -53,6 +53,9 @@ namespace MyEPA.Controllers
         {
             var user = GetUserBrief();
 
+            int cityId = GetUserCityId();
+            ViewBag.UnNotifications = DefendService.GetUnNotifications(diasterId.Value, cityId);
+
             DefendViewModel defend = new DefendViewModel 
             {
                 CityId = user.CityId,
