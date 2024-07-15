@@ -93,7 +93,7 @@ namespace MyEPA
         }
 
         /// <summary>
-        /// 通報層級驗證(區大隊->環保局->清潔隊)
+        /// 通報層級驗證(環保局->清潔隊)
         /// </summary>
         /// <returns></returns>
         public static IEnumerable<KeyValuePair<int, string>> GetValidDefend()
