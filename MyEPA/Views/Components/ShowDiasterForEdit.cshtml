@@ -8,9 +8,10 @@
                 </th>
                 <th width="10%">災害名稱</th>
                 <th width="10%">類型</th>
+                <th width="10%">通報層級驗證</th>
                 <th width="10%">開始時間</th>
                 <th width="10%">結束時間</th>
-                <th width="50%">備註</th>
+                <th width="40%">備註</th>
                 <th width="10%">災害狀態</th>
 
             </tr>
@@ -18,10 +19,11 @@
             {
                 <tr>
                     <td style="text-align:center">
-                        <button class="btn btn-primary" style="padding:0px" onclick="PickItemForEdit('@Item.Id','@Item.DiasterName','@Item.DiasterType','@Item.StartTime.ToString("yyyy-MM-dd")','@Item.EndTime.ToString("yyyy-MM-dd")','@Item.Comment','@Item.DiasterState')">修改</button>
+                        <button class="btn btn-primary" style="padding:0px" onclick="PickItemForEdit('@Item.Id','@Item.DiasterName','@Item.DiasterType','@Item.IsValidDefend','@Item.StartTime.ToString("yyyy-MM-dd")','@Item.EndTime.ToString("yyyy-MM-dd")','@Item.Comment','@Item.DiasterState')">修改</button>
                     </td>
                     <td>@Item.DiasterName</td>
                     <td>@Item.DiasterType</td>
+                    <td>@Code.GetValidDefend().Where(a => a.Key == @Item.IsValidDefend).First().Value</td>
                     <td>@Item.StartTime.ToString("yyyy/MM/dd")</td>
                     <td>@Item.EndTime.ToString("yyyy/MM/dd")</td>
                     <td>@Item.Comment</td>

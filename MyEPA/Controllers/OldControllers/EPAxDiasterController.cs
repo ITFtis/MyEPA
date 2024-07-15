@@ -146,12 +146,14 @@ namespace MyEPA.Controllers
             {
                 string diasterName = Request["EditingDiasterName"];
                 string diasterType = Request["EditingDiasterType"];
+                string isValidDefend = Request["EditingIsValidDefend"];
                 string startTime = Request["EditingStartTime"];
                 string endTime = Request["EditingEndTime"];
                 string comment = Request["EditingComment"];
                 string diasterState = Request["EditingDiasterState"];
                 diaster.DiasterName = diasterName;
                 diaster.DiasterType = diasterType;
+                diaster.IsValidDefend = isValidDefend.TryToInt().Value;
                 diaster.StartTime = startTime.TryToDateTime().Value;
                 diaster.EndTime = endTime.TryToDateTime().Value;
                 diaster.Comment = comment;

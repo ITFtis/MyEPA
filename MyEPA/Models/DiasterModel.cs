@@ -26,5 +26,6 @@ namespace MyEPA.Models
 
         public int Status { get; set; }
 
+        public int IsValidDefend { get; set; }
     }
 }

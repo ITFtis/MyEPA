@@ -28,10 +28,18 @@
                       new SelectListItem { Text = "複合型災害", Value = "複合型災害" },
                })
         <br />
-        <span>開始時間: </span>
-        @Html.TextBox("EditingStartTime", "", new { @style = "width:150px",@type = "date"})
+        <span>通報層級驗證: </span>
+        <select id="EditingIsValidDefend" name="EditingIsValidDefend">
+            @foreach (var option in Code.GetValidDefend())
+            {
+                <option value="@option.Key"> @option.Value</option>
+            }
+        </select>
         <br />
-        <span>結束時間: </span>@Html.TextBox("EditingEndTime", "", new { @style = "width:150px",@type = "date" })
+        <span>開始時間: </span>
+        @Html.TextBox("EditingStartTime", "", new { @style = "width:150px", @type = "date" })
+        <br />
+        <span>結束時間: </span>@Html.TextBox("EditingEndTime", "", new { @style = "width:150px", @type = "date" })
         <br />
         <span>備註: </span>
         @Html.TextArea("EditingComment", "", new { style = "width:400px;height=200px" })
@@ -49,7 +57,7 @@
 <div id="AddArea" class="text-left" style="padding:0px">
     @using (Html.BeginForm("Add", "EPAxDiaster"))
     {
-        <span>災害名稱: </span>@Html.TextBox("DiasterName", "", new { style = "width:300px",@required="required" })
+        <span>災害名稱: </span>@Html.TextBox("DiasterName", "", new { style = "width:300px", @required = "required" })
         <br />
         <span>災害類型: </span>
         @Html.DropDownList("DiasterType", new List<SelectListItem>
@@ -62,10 +70,19 @@
                       new SelectListItem { Text = "複合型災害", Value = "複合型災害" },
                })
         <br />
-        <span>開始時間: </span>
-        @Html.TextBox("StartTime", "", new { @style = "width:150px", @type = "date",@required="required" })
+        <span>通報層級驗證: </span>        
+        <select id="IsValidDefend" name="IsValidDefend">
+            @foreach (var option in Code.GetValidDefend())
+            {
+                <option value="@option.Key"> @option.Value</option>
+            }
+        </select>
+        <span class="text-danger">(區大隊->環保局->清潔隊)</span>
         <br />
-        <span>結束時間: </span>@Html.TextBox("EndTime", "", new { @style = "width:150px", @type = "date",@required="required" })
+        <span>開始時間: </span>
+        @Html.TextBox("StartTime", "", new { @style = "width:150px", @type = "date", @required = "required" })
+        <br />
+        <span>結束時間: </span>@Html.TextBox("EndTime", "", new { @style = "width:150px", @type = "date", @required = "required" })
         <br />
         <span>備註: </span>
         @Html.TextArea("Comment", "", new { style = "width:400px;height=200px" })
@@ -84,13 +101,14 @@
         $("#AddArea").show();
     }
 
-    function PickItemForEdit(Id, DiasterName, DiasterType, StartTime, EndTime, Comment, DiasterState) {
+    function PickItemForEdit(Id, DiasterName, DiasterType, IsValidDefend, StartTime, EndTime, Comment, DiasterState) {
         $("#EditArea").show();
         $("#DataArea").hide();
         $("#AddArea").hide();
         $("#EditingId").val(Id);
         $("#EditingDiasterName").val(DiasterName);
         $("#EditingDiasterType").val(DiasterType);
+        $("#EditingIsValidDefend").val(IsValidDefend);
         $("#EditingStartTime").val(StartTime);
         $("#EditingEndTime").val(EndTime);
         $("#EditingComment").val(Comment);
