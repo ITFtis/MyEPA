@@ -1,3 +1,8 @@
 --SELECT * FROM Diaster
 
-alter Table Diaster add IsValidDefend [nvarchar](1) NULL
+alter Table Diaster add IsValidDefend int
+Go
+
+Update Diaster
+Set IsValidDefend = 0
+Go
