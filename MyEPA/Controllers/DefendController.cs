@@ -3,6 +3,7 @@ using MyEPA.EPA.Attribute;
 using MyEPA.Extensions;
 using MyEPA.Models;
 using MyEPA.Models.FilterParameter;
+using MyEPA.Repositories;
 using MyEPA.Services;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace MyEPA.Controllers
     [LoginRequired]
     public class DefendController : LoginBaseController
     {
+        DiasterRepository DiasterRepository = new DiasterRepository();
         DefendService DefendService = new DefendService();
         DiasterService DiasterService = new DiasterService();
         TownService TownService = new TownService();
@@ -59,6 +61,9 @@ namespace MyEPA.Controllers
                 int cityId = GetUserCityId();
                 ViewBag.UnNotifications = DefendService.GetUnNotifications(diasterId.Value, cityId);
             }
+            
+            var diaster = DiasterRepository.Get(diasterId);
+            ViewBag.Diaster = diaster;
 
             DefendViewModel defend = new DefendViewModel 
             {

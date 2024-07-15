@@ -23,7 +23,6 @@ namespace MyEPA
         private static string _testEmailAddress;
         private static string _EmailAddressCC;
 
-        private static bool _isValidDefend;
 
         #endregion
 
@@ -44,8 +43,7 @@ namespace MyEPA
             _testEmailAddress = ConfigurationManager.AppSettings["TestEmailAddress"].ToString();
             _EmailAddressCC = ConfigurationManager.AppSettings["EmailAddressCC"].ToString();
             _enableSSL = ConfigurationManager.AppSettings["EnableSSL"].ToString() == "Y" ? true : false;
-
-            _isValidDefend = ConfigurationManager.AppSettings["IsValidDefend"].ToString() == "Y" ? true : false;
+            
         }
 
         #endregion
@@ -147,14 +145,6 @@ namespace MyEPA
         public static string EmailAddressCC
         {
             get { return _EmailAddressCC; }
-        }
-
-        /// <summary>
-        /// 通報驗證(Y/N) 
-        /// </summary>
-        public static bool IsValidDefend
-        {
-            get { return _isValidDefend; }
         }
 
         #endregion

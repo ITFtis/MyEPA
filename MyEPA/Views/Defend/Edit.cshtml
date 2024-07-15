@@ -10,6 +10,7 @@
     bool IsConfirm = Model.Status == MyEPA.Enums.DefendStatusEnum.Confirm;
     bool IsEdit = IsDiasterNotRuning == false && IsConfirm == false;
     int? diasterId = ViewBag.DefendDiasterId;
+    DiasterModel diaster = ViewBag.Diaster;
 
     //未通報鄉鎮
     List<UnNotificationJoinDefendModel> UnNotifications = ViewBag.UnNotifications;
@@ -98,9 +99,8 @@
     <script>
         $(document).ready(function () {
 
-            //webconfig 通報驗證(Y/N)
-            var IsValidDefend = '@AppConfig.IsValidDefend'.toLowerCase() == 'true';
-            if (IsValidDefend) {
+            //通報驗證(1.無2.有)
+            if (@diaster.IsValidDefend == 2) {
                 var aryUnNotifications = JSON.parse('@Html.Raw(Json.Encode(ViewBag.UnNotifications))');
                 if (aryUnNotifications != null) {
                     if (aryUnNotifications.length > 0) {
