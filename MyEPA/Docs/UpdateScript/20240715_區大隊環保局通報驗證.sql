@@ -4,5 +4,5 @@ alter Table Diaster add IsValidDefend int
 Go
 
 Update Diaster
-Set IsValidDefend = 0
+Set IsValidDefend = 1
 Go
