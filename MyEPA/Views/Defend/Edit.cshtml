@@ -77,19 +77,14 @@
                 }
             </tbody>
         </table>
-        @if (IsEdit)
-        {
-            <div id="divDefendFormEdit" onclick="DefendFormEdit()" class="btn" )>確認完成通報</div>
-        }
-        else
-        {
-            <div class="btn" disabled="true">確認完通報</div>
-        }
+        
+        <div id="divDefendFormEdit" onclick="DefendFormEdit()" class="btn" )>確認完成通報</div>
+
         @if (duty != DutyEnum.Cleaning)
         {
             <a class="btn" href="@Url.Action("ConfirmList","Defend")">整備通報確認(鄉鎮市)</a>
         }
-        
+
         <span id="pNote" class="text-danger"></span>
     </div>
 }
