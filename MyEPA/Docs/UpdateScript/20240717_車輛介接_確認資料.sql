@@ -9,10 +9,11 @@ Go
 
 --2.新增資料確認暫存資料表VehicleKeepData(Id, AddFrom, AddKey, ConfirmTime, UpdateUser)
 CREATE TABLE [dbo].[VehicleKeepData](
-	[Id] [bigint] IDENTITY(1,1) NOT NULL,
+	[Id] [uniqueidentifier] NOT NULL,
 	[AddFrom] [nvarchar](50) NULL,
 	[AddKey] [nvarchar](50) NULL,
 	[ConfirmTime] [datetime] NULL,
+	[UpdateUser] [nvarchar](200) NULL,
  CONSTRAINT [PK_VehicleKeepData] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -20,7 +21,7 @@ CREATE TABLE [dbo].[VehicleKeepData](
 ) ON [PRIMARY]
 GO
 
-alter TABLE VehicleKeepData Add UpdateUser Nvarchar(200) collate SQL_Latin1_General_CP1_CI_AS NULL
+alter TABLE VehicleKeepData alter Column UpdateUser Nvarchar(200) collate SQL_Latin1_General_CP1_CI_AS NULL
 Go
 
 
