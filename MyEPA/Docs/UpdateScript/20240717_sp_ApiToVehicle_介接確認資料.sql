@@ -15,16 +15,33 @@ BEGIN
 	Set @spec3 = N'
 '
 
+	--轉移資料至保留區(VehicleKeepData)
+	Delete VehicleKeepData
+	From VehicleKeepData a
+	Where Exists
+	(
+		Select AddFrom, AddKey, ConfirmTime, UpdateUser 
+		From Vehicle b
+		Where a.AddFrom = b.AddFrom And a.AddKey =  b.AddKey
+	)
+
+	Insert Into VehicleKeepData(Id, AddFrom, AddKey, ConfirmTime, UpdateUser)
+	Select NewId(), AddFrom, AddKey, ConfirmTime, UpdateUser 
+	From Vehicle
+	--End 轉移資料至保留區
+
 	Delete Vehicle 
 
 	--將自動+1欄位，從0算起
 	DBCC CHECKIDENT('Vehicle', RESEED, 0) 
 
-	Insert Into Vehicle(PlateNumber, City, Town, ContactUnit, VehicleName, VehicleState, UpdateTime, Load, EnginePower, ROCyear, EPAsubsidy, CrossCityUse, CrossTownUse, Note, Xpos, Ypos, VehicleType, Purpose, ConfirmTime, RptKind, VhlRecDiscard)
+	Insert Into Vehicle(PlateNumber, City, Town, ContactUnit, VehicleName, VehicleState, UpdateTime, Load, EnginePower, ROCyear, EPAsubsidy, CrossCityUse, CrossTownUse, Note, Xpos, Ypos, VehicleType, Purpose, ConfirmTime, RptKind, VhlRecDiscard,
+	                    AddFrom, AddKey)
 	Select PlateNumber, City, Town, ContactUnit, 
 		   Case When bbb.Id Is Not Null Then bbb.Name Else VehicleName End AS VehicleName, 
 		   VehicleState, UpdateTime, Load, EnginePower, ROCyear, EPAsubsidy, CrossCityUse, 
-		   CrossTownUse, Note, Xpos, Ypos, VehicleType, Purpose, ConfirmTime, RptKind, VhlRecDiscard
+		   CrossTownUse, Note, Xpos, Ypos, VehicleType, Purpose, ConfirmTime, RptKind, VhlRecDiscard,
+		   AddFrom, AddKey
 	From
 	(
 		Select Trim(CarNo) As 'PlateNumber',  Trim(CityName) As 'City',  Trim(TownName) As 'Town',  Trim(DepName) As 'ContactUnit',  
@@ -33,8 +50,9 @@ BEGIN
 			   Trim(CanSupportCity) As 'CrossTownUse',  Trim(Memo) As 'Note',  
 			   TRY_CONVERT([decimal](38, 19), TWD97_X) As 'Xpos',  
 			   TRY_CONVERT([decimal](38, 19), TWD97_Y) As 'Ypos',  
-			   Trim(OtherVhlRecRptCarKindID) As 'VehicleType',  NULL As 'Purpose',  GetDate() As 'ConfirmTime',  
-			   Trim(OtherVhlRecRptCarKindID) As 'RptKind',  'X' As 'VhlRecDiscard'
+			   Trim(OtherVhlRecRptCarKindID) As 'VehicleType',  NULL As 'Purpose',  Null As 'ConfirmTime',  
+			   Trim(OtherVhlRecRptCarKindID) As 'RptKind',  'X' As 'VhlRecDiscard',
+			   'AR4' AS 'AddFrom', DBID AS 'AddKey'
 		From z_AR4_newCarKind
 		Union All
 		Select Trim(VhlRecCarNo) As 'PlateNumber', Trim(CityName) As 'City', Trim(TownName) As 'Town', '清潔隊' As 'ContactUnit', 
@@ -43,8 +61,9 @@ BEGIN
 			   Trim(VhlRecCanSupportCity) As 'CrossTownUse', NULL As 'Note', 
 			   TRY_CONVERT([decimal](38, 19), VhlRecTWD97_X) As 'Xpos', 
 			   TRY_CONVERT([decimal](38, 19), VhlRecTWD97_Y) As 'Ypos', 
-			   Trim(VhlRecRptCarKindID) As 'VehicleType', NULL As 'Purpose', GetDate() As 'ConfirmTime', 
-			   Trim(VhlRecRptCarKindID) As 'RptKind', 'X' As 'VhlRecDiscard'
+			   Trim(VhlRecRptCarKindID) As 'VehicleType', NULL As 'Purpose', Null As 'ConfirmTime', 
+			   Trim(VhlRecRptCarKindID) As 'RptKind', 'X' As 'VhlRecDiscard',
+			   'AR5' AS 'AddFrom', VhlRecCarNo AS 'AddKey'
 		From z_AR5_newCarKind
 	)aaa
 	Left Join VehicleType bbb On aaa.VehicleName = bbb.Type
@@ -60,6 +79,13 @@ BEGIN
 	Update Vehicle Set Note = '' Where Note = @spec1 Or Note = @spec2 Or Note = @spec3
 	Update Vehicle Set City = '' Where City = @spec1 Or City = @spec2 Or City = @spec3
 	Update Vehicle Set Town = '' Where Town = @spec1 Or Town = @spec2 Or Town = @spec3
+
+	--保留區(VehicleKeepData)回存
+	Update Vehicle
+	Set ConfirmTime = b.ConfirmTime, 
+		UpdateUser = b.UpdateUser
+	From Vehicle a
+	Inner Join VehicleKeepData b On a.AddFrom = b.AddFrom And a.AddKey = b.AddKey
 
 END
 GO
