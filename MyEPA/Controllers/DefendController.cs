@@ -139,6 +139,23 @@ namespace MyEPA.Controllers
             });
         }
 
+        /// <summary>
+        /// 區大隊多筆確認通過
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        public ActionResult ConfirmDuty(List<int> ids)
+        {
+            foreach (var id in ids)
+            {
+                DefendService.Confirm(GetUserBrief(), id, DefendStatusEnum.Confirm);
+            }
+            return JsonResult(new
+            {
+                IsSuccess = true, Count = ids.Count
+            });
+        }
+
         public ActionResult Report(int? diasterId = null,int? cityId = null)
         {
             var diasters = DiasterService.GetAll();
