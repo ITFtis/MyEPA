@@ -35,7 +35,7 @@
         }
         <hr>
     </div>
-<table class="table">
+<table class="table" nums ="@Model.Count()">
     <tr>
         <th> @Html.DisplayNameFor(model => model.Status)</th>
         <th>
@@ -55,7 +55,7 @@
             }
             else if (defend.Status == MyEPA.Enums.DefendStatusEnum.Confirm)
             {
-                <a href="#" onclick="Confirm(@defend.Id,@(MyEPA.Enums.DefendStatusEnum.Waiting.ToInteger()))">取消確認</a>
+                <a href="#" id="@defend.Id" onclick="Confirm(@defend.Id,@(MyEPA.Enums.DefendStatusEnum.Waiting.ToInteger()))">取消確認</a>
             }
             else
             {
@@ -72,6 +72,23 @@
 }
 
 </table>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+            var nums = $('.table').attr('nums');
+
+            var oPass = $('.table tr td a');
+            var ids = oPass.map(function () {
+                return $(this).attr('id');
+            }).get();
+     
+            $("#btnConfirmDuty").prop('disabled', nums > ids.length);
+        });
+    </script>   
+}
+
 <script>
     function Confirm(id,status) {
         var url = `@Url.Action("Confirm",new { })?id=${id}&status=${status}`;
@@ -112,7 +129,8 @@
             data: { ids: ids },
             success: function (data) {
                 if (data.IsSuccess) {
-                    alert("成功：資料確認" + data.Count + "筆");
+                    //alert("成功：資料確認" + data.Count + "筆");
+                    alert("成功：資料確認");
                     location.reload();
                 } else {
                     alert(data.ErrorMessage);
