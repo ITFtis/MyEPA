@@ -20,7 +20,7 @@ namespace MyEPA.Repositories
                 SET ConfirmTime = '{DateTimeHelper.GetCurrentTime().ToString("yyyy/MM/dd HH:mm:ss.fff")}'
                 From [dbo].[Vehicle] V
                 JOIN City C ON V.City = C.City
-                JOIN Town T ON V.Town = T.Name AND T.CityId = C.Id
+                Left JOIN Town T ON V.Town = T.Name AND T.CityId = C.Id
                 {where}
             ";
             ExecuteSQL(sql, filter);
