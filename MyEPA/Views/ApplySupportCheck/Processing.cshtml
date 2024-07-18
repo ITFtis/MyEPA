@@ -113,7 +113,13 @@
                                     foreach (var data in Model.ApplyPeople)
                                     {
                                         <tr>
-                                            <td>@towns.FirstOrDefault(c => c.Id == data.TownId).Name</td>
+                                            <td>
+                                                @{ 
+                                                    var town = @towns.FirstOrDefault(c => c.Id == data.TownId);
+                                                    string townName = town == null ? "" : town.Name;
+                                                }
+                                                @townName
+                                            </td>
                                             <td>@data.RequireDate.ToString("yyyy.MM.dd")</td>
                                             <td>@data.CleaningMemberQuantity</td>
                                             <td>@data.CleaningMemberDays</td>
