@@ -11,13 +11,14 @@ namespace MyEPA.Repositories
 {
     public class VehicleRepository : BaseEMISRepository<VehicleModel>
     {
-        public void UpdateConfirmTimeByFilter(VehicleFilterParameter filter)
+        public void UpdateConfirmTimeByFilter(string userName, VehicleFilterParameter filter)
         {
             string where = GetWhereSQLByFilter(filter);
 
             string sql = $@"
                 Update [dbo].[Vehicle]
-                SET ConfirmTime = '{DateTimeHelper.GetCurrentTime().ToString("yyyy/MM/dd HH:mm:ss.fff")}'
+                SET ConfirmTime = '{DateTimeHelper.GetCurrentTime().ToString("yyyy/MM/dd HH:mm:ss.fff")}',
+                    UpdateUser = '{userName}'
                 From [dbo].[Vehicle] V
                 JOIN City C ON V.City = C.City
                 Left JOIN Town T ON V.Town = T.Name AND T.CityId = C.Id

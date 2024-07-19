@@ -39,8 +39,8 @@
             <th>車輛名稱</th>
             <th>車牌號碼</th>
             <th>車輛狀態</th>
-            <th>更新時間</th>
             <th>確認時間</th>
+            <th>確認人員</th>
         </tr>
         @foreach (var Item in ViewBag.Data)
         {
@@ -56,7 +56,6 @@
 
         <td>@Item.PlateNumber</td>
         <td>@Item.VehicleState</td>
-        <td>@Item.UpdateTime.ToString("yyyy/MM/dd HH:mm:ss")</td>
         @if (Item.ConfirmTime != null)
         {
             <td>@Item.ConfirmTime.ToString("yyyy/MM/dd HH:mm:ss")</td>
@@ -65,7 +64,7 @@
         {
             <td></td>
         }
-
+        <td>@Item.UpdateUser</td>
     </tr>
         }
     </table>

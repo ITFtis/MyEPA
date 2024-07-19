@@ -73,7 +73,7 @@ namespace MyEPA.Controllers
                     filter.TownIds = townId.Value.ToListCollection();
                 }
             }
-            VehicleRepository.UpdateConfirmTimeByFilter(filter);
+            VehicleRepository.UpdateConfirmTimeByFilter(user.UserName, filter);
 
             return RedirectToAction("C3x1Vehicle", "CleanerxVehicle",new { townId });
         }

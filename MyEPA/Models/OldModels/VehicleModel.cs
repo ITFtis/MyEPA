@@ -51,6 +51,9 @@ namespace MyEPA.Models
         [DisplayName("用途")]
         public string Purpose { get; set; }
 
+        [DisplayName("資料更新者")]
+        public string UpdateUser { get; set; }
+
         public DateTime? ConfirmTime { get; set; }
 
         public LinkedList<VehicleModel> Show(string City, string Town)
