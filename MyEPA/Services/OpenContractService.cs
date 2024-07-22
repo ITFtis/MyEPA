@@ -116,7 +116,12 @@ namespace MyEPA.Services
             entity.OContractDateEnd = model.OContractDateEnd;
             entity.Owner = model.Owner;
             entity.TEL = model.TEL;
-            
+
+            if (entity.CreateDate == DateTime.MinValue)
+            {
+                entity.CreateDate = DateTime.Now;
+            }
+
             entity.UpdateDate = DateTimeHelper.GetCurrentTime();
             entity.UpdateUser = user.UserName;
 
