@@ -126,7 +126,9 @@ namespace MyEPA.Controllers
             ViewBag.DiasterId = diasterId;
             ViewBag.Diasters = diasters;
             ViewBag.City = GetUserCity();
-            ViewBag.UnNotifications = DefendService.GetUnNotifications(diasterId.Value, cityId);
+            ViewBag.UnNotifications = DefendService.GetUnNotifications(diasterId.Value, cityId)
+                                        .Where(a => a.Status == null)
+                                        .ToList();  //鄉鎮未通報
             return View(result);
         }
 

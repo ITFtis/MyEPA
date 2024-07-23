@@ -99,9 +99,22 @@
                 var aryUnNotifications = JSON.parse('@Html.Raw(Json.Encode(ViewBag.UnNotifications))');
                 if (aryUnNotifications != null) {
                     if (aryUnNotifications.length > 0) {
-                        var towns = aryUnNotifications.map(x => x.Town);
-                        var str = "<br /><br />無法進行通報作業，因尚有鄉鎮未通報：<br />" + towns.join(', ');
-                        $('#pNote').html(str);
+
+                        //1.鄉鎮未通報
+                        var towns = aryUnNotifications.filter(a => a.Status == null).map(x => x.Town);
+
+                        //2.環保局未確認
+                        var Epbs = aryUnNotifications.filter(a => a.Status == 1).map(x => x.Town);
+
+                        var ary = [];
+                        if (towns.length > 0)
+                            ary.push("鄉鎮未通報：" + towns.join(', '))
+                        if (Epbs.length > 0)
+                            ary.push("鄉鎮未確認：" + Epbs.join(', '));
+
+                        var note = "<br /><br />無法進行通報作業，尚有鄉鎮未完成作業<br />"
+                                    + ary.join('<br /> ');                                                            
+                        $('#pNote').html(note);
 
                         //disabled通報功能
                         $("#divDefendFormEdit").attr('disabled', 'false');

@@ -41,6 +41,7 @@ namespace MyEPA.Models
         public string Town { get; set; }
         public string Name { get; set; }
         public string OfficePhone { get; set; }
+        public int? Status { get; set; }
     }
     public class DefendViewModel
     {

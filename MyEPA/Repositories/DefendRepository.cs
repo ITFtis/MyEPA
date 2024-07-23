@@ -28,12 +28,13 @@ namespace MyEPA.Repositories
         public List<UnNotificationJoinDefendModel> GetUnNotifications(int diasterId, int cityId)
         {
             string sql = @"
-                            SELECT T.CityId,T.Name Town,U.Name,U.OfficePhone
+                            SELECT T.CityId,T.Name Town,U.Name,U.OfficePhone,D.Status
                             FROM Town T
                             LEFT JOIN Defend D ON T.Id = D.TownId AND D.DiasterId = @DiasterId
                             LEFT JOIN Users U ON T.CityId = U.CityId AND T.Id = U.TownId AND U.MainContacter = '是'
                             WHERE IsTown = 1 --鄉鎮通報
-                            And D.Id IS NULL AND T.CityId = @CityId";
+                            And (D.Id IS NULL Or D.Status = 1)  --0未通報 1未確認(鄉鎮已通報)
+                            AND T.CityId = @CityId";
             return GetListBySQL<UnNotificationJoinDefendModel>(sql, new { DiasterId = diasterId, CityId = cityId });
         }
         public DefendModel Get(int dutyId, int diasterId, int cityId, int townId)
