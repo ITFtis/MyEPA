@@ -51,15 +51,17 @@
         <td>
             @if (defend.Status == MyEPA.Enums.DefendStatusEnum.Waiting)
             {
-                <a href="#" id="@defend.Id" name="chkteams" onclick="Confirm(@defend.Id,@(MyEPA.Enums.DefendStatusEnum.Confirm.ToInteger()))">確認</a>
+                <!--<a href="#" id="@defend.Id" name="chkteams" onclick="Confirm(@defend.Id,@(MyEPA.Enums.DefendStatusEnum.Confirm.ToInteger()))">確認</a>-->
+                <span id="@defend.Id" name="chkteams">未確認</span>
             }
             else if (defend.Status == MyEPA.Enums.DefendStatusEnum.Confirm)
             {
-                <a href="#" id="@defend.Id" onclick="Confirm(@defend.Id,@(MyEPA.Enums.DefendStatusEnum.Waiting.ToInteger()))">取消確認</a>
+                <!--<a href="#" id="@defend.Id" onclick="Confirm(@defend.Id,@(MyEPA.Enums.DefendStatusEnum.Waiting.ToInteger()))">取消確認</a>-->
+                <span id="@defend.Id">已確認</span>
             }
             else
             {
-                @:@defend.Status.GetDescription()
+                <span style="color:red">@defend.Status.GetDescription()</span>
             }
         </td>
         <td>
@@ -79,7 +81,7 @@
 
             var nums = $('.table').attr('nums');
 
-            var oPass = $('.table tr td a');
+            var oPass = $('.table tr td span');
             var ids = oPass.map(function () {
                 return $(this).attr('id');
             }).get();
