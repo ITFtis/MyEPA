@@ -1,0 +1,13 @@
+/****** Object:  Index [IX_WaterCheck]    Script Date: 2024/7/26 ¤W¤È 11:22:16 ******/
+DROP INDEX [IX_WaterCheck] ON [dbo].[WaterCheck]
+GO
+
+CREATE UNIQUE NONCLUSTERED INDEX [IX_WaterCheck] ON [dbo].[WaterCheck]
+(
+	[CheckDate] DESC,
+	[CityId] ASC,
+	[DiasterId] ASC,
+	[Type] ASC,
+	[UpdateUser] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
