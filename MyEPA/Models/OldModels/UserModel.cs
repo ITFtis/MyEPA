@@ -37,11 +37,12 @@ namespace MyEPA.Models
             try
             {
                 X.Open();
-               string G = "Update Users Set Name = @Name, Pwd=@Pwd,VoicePwd=@VoicePwd, Duty=@Duty, City=@City,Town=@Town,MobilePhone=@MobilePhone, HumanType=@HumanType, MainContacter=@MainContacter, ReportPriority=@ReportPriority,PositionId=@PositionId where UserName=@UserName";
+               string G = "Update Users Set Name = @Name, Pwd=@Pwd, PwdUpdateDate = @PwdUpdateDate, VoicePwd=@VoicePwd, Duty=@Duty, City=@City,Town=@Town,MobilePhone=@MobilePhone, HumanType=@HumanType, MainContacter=@MainContacter, ReportPriority=@ReportPriority,PositionId=@PositionId where UserName=@UserName";
                 SqlCommand Q = new SqlCommand(G, X);
                 Q.Parameters.AddWithValue("@UserName", UserName);
                 Q.Parameters.AddWithValue("@Name", Name);
                 Q.Parameters.AddWithValue("@Pwd", Pwd);
+                Q.Parameters.AddWithValue("@PwdUpdateDate", DateTime.Now.AddDays(90));
                 Q.Parameters.AddWithValue("@VoicePwd", VoicePwd);
                 Q.Parameters.AddWithValue("@Duty", Duty);
                 Q.Parameters.AddWithValue("@City", City);

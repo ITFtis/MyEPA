@@ -5,6 +5,7 @@ using MyEPA.Models;
 using MyEPA.Models.FilterParameter;
 using MyEPA.Repositories;
 using MyEPA.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -104,6 +105,7 @@ namespace MyEPA.Services
                 OfficePhone = model.OfficePhone,
                 PositionId = model.PositionId,
                 Pwd = model.MobilePhone,
+                PwdUpdateDate = DateTime.Now.AddDays(90),
                 Remark = model.Remark,
                 ReportPriority = "",
                 UpdateDate = DateTimeHelper.GetCurrentTime(),
