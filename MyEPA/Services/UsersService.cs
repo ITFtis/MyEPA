@@ -101,6 +101,7 @@ namespace MyEPA.Services
                 };
             }
             users.Pwd = model.Pwd;
+            users.PwdUpdateDate = DateTime.Now.AddDays(90);
             UsersRepository.Update(users);
             return new AdminResultModel
             {

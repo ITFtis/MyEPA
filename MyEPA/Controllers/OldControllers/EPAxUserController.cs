@@ -143,6 +143,7 @@ namespace MyEPA.Controllers
                     UserName = RegisterId,
                     Name = register.Name,
                     Pwd = register.Pwd,
+                    PwdUpdateDate = DateTime.Now.AddDays(90),
                     VoicePwd = register.VoicePwd,
                     MobilePhone = register.MobilePhone,
                     Town = register.Town,
@@ -493,6 +494,7 @@ namespace MyEPA.Controllers
             user.CityId = cityId;
             user.Name = model.EditingName;
             user.Pwd = model.EditingPwd;
+            user.PwdUpdateDate = DateTime.Now.AddDays(90);
             user.VoicePwd = model.EditingVoicePwd;
             user.MobilePhone = model.EditingMobilePhone;
             user.OfficePhone = model.EditingOfficePhone;
