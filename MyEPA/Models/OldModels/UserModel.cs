@@ -209,10 +209,11 @@ namespace MyEPA.Models
             try
             {
                 X.Open();
-                string G = "Update [Users] Set Pwd=@NewPwd where UserName= @UserName";
+                string G = "Update [Users] Set Pwd=@NewPwd, PwdUpdateDate=@PwdUpdateDate where UserName= @UserName";
                 SqlCommand Q = new SqlCommand(G, X);
                 Q.Parameters.AddWithValue("@UserName", username);
                 Q.Parameters.AddWithValue("@NewPwd", NewPwd);
+                Q.Parameters.AddWithValue("@PwdUpdateDate", DateTime.Now.AddDays(90));
                 Q.ExecuteNonQuery();
                 
                 X.Close();

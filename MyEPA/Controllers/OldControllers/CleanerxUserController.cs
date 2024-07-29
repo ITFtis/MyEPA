@@ -54,13 +54,22 @@ namespace MyEPA.Controllers
             string OldPwd = Request["OldPwd"].Trim();
             string OldCorrectPwd = Session["Pwd"].ToString();
 
-            if (OldPwd == OldCorrectPwd)
+            if (OldPwd != OldCorrectPwd)
             {
-                ViewBag.Msg = User.ChangePwd(Id, NewPwd); ViewBag.UserId = Id;
-                Session["Pwd"] = NewPwd;
+                ViewBag.Msg = "抱歉，您輸入的舊密碼錯了，所以無法更新密碼"; 
+                ViewBag.UserId = Id;
+            }
+            else if (!PwdHelper.ValidPassword(NewPwd))
+            {
+                ViewBag.Msg = PwdHelper.ErrorMessage; 
+                ViewBag.UserId = Id;
             }
             else
-            { ViewBag.Msg = "抱歉，您輸入的舊密碼錯了，所以無法更新密碼"; ViewBag.UserId = Id; }
+            {
+                ViewBag.Msg = User.ChangePwd(Id, NewPwd); 
+                ViewBag.UserId = Id;
+                Session["Pwd"] = NewPwd;
+            }
 
             ViewBag.City = Session["AuthenticateCity"].ToString().Trim();
 
