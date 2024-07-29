@@ -61,6 +61,7 @@ namespace MyEPA.Controllers
             List<string> Edits = new List<string>();
             Edits.Add("/Users/EditPwd");
 
+            //302，已設定Redirect，再一次將出現錯誤
             if (HttpContext.Response.StatusCode != 302)
             {
                 var user = GetUserBrief();
