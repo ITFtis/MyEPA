@@ -88,6 +88,9 @@
                             <th>
                                 需用期間(迄)
                             </th>
+                            <th>
+                                鍵入時間
+                            </th>
                         </tr>
 
                         @{
@@ -137,7 +140,7 @@
                                     @Html.DisplayFor(modelItem => item.ContactMobilePhone)
                                 </td>
                                 <td>
-                                    @{ 
+                                    @{
                                         string strTypeItems = "";
                                         var v = Code.GetRecTypeItems().Where(a => a.Key == item.TypeItems);
 
@@ -146,7 +149,7 @@
                                     @strTypeItems
                                 </td>
                                 <td>
-                                    @{  
+                                    @{
                                         string strItems = item.Items;
                                         if (item.TypeItems == 1)
                                         {
@@ -164,7 +167,7 @@
                                             strItems = dd3 != null ? dd3.Name : item.Items;
                                         }
                                     }
-                                    @strItems                                    
+                                    @strItems
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Spec)
@@ -180,6 +183,9 @@
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.UEDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreateDate)
                                 </td>
                             </tr>
                         }
@@ -224,7 +230,7 @@
                                 提供期間(迄)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.CreateDate)
+                                鍵入時間
                             </th>
                         </tr>
 
