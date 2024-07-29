@@ -113,6 +113,7 @@ namespace MyEPA.Controllers
 
         public ActionResult SignOut()
         {
+            Logout();
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
         }

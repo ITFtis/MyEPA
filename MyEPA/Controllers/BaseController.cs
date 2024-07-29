@@ -23,6 +23,11 @@ namespace MyEPA.Controllers
         HttpContextWrapper Context = new HttpContextWrapper(System.Web.HttpContext.Current);
         public UserBriefModel GetUserBrief()
         {
+            if (Context.Session["AuthenticateId"] == null)
+            {
+                return null;
+            }
+
             return new UserBriefModel
             {
                 UserId = GetUserId(),

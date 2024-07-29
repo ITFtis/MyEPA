@@ -22,6 +22,24 @@ namespace MyEPA.Controllers
     {
         DiasterService diasterService = new DiasterService();
         public DutyEnum _Duty { get; set; }
+
+        public void Logout()
+        {
+            Session["IsAdmin"] = null;
+            Session["UserId"] = null;
+            Session["AuthenticateId"] = null;
+            Session["Name"] = null;
+            Session["AuthenticateCity"] = null;
+            Session["AuthenticateTown"] = null;
+            Session["AuthenticateCityId"] = null;
+            Session["AuthenticateTownId"] = null;
+            Session["DutyId"] = null;
+            Session["AuthenticateDuty"] = null;
+            Session["ContactManualDuty"] = null;
+            Session["ContactManualDepartmentId"] = null;
+            Session["ContactManualDepartment"] = null;
+        }
+
         public LoginBaseController()
         {
             if (IsLogin())
