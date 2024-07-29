@@ -16,9 +16,9 @@ namespace MyEPA.Controllers
         RegisterService RegisterService = new RegisterService();
         public ActionResult InputRegister(RegistersModel model ,List<string> humanType)
         {
-            if (string.IsNullOrWhiteSpace(model.Pwd) || model.Pwd.Length < 12)
+            if (!PwdHelper.ValidPassword(model.Pwd))
             {
-                TempData["Msg"] = "抱歉，密碼長度須達 12 碼以上";
+                TempData["Msg"] = PwdHelper.ErrorMessage;
                 return RedirectToAction("Register");
             }
 

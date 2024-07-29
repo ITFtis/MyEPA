@@ -82,14 +82,15 @@ namespace MyEPA.Services
 
         public AdminResultModel UpdatePwd(int id,UsersEditPwdViewModel model)
         {
-            if(string.IsNullOrEmpty(model.Pwd) || model.Pwd.Length < 12)
+            if (!PwdHelper.ValidPassword(model.Pwd))
             {
                 return new AdminResultModel
                 {
                     IsSuccess = false,
-                    ErrorMessage = "新密碼長度須達 12 碼以上"
+                    ErrorMessage = PwdHelper.ErrorMessage
                 };
-            }
+            };
+
             UsersModel users = UsersRepository.Get(id);
             if(model.OldPwd != users.Pwd)
             {

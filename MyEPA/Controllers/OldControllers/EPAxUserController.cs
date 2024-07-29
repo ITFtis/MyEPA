@@ -418,6 +418,13 @@ namespace MyEPA.Controllers
                 ViewBag.Msg = "查無此人員";
                 return RedirectToAction("A8x3", "EPAxUser");
             }
+
+            if (!PwdHelper.ValidPassword(model.EditingPwd))
+            {
+                TempData["Msg"] = PwdHelper.ErrorMessage;                
+                return RedirectToAction("A8x3", "EPAxUser");
+            }
+
             int departmentId = 0;
             DutyEnum duty = (DutyEnum)foundDuty.Id;
             AreaEnum? areaEnum = null;
@@ -529,9 +536,9 @@ namespace MyEPA.Controllers
 
         public ActionResult InputRegister(RegistersModel model, List<string> humanType)
         {
-            if (string.IsNullOrWhiteSpace(model.Pwd) || model.Pwd.Length < 12)
+            if (!PwdHelper.ValidPassword(model.Pwd))
             {
-                TempData["Msg"] = "抱歉，密碼長度須達 12 碼以上";
+                TempData["Msg"] = PwdHelper.ErrorMessage;
                 return RedirectToAction("Register", "EPAxUser", new { });
             }
             AdminResultModel result = new RegisterService().Register(model, humanType);
