@@ -389,6 +389,7 @@ namespace MyEPA.Controllers
             Session["AuthenticateDuty"] = dutyName;
             Session["ContactManualDuty"] = user.ContactManualDuty.ToInteger();
             Session["ContactManualDepartmentId"] = user.ContactManualDepartmentId;
+            Session["PwdUpdateDate"] = user.PwdUpdateDate;
             if (user.ContactManualDepartmentId.HasValue)
             {
                 Session["ContactManualDepartment"] = new ContactManualDepartmentService().Get(user.ContactManualDepartmentId.Value)?.Name;

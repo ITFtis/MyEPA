@@ -38,6 +38,7 @@ namespace MyEPA.Controllers
             Session["ContactManualDuty"] = null;
             Session["ContactManualDepartmentId"] = null;
             Session["ContactManualDepartment"] = null;
+            Session["PwdUpdateDate"] = null;
         }
 
         public LoginBaseController()
@@ -57,6 +58,35 @@ namespace MyEPA.Controllers
         }
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
+            List<string> Edits = new List<string>();
+            Edits.Add("/Users/EditPwd");
+
+            if (HttpContext.Response.StatusCode != 302)
+            {
+                var user = GetUserBrief();
+
+                if (!Edits.Contains(HttpContext.Request.FilePath) && user != null)
+                {
+                    //密碼超過3個月                    
+                    bool IsResetPwd = false;
+                    int diffDays = DateFormat.ToDiffDays(user.PwdUpdateDate, DateTime.Now);
+
+                    if (user.PwdUpdateDate == DateTime.MinValue)
+                    {
+                        IsResetPwd = true;
+                    }
+                    else if (diffDays <= 0)
+                    {
+                        IsResetPwd = true;
+                    }
+
+                    if (IsResetPwd)
+                    {
+                        filterContext.HttpContext.Response.Redirect("~/Users/EditPwd?OverTime=Y");
+                    }
+                }
+            }
+
             string name = (string)ControllerContext.RouteData.Values["controller"];
             if (Enum.TryParse(name, true, out ContactManualBreadCrumbTypeEnum type))
             {

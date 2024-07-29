@@ -798,5 +798,53 @@ namespace MyEPA
 
             return result;
         }
+
+        /// <summary>
+        /// 天數差異(n天)
+        /// </summary>
+        /// <param name="date1"></param>
+        /// <param name="date2"></param>
+        /// <returns></returns>
+        public static int ToDiffDays(DateTime? date1, DateTime date2)
+        {
+            return ToDiffDays((DateTime)date1, date2);
+        }
+
+        /// <summary>
+        /// 天數差異(n天)
+        /// </summary>
+        /// <param name="date1"></param>
+        /// <param name="date2"></param>
+        /// <returns></returns>
+        public static int ToDiffDays(DateTime? date1, DateTime? date2)
+        {
+            return ToDiffDays((DateTime)date1, (DateTime)date2);
+        }
+
+        /// <summary>
+        /// 天數差異(n天)
+        /// </summary>
+        /// <param name="date1"></param>
+        /// <param name="date2"></param>
+        /// <returns></returns>
+        public static int ToDiffDays(DateTime date1, DateTime date2)
+        {
+            int result = -1;
+
+            try
+            {
+                DateTime d1 = DateTime.Parse(date1.ToShortDateString());
+                DateTime d2 = DateTime.Parse(date2.ToShortDateString());
+
+                result = (d1 - d2).Days;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return result;
+        }
     }
 }

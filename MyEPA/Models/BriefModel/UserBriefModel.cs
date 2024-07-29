@@ -1,4 +1,5 @@
 ﻿using MyEPA.Enums;
+using System;
 
 namespace MyEPA.Models
 {
@@ -33,5 +34,10 @@ namespace MyEPA.Models
         /// </summary>
         public int? ContactManualDepartmentId { get; set; }
         public string ContactManualDepartment { get; set; }
+
+        /// <summary>
+        /// 密碼更新日
+        /// </summary>
+        public DateTime PwdUpdateDate { get; set; }
     }
 }

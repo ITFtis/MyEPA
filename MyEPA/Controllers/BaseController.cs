@@ -42,7 +42,8 @@ namespace MyEPA.Controllers
                 Area = GetArea(),
                 ContactManualDuty = GetContactManualDuty(),
                 ContactManualDepartmentId = GetUserContactManualDepartmentId(),
-                ContactManualDepartment = GetUserContactManualDepartment()
+                ContactManualDepartment = GetUserContactManualDepartment(),
+                PwdUpdateDate = GetPwdUpdateDate(),
             };
         }
         public string GetUserContactManualDepartment()
@@ -109,6 +110,16 @@ namespace MyEPA.Controllers
         public string GetUserName()
         {
             return Context.Session["AuthenticateId"].ToString();
+        }
+        public DateTime GetPwdUpdateDate()
+        {
+            var PwdUpdateDate = Context.Session["PwdUpdateDate"];
+            if (PwdUpdateDate == null)
+            {
+                return DateTime.MinValue;
+            }
+
+            return DateTime.Parse(PwdUpdateDate.ToString());            
         }
         public string GetName()
         {
