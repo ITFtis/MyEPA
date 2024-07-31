@@ -93,7 +93,7 @@ namespace MyEPA.Services
             };
 
             UsersModel users = UsersRepository.Get(id);
-            if (model.OldPwd != users.Pwd)
+            if (model.OldPwd == users.Pwd)
             {
                 return new AdminResultModel
                 {
