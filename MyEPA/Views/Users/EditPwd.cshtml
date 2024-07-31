@@ -3,14 +3,54 @@
 @{
     ViewBag.Title = "網頁密碼變更";
     Layout = "~/Views/_Layout.cshtml";
+
+    string returnUrl = Request.QueryString["returnUrl"] == null ? "" : Request.QueryString["returnUrl"];
+    bool isCompleteEditPwd = Request.QueryString["isCompleteEditPwd"] == null ? false : bool.Parse(Request.QueryString["isCompleteEditPwd"]);
+    //bool isCompleteEditPwd = ViewBag.IsCompleteEditPwd == null ? false : (bool)ViewBag.IsCompleteEditPwd;
+
+    //密碼已更新
+    if (isCompleteEditPwd)
+    {
+        if(returnUrl != "")
+        { 
+            <script>
+                alert('修改成功');
+                location.href = '@returnUrl';
+            </script>
+            return;
+        }
+        else
+        {
+            <script>
+                alert('修改成功');                
+            </script>
+        }
+    }
 }
 
-@using (Html.BeginForm("PostEditPwd","Users"))
+@using (Html.BeginForm("PostEditPwd", "Users", new { returnUrl = returnUrl }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>@ViewBag.Title</h4>
+        <h4>
+            @{
+                var PwdUpdateDate = (DateTime)ViewBag.PwdUpdateDate;
+                var diffDays = DateFormat.ToDiffDays(PwdUpdateDate, DateTime.Today);
+
+                string strOverDatePwd = "";
+                if(diffDays == 0)
+                {
+                    strOverDatePwd = "*****密碼已達三個月需變更，請變更密碼*****";
+                }
+                else if(diffDays < 0)
+                {
+                    strOverDatePwd = string.Format("*****密碼已過三個月({0}天)，請變更密碼*****", diffDays * -1);
+                }
+                <span class="text-danger">@strOverDatePwd</span>
+            }
+        </h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">

@@ -60,6 +60,7 @@ namespace MyEPA.Controllers
         {
             List<string> Edits = new List<string>();
             Edits.Add("/Users/EditPwd");
+            Edits.Add("/Users/PostEditPwd");
 
             //302，已設定Redirect，再一次將出現錯誤
             if (HttpContext.Response.StatusCode != 302)
@@ -83,7 +84,7 @@ namespace MyEPA.Controllers
 
                     if (IsResetPwd)
                     {
-                        filterContext.HttpContext.Response.Redirect("~/Users/EditPwd?OverTime=Y");
+                        filterContext.HttpContext.Response.Redirect("~/Users/EditPwd?returnUrl=" + HttpUtility.UrlEncode(filterContext.HttpContext.Request.Url.AbsoluteUri));
                     }
                 }
             }

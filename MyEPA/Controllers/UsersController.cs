@@ -74,15 +74,25 @@ namespace MyEPA.Controllers
         }
         public ActionResult EditPwd()
         {
+            var user = GetUserBrief();
+            ViewBag.PwdUpdateDate = user.PwdUpdateDate;
             ViewBag.Msg = TempData["Msg"];
             return View();
         }
 
-        public ActionResult PostEditPwd(UsersEditPwdViewModel user)
+        public ActionResult PostEditPwd(UsersEditPwdViewModel user, string returnUrl)
         {
             var result = UsersService.UpdatePwd(GetUserId(), user );
-            TempData["Msg"] = result.ErrorMessage;
-            return RedirectToAction("EditPwd");
+
+            if (!string.IsNullOrEmpty(result.ErrorMessage))
+            {
+                TempData["Msg"] = result.ErrorMessage;                                
+                return RedirectToAction("EditPwd", new { returnUrl = returnUrl });
+            }
+            else
+            {                
+                return RedirectToAction("EditPwd", new { returnUrl = returnUrl, isCompleteEditPwd = true });
+            }
         }
 
         public JsonResult GetByDepartmentId(int departmentId)

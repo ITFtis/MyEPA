@@ -7,6 +7,7 @@ using MyEPA.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 
 namespace MyEPA.Services
 {
@@ -103,10 +104,13 @@ namespace MyEPA.Services
             users.Pwd = model.Pwd;
             users.PwdUpdateDate = DateTime.Now.AddDays(90);
             UsersRepository.Update(users);
+
+            //更新密碼資料
+            HttpContext.Current.Session["PwdUpdateDate"] = users.PwdUpdateDate;
+
             return new AdminResultModel
             {
-                IsSuccess = true,
-                ErrorMessage = "修改成功"
+                IsSuccess = true                
             };
         }
         public void Updare(UserModel user)
