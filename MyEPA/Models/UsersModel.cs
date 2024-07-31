@@ -78,7 +78,7 @@ namespace MyEPA.Models
         public string Name { get; set; }
 
         public string Pwd { get; set; }
-        [DisplayName("密碼更新日")]
+        [DisplayName("密碼到期日")]
         public DateTime PwdUpdateDate { get; set; }
         public string VoicePwd { get; set; }
         [DisplayName("機關類別(角色)")]

@@ -9,7 +9,7 @@ namespace MyEPA.Models
         public string OldPwd { get; set; }
         [DisplayName("新密碼")]
         public string Pwd { get; set; }
-        [DisplayName("密碼更新日")]
+        [DisplayName("密碼到期日")]
         public DateTime PwdUpdateDate { get; set; }
     }
 }

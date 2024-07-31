@@ -36,7 +36,7 @@ namespace MyEPA.Models
         public string ContactManualDepartment { get; set; }
 
         /// <summary>
-        /// 密碼更新日
+        /// 密碼到期日
         /// </summary>
         public DateTime PwdUpdateDate { get; set; }
     }
