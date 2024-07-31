@@ -89,7 +89,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.EffectiveDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input id="EffectiveDate" name="EffectiveDate" value="@Model.BuyDate.ToString("yyyy-MM-ddTHH:mm")" type="datetime-local" />
+                <input id="EffectiveDate" name="EffectiveDate" value="@Model.EffectiveDate.ToString("yyyy-MM-ddTHH:mm")" type="datetime-local" />
                 @Html.ValidationMessageFor(model => model.EffectiveDate, "", new { @class = "text-danger" })
             </div>
         </div>
