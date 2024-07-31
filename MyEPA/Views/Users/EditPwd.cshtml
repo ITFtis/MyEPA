@@ -46,7 +46,7 @@
                 }
                 else if(diffDays < 0)
                 {
-                    strOverDatePwd = string.Format("*****密碼已過三個月({0}天)，請變更密碼*****", diffDays * -1);
+                    strOverDatePwd = string.Format("*****密碼已超過三個月，請變更密碼*****", diffDays * -1);
                 }
                 <span class="text-danger">@strOverDatePwd</span>
             }

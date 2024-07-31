@@ -93,7 +93,7 @@ namespace MyEPA.Services
             };
 
             UsersModel users = UsersRepository.Get(id);
-            if(model.OldPwd != users.Pwd)
+            if (model.OldPwd != users.Pwd)
             {
                 return new AdminResultModel
                 {
@@ -101,6 +101,15 @@ namespace MyEPA.Services
                     ErrorMessage = "原密碼輸入錯誤"
                 };
             }
+            else if (model.OldPwd == users.Pwd)
+            {
+                return new AdminResultModel
+                {
+                    IsSuccess = false,
+                    ErrorMessage = "密碼不可重複"
+                };
+            }
+
             users.Pwd = model.Pwd;
             users.PwdUpdateDate = DateTime.Now.AddDays(90);
             UsersRepository.Update(users);
