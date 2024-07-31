@@ -93,7 +93,7 @@ namespace MyEPA.Services
             };
 
             UsersModel users = UsersRepository.Get(id);
-            if (model.OldPwd == users.Pwd)
+            if (model.OldPwd != users.Pwd)
             {
                 return new AdminResultModel
                 {
@@ -101,12 +101,12 @@ namespace MyEPA.Services
                     ErrorMessage = "原密碼輸入錯誤"
                 };
             }
-            else if (model.OldPwd == users.Pwd)
+            else if (model.Pwd == users.Pwd)
             {
                 return new AdminResultModel
                 {
                     IsSuccess = false,
-                    ErrorMessage = "密碼不可重複"
+                    ErrorMessage = "密碼不可與前次重複"
                 };
             }
 
