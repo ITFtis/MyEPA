@@ -118,5 +118,10 @@ namespace MyEPA.Controllers
 
             return RedirectToAction("Index", routeValue);
         }
+
+        public ActionResult A9x9()
+        {
+            return View("~/Views/EPA/A9x9.cshtml");
+        }
     }
 }
