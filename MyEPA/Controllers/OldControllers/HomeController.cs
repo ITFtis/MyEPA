@@ -5,6 +5,7 @@ using MyEPA.Models;
 using MyEPA.Repositories;
 using MyEPA.Services;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -234,15 +235,52 @@ namespace MyEPA.Controllers
         [HttpPost]
         public ActionResult Login(string username, string pwd, SystemTypeEnum type)
         {
+            //判斷是否存在
+            var chkAccount = _UsersService.GetByUserName(username);
+            if (chkAccount == null)
+            {
+                ViewBag.Msg = "帳號不存在：" + username;
+                return View("~/Views/Home/Login.cshtml");
+            }
+
+            //判斷是否已被鎖定(Lock)
+            int loginCount = LoginHelper.LoginCount(username);
+            if (loginCount > LoginHelper.lockUp)
+            {
+                ViewBag.Msg = "抱歉，此帳號已被鎖定，請等待15分鐘後再登入";
+                return View("~/Views/Home/Login.cshtml");
+            }
+
+            //登入
             var user = _UsersService.GetUserByUserNameAndPwd(username, pwd);
 
             if (user == null)
             {
                 Session["AuthenticateDuty"] = "Null";
                 Session["Pwd"] = pwd;
-                ViewBag.Msg = "抱歉，帳號或密碼不正確，系統暫停3秒，請重新輸入";
-                System.Threading.Thread.Sleep(3000);
+
+                if (loginCount == LoginHelper.lockUp)
+                {
+                    ViewBag.Msg = string.Format("密碼不正確，此帳號已累積錯誤{0}次，請等待15分鐘後再登入", loginCount);
+                    return View("~/Views/Home/Login.cshtml");
+                }
+                else if (loginCount > 0)
+                {
+                    ViewBag.Msg = string.Format("密碼不正確，此帳號已累積錯誤{0}次，若達{1}次將鎖定15分鐘", loginCount, LoginHelper.lockUp);
+                }
+                else
+                {
+                    ViewBag.Msg = "帳號或密碼輸入錯誤，請確認";
+                }
+
                 return View("~/Views/Home/Login.cshtml");
+            }
+
+            //清空登入失敗紀錄            
+            List<LoginHelper.InvalidLogin> logins = (List<LoginHelper.InvalidLogin>)HttpContext.Application["Users"];
+            if (logins != null)
+            {
+                logins.RemoveAll(x => x.Account == username);
             }
 
             if (user.Email.IsEmptyOrNull() || user.Email== "NULL")

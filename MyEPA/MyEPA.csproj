@@ -933,6 +933,7 @@
     <Compile Include="_core\CommonFunc.cs" />
     <Compile Include="_core\DateFormat.cs" />
     <Compile Include="_core\EmailHelper.cs" />
+    <Compile Include="_core\LoginHelper.cs" />
     <Compile Include="_core\PwdHelper.cs" />
     <Compile Include="_core\SysFunc.cs" />
     <Compile Include="_dataClass\TestMailParam.cs" />
