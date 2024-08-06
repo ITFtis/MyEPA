@@ -1,4 +1,7 @@
-﻿using Org.BouncyCastle.Asn1.Ocsp;
+﻿using MyEPA.Models.FilterParameter;
+using MyEPA.Services;
+using Org.BouncyCastle.Asn1.Ocsp;
+using Spire.License;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +24,28 @@ namespace MyEPA
         public const int lockTime = 15;
 
         /// <summary>
-        /// 累積登入錯誤次數
+        /// 累積登入錯誤次數 DB
+        /// </summary>
+        /// <returns></returns>
+        public static int LoginCountByDB(string userName)
+        {
+            UserLoginLogService UserLoginLogService = new UserLoginLogService();
+
+            //清除超過15分鐘，密碼輸入錯誤的Log
+            bool done = UserLoginLogService.UpdateIsOver(userName, lockTime);
+
+            var logs = UserLoginLogService.GetListByFilter(new UserLoginLogFilterParameter
+            {
+                UserName = userName,
+                Type = 2,
+                IsOver = false,
+            });
+
+            return logs.Count;
+        }
+
+        /// <summary>
+        /// 累積登入錯誤次數  Application
         /// </summary>
         /// <returns></returns>
         public static int LoginCount(string account)

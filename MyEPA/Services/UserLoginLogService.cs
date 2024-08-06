@@ -26,5 +26,17 @@ namespace MyEPA.Services
         {
             UserLoginLogRepository.Create(model);
         }
+
+        /// <summary>
+        /// 清除超過lockTime(15)分鐘，密碼輸入錯誤的Log
+        /// </summary>
+        /// <param name="UserName">帳號</param>
+        /// <param name="lockTime">15(分)</param>
+        /// <returns></returns>
+        public bool UpdateIsOver(string userName, int lockTime)
+        {
+            bool done = UserLoginLogRepository.UpdateIsOver(userName, lockTime);
+            return true;
+        }
     }
 }

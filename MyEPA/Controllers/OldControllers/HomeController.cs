@@ -254,8 +254,8 @@ namespace MyEPA.Controllers
             };
 
             //判斷是否已被鎖定(Lock)
-            int loginCount = LoginHelper.LoginCount(username);
-            if (loginCount > LoginHelper.lockUp)
+            int loginCount = LoginHelper.LoginCountByDB(username);
+            if (loginCount >= LoginHelper.lockUp)
             {
                 ViewBag.Msg = "抱歉，此帳號已被鎖定，請等待15分鐘後再登入";                
                 return LoginFail(logModel);
@@ -269,17 +269,14 @@ namespace MyEPA.Controllers
                 Session["AuthenticateDuty"] = "Null";
                 Session["Pwd"] = pwd;
 
+                loginCount++;
                 if (loginCount == LoginHelper.lockUp)
                 {
-                    ViewBag.Msg = string.Format("密碼不正確，此帳號已累積錯誤{0}次，請等待15分鐘後再登入", loginCount);                    
-                }
-                else if (loginCount > 0)
-                {
-                    ViewBag.Msg = string.Format("密碼不正確，此帳號已累積錯誤{0}次，若達{1}次將鎖定15分鐘", loginCount, LoginHelper.lockUp);
+                    ViewBag.Msg = "抱歉，此帳號已被鎖定，請等待15分鐘後再登入";
                 }
                 else
                 {
-                    ViewBag.Msg = "帳號或密碼輸入錯誤，請確認";
+                    ViewBag.Msg = string.Format("密碼不正確，此帳號已累積錯誤{0}次，若達{1}次將鎖定15分鐘", loginCount, LoginHelper.lockUp);
                 }
 
                 return LoginFail(logModel);                
