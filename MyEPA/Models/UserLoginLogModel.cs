@@ -30,7 +30,7 @@ namespace MyEPA.Models
         [DisplayName("來源IP")]
         public string SourceIP { get; set; }
 
-        [DisplayName("是否超過登入有效次數")]
+        [DisplayName("是否納入登入失敗次數")]
         public bool IsOver { get; set; }
 
     }
