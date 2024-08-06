@@ -11,5 +11,5 @@ alter Table UserLoginLog add [IsOver] [bit] NULL
 Go
 
 Update UserLoginLog
-Set Type = 0
+Set Type = 1
 Go
