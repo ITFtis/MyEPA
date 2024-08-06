@@ -4,6 +4,7 @@ using MyEPA.Helper;
 using MyEPA.Models;
 using MyEPA.Repositories;
 using MyEPA.Services;
+using NPOI.SS.Formula.Functions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -292,7 +293,20 @@ namespace MyEPA.Controllers
             }
             else
             {
-                _UsersService.AddUserLoginLog(user);//寫登入log
+                //寫登入log                
+                UserLoginLogService UserLoginLogService = new UserLoginLogService();
+                UserLoginLogModel logModel = new UserLoginLogModel() { 
+                    Id = user.Id,
+                    UserName = user.UserName,
+                    logintime = DateTime.Now,
+                    Type = 1,
+                    SourceIP = LoginHelper.GetClientIP(Request),
+                    PwdKeyIn = pwd,
+                };
+                UserLoginLogService.Create(logModel);
+
+                ////_UsersService.AddUserLoginLog(user);
+                
                 return Login(user, type);
             }
         }

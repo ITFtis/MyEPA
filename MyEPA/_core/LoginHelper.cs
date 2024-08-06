@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Org.BouncyCastle.Asn1.Ocsp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -7,6 +8,8 @@ namespace MyEPA
 {
     public class LoginHelper
     {
+        private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         /// <summary>
         /// 鎖定上限次數
         /// </summary>
@@ -77,6 +80,35 @@ namespace MyEPA
             /// 登入失敗次數
             /// </summary>
             public int AttemptCount { get; set; }
+        }
+
+        /// <summary>
+        /// 來源 IP
+        /// </summary>
+        /// <returns></returns>
+        public static string GetClientIP(System.Web.HttpRequestBase req)
+        {
+            string ClientIP = "";
+
+            try
+            {
+                if (req.ServerVariables["HTTP_VIA"] == null)
+                {
+                    ClientIP = req.ServerVariables["REMOTE_ADDR"].ToString();
+                }
+                else
+                {
+                    ClientIP = req.ServerVariables["HTTP_X_FORWARDED_FOR"].ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                logger.Error(ex.StackTrace);                
+            }
+
+            ClientIP = ClientIP.Replace("::1", "127.0.0.1");
+            return ClientIP;
         }
     }
 }

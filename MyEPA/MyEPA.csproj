@@ -384,6 +384,7 @@
     <Compile Include="Models\DisinfectorTypeModel.cs" />
     <Compile Include="Models\FilterParameter\RecResourceFilterParameter.cs" />
     <Compile Include="Models\FilterParameter\RecResourceSetFilterParameter.cs" />
+    <Compile Include="Models\FilterParameter\UserLoginLogFilterParameter.cs" />
     <Compile Include="Models\FilterParameter\UsersBriefFilterParameter.cs" />
     <Compile Include="Models\FilterParameter\UsersFilterPaginationParameter.cs" />
     <Compile Include="Models\FilterParameter\UsersFilterParameter.cs" />
@@ -391,6 +392,7 @@
     <Compile Include="Models\RecModels\RecResourceSetModel.cs" />
     <Compile Include="Models\ResourceSetModel.cs" />
     <Compile Include="Models\SearchViewModel\ContactManualTeamViewModel.cs" />
+    <Compile Include="Models\UserLoginLogModel.cs" />
     <Compile Include="Models\UsersBriefModel.cs" />
     <Compile Include="Models\UsersEditPwdViewModel.cs" />
     <Compile Include="Repositories\BaseEMISBaseCreateModelRepository.cs" />
@@ -400,6 +402,7 @@
     <Compile Include="Repositories\DisinfectorTypeRepository.cs" />
     <Compile Include="Repositories\RecResourceRepository.cs" />
     <Compile Include="Repositories\RecResourceSetRepository.cs" />
+    <Compile Include="Repositories\UserLoginLogRepository.cs" />
     <Compile Include="Services\ContactManualServices\ContactManualDownloadRecordService.cs" />
     <Compile Include="Services\ContactManualServices\ContactManualFileDataService.cs" />
     <Compile Include="Services\ContactManualServices\ContactManualPermissionService.cs" />
@@ -410,6 +413,7 @@
     <Compile Include="Services\RecResourceService.cs" />
     <Compile Include="Services\RecResourceSetService.cs" />
     <Compile Include="Services\SMSLoginService.cs" />
+    <Compile Include="Services\UserLoginLogService.cs" />
     <Compile Include="ViewModels\ContactManualEPARoleViewModel.cs" />
     <Compile Include="Models\ContactManuals\ContactManualModel.cs" />
     <Compile Include="Models\ContactManuals\ContactManualRoleModel.cs" />
