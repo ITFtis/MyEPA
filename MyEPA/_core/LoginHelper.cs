@@ -38,7 +38,7 @@ namespace MyEPA
             {
                 UserName = userName,
                 Type = 2,
-                IsOver = false,
+                IsOver = true,
             });
 
             return logs.Count;

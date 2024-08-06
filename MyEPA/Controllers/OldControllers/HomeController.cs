@@ -307,6 +307,7 @@ namespace MyEPA.Controllers
                 //寫登入log                                
                 logModel.Id = user.Id;
                 logModel.Type = 1;
+                logModel.IsOver = false;
                 UserLoginLogService.Create(logModel);
 
                 ////_UsersService.AddUserLoginLog(user);
@@ -513,6 +514,7 @@ namespace MyEPA.Controllers
             //紀錄登入失敗
             UserLoginLogService UserLoginLogService = new UserLoginLogService();
             logModel.Type = 2;
+            logModel.IsOver = true;
             UserLoginLogService.Create(logModel);
 
             return View("~/Views/Home/Login.cshtml");

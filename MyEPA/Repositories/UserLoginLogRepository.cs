@@ -66,8 +66,8 @@ namespace MyEPA.Repositories
                 X.Open();
                 string G = @"
 Update UserLoginLog
-Set IsOver = 1
-Where (Type = 2 And IsOver = 0)
+Set IsOver = 0
+Where (Type = 2 And IsOver = 1)
 And UserName = @UserName
 ";
 
