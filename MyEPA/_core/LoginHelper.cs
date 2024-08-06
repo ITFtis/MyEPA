@@ -16,7 +16,7 @@ namespace MyEPA
         /// <summary>
         /// 鎖定上限次數
         /// </summary>
-        public const int lockUp = 3;
+        public const int lockUp = 5;
 
         /// <summary>
         /// 鎖定時間(分)
@@ -31,7 +31,7 @@ namespace MyEPA
         {
             UserLoginLogService UserLoginLogService = new UserLoginLogService();
 
-            //清除超過15分鐘，密碼輸入錯誤的Log
+            //清除密碼輸入錯誤的Log(超過15分鐘)
             bool done = UserLoginLogService.UpdateIsOver(userName, lockTime);
 
             var logs = UserLoginLogService.GetListByFilter(new UserLoginLogFilterParameter

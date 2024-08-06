@@ -50,12 +50,12 @@ namespace MyEPA.Repositories
         }
 
         /// <summary>
-        /// 清除超過lockTime(15)分鐘，密碼輸入錯誤的Log
+        /// 清除密碼輸入錯誤的Log
         /// </summary>
         /// <param name="UserName">帳號</param>
         /// <param name="lockTime">15(分)</param>
         /// <returns></returns>
-        public bool UpdateIsOver(string userName, int lockTime)
+        public bool UpdateIsOver(string userName, int lockTime = 0)
         {
             bool result = false;
 
@@ -69,8 +69,15 @@ Update UserLoginLog
 Set IsOver = 1
 Where (Type = 2 And IsOver = 0)
 And UserName = @UserName
-And  DateDiff(Minute, logintime, GetDate()) > @lockTime
 ";
+
+                if (lockTime != 0)
+                {
+                    G += @"
+                            And  DateDiff(Minute, logintime, GetDate()) > @lockTime
+                        ";
+                }
+
                 SqlCommand Q = new SqlCommand(G, X);                
                 Q.Parameters.AddWithValue("@UserName", userName);
                 Q.Parameters.AddWithValue("@lockTime", lockTime);

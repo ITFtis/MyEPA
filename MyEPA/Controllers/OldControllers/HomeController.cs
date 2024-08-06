@@ -257,8 +257,9 @@ namespace MyEPA.Controllers
             int loginCount = LoginHelper.LoginCountByDB(username);
             if (loginCount >= LoginHelper.lockUp)
             {
-                ViewBag.Msg = "抱歉，此帳號已被鎖定，請等待15分鐘後再登入";                
-                return LoginFail(logModel);
+                ViewBag.Msg = "抱歉，此帳號已被鎖定，請等待15分鐘後再登入";
+                return View("~/Views/Home/Login.cshtml");
+                //return LoginFail(logModel);
             }
 
             //登入
@@ -298,8 +299,12 @@ namespace MyEPA.Controllers
             }
             else
             {
-                //寫登入log                
                 UserLoginLogService UserLoginLogService = new UserLoginLogService();
+
+                //清除密碼輸入錯誤的Log
+                bool done = UserLoginLogService.UpdateIsOver(username);
+
+                //寫登入log                                
                 logModel.Id = user.Id;
                 logModel.Type = 1;
                 UserLoginLogService.Create(logModel);
