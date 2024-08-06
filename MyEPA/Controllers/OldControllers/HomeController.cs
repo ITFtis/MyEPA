@@ -1,4 +1,5 @@
-﻿using MyEPA.Enums;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using MyEPA.Enums;
 using MyEPA.Extensions;
 using MyEPA.Helper;
 using MyEPA.Models;
@@ -244,16 +245,24 @@ namespace MyEPA.Controllers
                 return View("~/Views/Home/Login.cshtml");
             }
 
+            UserLoginLogModel logModel = new UserLoginLogModel()
+            {
+                UserName = username,
+                logintime = DateTime.Now,
+                SourceIP = LoginHelper.GetClientIP(Request),
+                PwdKeyIn = pwd,
+            };
+
             //判斷是否已被鎖定(Lock)
             int loginCount = LoginHelper.LoginCount(username);
             if (loginCount > LoginHelper.lockUp)
             {
-                ViewBag.Msg = "抱歉，此帳號已被鎖定，請等待15分鐘後再登入";
-                return View("~/Views/Home/Login.cshtml");
+                ViewBag.Msg = "抱歉，此帳號已被鎖定，請等待15分鐘後再登入";                
+                return LoginFail(logModel);
             }
 
             //登入
-            var user = _UsersService.GetUserByUserNameAndPwd(username, pwd);
+            var user = _UsersService.GetUserByUserNameAndPwd(username, pwd);            
 
             if (user == null)
             {
@@ -262,8 +271,7 @@ namespace MyEPA.Controllers
 
                 if (loginCount == LoginHelper.lockUp)
                 {
-                    ViewBag.Msg = string.Format("密碼不正確，此帳號已累積錯誤{0}次，請等待15分鐘後再登入", loginCount);
-                    return View("~/Views/Home/Login.cshtml");
+                    ViewBag.Msg = string.Format("密碼不正確，此帳號已累積錯誤{0}次，請等待15分鐘後再登入", loginCount);                    
                 }
                 else if (loginCount > 0)
                 {
@@ -274,7 +282,7 @@ namespace MyEPA.Controllers
                     ViewBag.Msg = "帳號或密碼輸入錯誤，請確認";
                 }
 
-                return View("~/Views/Home/Login.cshtml");
+                return LoginFail(logModel);                
             }
 
             //清空登入失敗紀錄            
@@ -295,14 +303,8 @@ namespace MyEPA.Controllers
             {
                 //寫登入log                
                 UserLoginLogService UserLoginLogService = new UserLoginLogService();
-                UserLoginLogModel logModel = new UserLoginLogModel() { 
-                    Id = user.Id,
-                    UserName = user.UserName,
-                    logintime = DateTime.Now,
-                    Type = 1,
-                    SourceIP = LoginHelper.GetClientIP(Request),
-                    PwdKeyIn = pwd,
-                };
+                logModel.Id = user.Id;
+                logModel.Type = 1;
                 UserLoginLogService.Create(logModel);
 
                 ////_UsersService.AddUserLoginLog(user);
@@ -504,5 +506,14 @@ namespace MyEPA.Controllers
             return View();
         }
 
+        private ActionResult LoginFail(UserLoginLogModel logModel)
+        {
+            //紀錄登入失敗
+            UserLoginLogService UserLoginLogService = new UserLoginLogService();
+            logModel.Type = 2;
+            UserLoginLogService.Create(logModel);
+
+            return View("~/Views/Home/Login.cshtml");
+        }
     }
 }
