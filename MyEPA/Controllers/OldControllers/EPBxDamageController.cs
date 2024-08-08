@@ -99,7 +99,9 @@ namespace MyEPA.Controllers
             }
 
             ViewBag.Data2 =
-                DamageRepository.GetListByFilter(filterParameter);
+                DamageRepository.GetListByFilter(filterParameter)
+                .OrderBy(a => a.ReportDay)
+                .ToList();
 
             ViewBag.Diaster = diaster;
 

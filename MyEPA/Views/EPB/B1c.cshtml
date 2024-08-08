@@ -47,11 +47,26 @@
                 選擇通報日期<i class="ace-icon fa fa-angle-down icon-on-right"></i>
             </button>
             <ul class="dropdown-menu">
-                @foreach (DateTime Item in ViewBag.ActiveDays)
-                {
-                    <li>
-                        <a href="@Url.Action("B1c17","EPBxDamage",new { diasterId , reportDay = Item.ToString("yyyy/MM/dd")})">@Item.ToString("yyyy/MM/dd")</a>
-                    </li>
+                @{
+                    var data2 = (List<DamageJoinModel>)ViewBag.Data2;
+                    List<DateTime> dates = data2.Select(a => a.ReportDay).ToList();
+
+                    foreach (DateTime Item in ViewBag.ActiveDays)
+                    {
+                        bool has = dates.Any(a => DateFormat.ToDiffDays(a, Item) == 0);
+                        if (!has)
+                        {
+                            <li>
+                                <a href="@Url.Action("B1c17", "EPBxDamage", new { diasterId, reportDay = Item.ToString("yyyy/MM/dd") })">@Item.ToString("yyyy/MM/dd")</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a>@Item.ToString("yyyy/MM/dd") 已通報</a>
+                            </li>
+                        }
+                    }
                 }
             </ul>
         </div>
