@@ -201,21 +201,12 @@
                             <span>災害編號：</span> @diaster.Id
                             <br />
                             <span>災害主題：</span> @diaster.DiasterName
-                            <br />
-                            <span>鄉鎮市區：</span>
                             @if (user.Duty == MyEPA.Enums.DutyEnum.Cleaning)
                             {
+                                <br />
+                                <span>鄉鎮市區：</span>
                                 <select name="TownId">
                                     <option value="@user.TownId">@user.Town</option>
-                                </select>
-                            }
-                            else
-                            {
-                                <select name="TownId">
-                                    @foreach (var town in towns)
-                                    {
-                                        <option value="@town.Id">@town.Name</option>
-                                    }
                                 </select>
                             }
 
@@ -400,33 +391,25 @@
                         <span>災害編號：</span> @(diaster.Id)
                         <br />
                         <span>災害主題：</span> @(diaster.DiasterName)
-                        <br />
-                        <span>鄉鎮市區：</span>
+
                         <input type="hidden" name="ReportDay" value="@ViewBag.ReportDay.ToString("yyyy/MM/dd")" />
                         <input type="hidden" name="DiasterId" value="@diaster.Id" />
                         <input type="hidden" name="DiasterName" value="@diaster.DiasterName" />
                         if (user.Duty == MyEPA.Enums.DutyEnum.Cleaning)
                         {
+                            <br />
+                            <span>鄉鎮市區：</span>
                             <select name="TownId">
                                 <option value="@user.TownId">@user.Town</option>
                             </select>
                         }
-                        else
-                        {
-                            <select name="TownId">
-                                @foreach (var town in towns)
-                                {
-                                    <option value="@town.Id">@town.Name</option>
-                                }
-                            </select>
-                        }
                         <br />
-                        <span>已消毒環境(公噸):</span>@Html.TextBox("CLE_Disinfect", 0, new { @type = "number", step = "0.001",min=0})
+                        <span>已消毒環境(公噸):</span>@Html.TextBox("CLE_Disinfect", 0, new { @type = "number", step = "0.001", min = 0 })
                         <br />
                         <span>已清除污泥(公噸):</span>@Html.TextBox("CLE_MUD", 0, new { @type = "number", step = "0.001", min = 0 })
                         <br />
                         @*<span>已清除垃圾(公噸)：</span>@Html.TextBox("CLE_Trash", 0, new { @type = "number", step = "0.001", min = 0 })
-                        <br />*@
+            <br />*@
                         <span>已清除廢棄物(公噸)：</span>@Html.TextBox("CLE_Garbage", 0, new { @type = "number", step = "0.001", min = 0 })
                         <br />
                         <span>已動用清潔人力(人):</span>@Html.TextBox("CleaningMemberQuantity", 0, new { @type = "number" })
@@ -447,24 +430,15 @@
                         <span>災害編號：</span> @(diaster.Id)
                         <br />
                         <span>災害主題：</span> @(diaster.DiasterName)
-                        <br />
-                        <span>鄉鎮市區：</span>
                         <input type="hidden" name="ReportDay" value="@ViewBag.ReportDay.ToString("yyyy/MM/dd")" />
                         <input type="hidden" name="DiasterId" value="@diaster.Id" />
                         <input type="hidden" name="DiasterName" value="@diaster.DiasterName" />
                         if (user.Duty == MyEPA.Enums.DutyEnum.Cleaning)
                         {
+                            <br />
+                            <span>鄉鎮市區：</span>
                             <select name="TownId">
                                 <option value="@user.TownId">@user.Town</option>
-                            </select>
-                        }
-                        else
-                        {
-                            <select name="TownId">
-                                @foreach (var town in towns)
-                                {
-                                    <option value="@town.Id">@town.Name</option>
-                                }
                             </select>
                         }
                         <div>
@@ -477,7 +451,7 @@
                         <br />
 
                         <input type="submit" class="btn btn-danger" style="margin:10px" value="確認通報,並進行下一步" />
-                        <input id="menu3to4"  class="btn btn-danger" style="margin:10px" value="無照片，進行下一步" />
+                        <input id="menu3to4" class="btn btn-danger" style="margin:10px" value="無照片，進行下一步" />
                     }
                 </div>
                 <div id="menu4" class="tab-pane fade">
@@ -491,24 +465,16 @@
                         <span>災害編號：</span> @(diaster.Id)
                         <br />
                         <span>災害主題：</span> @(diaster.DiasterName)
-                        <br />
-                        <span>鄉鎮市區：</span>
+
                         <input type="hidden" name="ReportDay" value="@ViewBag.ReportDay.ToString("yyyy/MM/dd")" />
                         <input type="hidden" name="DiasterId" value="@diaster.Id" />
                         <input type="hidden" name="DiasterName" value="@diaster.DiasterName" />
                         if (user.Duty == MyEPA.Enums.DutyEnum.Cleaning)
                         {
+                            <br />
+                            <span>鄉鎮市區：</span>
                             <select name="TownId">
                                 <option value="@user.TownId">@user.Town</option>
-                            </select>
-                        }
-                        else
-                        {
-                            <select name="TownId">
-                                @foreach (var town in towns)
-                                {
-                                    <option value="@town.Id">@town.Name</option>
-                                }
                             </select>
                         }
 
@@ -527,7 +493,7 @@
                         <br />
                         <input type="submit" class="btn btn-danger" style="margin:10px" value="確認通報" />
                         <a class="btn btn-danger" style="margin:10px" href="/EPBxDamage/B1c">無檔案，確認完成通報</a>
-                      
+
                     }
                 </div>
 

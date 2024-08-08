@@ -111,7 +111,12 @@ namespace MyEPA.Controllers
         {
             var user = GetUserBrief();
             ViewBag.Msg = TempData["Msg"];
-            ViewBag.Towns = new TownRepository().GetByCityId(user.CityId);
+            if (user.Duty == DutyEnum.Cleaning)
+            {
+                //清潔隊有鄉鎮
+                ViewBag.Towns = new TownRepository().GetByCityId(user.CityId);
+            }
+            
             ViewBag.ReportDay = reportDay;
             ViewBag.User = user;
             DiasterModel diaster = null;
@@ -448,7 +453,8 @@ namespace MyEPA.Controllers
             ViewBag.Xpos = Place.Xpos;
             ViewBag.Ypos = Place.Ypos;
 
-            return RedirectToAction("B1c1", "EPBxDamage", new { damage.ReportDay, damage.DiasterId, menu = "menu4" });
+            //return RedirectToAction("B1c1", "EPBxDamage", new { damage.ReportDay, damage.DiasterId, menu = "menu4" });
+            return RedirectToAction("B1c", "EPBxDamage");
         }
 
         [HttpPost]
