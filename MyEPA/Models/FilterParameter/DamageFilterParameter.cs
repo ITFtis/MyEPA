@@ -14,6 +14,7 @@ namespace MyEPA.Models.FilterParameter
         public List<int> Ids { get; set; }
         public List<int> CityIds { get; set; }
         public List<int> TownIds { get; set; }
+        public int? TownId { get; set; }
         public List<int> DiasterIds { get; set; }
         public DateTime? ReportDay { get; set; }
         public DateTime? StartTime { get; set; }

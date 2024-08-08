@@ -72,14 +72,25 @@ namespace MyEPA.Controllers
             ViewBag.Msg = TempData["Msg"];
 
             var user = GetUserBrief();
+            int townId = 0;
+            if (user.Duty == DutyEnum.EPB)
+            {
+                //環保局
+                townId = 0;
+            }
+            else if (user.Duty == DutyEnum.Cleaning)
+            {
+                //清潔隊
+                townId = user.TownId;
+            }
 
-           
             ViewBag.ActiveDays = GetActiveDays(diaster.StartTime, diaster.EndTime);
 
             DamageFilterParameter filterParameter = new DamageFilterParameter()
             {
                 CityIds = user.CityId.ToListCollection(),
                 DiasterIds = diaster.Id.ToListCollection(),
+                TownId = townId,
             };
 
             if (user.Duty == DutyEnum.Cleaning)
@@ -244,12 +255,18 @@ namespace MyEPA.Controllers
 
             model.CityId = user.CityId;
 
+            if (user.Duty == DutyEnum.EPB)
+            {
+                //環保局
+                model.TownId = 0;
+            }
+
             DamageJoinModel damage = DamageRepository.GetListByFilter(new DamageFilterParameter
             {
                 CityIds = model.CityId.ToListCollection(),
                 DiasterIds = model.DiasterId.ToListCollection(),
                 ReportDay = model.ReportDay,
-                TownIds = model.TownId.ToListCollection(),
+                TownId = model.TownId,
             }).FirstOrDefault();
 
             if (damage == null)
@@ -303,12 +320,18 @@ namespace MyEPA.Controllers
 
             model.CityId = user.CityId;
 
+            if (user.Duty == DutyEnum.EPB)
+            {
+                //環保局
+                model.TownId = 0;
+            }
+
             DamageJoinModel damage = DamageRepository.GetListByFilter(new DamageFilterParameter
             {
                 CityIds = model.CityId.ToListCollection(),
                 DiasterIds = model.DiasterId.ToListCollection(),
                 ReportDay = model.ReportDay,
-                TownIds = model.TownId.ToListCollection(),
+                TownId = model.TownId,
             }).FirstOrDefault();
 
             if (damage == null)
@@ -378,11 +401,23 @@ namespace MyEPA.Controllers
         {
             var user = GetUserBrief();
 
+            if (user.Duty == DutyEnum.EPB)
+            {
+                //環保局
+                model.TownId = 0;
+            }
+            else if (user.Duty == DutyEnum.Cleaning)
+            {
+                //清潔隊
+                model.TownId = user.TownId;
+            }
+
             DamageJoinModel damage = DamageRepository.GetListByFilter(new DamageFilterParameter
             {
                 CityIds = user.CityId.ToListCollection(),
                 DiasterIds = model.DiasterId.ToListCollection(),
-                ReportDay = model.ReportDay
+                ReportDay = model.ReportDay,
+                TownId = model.TownId,
             }).FirstOrDefault();
 
             if (damage == null)
@@ -419,12 +454,23 @@ namespace MyEPA.Controllers
         {
             var user = GetUserBrief();
 
+            if (user.Duty == DutyEnum.EPB)
+            {
+                //環保局
+                model.TownId = 0;
+            }
+            else if (user.Duty == DutyEnum.Cleaning)
+            {
+                //清潔隊
+                model.TownId = user.TownId;
+            }
+
             DamageJoinModel damage = DamageRepository.GetListByFilter(new DamageFilterParameter
             {
                 CityIds = user.CityId.ToListCollection(),
                 DiasterIds = model.DiasterId.ToListCollection(),
                 ReportDay = model.ReportDay,
-                TownIds = model.TownId.ToListCollection(),
+                TownId = model.TownId,
             }).FirstOrDefault();
 
             if(damage == null)

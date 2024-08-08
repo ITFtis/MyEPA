@@ -34,7 +34,7 @@ GROUP BY DiasterId
 Select D.*,C.City CityName,T.Name TownName
 From Damage D
 JOIN City C ON C.Id = D.CityId
-JOIN Town T ON T.Id = D.TownId
+Left JOIN Town T ON T.Id = D.TownId
 {whereSQL}
 ";
 
@@ -249,6 +249,10 @@ From Damage D
             if (filter.TownIds.IsNotEmpty())
             {
                 whereSQL += " AND D.TownId IN @TownIds";
+            }
+			if (filter.TownId.HasValue)
+			{               
+                whereSQL += " AND D.TownId = @TownId";
             }
             if (filter.ReportDay.HasValue)
             {

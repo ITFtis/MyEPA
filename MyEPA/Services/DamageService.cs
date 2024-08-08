@@ -43,8 +43,9 @@ namespace MyEPA.Services
             }
             var activeDays = GetActiveDays(startTime, endTime);
 
-            var models = DamageRepository.GetListByFilter(filter.DamageFilterParameter)
-                .ToMultiKeyDictionary(e => e.TownId, e => e.ReportDay, e => e);
+            //環保局確認清潔隊
+            var damages = DamageRepository.GetListByFilter(filter.DamageFilterParameter).Where(a => a.TownId != null && a.TownId != 0);
+            var models = damages.ToMultiKeyDictionary(e => e.TownId, e => e.ReportDay, e => e);
 
             var citys = CityRepository.GetListByFilter(new CityFilterParameter
             {
