@@ -1999,6 +1999,7 @@
     <Content Include="Views\RecResourceSet\List.cshtml" />
     <Content Include="Views\TestMail\Index.cshtml" />
     <Content Include="Views\EasyReport\DisasterResponseReport.cshtml" />
+    <Content Include="Views\Home\SystemNotice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="C:\NuGetPackages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.7\analyzers\dotnet\cs\Microsoft.CodeAnalysis.VersionCheckAnalyzer.resources.dll" />

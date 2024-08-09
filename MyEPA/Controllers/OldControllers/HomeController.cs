@@ -365,7 +365,47 @@ namespace MyEPA.Controllers
 
         }
 
+        /// <summary>
+        /// 系統公告訊息
+        /// </summary>
+        /// <returns></returns>
+        public bool IsSystemNotice()
+        {            
+            bool result = false;
+
+            DateTime date = DateTime.Now;
+
+            DateTime sDate1 = DateTime.Parse("2024/08/09 00:00");
+            DateTime eDate1 = DateTime.Parse("2024/08/10 22:00");
+
+            if (date >= sDate1 && date <= eDate1)
+            {
+                return true;
+            }
+
+            DateTime sDate2 = DateTime.Parse("2024/08/22 00:00");
+            DateTime eDate2 = DateTime.Parse("2024/08/25 22:00");
+
+            if (date >= sDate2 && date <= eDate2)
+            {
+                return true;
+            }
+
+            return result;
+        }
+
         public ActionResult LoginRedirect()
+        {
+            if (IsSystemNotice())
+            {
+                return View("~/Views/Home/SystemNotice.cshtml");
+            }
+
+            return LoginRedirectGo();
+        }
+
+
+        public ActionResult LoginRedirectGo()
         {
             var user = GetUserBrief();
             var duty = user.Duty;
@@ -400,9 +440,6 @@ namespace MyEPA.Controllers
                     return View("~/Views/Home/Login.cshtml");
             }
         }
- 
-       
-
 
 
 
