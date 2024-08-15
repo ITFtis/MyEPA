@@ -4,3 +4,5 @@ Go
 
 Update Damage
 Set CleanDay = ReportDay
+Go
+
