@@ -12,3 +12,14 @@ Go
 Update Damage
 Set IsDamageClean = IsDamage
 Go
+
+----------------------
+alter Table Damage add CleanConfirmTime [datetime] NULL
+alter Table Damage add CleanTeamConfirmTime [datetime2](7) NULL
+Go
+
+Update Damage
+Set CleanConfirmTime = ConfirmTime,
+    CleanTeamConfirmTime = TeamConfirmTime
+Go
+
