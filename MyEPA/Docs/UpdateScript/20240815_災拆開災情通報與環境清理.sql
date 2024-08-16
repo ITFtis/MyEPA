@@ -6,3 +6,9 @@ Update Damage
 Set CleanDay = ReportDay
 Go
 
+alter Table Damage add IsDamageClean [bit] NULL
+Go
+
+Update Damage
+Set IsDamageClean = IsDamage
+Go
