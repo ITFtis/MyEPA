@@ -16,10 +16,12 @@ Go
 ----------------------
 alter Table Damage add CleanConfirmTime [datetime] NULL
 alter Table Damage add CleanTeamConfirmTime [datetime2](7) NULL
+alter Table Damage add CleanStatus [int] NULL
 Go
 
 Update Damage
 Set CleanConfirmTime = ConfirmTime,
-    CleanTeamConfirmTime = TeamConfirmTime
+    CleanTeamConfirmTime = TeamConfirmTime,
+	CleanStatus = [Status]
 Go
 
