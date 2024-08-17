@@ -1,0 +1,47 @@
+﻿@using MyEPA.Models;
+<div style="background-color:azure">
+    @*<br />
+        <h5>@ViewBag.City<span>災情通報資料</span></h5>
+        <br />*@
+    <font size="3">
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th>編輯</th>
+                <th>通報日期</th>
+                <th>縣市</th>
+                <th>鄉鎮市區</th>
+                <th>有無災情</th>
+                <th>實際環境消毒日期</th>
+                <th>實際消毒面積(公頃)</th>
+                <th>已消毒環境(公噸)</th>
+                <th>已清除污泥(公噸)</th>
+                <th>已清除廢棄物(公噸)</th>
+                <th>已動用清潔人力(人)</th>
+                <th>已動用國軍支援(人)</th>
+            </tr>
+            @foreach (var Item in (List<DamageJoinModel>)ViewBag.Data2)
+            {
+                <tr>
+                    <td>
+                        <a href="@Url.Action("EditCC", "Damage", new { Id = Item.Id })">修改</a>
+
+                        <a onclick="return confirm('您確定要刪除嗎？')" href="@Url.Action("del", "Damage", new { Id = Item.Id, returnUrl = "~/EPBxDamage/B1cc" })">刪除</a>
+                    </td>
+                    <td>@(Item.CleanDay != null ? ((DateTime)Item.CleanDay).ToString("yyyy/MM/dd") : "")</td>
+                    <td>@Item.CityName</td>
+                    <td>@Item.TownName</td>
+                    <td>@(Item.IsDamageClean != null && (bool)Item.IsDamageClean ? "有" : "無災情")</td>
+                    <td>@(Item.DisinfectDate != null ? ((DateTime)Item.DisinfectDate).ToString("yyyy/MM/dd") : "")</td>
+                    <td>@Item.DisinfectArea</td>
+                    <td>@Item.CLE_Disinfect</td>
+                    <td>@Item.CLE_MUD</td>
+                    <td>@Item.CLE_Garbage</td>
+                    <td>@Item.CleaningMemberQuantity</td>
+                    <td>@Item.NationalArmyQuantity</td>
+                </tr>
+            }
+        </table>
+        <br />
+        <br />
+    </font>
+</div>

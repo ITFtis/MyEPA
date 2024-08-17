@@ -2,14 +2,9 @@
 @using MyEPA.Models
 @using MyEPA.Enums;
 @{
-    ViewBag.Title = "災情通報 - 修改";
+    ViewBag.Title = "環境清理 - 修改";
     Layout = "~/Views/_Layout.cshtml";
-    //垃圾場
-    List<SelectListItem> landfills = ViewBag.Landfills;
-    //焚化廠
-    List<SelectListItem> incinerators = ViewBag.Incinerators;
-    List<FileDataModel> files = ViewBag.Files;
-    List<FileDataModel> images = ViewBag.Images;
+
     //環境清理
     List<FileDataModel> ccfiles = ViewBag.CCFiles;
     List<FileDataModel> ccimages = ViewBag.CCImages;
@@ -51,7 +46,7 @@
     </div>
 </div>
 
-@using (Html.BeginForm("Edit", "Damage", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("EditCC", "Damage", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -60,97 +55,74 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
         @Html.HiddenFor(model => model.DiasterId)
-        
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DamagePlace, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.DisinfectDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DamagePlace, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DamagePlace, "", new { @class = "text-danger" })
+                @Html.TextBox("DisinfectDate", Model.DisinfectDate != null ? ((DateTime)Model.DisinfectDate).ToString("yyyy-MM-dd") : "", new { @type = "Date" })
+                @Html.ValidationMessageFor(model => model.DisinfectDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.DisinfectArea, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DisinfectArea, new { htmlAttributes = new { @class = "form-control", @Type = "number", min = 0, step = "0.001" } })
+                @Html.ValidationMessageFor(model => model.DisinfectArea, "", new { @class = "text-danger" })
+                <span>
+                    ※面積換算：
+                    1公頃=10000平方公尺
+                    100公頃=1平方公里
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.CLE_Disinfect, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CLE_Disinfect, new { htmlAttributes = new { @class = "form-control", @Type = "number", min = 0, step = "0.001" } })
+                @Html.ValidationMessageFor(model => model.CLE_Disinfect, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        @*<div class="form-group">
-                @Html.LabelFor(model => model.DamageArea, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.DamageArea, new { htmlAttributes = new { @class = "form-control", @Type = "number", min = 0, step = "0.001" } })
-                    @Html.ValidationMessageFor(model => model.DamageArea, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.FloodArea, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.FloodArea, new { htmlAttributes = new { @class = "form-control", @Type = "number", min = 0, step = "0.001" } })
-                    @Html.ValidationMessageFor(model => model.FloodArea, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
-
         <div class="form-group">
-            @Html.LabelFor(model => model.DumpSiteDesc, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CLE_MUD, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DumpSiteDesc, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DumpSiteDesc, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.CLE_MUD, new { htmlAttributes = new { @class = "form-control", @Type = "number", min = 0, step = "0.001" } })
+                @Html.ValidationMessageFor(model => model.CLE_MUD, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.CLE_Garbage, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CLE_Garbage, new { htmlAttributes = new { @class = "form-control", @Type = "number", min = 0, step = "0.001" } })
+                @Html.ValidationMessageFor(model => model.CLE_Garbage, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <!--垃圾掩埋場-->
         <div class="form-group">
-            @Html.LabelFor(model => model.LandfillIds, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CleaningMemberQuantity, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @for (int i = 0; i < landfills.Count; i++)
+                @Html.EditorFor(model => model.CleaningMemberQuantity, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CleaningMemberQuantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NationalArmyQuantity, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NationalArmyQuantity, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NationalArmyQuantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!--環境清理-->
+        <div class="form-group">
+            <label class="control-label col-md-2">照片(環境清理)</label>
+            <div class="col-md-10">
+                @if (Model.CCImageFile != null)
                 {
-                    var item = landfills[i];
-
-                    <input id="InputLandfillIds[@i]" name="InputLandfillIds" @(Model.InputLandfillIds.Select(e => e.ToString()).Contains(item.Value) ? "checked=\"checked\"" : string.Empty) value="@item.Value" type="checkbox" />
-                    <label for="InputLandfillIds[@i]">@item.Text</label>
-                    <br />
+                    <img width="200" src="@Url.Action("Download","FileData",new {id = Model.CCImageFile.Id })" />
                 }
-                @Html.ValidationMessageFor(model => model.LandfillIds, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IncinerationPlantDesc, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.IncinerationPlantDesc, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.IncinerationPlantDesc, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <!--焚化廠-->
-        <div class="form-group">
-            @Html.LabelFor(model => model.IncineratorIds, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @for (int i = 0; i < incinerators.Count; i++)
-                {
-                    var item = incinerators[i];
-
-                    <input id="InputIncineratorIds[@i]" name="InputIncineratorIds" @(Model.InputIncineratorIds.Select(e => e.ToString()).Contains(item.Value) ? "checked=\"checked\"" : string.Empty) value="@item.Value" type="checkbox" />
-                    <label for="InputIncineratorIds[@i]">@item.Text</label>
-                    <br />
-                }
-                @Html.ValidationMessageFor(model => model.IncineratorIds, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Other, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Other, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Other, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <!--@Html.LabelFor(model => model.ImageFileId, htmlAttributes: new { @class = "control-label col-md-2" })-->
-            <label class="control-label col-md-2" for="ImageFileId">照片(災情通報)</label>
-            <div class="col-md-10">
-                @if (Model.ImageFile != null)
-                {
-                    <img width="200" src="@Url.Action("Download","FileData",new {id = Model.ImageFile.Id })" />
-                }
-                @foreach (var item in images)
+                @foreach (var item in ccimages)
                 {
                     <div class="imgDiv">
                         <img width="200" src="@Url.Action("Download","FileData",new {id = item.Id })" />
@@ -164,26 +136,25 @@
 
                 <div class="form-group">
                     <div class="col-md-10">
-                        <button type="button" onclick="addimg()">新增</button>
-                        <input class="imgs" type="file" name="ImageFile" accept="image/*" />
+                        <button type="button" onclick="addccimg()">新增</button>
+                        <input class="ccimgs" type="file" name="CCImageFile" accept="image/*" />
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="form-group">
-            <!--@Html.LabelFor(model => model.FileId, htmlAttributes: new { @class = "control-label col-md-2" })-->
-            <label class="control-label col-md-2" for="ImageFileId">檔案(災情通報)</label>
+            <label class="control-label col-md-2">檔案(環境清理)</label>
             <div class="col-md-10">
                 <ul>
-                    @if (Model.File != null)
+                    @if (Model.CCFile != null)
                     {
                         <li>
-                            @Html.ActionLink(Model.File.UserFileName, "Download", "FileData", new { id = Model.File.Id }, new { })
-                            <a href="#" class="delete" style="color:red" onclick="del(this,@Model.File.Id)">刪除</a>
+                            @Html.ActionLink(Model.CCFile.UserFileName, "Download", "FileData", new { id = Model.CCFile.Id }, new { })
+                            <a href="#" class="delete" style="color:red" onclick="del(this,@Model.CCFile.Id)">刪除</a>
                         </li>
                     }
-                    @foreach (var item in files)
+                    @foreach (var item in ccfiles)
                     {
 
                         <li>
@@ -194,8 +165,8 @@
                 </ul>
                 <div class="form-group">
                     <div class="col-md-10">
-                        <button type="button" onclick="add()">新增</button>
-                        <input class="files" type="file" name="File" />
+                        <button type="button" onclick="addcc()">新增</button>
+                        <input class="ccfiles" type="file" name="CCFile" />
                     </div>
                 </div>
             </div>

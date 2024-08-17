@@ -11,45 +11,27 @@
                 <th>縣市</th>
                 <th>鄉鎮市區</th>
                 <th>有無災情</th>
-                <th>主要受災(區村里)</th>
-                <th>災區面積(公頃)</th>
-                <th>淹水面積(公頃)</th>
                 <th>預估廢棄物量(公噸)</th>
                 <th>垃圾場損壞情形</th>
                 <th>焚化廠損壞情形</th>
                 <th>其他損壞情形</th>
-                <th>消毒實施(預定)日期</th>
-                <th>預計消毒面積(公頃)</th>
-                <th>已消毒環境(公噸)</th>
-                <th>已清除污泥(公噸)</th>
-                <th>已清除垃圾(公噸)</th>
-                <th>已清除廢棄物(公噸)</th>
-                <th>已動用清潔人力(人)</th>
-                <th>已動用國軍支援(人)</th>
             </tr>
             @foreach (var Item in (List<DamageJoinModel>)ViewBag.Data2)
             {
         <tr>
-            <td><a href="@Url.Action("Edit", "Damage", new { Id = Item.Id })">修改</a><a onclick="return confirm('您確定要刪除嗎？')" href="@Url.Action("del", "Damage", new { Id = Item.Id })">刪除</a></td>          
-            <td>@Item.ReportDay.ToString("yyyy/MM/dd HH:mm")</td>
+            <td>
+                <a href="@Url.Action("Edit", "Damage", new { Id = Item.Id })">修改</a>
+
+                <a onclick="return confirm('您確定要刪除嗎？')" href="@Url.Action("del", "Damage", new { Id = Item.Id })">刪除</a>
+            </td>          
+            <td>@(Item.ReportDay != null ? ((DateTime)Item.ReportDay).ToString("yyyy/MM/dd") : "")</td>
             <td>@Item.CityName</td>
             <td>@Item.TownName</td>
-            <td>@(Item.IsDamage ? "有" : "無災情")</td>
+            <td>@(Item.IsDamage != null && (bool)Item.IsDamage ? "有" : "無災情")</td>
             <td>@Item.DamagePlace</td>
-            <td>@Item.DamageArea</td>
-            <td>@Item.FloodArea</td>
-            <td>@Item.PR_Garbage</td>
             <td>@Item.DumpSiteDesc</td>
             <td>@Item.IncinerationPlantDesc</td>
             <td>@Item.Other</td>
-            <td>@(Item.IsDamage ? Item.DisinfectDate.ToString("yyyy/MM/dd HH:mm") : "")</td>
-            <td>@Item.DisinfectArea</td>
-            <td>@Item.CLE_Disinfect</td>
-            <td>@Item.CLE_MUD</td>
-            <td>@Item.CLE_Trash</td>
-            <td>@Item.CLE_Garbage</td>
-            <td>@Item.CleaningMemberQuantity</td>
-            <td>@Item.NationalArmyQuantity</td>
         </tr>
             }
         </table>

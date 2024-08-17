@@ -1,4 +1,5 @@
-﻿using MyEPA.Enums;
+﻿using DocumentFormat.OpenXml.Drawing.Charts;
+using MyEPA.Enums;
 using MyEPA.Extensions;
 using MyEPA.Helper;
 using MyEPA.Models;
@@ -9,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Web;
 
 namespace MyEPA.Services
@@ -41,11 +43,24 @@ namespace MyEPA.Services
                 startTime = filter.DamageFilterParameter.ReportDay.Value;
                 endTime = filter.DamageFilterParameter.ReportDay.Value;
             }
+            else if (filter.DamageFilterParameter.CleanDay.HasValue)
+            {
+                startTime = filter.DamageFilterParameter.CleanDay.Value;
+                endTime = filter.DamageFilterParameter.CleanDay.Value;
+            }
             var activeDays = GetActiveDays(startTime, endTime);
 
             //環保局確認清潔隊
             var damages = DamageRepository.GetListByFilter(filter.DamageFilterParameter).Where(a => a.TownId != null && a.TownId != 0);
-            var models = damages.ToMultiKeyDictionary(e => e.TownId, e => e.ReportDay, e => e);
+            MultiKeyDictionary<int, DateTime?, DamageJoinModel> models;
+            if (filter.DamageFilterParameter.CleanDay.HasValue)
+            {
+                models = damages.ToMultiKeyDictionary(e => e.TownId, e => e.CleanDay, e => e);
+            }
+            else
+            {
+                models = damages.ToMultiKeyDictionary(e => e.TownId, e => e.ReportDay, e => e);
+            }
 
             var citys = CityRepository.GetListByFilter(new CityFilterParameter
             {
@@ -54,7 +69,8 @@ namespace MyEPA.Services
 
             var towns = TownRepository.GetListByFilter(new TownFilterParameter
             {
-                CityIds = filter.DamageFilterParameter.CityIds
+                CityIds = filter.DamageFilterParameter.CityIds,
+                IsTown = true,
             });
             List<DamageConfirmList> result = new List<DamageConfirmList>();
             foreach (DateTime date in activeDays)
@@ -80,7 +96,8 @@ namespace MyEPA.Services
                             TownId = town.Id,
                             TownName = town.Name,
                             IsDamage = null,
-                            ReportDay = date
+                            ReportDay = date,
+                            CleanDay = date,
                         };
                     }
                     result.Add(item);
@@ -124,6 +141,7 @@ namespace MyEPA.Services
                 CreateDate = damage.CreateDate,
                 DamagePlace = damage.DamagePlace,
                 DiasterId = damage.DiasterId,
+                CleanDay = damage.CleanDay,
                 DisinfectDate = damage.DisinfectDate,
                 DumpSiteDesc = damage.DumpSiteDesc,
                 DutyId = damage.DutyId,
@@ -132,9 +150,12 @@ namespace MyEPA.Services
                 Id = damage.Id,
                 ImageFile = null,
                 ImageFileId = damage.ImageFileId,
+                CCFile = null,
+                CCImageFile = null,
                 IncinerationPlantDesc = damage.IncinerationPlantDesc,
                 IncineratorIds = damage.IncineratorIds,
                 IsDamage = damage.IsDamage,
+                IsDamageClean = damage.IsDamageClean,
                 LandfillIds = damage.LandfillIds,
                 Note = damage.Note,
                 Other = damage.Other,
@@ -142,6 +163,7 @@ namespace MyEPA.Services
                 PR_Garbage = damage.PR_Garbage,
                 ReportDay = damage.ReportDay,
                 Status = damage.Status,
+                CleanStatus = damage.CleanStatus,
                 TownId = damage.TownId,
                 TownName = damage.TownName,
                 UpdateDate = damage.UpdateDate
@@ -191,31 +213,58 @@ namespace MyEPA.Services
 
             DamageModel entity = damage;
 
+            //災情通報
             UploadFile(user, model, files, "File");
             UploadFile(user, model, files, "ImageFile");
 
-            entity.ReportDay = model.ReportDay;
-            entity.CleaningMemberQuantity = model.CleaningMemberQuantity;
-            entity.CLE_Disinfect = model.CLE_Disinfect;
-            entity.CLE_Garbage = model.CLE_Garbage;
-            entity.CLE_MUD = model.CLE_MUD;
-            entity.CLE_Trash = model.CLE_Trash;
-            entity.DamageArea = model.DamageArea;
             entity.DamagePlace = model.DamagePlace;
-            entity.DisinfectArea = model.DisinfectArea;
-            entity.DisinfectDate = model.DisinfectDate;
             entity.DumpSiteDesc = model.DumpSiteDesc;
-            entity.FloodArea = model.FloodArea;
+            entity.LandfillIds = string.Join(",", model.InputLandfillIds);
             entity.IncinerationPlantDesc = model.IncinerationPlantDesc;
             entity.IncineratorIds = string.Join(",", model.InputIncineratorIds);
-            entity.LandfillIds = string.Join(",", model.InputLandfillIds); 
-            entity.NationalArmyQuantity = model.NationalArmyQuantity;
-            entity.Note = model.Note;
             entity.Other = model.Other;
             entity.ProcessDesc = model.ProcessDesc;
-            entity.PR_Garbage = model.PR_Garbage;
+            entity.Note = model.Note;
+
             entity.UpdateDate = DateTimeHelper.GetCurrentTime();
             entity.IsDamage = true;
+            DamageRepository.Update(entity);
+        }
+
+        /// <summary>
+        /// 環境清理
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="model"></param>
+        /// <param name="files"></param>
+        /// <exception cref="Exception"></exception>
+        public void UpdateCC(UserBriefModel user, DamageViewModel model, Dictionary<string, List<HttpPostedFileBase>> files)
+        {
+            DamageViewModel damage = Get(model.Id);
+
+            if (damage == null)
+            {
+                throw new Exception("不存在");
+            }          
+
+            DamageModel entity = damage;
+
+            //環境清理
+            UploadFile(user, model, files, "CCFile");
+            UploadFile(user, model, files, "CCImageFile");
+
+            entity.DisinfectDate = model.DisinfectDate;
+            entity.DisinfectArea = model.DisinfectArea;
+            entity.CLE_Disinfect = model.CLE_Disinfect;
+            entity.CLE_MUD = model.CLE_MUD;
+            entity.CLE_Garbage = model.CLE_Garbage;
+            entity.CleaningMemberQuantity = model.CleaningMemberQuantity;
+            entity.NationalArmyQuantity = model.NationalArmyQuantity;
+            entity.ProcessDesc = model.ProcessDesc;
+            entity.Note = model.Note;
+
+            entity.UpdateDate = DateTimeHelper.GetCurrentTime();
+            entity.IsDamageClean = true;
             DamageRepository.Update(entity);
         }
 
@@ -233,6 +282,12 @@ namespace MyEPA.Services
                     break;
                 case "File":
                     sourceType = SourceTypeEnum.DamageFile;
+                    break;
+                case "CCImageFile":
+                    sourceType = SourceTypeEnum.DamageCCImage;
+                    break;
+                case "CCFile":
+                    sourceType = SourceTypeEnum.DamageCCFile;
                     break;
                 default:
                     return false;
@@ -313,6 +368,7 @@ namespace MyEPA.Services
             var towns = TownRepository.GetListByFilter(new TownFilterParameter
             {
                 CityIds = citys.Select(e => e.Id).ToList(),
+                IsTown = true,
             }).ToList();
 
             if (towns.IsEmptyOrNull())
@@ -346,7 +402,8 @@ namespace MyEPA.Services
             {
                 foreach (var date in dates)
                 {
-                    DamageJoinModel damage = damages.FirstOrDefault(e => e.TownId == town.Id && e.ReportDay.Date == date.Date);
+                    DamageJoinModel damage = damages.FirstOrDefault(e => e.TownId == town.Id 
+                                                    && (e.ReportDay != null && ((DateTime)e.ReportDay).Date == date.Date));
                     if(damage == null)
                     {
                         result.Add(new DamageTownViewModel
@@ -375,11 +432,13 @@ namespace MyEPA.Services
                             DamagePlace = damage.DamagePlace,
                             DumpSiteDesc = damage.DumpSiteDesc,
                             IncinerationPlantDesc = damage.IncinerationPlantDesc,
+                            Other = damage.Other,
                             PR_Garbage = damage.PR_Garbage,
                             ReportDay = damage.ReportDay,
                             Status = damage.Status,
                             TownId = damage.TownId,
                             TownName = damage.TownName,
+                            ConfirmTime = damage.ConfirmTime,
                             UpdateDate = damage.UpdateDate,
                             CLE_Garbage = damage.CLE_Garbage,
                             IsDamage = damage.IsDamage
@@ -389,6 +448,112 @@ namespace MyEPA.Services
             }
 
             return result.OrderBy(e => e.CityId).ThenByDescending(e => e.ReportDay).ThenBy(e => e.TownId).ToList();
+        }
+
+        public List<DamageTownViewModel> GetTownCCList(int diasterId, DateTime? cleanDay, int? cityId)
+        {
+            var diaster = DiasterRepository.Get(diasterId);
+
+            if (diaster == null)
+            {
+                return new List<DamageTownViewModel>();
+            }
+
+            var citys = CityRepository.GetListByFilter(new CityFilterParameter
+            {
+                CityIds = cityId.HasValue ? cityId.Value.ToListCollection() : new List<int>(),
+                IsCounty = true
+            }).ToList();
+
+            if (citys.IsEmptyOrNull())
+            {
+                return new List<DamageTownViewModel>();
+            }
+
+            var towns = TownRepository.GetListByFilter(new TownFilterParameter
+            {
+                CityIds = citys.Select(e => e.Id).ToList(),
+                IsTown = true,
+            }).ToList();
+
+            if (towns.IsEmptyOrNull())
+            {
+                return new List<DamageTownViewModel>();
+            }
+
+            List<DamageJoinModel> damages = DamageRepository.GetListByFilter(new DamageFilterParameter
+            {
+                CityIds = citys.Select(e => e.Id).ToList(),
+                TownIds = towns.Select(e => e.Id).ToList(),
+                DiasterIds = diasterId.ToListCollection(),
+                CleanDay = cleanDay
+            });
+
+            var dates = DateTimeHelper.GetBetweenAllDates(diaster.StartTime, diaster.EndTime);
+
+            if (cleanDay.HasValue)
+            {
+                dates = dates.Where(e => e.Date == cleanDay.Value).ToList();
+            }
+
+            if (dates.IsEmptyOrNull())
+            {
+                return new List<DamageTownViewModel>();
+            }
+
+            List<DamageTownViewModel> result = new List<DamageTownViewModel>();
+
+            foreach (TownModel town in towns)
+            {
+                foreach (var date in dates)
+                {
+                    DamageJoinModel damage = damages.FirstOrDefault(e => e.TownId == town.Id
+                                                    && (e.CleanDay != null && ((DateTime)e.CleanDay).Date == date.Date));
+                    if (damage == null)
+                    {
+                        result.Add(new DamageTownViewModel
+                        {
+                            CityId = town.CityId,
+                            CityName = citys.Where(e => e.Id == town.CityId).Select(e => e.City).FirstOrDefault(),
+                            CleanStatus = DamageStatusEnum.UnNotification,
+                            CleanDay = date.Date,
+                            TownId = town.Id,
+                            TownName = town.Name,
+                        });
+                    }
+                    else
+                    {
+                        result.Add(new DamageTownViewModel
+                        {
+                            CityId = damage.CityId,
+                            DamageArea = damage.DamageArea,
+                            FloodArea = damage.FloodArea,
+                            NationalArmyQuantity = damage.NationalArmyQuantity,
+                            CityName = damage.CityName,
+                            CleaningMemberQuantity = damage.CleaningMemberQuantity,
+                            CLE_Disinfect = damage.CLE_Disinfect,
+                            CLE_MUD = damage.CLE_MUD,
+                            CLE_Trash = damage.CLE_Trash,
+                            DamagePlace = damage.DamagePlace,
+                            DumpSiteDesc = damage.DumpSiteDesc,
+                            IncinerationPlantDesc = damage.IncinerationPlantDesc,
+                            Other = damage.Other,
+                            PR_Garbage = damage.PR_Garbage,
+                            CleanDay = damage.CleanDay,
+                            CleanStatus = damage.CleanStatus,
+                            TownId = damage.TownId,
+                            TownName = damage.TownName,
+                            UpdateDate = damage.UpdateDate,
+                            CleanConfirmTime = damage.CleanConfirmTime,
+                            CLE_Garbage = damage.CLE_Garbage,
+                            DisinfectDate = damage.DisinfectDate,
+                            IsDamageClean = damage.IsDamageClean
+                        });
+                    }
+                }
+            }
+
+            return result.OrderBy(e => e.CityId).ThenByDescending(e => e.CleanDay).ThenBy(e => e.TownId).ToList();
         }
 
         public DamageModel UpdateMemo(DamageMemoViewModel model)
@@ -438,68 +603,101 @@ namespace MyEPA.Services
             };
         }
 
-        public void NotDamage(UserBriefModel user, DamageModel model)
+        
+        public DamageJoinModel GetDamageByDate(int cityId, int diasterId, int? townId, DateTime? date)
         {
-            int cityId = user.CityId;
-            int townId = model.TownId;
-            var filter = new DamageFilterParameter
+            //先判斷是否有災情回報
+            DamageFilterParameter filter = new DamageFilterParameter
             {
                 CityIds = cityId.ToListCollection(),
-                DiasterIds = model.DiasterId.ToListCollection(),
-                ReportDay = model.ReportDay,
-                TownIds = townId.ToListCollection(),
+                DiasterIds = diasterId.ToListCollection(),
+                ReportDay = date,
+                TownId = townId,
             };
-            // DamageJoinModel damageJoin = DamageRepository.GetListByFilter(filter).FirstOrDefault();
-            var  damageLIST = DamageRepository.GetListByFilter(filter);
-            if (damageLIST.Count == 0)
+
+            DamageJoinModel damage = DamageRepository.GetListByFilter(filter).FirstOrDefault();
+
+            if (damage == null)
             {
-                DamageModel damage = new DamageModel
+                //否則取環境清理
+                filter = new DamageFilterParameter
+                {
+                    CityIds = cityId.ToListCollection(),
+                    DiasterIds = diasterId.ToListCollection(),
+                    CleanDay = date,
+                    TownId = townId,
+                };
+
+                damage = DamageRepository.GetListByFilter(filter).FirstOrDefault();
+            }
+
+            return damage;
+        }
+
+        /// <summary>
+        /// 取得DamageModel 利用通報日期
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="model"></param>
+        /// <param name="hType">1.災情通報2.環境清理</param>
+        public void NotDamage(UserBriefModel user, DamageModel model, int hType)
+        {
+            int cityId = user.CityId;
+
+            DamageJoinModel join = null;
+            if (hType == 1)
+            {
+                join = GetDamageByDate(cityId, model.DiasterId, model.TownId, model.ReportDay);
+            }
+            else if (hType == 2)
+            {
+                join = GetDamageByDate(cityId, model.DiasterId, model.TownId, model.CleanDay);
+            }
+
+            DamageModel damage = null;
+            //本日無災情
+            if (join != null)
+            {
+                damage = join;
+            }
+            else
+            {
+                damage = new DamageModel
                 {
                     CityId = cityId,
-                    TownId = townId,
-                    ReportDay = model.ReportDay,
-                    CreateDate = DateTimeHelper.GetCurrentTime(),
-                    UpdateDate = DateTimeHelper.GetCurrentTime(),
-                    DiasterId = model.DiasterId,
-                    Status = DamageStatusEnum.Waiting,
-                    IsDamage = false,
-                    DisinfectDate = DateTimeHelper.GetCurrentTime(),
+                    TownId = model.TownId,
+                    DiasterId = model.DiasterId,                   
                 };
+            }
+
+            if (hType == 1)
+            {
+                damage.Status = DamageStatusEnum.Waiting;
+                damage.IsDamage = false;
+                damage.ReportDay = model.ReportDay;
+            }
+            else if (hType == 2)
+            {
+                damage.CleanStatus = DamageStatusEnum.Waiting;
+                damage.IsDamageClean = false;
+                damage.CleanDay = model.CleanDay;
+            }
+
+            //儲存
+            if (join == null)
+            {
+                damage.CreateDate = DateTimeHelper.GetCurrentTime();
+                damage.UpdateDate = DateTimeHelper.GetCurrentTime();
                 DamageRepository.Create(damage);
             }
             else
             {
-                foreach (DamageJoinModel damageJoin in damageLIST) 
-                {
-
-                    DamageJoinModel damage = new DamageJoinModel
-                    {
-                        Id = damageJoin.Id,
-                        CityId = damageJoin.CityId,
-                        TownId = damageJoin.TownId,
-                        ReportDay = damageJoin.ReportDay,
-                        CreateDate = DateTimeHelper.GetCurrentTime(),
-                        UpdateDate = DateTimeHelper.GetCurrentTime(),
-                        DiasterId = damageJoin.DiasterId,
-                        Status = DamageStatusEnum.Waiting,
-                        IsDamage = false,
-                        DisinfectDate = DateTimeHelper.GetCurrentTime(),
-                    };
-
-
-
-
-
-
-
-                //    damageJoin.IsDamage = false;
-                //damageJoin.UpdateDate = DateTimeHelper.GetCurrentTime();
+                damage.UpdateDate = DateTimeHelper.GetCurrentTime();
                 DamageRepository.Update(damage);
-                }
             }
         }
 
-        public void Confirm(UserBriefModel user, int id, DamageStatusEnum status)
+        public void Confirm(UserBriefModel user, int id, DamageStatusEnum status, int hType)
         {
             DamageModel result = DamageRepository.Get(id);
 
@@ -509,16 +707,32 @@ namespace MyEPA.Services
                 return;
             }
 
-            result.Status = status;
+            if (hType == 1)
+            {
+                result.Status = status;
 
-            if (user.Duty == DutyEnum.Team)
-            {
-                result.TeamConfirmTime = DateTimeHelper.GetCurrentTime();
+                if (user.Duty == DutyEnum.Team)
+                {
+                    result.TeamConfirmTime = DateTimeHelper.GetCurrentTime();
+                }
+                else
+                {
+                    result.ConfirmTime = DateTimeHelper.GetCurrentTime();
+                }
             }
-            else
+            else if (hType == 2)
             {
-                result.ConfirmTime = DateTimeHelper.GetCurrentTime();
-            }
+                result.CleanStatus = status;
+
+                if (user.Duty == DutyEnum.Team)
+                {
+                    result.CleanTeamConfirmTime = DateTimeHelper.GetCurrentTime();
+                }
+                else
+                {
+                    result.CleanConfirmTime = DateTimeHelper.GetCurrentTime();
+                }
+            }           
 
             DamageRepository.Update(result);
         }
@@ -570,7 +784,9 @@ namespace MyEPA.Services
             {
                 foreach (var date in dates)
                 {
-                    DamageJoinModel damage = damages.FirstOrDefault(e => e.TownId == town.Id && e.ReportDay.Date == date.Date);
+                    DamageJoinModel damage = damages.FirstOrDefault(e => e.TownId == town.Id
+                                                            && (e.ReportDay != null && ((DateTime)e.ReportDay).Date == date.Date));
+
                     result.Add(new DamageTeamConfirmViewModel
                     {
                         CityId = town.CityId,
@@ -584,7 +800,72 @@ namespace MyEPA.Services
 
             return result;
         }
-        
+
+        public List<DamageTeamConfirmViewModel> GetConfirmCCList(int diasterId, AreaEnum area, int? cityId)
+        {
+            var diaster = DiasterRepository.Get(diasterId);
+
+            if (diaster == null)
+            {
+                return new List<DamageTeamConfirmViewModel>();
+            }
+
+            var citys = CityRepository.GetListByFilter(new CityFilterParameter
+            {
+                AreaIds = area.ToInteger().ToListCollection(),
+                CityIds = cityId.HasValue ? cityId.Value.ToListCollection() : new List<int>(),
+                IsCounty = true
+            }).ToList();
+
+            if (citys.IsEmptyOrNull())
+            {
+                return new List<DamageTeamConfirmViewModel>();
+            }
+
+            var towns = TownRepository.GetListByFilter(new TownFilterParameter
+            {
+                CityIds = citys.Select(e => e.Id).ToList(),
+                IsTown = false
+            }).ToList();
+
+            if (towns.IsEmptyOrNull())
+            {
+                return new List<DamageTeamConfirmViewModel>();
+            }
+
+            List<DamageJoinModel> damages =
+               DamageRepository.GetListByFilter(new DamageFilterParameter
+               {
+                   TownIds = towns.Select(e => e.Id).ToList(),
+                   DiasterIds = diasterId.ToListCollection(),
+                   CityIds = cityId.HasValue ? cityId.Value.ToListCollection() : new List<int>()
+               });
+
+            List<DamageTeamConfirmViewModel> result = new List<DamageTeamConfirmViewModel>();
+
+            var dates = DateTimeHelper.GetBetweenAllDates(diaster.StartTime, diaster.EndTime);
+
+            foreach (TownModel town in towns)
+            {
+                foreach (var date in dates)
+                {
+                    DamageJoinModel damage = damages.FirstOrDefault(e => e.TownId == town.Id
+                                                            && (e.CleanDay != null && ((DateTime)e.CleanDay).Date == date.Date));
+
+                    result.Add(new DamageTeamConfirmViewModel
+                    {
+                        CityId = town.CityId,
+                        CityName = citys.Where(e => e.Id == town.CityId).Select(e => e.City).FirstOrDefault(),
+                        CleanStatus = damage == null ? DamageStatusEnum.UnNotification : damage.CleanStatus,
+                        Id = damage?.Id,
+                        CleanDay = date.Date
+                    });
+                }
+            }
+
+            return result;
+        }
+
         public List<DamageStatisticsTownViewModel> GetTownStatistics(DamageReportFilterModel filter)
         {
             List<DamageStatisticsModel> result = DamageRepository.GetStatistics(filter);

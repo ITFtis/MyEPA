@@ -1,0 +1,106 @@
+﻿@model IEnumerable<MyEPA.Models.DamageTownViewModel>
+
+@{
+    ViewBag.Title = "環境清理 - 鄉鎮";
+    Layout = "~/Views/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<br />
+<div class="form-horizontal">
+    <div class="form-group">
+        <div class="col-md-12">
+            <label>災害日期：@(Model.FirstOrDefault() != null ? ((DateTime)Model.FirstOrDefault().CleanDay).ToString("yyyy/MM/dd") : "")</label>
+            <br />
+            <label>縣市：@Model.FirstOrDefault().CityName</label>
+        </div>
+    </div>
+</div>
+
+<p>
+    <a href="#" onclick="history.go(-1)" class="btn btn-success">返回上一頁</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CleanStatus)
+        </th>
+        <th>
+            確認日期
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TownName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DamagePlace)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsDamage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DisinfectDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CLE_MUD)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CLE_Garbage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CleaningMemberQuantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NationalArmyQuantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CLE_Disinfect)
+        </th>
+        <th>
+            通報資料更新日期
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.CleanStatus.GetDescription()
+            </td>
+            <td>
+                @(item.CleanConfirmTime != null ? ((DateTime)item.CleanConfirmTime).ToString("yyyy/MM/dd") : "")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TownName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DamagePlace)
+            </td>
+            <td>
+                @(item.IsDamageClean.HasValue ? item.IsDamageClean.Value ? "有災害" : "無災害" : string.Empty)
+            </td>
+            <td>
+                @(item.DisinfectDate != null ? ((DateTime)item.DisinfectDate).ToString("yyyy/MM/dd") : "")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CLE_MUD)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CLE_Garbage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CleaningMemberQuantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NationalArmyQuantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CLE_Disinfect)
+            </td>
+            <td>
+                @(item.UpdateDate.HasValue ? item.UpdateDate.Value.ToString("yyyy/MM/dd HH:mm") : string.Empty)
+            </td>
+        </tr>
+    }
+
+</table>

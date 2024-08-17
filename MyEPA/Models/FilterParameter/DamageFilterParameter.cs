@@ -17,10 +17,15 @@ namespace MyEPA.Models.FilterParameter
         public int? TownId { get; set; }
         public List<int> DiasterIds { get; set; }
         public DateTime? ReportDay { get; set; }
+        public DateTime? CleanDay { get; set; }
         public DateTime? StartTime { get; set; }
         public DateTime? EndTime { get; set; }
         public FacilityDamageTypeEnum? Type { get; set; }
 
+        /// <summary>
+        /// 資料類型1.開災情通報2.環境清理
+        /// </summary>
+        public int? HType { get; set; }
     }
 
 }

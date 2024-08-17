@@ -1,0 +1,160 @@
+﻿@using MyEPA.Models;
+@using MyEPA.Helper;
+@{
+    Layout = "~/Views/_Layout.cshtml";
+    DiasterModel diaster = ViewBag.Diaster;
+    List<TownModel> towns = ViewBag.Towns;
+    UserBriefModel user = ViewBag.User;
+
+    ViewBag.Title = "環境清理";
+}
+
+<h2>環境清理</h2>
+<br />
+<div class="form-horizontal">     
+    <div class="form-group">
+        <div class="col-md-1 align-middle">
+            <button style="height:50px" onclick="NotDamage('@diaster.Id','@ViewBag.CleanDay.ToString("yyyy/MM/dd")')">本日無災情</button>
+        </div>
+        <div class="col-md-11">
+            <label>通報日期：@(ViewBag.CleanDay.ToString("yyyy/MM/dd"))</label>
+            <br />
+            <label>災害主題：@(diaster.DiasterName)</label>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("Report2", "EPBxDamage", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-horizontal">
+        <hr />
+        <input type="hidden" name="CleanDay" value="@ViewBag.CleanDay.ToString("yyyy/MM/dd")" />
+        <input type="hidden" name="DiasterId" value="@diaster.Id" />        
+
+        @if (user.Duty == MyEPA.Enums.DutyEnum.Cleaning)
+        {
+            <div class="form-group">
+                <label class="control-label col-md-2">鄉鎮市區</label>
+                <div class="col-md-10">
+                    <select name="TownId">
+                        <option value="@user.TownId">@user.Town</option>
+                    </select>
+                </div>
+            </div>
+        }
+
+        <div class="form-group">
+            <label class="control-label col-md-2">實際環境消毒日期</label>
+            <div class="col-md-10">
+                @Html.TextBox("DisinfectDate", 0, new { @type = "Date" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">實際消毒面積(公頃)</label>
+            <div class="col-md-10">
+                @Html.TextBox("DisinfectArea", 0, new { @type = "number", step = "0.001", min = 0 })
+                <br />
+                <span>
+                    ※面積換算：
+                    1公頃=10000平方公尺
+                    100公頃=1平方公里
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">已消毒環境(公噸)</label>
+            <div class="col-md-10">
+                @Html.TextBox("CLE_Disinfect", 0, new { @type = "number", step = "0.001", min = 0 })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">已清除污泥(公噸)</label>
+            <div class="col-md-10">
+                @Html.TextBox("CLE_MUD", 0, new { @type = "number", step = "0.001", min = 0 })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">已清除廢棄物(公噸)</label>
+            <div class="col-md-10">
+                @Html.TextBox("CLE_Garbage", 0, new { @type = "number", step = "0.001", min = 0 })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">已動用清潔人力(人)</label>
+            <div class="col-md-10">
+                @Html.TextBox("CleaningMemberQuantity", 0, new { @type = "number" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">已動用國軍支援(人)</label>
+            <div class="col-md-10">
+                @Html.TextBox("NationalArmyQuantity", 0, new { @type = "number" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">照片上傳</label>
+            <div class="col-md-10">
+                <button type="button" onclick="addimg()">新增</button>
+                <input class="imgs" type="file" name="DamageCCImage" accept="image/*" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">檔案上傳</label>
+            <div class="col-md-10">
+                <button type="button" onclick="add()">新增</button>
+                <input class="files" type="file" name="DamageCCFile" />
+            </div>
+            <br />
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-danger" style="margin:10px" value="確認通報" />
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+
+    @section scripts{
+        <script>
+            function add() {
+                $('.files:last').clone().insertAfter('.files:last')
+                $('.files:last').val('');
+            }
+            function addimg() {
+                $('.imgs:last').clone().insertAfter('.imgs:last')
+                $('.imgs:last').val('');
+            }
+
+            function NotDamage(diasterId, cleanDay) {
+
+                var TownId = $('select[name="TownId"]').val();
+
+                var model = {};
+                model.DiasterId = diasterId;
+                model.CleanDay = cleanDay;
+                model.TownId = TownId;
+
+                $.ajax({
+                    url: '@Url.Action("NotDamage","Damage",new { })',
+                    type: 'Post',
+                    data: { model: model, hType: 2 },
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data);
+                        if (data.IsSuccess) {
+                            window.location = `@Url.Action("B1cc", "EPBxDamage",new { })`;
+                        }
+                        else {
+                            alert(data.ErrorMessage);
+                            location.reload();
+                        }
+                    },
+                });
+            }
+        </script>
+    }

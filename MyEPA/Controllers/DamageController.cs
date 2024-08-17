@@ -81,8 +81,14 @@ namespace MyEPA.Controllers
                 City = user.City
             }).Select(e => new SelectListItem { Text = e.ContactUnit, Value = e.Id.ToString() }).ToList();
 
+            //災情通報
             ViewBag.Files = FileDataService.GetBySource(SourceTypeEnum.DamageFile, id);
             ViewBag.Images = FileDataService.GetBySource(SourceTypeEnum.DamageImage, id);
+
+            //環境清理
+            ViewBag.CCFiles = FileDataService.GetBySource(SourceTypeEnum.DamageCCFile, id);
+            ViewBag.CCImages = FileDataService.GetBySource(SourceTypeEnum.DamageCCImage, id);
+
             return View(result);
         }
         public ActionResult Edit(int id)
@@ -100,25 +106,11 @@ namespace MyEPA.Controllers
             {
                 City = user.City
             }).Select(e => new SelectListItem { Text = e.ContactUnit, Value = e.Id.ToString() }).ToList();
+            //災情通報
             ViewBag.Files = FileDataService.GetBySource(SourceTypeEnum.DamageFile, id);
             ViewBag.Images = FileDataService.GetBySource(SourceTypeEnum.DamageImage, id);
             return View(result);
         }
-
-        public ActionResult del(int id)
-        {
-             SqlConnection X = new SqlConnection(WebConfigurationManager.ConnectionStrings["MyData"].ConnectionString.ToString());
-             X.Open();
-            string G = "DELETE FROM [dbo].[Damage] where Id=@id";
-            SqlCommand Q = new SqlCommand(G, X);
-            Q.Parameters.AddWithValue("@id", id);
-            Q.ExecuteNonQuery();
-            X.Close();
-            return RedirectToAction("B1c", "EPBxDamage");
-        }
-        
-
-
 
         [HttpPost]
         public ActionResult Edit(DamageViewModel model)
@@ -129,11 +121,60 @@ namespace MyEPA.Controllers
 
         }
 
+        //環境清理
+        public ActionResult EditCC(int id)
+        {
+            var user = GetUserBrief();
+            var result = DamageService.Get(id);
+
+            //環境清理
+            ViewBag.CCFiles = FileDataService.GetBySource(SourceTypeEnum.DamageCCFile, id);
+            ViewBag.CCImages = FileDataService.GetBySource(SourceTypeEnum.DamageCCImage, id);
+            return View(result);
+        }
+
+        [HttpPost]
+        public ActionResult EditCC(DamageViewModel model)
+        {
+            //環境清理
+            DamageService.UpdateCC(GetUserBrief(), model, GetUploadFiles());
+
+            return RedirectToAction("B1cc", "EPBxDamage", new { diasterId = model.DiasterId });
+
+        }
+
+        public ActionResult del(int id, string returnUrl = "")
+        {
+            SqlConnection X = new SqlConnection(WebConfigurationManager.ConnectionStrings["MyData"].ConnectionString.ToString());
+            X.Open();
+            string G = "DELETE FROM [dbo].[Damage] where Id=@id";
+            SqlCommand Q = new SqlCommand(G, X);
+            Q.Parameters.AddWithValue("@id", id);
+            Q.ExecuteNonQuery();
+            X.Close();
+
+            if (returnUrl != "")
+            {
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction("B1c", "EPBxDamage");
+            }
+        }
+
         public ActionResult TownList(int diasterId, DateTime? date, int? cityId = null)
         {
             var result = DamageService.GetTownList(diasterId, date, cityId);
             return View(result);
         }
+
+        public ActionResult TownCCList(int diasterId, DateTime? date, int? cityId = null)
+        {
+            var result = DamageService.GetTownCCList(diasterId, date, cityId);
+            return View(result);
+        }
+
         public ActionResult TeamConfirmList(int? diasterId = null,int? cityId = null)
         {
             var diasters = DiasterService.GetAll();
@@ -158,9 +199,42 @@ namespace MyEPA.Controllers
 
             return View(result);
         }
-        public ActionResult Confirm(int id, DamageStatusEnum status)
+
+        public ActionResult TeamConfirmCCList(int? diasterId = null, int? cityId = null)
         {
-            DamageService.Confirm(GetUserBrief(), id, status);
+            var diasters = DiasterService.GetAll();
+            if (diasterId.HasValue == false)
+            {
+                diasterId = diasters.Select(e => e.Id).FirstOrDefault();
+            }
+            AreaEnum? area = GetArea();
+            if (area.HasValue == false)
+            {
+                throw new NotImplementedException();
+            }
+            var result = DamageService.GetConfirmCCList(diasterId.Value, area.Value, cityId);
+
+            ViewBag.DiasterId = diasterId;
+            ViewBag.Diasters = diasters;
+            ViewBag.Citys = CityService.GetListByFilter(new CityFilterParameter
+            {
+                AreaIds = area.Value.ToInteger().ToListCollection(),
+                IsCounty = true
+            });
+
+            return View(result);
+        }
+
+        /// <summary>
+        /// 區大隊 => 確認環保局通報
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="status"></param>
+        /// <param name="hType">1.災情通報2.環境清理</param>
+        /// <returns></returns>
+        public ActionResult Confirm(int id, DamageStatusEnum status, int hType)
+        {
+            DamageService.Confirm(GetUserBrief(), id, status, hType);
             return JsonResult(new
             {
                 IsSuccess = true
@@ -170,10 +244,17 @@ namespace MyEPA.Controllers
         /// 狀態改為無災情
         /// </summary>
         /// <param name="model"></param>
+        /// <param name="hType">1.災情通報2.環境清理</param>
         /// <returns></returns>
-        public ActionResult NotDamage(DamageModel model)
+        public ActionResult NotDamage(DamageModel model, int hType)
         {
-            DamageService.NotDamage(GetUserBrief(), model);
+            var user = GetUserBrief();
+
+            //沒Town(前端限定)，預設登入者Town
+            if (model.TownId == 0)
+                model.TownId = user.TownId;
+
+            DamageService.NotDamage(GetUserBrief(), model, hType);
             return JsonResult(new
             {
                 IsSuccess = true

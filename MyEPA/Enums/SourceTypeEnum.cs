@@ -5,6 +5,11 @@ namespace MyEPA.Enums
     public enum SourceTypeEnum
     {
         /// <summary>
+        /// 無
+        /// </summary>
+        None = 0,
+
+        /// <summary>
         /// 開放合約
         /// </summary>
         [Description("開放合約")]
@@ -76,6 +81,17 @@ namespace MyEPA.Enums
         /// </summary>
         [Description("災情通報圖片")]
         DamageImage = 22,
+
+        /// <summary>
+        ///  災情通報檔案
+        /// </summary>
+        [Description("環境清理檔案")]
+        DamageCCFile = 23,
+        /// <summary>
+        ///  災情通報圖片
+        /// </summary>
+        [Description("環境清理圖片")]
+        DamageCCImage = 24,
 
         /// <summary>
         /// 各業務單位春節因應環境污染事故緊急應變摘要

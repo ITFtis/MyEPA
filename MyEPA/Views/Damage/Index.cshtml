@@ -133,7 +133,7 @@
                 @(item.CityName + item.TownName)
             </td>
             <th>
-                @item.ReportDay.ToString("yyyy/MM/dd")
+                @(item.ReportDay != null ? ((DateTime)item.ReportDay).ToString("yyyy/MM/dd") : "")
             </th>
             <th>
                 @Html.DisplayFor(modelItem => item.DamagePlace)
@@ -148,7 +148,7 @@
                 @Html.DisplayFor(modelItem => item.PR_Garbage)
             </th>*@
             <th>
-                @item.DisinfectDate.ToString("yyyy/MM/dd")
+                @(item.DisinfectDate != null ? ((DateTime)item.DisinfectDate).ToString("yyyy/MM/dd") : "")
             </th>
             <th>
                 @Html.DisplayFor(modelItem => item.DisinfectArea)

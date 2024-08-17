@@ -6,6 +6,18 @@
 }
 
 <h2>@ViewBag.Title</h2>
+
+<br />
+<div class="form-horizontal">
+    <div class="form-group">
+        <div class="col-md-12">
+            <label>災害日期：@(Model.FirstOrDefault() != null ? ((DateTime)Model.FirstOrDefault().ReportDay).ToString("yyyy/MM/dd") : "")</label>
+            <br />
+            <label>縣市：@Model.FirstOrDefault().CityName</label>
+        </div>
+    </div>
+</div>
+
 <p>
     <a href="#" onclick="history.go(-1)" class="btn btn-success">返回上一頁</a>
 </p>
@@ -15,28 +27,16 @@
             @Html.DisplayNameFor(model => model.Status)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CityName)
+            確認日期
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TownName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ReportDay)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DamagePlace)
+            通報鄉鎮
         </th>
         <th>
             @Html.DisplayNameFor(model => model.IsDamage)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DamageArea)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FloodArea)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PR_Garbage)
+            @Html.DisplayNameFor(model => model.DamagePlace)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.DumpSiteDesc)
@@ -45,86 +45,44 @@
             @Html.DisplayNameFor(model => model.IncinerationPlantDesc)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CLE_MUD)
+            @Html.DisplayNameFor(model => model.Other)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CLE_Trash)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CLE_Garbage)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CleaningMemberQuantity)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NationalArmyQuantity)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CLE_Disinfect)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UpdateDate)
+            通報資料更新日期
         </th>
     </tr>
 
-@foreach (var item in Model)
-{
-<tr>
-    <td>
-        @item.Status.GetDescription()
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.CityName)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.TownName)
-    </td>
-    <td>
-        @item.ReportDay.ToString("yyyy/MM/dd")
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.DamagePlace)
-    </td>
-    <td>
-        @(item.IsDamage.HasValue ? item.IsDamage.Value ? "有災害" : "無災害" : string.Empty)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.DamageArea)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.FloodArea)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.PR_Garbage)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.DumpSiteDesc)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.IncinerationPlantDesc)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.CLE_MUD)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.CLE_Trash)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.CLE_Garbage)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.CleaningMemberQuantity)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.NationalArmyQuantity)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.CLE_Disinfect)
-    </td>
-    <td>
-        @(item.UpdateDate.HasValue ? item.UpdateDate.Value.ToString("yyyy/MM/dd HH:mm") : string.Empty)
-    </td>
-</tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Status.GetDescription()
+            </td>
+            <td>
+                @(item.ConfirmTime != null ? ((DateTime)item.ConfirmTime).ToString("yyyy/MM/dd") : "")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TownName)
+            </td>
+            <td>
+                @(item.IsDamage.HasValue ? item.IsDamage.Value ? "有災害" : "無災害" : string.Empty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DamagePlace)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DumpSiteDesc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IncinerationPlantDesc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Other)
+            </td>
+            <td>
+                @(item.UpdateDate.HasValue ? item.UpdateDate.Value.ToString("yyyy/MM/dd HH:mm") : string.Empty)
+            </td>
+        </tr>
+    }
 
 </table>

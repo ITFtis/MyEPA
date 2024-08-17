@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<MyEPA.Models.DamageTeamConfirmViewModel>
 @using MyEPA.Models;
 @{
-    ViewBag.Title = "災情通報(區大隊)";
+    ViewBag.Title = "環境清理(區大隊)";
     Layout = "~/Views/_Layout.cshtml";
     int diasterId = ViewBag.DiasterId;
     List<DiasterModel> diasters = ViewBag.Diasters;
@@ -10,7 +10,7 @@
 
 <h3>@ViewBag.Title</h3>
 <div class="">
-    @using (Html.BeginForm("TeamConfirmList", "Damage", new { }, FormMethod.Get, new { }))
+    @using (Html.BeginForm("TeamConfirmCCList", "Damage", new { }, FormMethod.Get, new { }))
     {
         <table border="0">
             <tbody>
@@ -49,10 +49,10 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Status)
+            @Html.DisplayNameFor(model => model.CleanStatus)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ReportDay)
+            @Html.DisplayNameFor(model => model.CleanDay)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.CityName)
@@ -64,27 +64,27 @@
     {
         <tr>
             <td>
-                @if (item.Status == MyEPA.Enums.DamageStatusEnum.Waiting)
+                @if (item.CleanStatus == MyEPA.Enums.DamageStatusEnum.Waiting)
                 {
                     <a href="#" onclick="Confirm(@item.Id,@(MyEPA.Enums.DamageStatusEnum.Confirm.ToInteger()))">確認</a>
                 }
-                else if (item.Status == MyEPA.Enums.DamageStatusEnum.Confirm)
+                else if (item.CleanStatus == MyEPA.Enums.DamageStatusEnum.Confirm)
                 {
                     <a href="#" onclick="Confirm(@item.Id,@(MyEPA.Enums.DamageStatusEnum.Waiting.ToInteger()))">取消確認</a>
                 }
                 else
                 {
-                    @:@item.Status.GetDescription()
+                    @:@item.CleanStatus.GetDescription()
                 }
             </td>
             <td>
-                @(item.ReportDay != null ? ((DateTime)item.ReportDay).ToString("yyyy/MM/dd") : "")
+                @(item.CleanDay != null ? ((DateTime)item.CleanDay).ToString("yyyy/MM/dd") : "")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CityName)
             </td>
             <td>
-                <a class="btn btn-default" href="@Url.Action("TownList", new { diasterId, cityId = item.CityId, date = item.ReportDay != null ? ((DateTime)item.ReportDay).ToString("yyyy/MM/dd") : "" })">查看</a>
+                <a class="btn btn-default" href="@Url.Action("TownCCList", new { diasterId, cityId = item.CityId, date = item.CleanDay != null ? ((DateTime)item.CleanDay).ToString("yyyy/MM/dd") : "" })">查看</a>
             </td>
         </tr>
     }
@@ -93,7 +93,7 @@
 
 <script>
     function Confirm(id,status) {
-        var url = `@Url.Action("Confirm",new { })?id=${id}&status=${status}&hType=1`;
+        var url = `@Url.Action("Confirm",new { })?id=${id}&status=${status}&hType=2`;
         var type = 'get';
         $.ajax({
             url: url,

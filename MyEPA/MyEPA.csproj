@@ -2000,6 +2000,13 @@
     <Content Include="Views\TestMail\Index.cshtml" />
     <Content Include="Views\EasyReport\DisasterResponseReport.cshtml" />
     <Content Include="Views\Home\SystemNotice.cshtml" />
+    <Content Include="Views\EPB\B1cc.cshtml" />
+    <Content Include="Views\Components\ShowDamageCCForEPB.cshtml" />
+    <Content Include="Views\EPB\B1cc17.cshtml" />
+    <Content Include="Views\Damage\EditCC.cshtml" />
+    <Content Include="Views\EPB\B1cc18.cshtml" />
+    <Content Include="Views\Damage\TeamConfirmCCList.cshtml" />
+    <Content Include="Views\Damage\TownCCList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="C:\NuGetPackages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.7\analyzers\dotnet\cs\Microsoft.CodeAnalysis.VersionCheckAnalyzer.resources.dll" />

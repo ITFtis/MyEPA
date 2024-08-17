@@ -125,7 +125,7 @@
                                 @Html.DisplayFor(modelItem => item.TownName)
                             </td>
                             <td>
-                                @item.ReportDay.ToString("yyyy/MM/dd")
+                                @(item.ReportDay != null ? ((DateTime)item.ReportDay).ToString("yyyy/MM/dd") : "")
                             </td>
                             <td>
                                 @item.CreateDate.ToString("yyyy/MM/dd HH:mm:ss")

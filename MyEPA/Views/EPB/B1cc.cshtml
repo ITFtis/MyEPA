@@ -6,7 +6,7 @@
     int diasterId = ViewBag.DiasterId;
     List<DiasterModel> diasters = ViewBag.Diasters;
     DamageMainModel main = ViewBag.DamageMain;
-    ViewBag.Title = "災情通報";
+    ViewBag.Title = "環境清理";
     DutyEnum duty = ViewBag.DutyId;
 }
 <div class="btn-group">
@@ -17,7 +17,7 @@
         @foreach (DiasterModel Item in diasters)
         {
             <li>
-                <a href="@Url.Action("B1c","EPBxDamage",new { diasterId = Item.Id})">@Item.DiasterName</a>
+                <a href="@Url.Action("B1cc","EPBxDamage",new { diasterId = Item.Id})">@Item.DiasterName</a>
             </li>
         }
     </ul>
@@ -25,11 +25,11 @@
 
 <div class="text-center">
 
-    <h2>災情通報</h2>
+    <h2>環境清理</h2>
     <h6 style="color:red">災害主題：@diaster.DiasterName</h6>
     <h6 style="color:red">災害編號：@diaster.Id</h6>
     <div id="DataArea2">
-        @{Html.RenderPartial("~/Views/Components/ShowDamageForEPB.cshtml");}
+        @{Html.RenderPartial("~/Views/Components/ShowDamageCCForEPB.cshtml");}
     </div>
     <br />
     @if (main == null || main.IsDone == false)
@@ -49,7 +49,7 @@
             <ul class="dropdown-menu">
                 @{
                     var data2 = (List<DamageJoinModel>)ViewBag.Data2;
-                    List<DateTime> dates = data2.Where(a => a.ReportDay != null).Select(a => (DateTime)a.ReportDay).ToList();
+                    List<DateTime> dates = data2.Where(a => a.CleanDay != null).Select(a => (DateTime)a.CleanDay).ToList();
 
                     foreach (DateTime Item in ViewBag.ActiveDays)
                     {
@@ -57,7 +57,7 @@
                         if (!has)
                         {
                             <li>
-                                <a href="@Url.Action("B1c17", "EPBxDamage", new { diasterId, reportDay = Item.ToString("yyyy/MM/dd") })">@Item.ToString("yyyy/MM/dd")</a>
+                                <a href="@Url.Action("B1cc17", "EPBxDamage", new { diasterId, cleanDay = Item.ToString("yyyy/MM/dd") })">@Item.ToString("yyyy/MM/dd")</a>
                             </li>
                         }
                         else
@@ -98,7 +98,7 @@
 
 <script>
     function PickItem(k) {
-        $("#ReportDay").val(k);
+        $("#CleanDay").val(k);
     }
     function Done(diasterId) {
             var url = `@Url.Action("Done","Damage",new { })?diasterId=${diasterId}`;

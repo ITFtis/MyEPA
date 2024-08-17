@@ -258,7 +258,11 @@ From Damage D
             {
                 whereSQL += " AND D.ReportDay = @ReportDay";
             }
-			if (filter.Type.HasValue)
+            if (filter.CleanDay.HasValue)
+            {
+                whereSQL += " AND D.CleanDay = @CleanDay";
+            }
+            if (filter.Type.HasValue)
 			{
                 if (filter.Type == FacilityDamageTypeEnum.ALL) 
 				{
@@ -279,7 +283,20 @@ From Damage D
 			{
 				whereSQL += " AND [CreateDate] < @EndTime";
 			}
-			return whereSQL;
+            if (filter.HType.HasValue)
+            {
+				if (filter.HType == 1)
+				{
+                    //災情通報
+                    whereSQL += " AND D.ReportDay Is Not Null";
+				}
+				else if (filter.HType == 2)
+                {
+                    //環境清理
+                    whereSQL += " AND D.CleanDay Is Not Null";
+                }
+            }
+            return whereSQL;
         }
     }
 }

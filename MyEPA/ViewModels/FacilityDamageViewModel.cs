@@ -14,7 +14,7 @@ namespace MyEPA.ViewModels
         [DisplayName("鄉鎮")]
         public string TownName { get; set; }
         [DisplayName("災害日期")]
-        public DateTime ReportDay { get; set; }
+        public DateTime? ReportDay { get; set; }
         [DisplayName("通報時間")]
         public DateTime CreateDate { get; set; }
         [DisplayName("場所名稱")]
