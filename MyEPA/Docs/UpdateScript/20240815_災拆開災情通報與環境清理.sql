@@ -30,12 +30,12 @@ Go
 --[COUNTY_NAME] [nvarchar](50) NULL,
 --[CLE_DisinfectorL] 增加「已使用藥劑數量(公升)」
 --[CLE_DisinfectorW]  增加「已使用藥劑數量(公斤」
---[CLE_Equipment] 增加「已使用機具(請列示機具名稱及數量)」
---[CLE_Car] 增加「已使用車輛(請列示車輛名稱及數量)」
+--[CLE_EquipmentDesc] 增加「已使用機具(請列示機具名稱及數量)」
+--[CLE_CarDesc] 增加「已使用車輛(請列示車輛名稱及數量)」
 
 
 
 alter Table Damage add [CLE_DisinfectorL] [float] NULL
 alter Table Damage add [CLE_DisinfectorW] [float] NULL
-alter Table Damage add [CLE_EquipmentDESC] Nvarchar(300) NULL
-alter Table Damage add [CLE_CarDESC] Nvarchar(300) NULL
+alter Table Damage add [CLE_EquipmentDesc] Nvarchar(300) NULL
+alter Table Damage add [CLE_CarDesc] Nvarchar(300) NULL
