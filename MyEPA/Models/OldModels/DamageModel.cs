@@ -284,15 +284,34 @@ namespace MyEPA.Models
         [DisplayName("實際消毒日期")]
         public DateTime? DisinfectDate { get; set; }
         /// <summary>
+        /// 消毒面積(公頃)
+        /// </summary>
+        [DisplayName("實際消毒面積(公頃)")]
+        [DisplayFormat(ApplyFormatInEditMode = true)]
+        public decimal DisinfectArea { get; set; }
+        /// <summary>
         /// 已動用清潔人力(人)
         /// </summary>
-        [DisplayName("已動用清潔人力(人)")]
+        [DisplayName("已動用清潔人力(人次)")]
         public int CleaningMemberQuantity { get; set; }
         /// <summary>
         /// 已動用國軍支援(人)
         /// </summary>
-        [DisplayName("已動用國軍支援(人)")]
+        [DisplayName("已動用國軍人力(人次)")]
         public int NationalArmyQuantity { get; set; }
+
+        [DisplayName("已使用藥劑數量(公升)")]
+        public float CLE_DisinfectorL { get; set; }
+
+        [DisplayName("已使用藥劑數量(公斤)")]
+        public float CLE_DisinfectorW { get; set; }
+
+        [DisplayName("已使用機具(請列示機具名稱及數量)")]
+        public string CLE_EquipmentDesc { get; set; }
+
+        [DisplayName("已使用車輛(請列示車輛名稱及數量)")]
+        public string CLE_CarDesc { get; set; }
+
         /// <summary>
         /// 已消毒環境(公噸)
         /// </summary>

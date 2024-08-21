@@ -34,7 +34,7 @@
         <div class="col-md-12">
             <label>災害主題：@Model.DiasterName</label>
             <br />
-            <label>災害日期：@(Model.ReportDay != null ? ((DateTime)Model.ReportDay).ToString("yyyy-MM-dd") : "")</label>
+            <label>災害日期：@(Model.CleanDay != null ? ((DateTime)Model.CleanDay).ToString("yyyy-MM-dd") : "")</label>
             <br />
             <label>縣市：@Model.CityName</label>
             @if (!string.IsNullOrEmpty(Model.TownName))

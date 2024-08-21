@@ -11,13 +11,16 @@
                 <th>縣市</th>
                 <th>鄉鎮市區</th>
                 <th>有無災情</th>
-                <th>實際環境消毒日期</th>
-                <th>實際消毒面積(公頃)</th>
-                <th>已消毒環境(公噸)</th>
-                <th>已清除污泥(公噸)</th>
-                <th>已清除廢棄物(公噸)</th>
-                <th>已動用清潔人力(人)</th>
-                <th>已動用國軍支援(人)</th>
+                <th>實際環境<br />消毒日期</th>
+                <th>實際消毒<br />面積(公頃)</th>
+                <th>已清除<br />污泥(公噸)</th>
+                <th>已清除<br />廢棄物(公噸)</th>
+                <th>已動用<br />清潔人力(人次)</th>
+                <th>已動用<br />國軍人力(人次)</th>
+                <th>已使用<br />藥劑數量(公升)</th>
+                <th>已使用<br />藥劑數量(公斤)</th>
+                <th>已使用<br />機具</th>
+                <th>已使用<br />車輛</th>
                 <th>圖片</th>
                 <th>檔案下載</th>
             </tr>
@@ -35,11 +38,14 @@
                     <td>@(Item.IsDamageClean != null && (bool)Item.IsDamageClean ? "有" : "無災情")</td>
                     <td>@(Item.DisinfectDate != null ? ((DateTime)Item.DisinfectDate).ToString("yyyy/MM/dd") : "")</td>
                     <td>@Item.DisinfectArea</td>
-                    <td>@Item.CLE_Disinfect</td>
                     <td>@Item.CLE_MUD</td>
                     <td>@Item.CLE_Garbage</td>
                     <td>@Item.CleaningMemberQuantity</td>
                     <td>@Item.NationalArmyQuantity</td>
+                    <td>@Item.CLE_DisinfectorL</td>
+                    <td>@Item.CLE_DisinfectorW</td>
+                    <td>@Item.CLE_EquipmentDesc</td>
+                    <td>@Item.CLE_CarDesc</td>
                     <td>
                         @foreach (var img in Item.Images)
                         {
