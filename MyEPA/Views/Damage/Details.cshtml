@@ -12,7 +12,7 @@
     List<FileDataModel> files = ViewBag.Files;
     List<FileDataModel> images = ViewBag.Images;
 
-    //環境清理
+    //環境清理通報
     List<FileDataModel> ccfiles = ViewBag.CCFiles;
     List<FileDataModel> ccimages = ViewBag.CCImages;
 
@@ -21,7 +21,7 @@
 
     if (hType == 2)
     {
-        ViewBag.Title = "環境清理 - 檢視";
+        ViewBag.Title = "環境清理通報 - 檢視";
     }
     else
     {
@@ -199,85 +199,85 @@
     else if (hType == 2)
     {
         <div class="form-group">
-            @Html.LabelFor(model => model.DisinfectDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            @Html.LabelFor(model => model.DisinfectDate, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
                 <input class="form-control text-box single-line" readonly="readonly" data-val="true" id="DisinfectDate" name="DisinfectDate" type="date" value="@(Model.DisinfectDate != null ? ((DateTime)Model.DisinfectDate).ToString("yyyy-MM-dd") : "")">
                 @Html.ValidationMessageFor(model => model.DisinfectDate, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DisinfectArea, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            @Html.LabelFor(model => model.DisinfectArea, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
                 @Html.EditorFor(model => model.DisinfectArea, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
                 @Html.ValidationMessageFor(model => model.DisinfectArea, "", new { @class = "text-danger" })
             </div>
         </div>
-
-        <!--
         <div class="form-group">
-            @Html.LabelFor(model => model.PR_Garbage, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PR_Garbage, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
-                @Html.ValidationMessageFor(model => model.PR_Garbage, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        -->
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CLE_Disinfect, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CLE_Disinfect, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
-                @Html.ValidationMessageFor(model => model.CLE_Disinfect, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CLE_MUD, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            @Html.LabelFor(model => model.CLE_MUD, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
                 @Html.EditorFor(model => model.CLE_MUD, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
                 @Html.ValidationMessageFor(model => model.CLE_MUD, "", new { @class = "text-danger" })
             </div>
         </div>
-        <!--
         <div class="form-group">
-            @Html.LabelFor(model => model.CLE_Trash, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CLE_Trash, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
-                @Html.ValidationMessageFor(model => model.CLE_Trash, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        -->
-        <div class="form-group">
-            @Html.LabelFor(model => model.CLE_Garbage, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            @Html.LabelFor(model => model.CLE_Garbage, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
                 @Html.EditorFor(model => model.CLE_Garbage, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
                 @Html.ValidationMessageFor(model => model.CLE_Garbage, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CleaningMemberQuantity, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            @Html.LabelFor(model => model.CleaningMemberQuantity, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
                 @Html.EditorFor(model => model.CleaningMemberQuantity, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
                 @Html.ValidationMessageFor(model => model.CleaningMemberQuantity, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.NationalArmyQuantity, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            @Html.LabelFor(model => model.NationalArmyQuantity, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
                 @Html.EditorFor(model => model.NationalArmyQuantity, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
                 @Html.ValidationMessageFor(model => model.NationalArmyQuantity, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <!--環境清理-->
         <div class="form-group">
-            <div class="control-label col-md-2">
+            @Html.LabelFor(model => model.CLE_DisinfectorL, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.CLE_DisinfectorL, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                @Html.ValidationMessageFor(model => model.CLE_DisinfectorL, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.CLE_DisinfectorW, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.CLE_DisinfectorW, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                @Html.ValidationMessageFor(model => model.CLE_DisinfectorW, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.CLE_EquipmentDesc, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.CLE_EquipmentDesc, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                @Html.ValidationMessageFor(model => model.CLE_EquipmentDesc, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.CLE_CarDesc, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.CLE_CarDesc, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                @Html.ValidationMessageFor(model => model.CLE_CarDesc, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!--環境清理通報-->
+        <div class="form-group">
+            <div class="control-label col-md-3">
                 圖片(環境清理)
             </div>
-            <div class="col-md-10">
+            <div class="col-md-9">
                 @if (Model.CCImageFile != null)
                 {
                     <img src="@Url.Action("Download", "FileData", new { id = Model.CCImageFile.Id })" alt="download" />
@@ -294,10 +294,10 @@
         </div>
 
         <div class="form-group">
-            <div class="control-label col-md-2">
+            <div class="control-label col-md-3">
                 檔案(環境清理)
             </div>
-            <div class="col-md-10">
+            <div class="col-md-9">
 
                 <ul>
                     @if (Model.CCFile != null)
@@ -318,18 +318,9 @@
         </div>
     }
 
-
     <div class="form-group">
-        @Html.LabelFor(model => model.ProcessDesc, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.ProcessDesc, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
-            @Html.ValidationMessageFor(model => model.ProcessDesc, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
+        @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
             @Html.EditorFor(model => model.Note, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
             @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
         </div>

@@ -54,10 +54,12 @@
                         <th>縣市</th>
                         <th>鄉鎮市區</th>
                         <th>有無災害</th>
-                        <th>主要受災(區村里)</th>                       
+                        <th>主要受災(區村里)</th>
                         <th>垃圾場損壞情形</th>
                         <th>焚化廠損壞情形</th>
                         <th>其他損壞情形</th>
+                        <th>圖片</th>
+                        <th>檔案下載</th>
                         <th>資料查看</th>
                         <th>資料確認</th>
                         <th>更新時間</th>
@@ -74,6 +76,24 @@
                             <td>@Item.IncinerationPlantDesc</td>
                             <td>@Item.Other</td>
                             <td>
+                                @foreach (var img in Item.Images)
+                                {
+                                    <div class="imgDiv">
+                                        <a href="@Url.Action("Download", "FileData",new {id = img.Id })" title="圖片" class="links">
+                                            <img alt="圖片" src="@Url.Action("Download","FileData",new {id = img.Id })" height="30" width="30">
+                                        </a>
+                                    </div>
+                                }
+                            </td>
+                            <td>
+                                @foreach (var img in Item.Files)
+                                {
+                                    <div class="imgDiv">
+                                        @Html.ActionLink(img.UserFileName, "Download", "FileData", new { id = img.Id }, new { })
+                                    </div>
+                                }
+                            </td>
+                            <td>
                                 @if (Item.IsDamage.HasValue)
                                 {
                                     @Html.ActionLink("查看", "Details", "Damage", new { id = Item.Id, hType = 1 }, new { @class = "btn btn-success", @style = "padding:0px;" })
@@ -83,7 +103,7 @@
                             <td style="text-align:center">
 
 
-                                @using (Html.BeginForm("ConfirmReport", "EPBxDamage", new { hType = 1}))
+                                @using (Html.BeginForm("ConfirmReport", "EPBxDamage", new { hType = 1 }))
                                 {
                                     <input hidden name="id" value="@Item.Id" />
                                     if (Item.IsDamage.HasValue)

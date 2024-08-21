@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<MyEPA.Models.DamageTeamConfirmViewModel>
 @using MyEPA.Models;
 @{
-    ViewBag.Title = "環境清理(區大隊)";
+    ViewBag.Title = "環境清理確認(災時/後)";
     Layout = "~/Views/_Layout.cshtml";
     int diasterId = ViewBag.DiasterId;
     List<DiasterModel> diasters = ViewBag.Diasters;
@@ -49,13 +49,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.CleanStatus)
+            三區中心確認
+        </th>
+        <th>
+            環保局通報狀態
         </th>
         <th>
             @Html.DisplayNameFor(model => model.CleanDay)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CityName)
         </th>
         <th> 鄉鎮資料</th>
     </tr>
@@ -78,10 +78,30 @@
                 }
             </td>
             <td>
-                @(item.CleanDay != null ? ((DateTime)item.CleanDay).ToString("yyyy/MM/dd") : "")
+                @{
+                    if (item.CleanStatus == MyEPA.Enums.DamageStatusEnum.Waiting)
+                    {
+                        <span>已通報</span>
+                    }
+                    else if (item.CleanStatus == MyEPA.Enums.DamageStatusEnum.Confirm)
+                    {
+                        <span>已確認</span>
+                        <br />
+                        <span>
+                            @(item.CleanTeamConfirmTime != null ? ((DateTime)item.CleanTeamConfirmTime).ToString("yyyy/MM/dd") : "")
+                        </span>
+                    }
+                    else
+                    {
+                        <span style="color:red">@item.CleanStatus.GetDescription()</span>
+                    }
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CityName)
+            </td>
+            <td>
+                @(item.CleanDay != null ? ((DateTime)item.CleanDay).ToString("yyyy/MM/dd") : "")
             </td>
             <td>
                 <a class="btn btn-default" href="@Url.Action("TownCCList", new { diasterId, cityId = item.CityId, date = item.CleanDay != null ? ((DateTime)item.CleanDay).ToString("yyyy/MM/dd") : "" })">查看</a>

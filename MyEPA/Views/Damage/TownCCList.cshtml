@@ -27,16 +27,10 @@
             @Html.DisplayNameFor(model => model.CleanStatus)
         </th>
         <th>
-            確認日期
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.TownName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.DamagePlace)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsDamage)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.DisinfectDate)
@@ -65,19 +59,30 @@
     {
         <tr>
             <td>
-                @item.CleanStatus.GetDescription()
-            </td>
-            <td>
-                @(item.CleanConfirmTime != null ? ((DateTime)item.CleanConfirmTime).ToString("yyyy/MM/dd") : "")
+                @{
+                    if (item.CleanStatus == MyEPA.Enums.DamageStatusEnum.Waiting)
+                    {
+                        <span>已通報</span>
+                    }
+                    else if (item.CleanStatus == MyEPA.Enums.DamageStatusEnum.Confirm)
+                    {
+                        <span>已確認</span>
+                        <br />
+                        <span>
+                            @(item.CleanConfirmTime != null ? ((DateTime)item.CleanConfirmTime).ToString("yyyy/MM/dd") : "")
+                        </span>
+                    }
+                    else
+                    {
+                        <span style="color:red">@item.CleanStatus.GetDescription()</span>
+                    }
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TownName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DamagePlace)
-            </td>
-            <td>
-                @(item.IsDamageClean.HasValue ? item.IsDamageClean.Value ? "有災害" : "無災害" : string.Empty)
             </td>
             <td>
                 @(item.DisinfectDate != null ? ((DateTime)item.DisinfectDate).ToString("yyyy/MM/dd") : "")

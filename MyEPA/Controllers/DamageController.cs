@@ -165,7 +165,24 @@ namespace MyEPA.Controllers
 
         public ActionResult TownList(int diasterId, DateTime? date, int? cityId = null)
         {
-            var result = DamageService.GetTownList(diasterId, date, cityId);
+            var datas = DamageService.GetTownList(diasterId, date, cityId);
+
+            //災情通報
+            foreach (var data in datas)
+            {
+                //無資料，無圖檔
+                if (data.Id == 0)
+                {
+                    data.Files = new List<FileDataModel>();
+                    data.Images = new List<FileDataModel>();
+                    continue;
+                }
+
+                data.Files = FileDataService.GetBySource(SourceTypeEnum.DamageFile, data.Id);
+                data.Images = FileDataService.GetBySource(SourceTypeEnum.DamageImage, data.Id);
+            }
+
+            var result = datas;
             return View(result);
         }
 

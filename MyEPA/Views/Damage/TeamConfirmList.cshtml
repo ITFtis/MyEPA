@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<MyEPA.Models.DamageTeamConfirmViewModel>
 @using MyEPA.Models;
 @{
-    ViewBag.Title = "災情通報(區大隊)";
+    ViewBag.Title = "災情通報確認(災時/後)";
     Layout = "~/Views/_Layout.cshtml";
     int diasterId = ViewBag.DiasterId;
     List<DiasterModel> diasters = ViewBag.Diasters;
@@ -49,13 +49,16 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Status)
+            三區中心確認
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ReportDay)
+            環保局通報狀態
         </th>
         <th>
             @Html.DisplayNameFor(model => model.CityName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReportDay)
         </th>
         <th> 鄉鎮資料</th>
     </tr>
@@ -78,10 +81,30 @@
                 }
             </td>
             <td>
-                @(item.ReportDay != null ? ((DateTime)item.ReportDay).ToString("yyyy/MM/dd") : "")
+                @{
+                    if (item.Status == MyEPA.Enums.DamageStatusEnum.Waiting)
+                    {
+                        <span>已通報</span>
+                    }
+                    else if (item.Status == MyEPA.Enums.DamageStatusEnum.Confirm)
+                    {
+                        <span>已確認</span>
+                        <br />
+                        <span>
+                            @(item.TeamConfirmTime != null ? ((DateTime)item.TeamConfirmTime).ToString("yyyy/MM/dd") : "")
+                        </span>
+                    }
+                    else
+                    {
+                        <span style="color:red">@item.Status.GetDescription()</span>
+                    }
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CityName)
+            </td>
+            <td>
+                @(item.ReportDay != null ? ((DateTime)item.ReportDay).ToString("yyyy/MM/dd") : "")
             </td>
             <td>
                 <a class="btn btn-default" href="@Url.Action("TownList", new { diasterId, cityId = item.CityId, date = item.ReportDay != null ? ((DateTime)item.ReportDay).ToString("yyyy/MM/dd") : "" })">查看</a>

@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.ApplicationServices;
 using System.Web.Mvc;
 using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using MyEPA.Enums;
 using MyEPA.Extensions;
 using MyEPA.Helper;
@@ -102,12 +103,28 @@ namespace MyEPA.Controllers
                 filterParameter.TownIds = user.TownId.ToListCollection();
             }
 
-            ViewBag.Data2 =
-                DamageRepository.GetListByFilter(filterParameter)
+            var datas = DamageRepository.GetListByFilter(filterParameter)
                 .OrderBy(a => a.ReportDay)
                 .ToList();
 
-            ViewBag.Diaster = diaster;
+            //災情通報
+            foreach (var data in datas)
+            {
+                //無資料，無圖檔
+                if (data.Id == 0)
+                {
+                    data.Files = new List<FileDataModel>();
+                    data.Images = new List<FileDataModel>();
+                    continue;
+                }
+
+                data.Files = FileDataService.GetBySource(SourceTypeEnum.DamageFile, data.Id);
+                data.Images = FileDataService.GetBySource(SourceTypeEnum.DamageImage, data.Id);
+            }
+
+            ViewBag.Data2 = datas;
+
+            ViewBag.Diaster = diaster;            
 
             return View("~/Views/EPB/B1c.cshtml");
         }
@@ -254,10 +271,26 @@ namespace MyEPA.Controllers
                 filterParameter.TownIds = user.TownId.ToListCollection();
             }
 
-            ViewBag.Data2 =
-                DamageRepository.GetListByFilter(filterParameter)
+            var datas = DamageRepository.GetListByFilter(filterParameter)
                 .OrderBy(a => a.CleanDay)
                 .ToList();
+
+            //環境清理
+            foreach (var data in datas)
+            {
+                //無資料，無圖檔
+                if (data.Id == 0)
+                {
+                    data.Files = new List<FileDataModel>();
+                    data.Images = new List<FileDataModel>();
+                    continue;
+                }
+
+                data.Files = FileDataService.GetBySource(SourceTypeEnum.DamageCCFile, data.Id);
+                data.Images = FileDataService.GetBySource(SourceTypeEnum.DamageCCImage, data.Id);
+            }
+
+            ViewBag.Data2 = datas;
 
             ViewBag.Diaster = diaster;
 
@@ -394,7 +427,8 @@ namespace MyEPA.Controllers
             ViewBag.EndTime = diaster.EndTime;
             ViewBag.ReportDay = reportDay;
             ViewBag.ActiveDays = GetActiveDays(diaster.StartTime, diaster.EndTime);
-            ViewBag.Data2 = new DamageService().GetConfirmList(new DamageConfirmListFilterParameter
+
+            var datas = new DamageService().GetConfirmList(new DamageConfirmListFilterParameter
             {
                 DamageFilterParameter = new DamageFilterParameter
                 {
@@ -404,6 +438,23 @@ namespace MyEPA.Controllers
                 },
                 Diaster = diaster,
             }).OrderBy(e => e.ReportDay).ThenBy(e => e.TownId);
+
+            //災情通報
+            foreach (var data in datas)
+            {
+                //無資料，無圖檔
+                if (data.Id == 0)
+                {
+                    data.Files = new List<FileDataModel>();
+                    data.Images = new List<FileDataModel>();
+                    continue;
+                }
+
+                data.Files = FileDataService.GetBySource(SourceTypeEnum.DamageFile, data.Id);
+                data.Images = FileDataService.GetBySource(SourceTypeEnum.DamageImage, data.Id);
+            }
+
+            ViewBag.Data2 = datas;
 
             return View("~/Views/EPB/B1c18.cshtml");
         }
@@ -428,7 +479,8 @@ namespace MyEPA.Controllers
             ViewBag.EndTime = diaster.EndTime;
             ViewBag.CleanDay = cleanDay;
             ViewBag.ActiveDays = GetActiveDays(diaster.StartTime, diaster.EndTime);
-            ViewBag.Data2 = new DamageService().GetConfirmList(new DamageConfirmListFilterParameter
+
+            var datas = new DamageService().GetConfirmList(new DamageConfirmListFilterParameter
             {
                 DamageFilterParameter = new DamageFilterParameter
                 {
@@ -438,6 +490,23 @@ namespace MyEPA.Controllers
                 },
                 Diaster = diaster,
             }).OrderBy(e => e.CleanDay).ThenBy(e => e.TownId);
+
+            //環境清理
+            foreach (var data in datas)
+            {
+                //無資料，無圖檔
+                if (data.Id == 0)
+                {
+                    data.Files = new List<FileDataModel>();
+                    data.Images = new List<FileDataModel>();
+                    continue;
+                }
+
+                data.Files = FileDataService.GetBySource(SourceTypeEnum.DamageCCFile, data.Id);
+                data.Images = FileDataService.GetBySource(SourceTypeEnum.DamageCCImage, data.Id);
+            }
+
+            ViewBag.Data2 = datas;
 
             return View("~/Views/EPB/B1cc18.cshtml");
         }
@@ -653,12 +722,15 @@ namespace MyEPA.Controllers
                 damage.CleanDay = model.CleanDay;
                 damage.DisinfectDate = model.DisinfectDate;
                 damage.DisinfectArea = model.DisinfectArea;
-                damage.CLE_Disinfect = model.CLE_Disinfect;
                 damage.CLE_MUD = model.CLE_MUD;
                 damage.CLE_Trash = model.CLE_Trash;
                 damage.CLE_Garbage = model.CLE_Garbage;
                 damage.CleaningMemberQuantity = model.CleaningMemberQuantity;
                 damage.NationalArmyQuantity = model.NationalArmyQuantity;
+                damage.CLE_DisinfectorL = model.CLE_DisinfectorL;
+                damage.CLE_DisinfectorW = model.CLE_DisinfectorW;
+                damage.CLE_EquipmentDesc = model.CLE_EquipmentDesc;
+                damage.CLE_CarDesc = model.CLE_CarDesc;
                 damage.CleanStatus = DamageStatusEnum.Waiting;
                 damage.IsDamageClean = true;
                 DamageRepository.Update(damage);

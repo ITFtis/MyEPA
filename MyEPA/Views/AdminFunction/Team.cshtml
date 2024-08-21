@@ -8,44 +8,16 @@
     <b class="arrow"></b>
     <ul class="submenu">
         <li class="">
-            <a href="#" class="dropdown-toggle">
-                <i class="menu-icon fa fa-caret-right"></i>
-                整備通報&nbsp;(災前)
-                <b class="arrow fa fa-angle-down"></b>
-            </a>
-            <b class="arrow"></b>
-            <ul class="submenu">
-                <li class="">
-                    <a href="@Url.Action("TeamConfirmList","Defend",new { })">1.&nbsp;整備通報確認(區大隊)</a>
-                </li>
-            </ul>
+            <a href="@Url.Action("TeamConfirmList","Defend",new { })">整備通報確認(災前)</a>
         </li>
         <li class="">
-            <a href="#" class="dropdown-toggle">
-                <i class="menu-icon fa fa-caret-right"></i>
-                災情通報&nbsp;(災時/後)
-                <b class="arrow fa fa-angle-down"></b>
-            </a>
-            <b class="arrow"></b>
-            <ul class="submenu">
-                <li class="">
-                    <a href="@Url.Action("TeamConfirmList","Damage",new { })">1.&nbsp;災情通報確認(區大隊)</a>
-                    <a href="@Url.Action("TeamConfirmCCList","Damage",new { })">2.&nbsp;環境清理確認(區大隊)</a>
-                </li>
-            </ul>
+            <a href="@Url.Action("TeamConfirmList","Damage",new { })">災情通報確認(災時/後)</a>
         </li>
         <li class="">
-            <a href="#" class="dropdown-toggle">
-                <i class="menu-icon fa fa-caret-right"></i>
-                飲用水通報&nbsp;(災時/後)
-                <b class="arrow fa fa-angle-down"></b>
-            </a>
-            <b class="arrow"></b>
-            <ul class="submenu">
-                <li class="">
-                    <a href="@Url.Action("Report","WaterCheckDetail")">1.&nbsp;水質抽驗結果通報</a>
-                </li>
-            </ul>
+            <a href="@Url.Action("TeamConfirmCCList","Damage",new { })">環境清理確認(災時/後)</a>
+        </li>
+        <li class="">
+            <a href="@Url.Action("Report","WaterCheckDetail")">水質抽驗通報(災時/後)</a>
         </li>
     </ul>
 </li>

@@ -160,6 +160,10 @@ namespace MyEPA.Services
                 Note = damage.Note,
                 Other = damage.Other,
                 ProcessDesc = damage.ProcessDesc,
+                CLE_DisinfectorL = damage.CLE_DisinfectorL,
+                CLE_DisinfectorW = damage.CLE_DisinfectorW,
+                CLE_EquipmentDesc = damage.CLE_EquipmentDesc,
+                CLE_CarDesc = damage.CLE_CarDesc,
                 PR_Garbage = damage.PR_Garbage,
                 ReportDay = damage.ReportDay,
                 Status = damage.Status,
@@ -223,7 +227,7 @@ namespace MyEPA.Services
             entity.IncinerationPlantDesc = model.IncinerationPlantDesc;
             entity.IncineratorIds = string.Join(",", model.InputIncineratorIds);
             entity.Other = model.Other;
-            entity.ProcessDesc = model.ProcessDesc;
+            //entity.ProcessDesc = model.ProcessDesc;
             entity.Note = model.Note;
 
             entity.UpdateDate = DateTimeHelper.GetCurrentTime();
@@ -255,12 +259,14 @@ namespace MyEPA.Services
 
             entity.DisinfectDate = model.DisinfectDate;
             entity.DisinfectArea = model.DisinfectArea;
-            entity.CLE_Disinfect = model.CLE_Disinfect;
             entity.CLE_MUD = model.CLE_MUD;
             entity.CLE_Garbage = model.CLE_Garbage;
             entity.CleaningMemberQuantity = model.CleaningMemberQuantity;
             entity.NationalArmyQuantity = model.NationalArmyQuantity;
-            entity.ProcessDesc = model.ProcessDesc;
+            entity.CLE_DisinfectorL = model.CLE_DisinfectorL;
+            entity.CLE_DisinfectorW = model.CLE_DisinfectorW;
+            entity.CLE_EquipmentDesc = model.CLE_EquipmentDesc;
+            entity.CLE_CarDesc = model.CLE_CarDesc;
             entity.Note = model.Note;
 
             entity.UpdateDate = DateTimeHelper.GetCurrentTime();
@@ -420,6 +426,7 @@ namespace MyEPA.Services
                     {
                         result.Add(new DamageTownViewModel 
                         {
+                            Id = damage.Id,
                             CityId = damage.CityId,
                             DamageArea = damage.DamageArea,
                             FloodArea = damage.FloodArea,
@@ -793,7 +800,8 @@ namespace MyEPA.Services
                         CityName = citys.Where(e => e.Id == town.CityId).Select(e => e.City).FirstOrDefault(),
                         Status = damage == null ? DamageStatusEnum.UnNotification : damage.Status,
                         Id = damage?.Id,
-                        ReportDay = date.Date
+                        ReportDay = date.Date,
+                        TeamConfirmTime = damage == null ? null : damage.TeamConfirmTime,
                     });
                 }
             }
@@ -858,7 +866,8 @@ namespace MyEPA.Services
                         CityName = citys.Where(e => e.Id == town.CityId).Select(e => e.City).FirstOrDefault(),
                         CleanStatus = damage == null ? DamageStatusEnum.UnNotification : damage.CleanStatus,
                         Id = damage?.Id,
-                        CleanDay = date.Date
+                        CleanDay = date.Date,
+                        CleanTeamConfirmTime = damage == null ? null : damage.CleanTeamConfirmTime,
                     });
                 }
             }

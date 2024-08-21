@@ -18,6 +18,8 @@
                 <th>已清除廢棄物(公噸)</th>
                 <th>已動用清潔人力(人)</th>
                 <th>已動用國軍支援(人)</th>
+                <th>圖片</th>
+                <th>檔案下載</th>
             </tr>
             @foreach (var Item in (List<DamageJoinModel>)ViewBag.Data2)
             {
@@ -38,6 +40,24 @@
                     <td>@Item.CLE_Garbage</td>
                     <td>@Item.CleaningMemberQuantity</td>
                     <td>@Item.NationalArmyQuantity</td>
+                    <td>
+                        @foreach (var img in Item.Images)
+                        {
+                            <div class="imgDiv">
+                                <a href="@Url.Action("Download", "FileData",new {id = img.Id })" title="圖片" class="links">
+                                    <img alt="圖片" src="@Url.Action("Download","FileData",new {id = img.Id })" height="30" width="30">
+                                </a>
+                            </div>
+                        }
+                    </td>
+                    <td>
+                        @foreach (var img in Item.Files)
+                        {
+                            <div class="imgDiv">
+                                @Html.ActionLink(img.UserFileName, "Download", "FileData", new { id = img.Id }, new { })
+                            </div>
+                        }
+                    </td>
                 </tr>
             }
         </table>

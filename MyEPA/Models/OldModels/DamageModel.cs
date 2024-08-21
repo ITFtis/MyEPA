@@ -100,15 +100,28 @@ namespace MyEPA.Models
         [DisplayName("已清除廢棄物(公噸)")]
         public decimal CLE_Garbage { get; set; }
         /// <summary>
-        /// 已動用清潔人力(人)
+        /// 已動用清潔人力(人次)
         /// </summary>
-        [DisplayName("已動用清潔人力(人)")]
+        [DisplayName("已動用清潔人力(人次)")]
         public int CleaningMemberQuantity { get; set; }
         /// <summary>
-        /// 已動用國軍支援(人)
+        /// 已動用國軍人力(人次)
         /// </summary>
-        [DisplayName("已動用國軍支援(人)")]
+        [DisplayName("已動用國軍人力(人次)")]
         public int NationalArmyQuantity { get; set; }
+
+        [DisplayName("已使用藥劑數量(公升)")]
+        public float CLE_DisinfectorL { get; set; }
+
+        [DisplayName("已使用藥劑數量(公斤)")]
+        public float CLE_DisinfectorW { get; set; }
+
+        [DisplayName("已使用機具(請列示機具名稱及數量)")]
+        public string CLE_EquipmentDesc { get; set; }
+
+        [DisplayName("已使用車輛(請列示車輛名稱及數量)")]
+        public string CLE_CarDesc { get; set; }
+
         [DisplayName("照片")]
         public int? ImageFileId { get; set; }
         [DisplayName("檔案")]
@@ -166,7 +179,12 @@ namespace MyEPA.Models
         public string CityName { get; set; }
         [DisplayName("通報單位")]
         public string TownName { get; set; }
-        
+
+        [DisplayName("圖片")]
+        public List<FileDataModel> Images { get; set; }
+
+        [DisplayName("檔案")]
+        public List<FileDataModel> Files { get; set; }
     }
 
     public class DamageTeamConfirmViewModel
@@ -180,6 +198,12 @@ namespace MyEPA.Models
         public DateTime? ReportDay { get; set; }
         [DisplayName("環境清理通報日期")]
         public DateTime? CleanDay { get; set; }
+
+        [DisplayName("災情通報確認時間")]
+        public DateTime? TeamConfirmTime { get; set; }
+        [DisplayName("環境清理確認時間")]
+        public DateTime? CleanTeamConfirmTime { get; set; }
+
         [DisplayName("縣市名稱")]
         public string CityName { get; set; }
         public int CityId { get; set; }
@@ -188,6 +212,9 @@ namespace MyEPA.Models
 
     public class DamageTownViewModel
     {
+        [DisplayName("災情通報編號")]
+        public int Id { get; set; }
+
         [DisplayName("通報/確認狀態")]
         public DamageStatusEnum? Status { get; set; }
         [DisplayName("環境清理狀態")]
@@ -285,5 +312,11 @@ namespace MyEPA.Models
         [DisplayName("環境清理通報日期")]
         public DateTime? CleanDay { get; set; }
         public int TownId { get; set; }
+
+        [DisplayName("圖片")]
+        public List<FileDataModel> Images { get; set; }
+
+        [DisplayName("檔案")]
+        public List<FileDataModel> Files { get; set; }
     }
 }

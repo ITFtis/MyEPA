@@ -6,7 +6,7 @@
     int diasterId = ViewBag.DiasterId;
     List<DiasterModel> diasters = ViewBag.Diasters;
     DamageMainModel main = ViewBag.DamageMain;
-    ViewBag.Title = "環境清理";
+    ViewBag.Title = "環境清理通報";
     DutyEnum duty = ViewBag.DutyId;
 }
 <div class="btn-group">
@@ -25,7 +25,7 @@
 
 <div class="text-center">
 
-    <h2>環境清理</h2>
+    <h2>環境清理通報</h2>
     <h6 style="color:red">災害主題：@diaster.DiasterName</h6>
     <h6 style="color:red">災害編號：@diaster.Id</h6>
     <div id="DataArea2">
