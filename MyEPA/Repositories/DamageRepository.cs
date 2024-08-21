@@ -277,11 +277,11 @@ From Damage D
 			}
 			if (filter.StartTime.HasValue)
 			{
-				whereSQL += " AND [CreateDate] >= @StartTime";
+				whereSQL += " AND DateDiff(Day, @StartTime, [CreateDate]) >= 0";
 			}
 			if (filter.EndTime.HasValue)
 			{
-				whereSQL += " AND [CreateDate] < @EndTime";
+				whereSQL += " AND DateDiff(Day, @EndTime, [CreateDate]) <= 0";
 			}
             if (filter.HType.HasValue)
             {

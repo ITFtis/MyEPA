@@ -55,10 +55,10 @@
             環保局通報狀態
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CityName)
+            災害通報日期
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ReportDay)
+            @Html.DisplayNameFor(model => model.CityName)
         </th>
         <th> 鄉鎮資料</th>
     </tr>
@@ -97,10 +97,10 @@
                 }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CityName)
+                @(item.ReportDay != null ? ((DateTime)item.ReportDay).ToString("yyyy/MM/dd") : "")
             </td>
             <td>
-                @(item.ReportDay != null ? ((DateTime)item.ReportDay).ToString("yyyy/MM/dd") : "")
+                @Html.DisplayFor(modelItem => item.CityName)
             </td>
             <td>
                 <a class="btn btn-default" href="@Url.Action("TownList", new { diasterId, cityId = item.CityId, date = item.ReportDay != null ? ((DateTime)item.ReportDay).ToString("yyyy/MM/dd") : "" })">查看</a>

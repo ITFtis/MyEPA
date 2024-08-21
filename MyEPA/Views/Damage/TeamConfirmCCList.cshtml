@@ -57,6 +57,9 @@
         <th>
             @Html.DisplayNameFor(model => model.CleanDay)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CityName)
+        </th>
         <th> 鄉鎮資料</th>
     </tr>
 
@@ -94,10 +97,10 @@
                 }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CityName)
+                @(item.CleanDay != null ? ((DateTime)item.CleanDay).ToString("yyyy/MM/dd") : "")
             </td>
             <td>
-                @(item.CleanDay != null ? ((DateTime)item.CleanDay).ToString("yyyy/MM/dd") : "")
+                @Html.DisplayFor(modelItem => item.CityName)
             </td>
             <td>
                 <a class="btn btn-default" href="@Url.Action("TownCCList", new { diasterId, cityId = item.CityId, date = item.CleanDay != null ? ((DateTime)item.CleanDay).ToString("yyyy/MM/dd") : "" })">查看</a>

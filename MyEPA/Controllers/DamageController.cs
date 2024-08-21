@@ -62,7 +62,9 @@ namespace MyEPA.Controllers
             ViewBag.Diasters = diasters;
             ViewBag.Citys = CityService.GetCountyOrderBySort();
 
-            return View(DamageService.GetByFilter(filter));
+            var result = DamageService.GetByFilter(filter);
+
+            return View(result);
         }
 
         public ActionResult Details(int id)

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<MyEPA.Models.DamageJoinModel>
 @using MyEPA.Models;
 @{
-    ViewBag.Title = "災情及清理通報";
+    ViewBag.Title = "環境清理通報";
     Layout = "~/Views/_Layout.cshtml";
     int diasterId = ViewBag.DiasterId;
     List<DiasterModel> Diasters = ViewBag.Diasters;
@@ -46,16 +46,16 @@
             </tr>
             <tr>
                 <td rowspan="2">
-                    <h5>通報日期 </h5><h6>(非災害日期)</h6>
+                    <h5>通報時間 </h5><h6>(非災害日期)</h6>
                 </td>
                 <td>
-                    起始時間：<input name="StartTime" type="datetime-local" value="@(startTime.HasValue ? startTime.Value.ToString("yyyy-MM-ddTHH:mm"):string.Empty)" />
+                    起始時間：<input name="StartTime" type="date" value="@(startTime.HasValue ? startTime.Value.ToString("yyyy-MM-ddTHH:mm"):string.Empty)" />
 
                 </td>
             </tr>
             <tr>
                 <td>
-                    結束時間：<input name="EndTime" type="datetime-local" value="@(endTime.HasValue ? endTime.Value.ToString("yyyy-MM-ddTHH:mm"):string.Empty)" />
+                    結束時間：<input name="EndTime" type="date" value="@(endTime.HasValue ? endTime.Value.ToString("yyyy-MM-ddTHH:mm"):string.Empty)" />
 
                 </td>
             </tr>
@@ -69,63 +69,58 @@
 }
 <hr>
 <table class="table">
-    <tr>
+    <tr bgcolor="#F7F7DE">
         <th>
             @Html.DisplayNameFor(model => model.TownName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ReportDay)
+            環境清理通報日期
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DamagePlace)
-        </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.DamageArea)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FloodArea)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PR_Garbage)
-        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.DisinfectDate)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DisinfectArea)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CLE_Disinfect)
-        </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.CLE_Trash)
-        </th>*@
-        <th>
-            @Html.DisplayNameFor(model => model.CLE_Garbage)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CLE_MUD)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CleaningMemberQuantity)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NationalArmyQuantity)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DumpSiteDesc)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IncinerationPlantDesc)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Other)
-        </th>
+        <th>實際消毒<br />面積(公頃)</th>
+        <th>已清除<br />污泥(公噸)</th>
+        <th>已清除<br />廢棄物(公噸)</th>
+        <th>已動用<br />清潔人力(人次)</th>
+        <th>已動用<br />國軍人力(人次)</th>
+        <th>已使用<br />藥劑數量(公升)</th>
+        <th>已使用<br />藥劑數量(公斤)</th>
+        <th>已使用<br />機具</th>
+        <th>已使用<br />車輛</th>
         <th>
             @Html.DisplayNameFor(model => model.CreateDate)
         </th>
     </tr>
-
+    <tr bgcolor="#F7F7DE">
+        <th>合計</th>
+        <th></th>
+        <th></th>
+        <th>
+            @Model.Sum(e => e.DisinfectArea)
+        </th>
+        <th>
+            @Model.Sum(e => e.CLE_MUD)
+        </th>
+        <th>
+            @Model.Sum(e => e.CLE_Garbage)
+        </th>
+        <th>
+            @Model.Sum(e => e.CleaningMemberQuantity)
+        </th>
+        <th>
+            @Model.Sum(e => e.NationalArmyQuantity)
+        </th>
+        <th>
+            @Model.Sum(e => e.CLE_DisinfectorL)
+        </th>
+        <th>
+            @Model.Sum(e => e.CLE_DisinfectorW)
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
     @foreach (var item in Model)
     {
         <tr>
@@ -133,20 +128,8 @@
                 @(item.CityName + item.TownName)
             </td>
             <th>
-                @(item.ReportDay != null ? ((DateTime)item.ReportDay).ToString("yyyy/MM/dd") : "")
+                @(item.CleanDay != null ? ((DateTime)item.CleanDay).ToString("yyyy/MM/dd") : "")
             </th>
-            <th>
-                @Html.DisplayFor(modelItem => item.DamagePlace)
-            </th>
-            @*<th>
-                @Html.DisplayFor(modelItem => item.DamageArea)
-            </th>
-            <th>
-                @Html.DisplayFor(modelItem => item.FloodArea)
-            </th>
-            <th>
-                @Html.DisplayFor(modelItem => item.PR_Garbage)
-            </th>*@
             <th>
                 @(item.DisinfectDate != null ? ((DateTime)item.DisinfectDate).ToString("yyyy/MM/dd") : "")
             </th>
@@ -154,16 +137,10 @@
                 @Html.DisplayFor(modelItem => item.DisinfectArea)
             </th>
             <th>
-                @Html.DisplayFor(modelItem => item.CLE_Disinfect)
+                @Html.DisplayFor(modelItem => item.CLE_MUD)
             </th>
-            @*<th>
-                @Html.DisplayFor(modelItem => item.CLE_Trash)
-            </th>*@
             <th>
                 @Html.DisplayFor(modelItem => item.CLE_Garbage)
-            </th>
-            <th>
-                @Html.DisplayFor(modelItem => item.CLE_MUD)
             </th>
             <th>
                 @Html.DisplayFor(modelItem => item.CleaningMemberQuantity)
@@ -171,15 +148,10 @@
             <th>
                 @Html.DisplayFor(modelItem => item.NationalArmyQuantity)
             </th>
-            <th>
-                @Html.DisplayFor(modelItem => item.DumpSiteDesc)
-            </th>
-            <th>
-                @Html.DisplayFor(modelItem => item.IncinerationPlantDesc)
-            </th>
-            <th>
-                @Html.DisplayFor(modelItem => item.Other)
-            </th>
+            <th>@item.CLE_DisinfectorL</th>
+            <th>@item.CLE_DisinfectorW</th>
+            <th>@item.CLE_EquipmentDesc</th>
+            <th>@item.CLE_CarDesc</th>
             <th>
                 @item.CreateDate.ToString("yyyy/MM/dd HH:mm:ss")
             </th>
