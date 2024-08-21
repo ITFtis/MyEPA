@@ -188,7 +188,24 @@ namespace MyEPA.Controllers
 
         public ActionResult TownCCList(int diasterId, DateTime? date, int? cityId = null)
         {
-            var result = DamageService.GetTownCCList(diasterId, date, cityId);
+            var datas = DamageService.GetTownCCList(diasterId, date, cityId);
+
+            //環境清理
+            foreach (var data in datas)
+            {
+                //無資料，無圖檔
+                if (data.Id == 0)
+                {
+                    data.Files = new List<FileDataModel>();
+                    data.Images = new List<FileDataModel>();
+                    continue;
+                }
+
+                data.Files = FileDataService.GetBySource(SourceTypeEnum.DamageCCFile, data.Id);
+                data.Images = FileDataService.GetBySource(SourceTypeEnum.DamageCCImage, data.Id);
+            }
+
+            var result = datas;
             return View(result);
         }
 

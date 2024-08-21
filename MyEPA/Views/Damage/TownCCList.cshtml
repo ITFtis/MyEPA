@@ -50,6 +50,8 @@
         <th>
             @Html.DisplayNameFor(model => model.CLE_Disinfect)
         </th>
+        <th>圖片</th>
+        <th>檔案下載</th>
         <th>
             通報資料更新日期
         </th>
@@ -101,6 +103,24 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CLE_Disinfect)
+            </td>
+            <td>
+                @foreach (var img in item.Images)
+                {
+                    <div class="imgDiv">
+                        <a href="@Url.Action("Download", "FileData",new {id = img.Id })" title="圖片" class="links">
+                            <img alt="圖片" src="@Url.Action("Download","FileData",new {id = img.Id })" height="30" width="30">
+                        </a>
+                    </div>
+                }
+            </td>
+            <td>
+                @foreach (var img in item.Files)
+                {
+                    <div class="imgDiv">
+                        @Html.ActionLink(img.UserFileName, "Download", "FileData", new { id = img.Id }, new { })
+                    </div>
+                }
             </td>
             <td>
                 @(item.UpdateDate.HasValue ? item.UpdateDate.Value.ToString("yyyy/MM/dd HH:mm") : string.Empty)

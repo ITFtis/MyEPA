@@ -532,6 +532,7 @@ namespace MyEPA.Services
                     {
                         result.Add(new DamageTownViewModel
                         {
+                            Id = damage.Id,
                             CityId = damage.CityId,
                             DamageArea = damage.DamageArea,
                             FloodArea = damage.FloodArea,

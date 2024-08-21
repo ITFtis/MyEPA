@@ -72,10 +72,6 @@
                 {
                     <a href="#" onclick="Confirm(@item.Id,@(MyEPA.Enums.DamageStatusEnum.Waiting.ToInteger()))">取消確認</a>
                 }
-                else
-                {
-                    @:@item.CleanStatus.GetDescription()
-                }
             </td>
             <td>
                 @{
