@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyEPA.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -15,6 +16,28 @@ namespace MyEPA.ViewModels
         public string TownName { get; set; }
         [DisplayName("災害日期")]
         public DateTime? ReportDay { get; set; }
+
+        /// <summary>
+        /// 主要受災(區村里)
+        /// </summary>
+        [DisplayName("主要受災(區村里)")]
+        public string DamagePlace { get; set; }
+        /// <summary>
+        /// 垃圾場損壞情形
+        /// </summary>
+        [DisplayName("垃圾場損壞情形")]
+        public string DumpSiteDesc { get; set; }
+        /// <summary>
+        /// 焚化廠損壞情形
+        /// </summary>
+        [DisplayName("焚化廠損壞情形")]
+        public string IncinerationPlantDesc { get; set; }
+        /// <summary>
+        /// 其他損壞情形
+        /// </summary>
+        [DisplayName("其他損壞情形")]
+        public string Other { get; set; }
+
         [DisplayName("通報時間")]
         public DateTime CreateDate { get; set; }
         [DisplayName("場所名稱")]
@@ -25,5 +48,11 @@ namespace MyEPA.ViewModels
         public string ProcessDesc { get; set; }
         [DisplayName("備註")]
         public string Note { get; set; }
+
+        [DisplayName("圖片")]
+        public List<FileDataModel> Images { get; set; }
+
+        [DisplayName("檔案")]
+        public List<FileDataModel> Files { get; set; }
     }
 }

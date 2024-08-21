@@ -88,6 +88,8 @@
         <th>已使用<br />藥劑數量(公斤)</th>
         <th>已使用<br />機具</th>
         <th>已使用<br />車輛</th>
+        <th>圖片</th>
+        <th>檔案下載</th>
         <th>
             @Html.DisplayNameFor(model => model.CreateDate)
         </th>
@@ -117,6 +119,8 @@
         <th>
             @Model.Sum(e => e.CLE_DisinfectorW)
         </th>
+        <th></th>
+        <th></th>
         <th></th>
         <th></th>
         <th></th>
@@ -152,6 +156,24 @@
             <th>@item.CLE_DisinfectorW</th>
             <th>@item.CLE_EquipmentDesc</th>
             <th>@item.CLE_CarDesc</th>
+            <th>
+                @foreach (var img in item.Images)
+                {
+                    <div class="imgDiv">
+                        <a href="@Url.Action("Download", "FileData",new {id = img.Id })" title="圖片" class="links">
+                            <img alt="圖片" src="@Url.Action("Download","FileData",new {id = img.Id })" height="30" width="30">
+                        </a>
+                    </div>
+                }
+            </th>
+            <th>
+                @foreach (var img in item.Files)
+                {
+                    <div class="imgDiv">
+                        @Html.ActionLink(img.UserFileName, "Download", "FileData", new { id = img.Id }, new { })
+                    </div>
+                }
+            </th>
             <th>
                 @item.CreateDate.ToString("yyyy/MM/dd HH:mm:ss")
             </th>

@@ -3,7 +3,7 @@
 @using MyEPA.Models;
 @using MyEPA.Enums;
 @{
-    ViewBag.Title = "環境設施災損查詢";
+    ViewBag.Title = "災情通報";
     Layout = "~/Views/_Layout.cshtml";
     List<DiasterModel> diasters = ViewBag.Diasters;
     int? diasterId = ViewBag.DiasterId;
@@ -96,22 +96,25 @@
                             @Html.DisplayNameFor(model => model.TownName)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.ReportDay)
+                            災害通報日期
                         </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.CreateDate)
-                        </th>
+                        <th>主要受災(區村里)</th>
+                        <th>垃圾場損壞情形</th>
+                        <th>焚化廠損壞情形</th>
+                        <th>其他損壞情形</th>
                         <th>
                             @Html.DisplayNameFor(model => model.Places)
                         </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.DamageDesc)
-                        </th>
+                        <th>圖片</th>
+                        <th>檔案下載</th>
                         <th>
                             處理情形
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Note)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CreateDate)
                         </th>
                     </tr>
 
@@ -127,14 +130,30 @@
                             <td>
                                 @(item.ReportDay != null ? ((DateTime)item.ReportDay).ToString("yyyy/MM/dd") : "")
                             </td>
+                            <td>@item.DamagePlace</td>
+                            <td>@item.DumpSiteDesc</td>
+                            <td>@item.IncinerationPlantDesc</td>
+                            <td>@item.Other</td>
                             <td>
-                                @item.CreateDate.ToString("yyyy/MM/dd HH:mm:ss")
+                                @Html.Raw("<span>" + string.Join("</br>", item.Places) + "</span>")
                             </td>
                             <td>
-                                @string.Join("、", item.Places)
+                                @foreach (var img in item.Images)
+                                {
+                                    <div class="imgDiv">
+                                        <a href="@Url.Action("Download", "FileData",new {id = img.Id })" title="圖片" class="links">
+                                            <img alt="圖片" src="@Url.Action("Download","FileData",new {id = img.Id })" height="30" width="30">
+                                        </a>
+                                    </div>
+                                }
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.DamageDesc)
+                                @foreach (var img in item.Files)
+                                {
+                                    <div class="imgDiv">
+                                        @Html.ActionLink(img.UserFileName, "Download", "FileData", new { id = img.Id }, new { })
+                                    </div>
+                                }
                             </td>
                             <td>
                                 @if (duty == DutyEnum.Corps || duty == DutyEnum.Team || duty == DutyEnum.EPA)
@@ -149,6 +168,9 @@
                             </td>
                             <td>
                                 @Html.ActionLink(string.IsNullOrWhiteSpace(item.Note) ? "未輸入" : "已輸入", "Memo", new { id = item.Id, type = type })
+                            </td>
+                            <td>
+                                @item.CreateDate.ToString("yyyy/MM/dd HH:mm:ss")
                             </td>
                         </tr>
                     }

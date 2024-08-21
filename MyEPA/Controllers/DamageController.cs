@@ -62,7 +62,24 @@ namespace MyEPA.Controllers
             ViewBag.Diasters = diasters;
             ViewBag.Citys = CityService.GetCountyOrderBySort();
 
-            var result = DamageService.GetByFilter(filter);
+            var datas = DamageService.GetByFilter(filter);
+
+            //環境清理
+            foreach (var data in datas)
+            {
+                //無資料，無圖檔
+                if (data.Id == 0)
+                {
+                    data.Files = new List<FileDataModel>();
+                    data.Images = new List<FileDataModel>();
+                    continue;
+                }
+
+                data.Files = FileDataService.GetBySource(SourceTypeEnum.DamageCCFile, data.Id);
+                data.Images = FileDataService.GetBySource(SourceTypeEnum.DamageCCImage, data.Id);
+            }
+
+            var result = datas;
 
             return View(result);
         }
@@ -453,7 +470,24 @@ namespace MyEPA.Controllers
                 TownIds = townId.HasValue ? townId.Value.ToListCollection() : new List<int>(),
             };
 
-            var result = DamageService.GetFacilityDamages(filter, type);
+            var datas = DamageService.GetFacilityDamages(filter, type);
+
+            //災情通報
+            foreach (var data in datas)
+            {
+                //無資料，無圖檔
+                if (data.Id == 0)
+                {
+                    data.Files = new List<FileDataModel>();
+                    data.Images = new List<FileDataModel>();
+                    continue;
+                }
+
+                data.Files = FileDataService.GetBySource(SourceTypeEnum.DamageFile, data.Id);
+                data.Images = FileDataService.GetBySource(SourceTypeEnum.DamageImage, data.Id);
+            }
+
+            var result = datas;
             return View(result);
         }
         public ActionResult CorpsHandlingSituationShow(int id, FacilityDamageTypeEnum type)

@@ -903,6 +903,10 @@ namespace MyEPA.Services
                             TownName = e.TownName,
                             CityName = e.CityName,
                             CreateDate = e.CreateDate,
+                            DamagePlace = e.DamagePlace,
+                            DumpSiteDesc = e.DumpSiteDesc,
+                            IncinerationPlantDesc = e.IncinerationPlantDesc,
+                            Other = e.Other,
                             DamageDesc = string.IsNullOrEmpty(e.DumpSiteDesc) ? string.IsNullOrEmpty(e.IncinerationPlantDesc) ? e.Other : e.IncinerationPlantDesc : e.DumpSiteDesc,
                             Note = e.Note,
                             Places = string.IsNullOrEmpty(e.LandfillIds) ? string.IsNullOrEmpty(e.LandfillIds) ? new List<string>() : e.LandfillIds.Split(',').Select(f => dic.GetValue(f)).ToList() : e.LandfillIds.Split(',').Select(f=> dic.GetValue(f)).ToList()
@@ -919,6 +923,10 @@ namespace MyEPA.Services
                             TownName = e.TownName,
                             CityName = e.CityName,
                             CreateDate = e.CreateDate,
+                            DamagePlace = e.DamagePlace,
+                            DumpSiteDesc = e.DumpSiteDesc,
+                            IncinerationPlantDesc = e.IncinerationPlantDesc,
+                            Other = e.Other,
                             DamageDesc = e.DumpSiteDesc,
                             Note = e.Note,
                             Places = string.IsNullOrEmpty(e.LandfillIds) ? new List<string>(): e.LandfillIds.Split(',').Select(f=> dic.GetValue(f)).ToList()
@@ -935,6 +943,10 @@ namespace MyEPA.Services
                             TownName = e.TownName,
                             CityName = e.CityName,
                             CreateDate = e.CreateDate,
+                            DamagePlace = e.DamagePlace,
+                            DumpSiteDesc = e.DumpSiteDesc,
+                            IncinerationPlantDesc = e.IncinerationPlantDesc,
+                            Other = e.Other,
                             DamageDesc = e.IncinerationPlantDesc,
                             Note = e.Note,
                             Places = string.IsNullOrEmpty(e.IncineratorIds) ? new List<string>() : e.IncineratorIds.Split(',').Select(f => dic.GetValue(f)).ToList()
@@ -949,6 +961,10 @@ namespace MyEPA.Services
                         TownName = e.TownName,
                         CityName = e.CityName,
                         CreateDate = e.CreateDate,
+                        DamagePlace = e.DamagePlace,
+                        DumpSiteDesc = e.DumpSiteDesc,
+                        IncinerationPlantDesc = e.IncinerationPlantDesc,
+                        Other = e.Other,
                         DamageDesc = e.Other,
                         Note = e.Note,
                         Places = new List<string>()
