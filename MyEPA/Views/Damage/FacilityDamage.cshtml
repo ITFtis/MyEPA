@@ -170,7 +170,7 @@
                                 @Html.ActionLink(string.IsNullOrWhiteSpace(item.Note) ? "未輸入" : "已輸入", "Memo", new { id = item.Id, type = type })
                             </td>
                             <td>
-                                @item.CreateDate.ToString("yyyy/MM/dd HH:mm:ss")
+                                @(item.CreateDate != null ? ((DateTime)item.CreateDate).ToString("yyyy/MM/dd HH:mm:ss") : "")
                             </td>
                         </tr>
                     }
