@@ -134,9 +134,14 @@ namespace MyEPA.Models
         [DisplayName("環境清理狀態")]
         public DamageStatusEnum? CleanStatus { get; set; }
         public DutyEnum DutyId { get; set; }
-        [DisplayName("通報時間")]
-        public DateTime CreateDate { get; set; }
-        public DateTime UpdateDate { get; set; }
+        [DisplayName("災情通報建檔時間")]
+        public DateTime? CreateDate { get; set; }
+        [DisplayName("災情通報更新時間")]
+        public DateTime? UpdateDate { get; set; }
+        [DisplayName("環境清理建檔時間")]
+        public DateTime? CleanCreateDate { get; set; }
+        [DisplayName("環境清理更新時間")]
+        public DateTime? CleanUpdateDate { get; set; }
         /// <summary>
         /// 垃圾掩埋場
         /// </summary>

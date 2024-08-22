@@ -39,7 +39,7 @@ namespace MyEPA.ViewModels
         public string Other { get; set; }
 
         [DisplayName("通報時間")]
-        public DateTime CreateDate { get; set; }
+        public DateTime? CreateDate { get; set; }
         [DisplayName("場所名稱")]
         public List<string> Places { get; set; }
         [DisplayName("損壞說明")]

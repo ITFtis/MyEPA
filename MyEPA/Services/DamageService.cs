@@ -152,6 +152,7 @@ namespace MyEPA.Services
                 CLE_Trash = damage.CLE_Trash,
                 ConfirmTime = damage.ConfirmTime,
                 CreateDate = damage.CreateDate,
+                CleanCreateDate = damage.CleanCreateDate,
                 DamagePlace = damage.DamagePlace,
                 DiasterId = damage.DiasterId,
                 CleanDay = damage.CleanDay,
@@ -183,7 +184,8 @@ namespace MyEPA.Services
                 CleanStatus = damage.CleanStatus,
                 TownId = damage.TownId,
                 TownName = damage.TownName,
-                UpdateDate = damage.UpdateDate
+                UpdateDate = damage.UpdateDate,
+                CleanUpdateDate = damage.CleanUpdateDate,
             };
 
             if (damage.FileId.HasValue)
@@ -282,7 +284,7 @@ namespace MyEPA.Services
             entity.CLE_CarDesc = model.CLE_CarDesc;
             entity.Note = model.Note;
 
-            entity.UpdateDate = DateTimeHelper.GetCurrentTime();
+            entity.CleanUpdateDate = DateTimeHelper.GetCurrentTime();
             entity.IsDamageClean = true;
             DamageRepository.Update(entity);
         }
@@ -700,12 +702,16 @@ namespace MyEPA.Services
 
             if (hType == 1)
             {
+                damage.CreateDate = damage.CreateDate != null ? damage.CreateDate : DateTimeHelper.GetCurrentTime();
+                damage.UpdateDate = DateTimeHelper.GetCurrentTime();
                 damage.Status = DamageStatusEnum.Waiting;
                 damage.IsDamage = false;
                 damage.ReportDay = model.ReportDay;
             }
             else if (hType == 2)
             {
+                damage.CleanCreateDate = damage.CleanCreateDate != null ? damage.CleanCreateDate : DateTimeHelper.GetCurrentTime();
+                damage.CleanUpdateDate = DateTimeHelper.GetCurrentTime();
                 damage.CleanStatus = DamageStatusEnum.Waiting;
                 damage.IsDamageClean = false;
                 damage.CleanDay = model.CleanDay;
@@ -714,13 +720,10 @@ namespace MyEPA.Services
             //儲存
             if (join == null)
             {
-                damage.CreateDate = DateTimeHelper.GetCurrentTime();
-                damage.UpdateDate = DateTimeHelper.GetCurrentTime();
                 DamageRepository.Create(damage);
             }
             else
             {
-                damage.UpdateDate = DateTimeHelper.GetCurrentTime();
                 DamageRepository.Update(damage);
             }
         }

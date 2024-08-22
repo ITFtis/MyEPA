@@ -592,6 +592,7 @@ namespace MyEPA.Controllers
                 damage.PR_Garbage = model.PR_Garbage;
                 damage.IncineratorIds = string.Join(",", incineratorIds);
                 damage.LandfillIds = string.Join(",", landfillIds);
+                damage.CreateDate = DateTimeHelper.GetCurrentTime();
                 damage.UpdateDate = DateTimeHelper.GetCurrentTime();
                 damage.Status = DamageStatusEnum.Waiting;
                 damage.IsDamage = true;
@@ -705,8 +706,8 @@ namespace MyEPA.Controllers
             int dmgId;
             if (damage == null)
             {
-                model.CreateDate = DateTimeHelper.GetCurrentTime();
-                model.UpdateDate = DateTimeHelper.GetCurrentTime();
+                model.CleanCreateDate = DateTimeHelper.GetCurrentTime();
+                model.CleanUpdateDate = DateTimeHelper.GetCurrentTime();
                 model.CleanStatus = DamageStatusEnum.Waiting;
                 model.IsDamageClean = true;
                 DamageRepository.Create(model);
@@ -731,6 +732,8 @@ namespace MyEPA.Controllers
                 damage.CLE_DisinfectorW = model.CLE_DisinfectorW;
                 damage.CLE_EquipmentDesc = model.CLE_EquipmentDesc;
                 damage.CLE_CarDesc = model.CLE_CarDesc;
+                damage.CleanCreateDate = DateTimeHelper.GetCurrentTime();
+                damage.CleanUpdateDate = DateTimeHelper.GetCurrentTime();
                 damage.CleanStatus = DamageStatusEnum.Waiting;
                 damage.IsDamageClean = true;
                 DamageRepository.Update(damage);
