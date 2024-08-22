@@ -8,6 +8,7 @@ namespace MyEPA.Models.FilterParameter
         public int DiasterId { get; set; }
         public int? CityId { get; set; }
         public DateTime? Date { get; set; }
+        public int? AreaId { get; set; }
     }
 
     public class DamageTownReportFilterModel

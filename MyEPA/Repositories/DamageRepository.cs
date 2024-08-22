@@ -127,12 +127,16 @@ Order By C.Sort
 			{
 				whereSQL += " AND C.Id = @CityId";
 			}
-			if (filter.Date.HasValue)
+            if (filter.AreaId.HasValue)
+            {
+                whereSQL += " AND C.AreaId = @AreaId";
+            }
+            if (filter.Date.HasValue)
 			{
 				damageWhereSQL += " AND d.ReportDay = @Date";
-			}
+			}            
 
-			string sql = $@"
+            string sql = $@"
 SELECT
 	D.FloodArea
 	,D.CLE_MUD
@@ -141,6 +145,8 @@ SELECT
 ,D.CLE_Garbage
 	,D.CleaningMemberQuantity
 	,D.NationalArmyQuantity
+	,D.CLE_DisinfectorL
+	,D.CLE_DisinfectorW
 	,D.DisinfectArea
 	,D.UpdateDate
 	,C.Id CityId
@@ -181,7 +187,9 @@ LEFT JOIN
 		,SUM(ISNULL(CleaningMemberQuantity,0))CleaningMemberQuantity	--已動用清除人力(人次)
 		,SUM(ISNULL(NationalArmyQuantity,0))NationalArmyQuantity		--已動用國軍人力(人次)
 		,SUM(ISNULL(DisinfectArea,0))DisinfectArea						--已消毒面積(公頃)
-        ,SUM(ISNULL(CLE_Garbage,0))CLE_Garbage						--已清除廢棄物(公噸)
+        ,SUM(ISNULL(CLE_Garbage,0))CLE_Garbage						    --已清除廢棄物(公噸)
+		,SUM(ISNULL(CLE_DisinfectorL,0))CLE_DisinfectorL				--已使用藥劑數量(公升
+		,SUM(ISNULL(CLE_DisinfectorW,0))CLE_DisinfectorW				--已使用藥劑數量(公斤)
 		,MAX(d.UpdateDate)UpdateDate
 	FROM Damage d
 	{damageWhereSQL}
@@ -190,6 +198,7 @@ LEFT JOIN
 LEFT JOIN admip ON C.Id = admip.CityId
 LEFT JOIN ADMIT ON Town.Id = admit.TownId
 LEFT JOIN DamageMain DM ON DM.DiasterId =  @DiasterId AND DM.IsDone = 1 AND DM.CityId = C.Id
+Where 1=1
 {whereSQL}
 Order By C.Sort
 ";

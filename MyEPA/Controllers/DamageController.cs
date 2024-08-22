@@ -396,7 +396,7 @@ namespace MyEPA.Controllers
         /// <param name="diasterId"></param>
         /// <param name="date"></param>
         /// <returns></returns>
-        public ActionResult CityStatistics(int? diasterId = null, DateTime? date = null)
+        public ActionResult CityStatistics(int? diasterId = null, DateTime? date = null, int? areaId = null)
         {
             var diasters = DiasterService.GetAll();
             if(diasterId.HasValue == false)
@@ -406,10 +406,12 @@ namespace MyEPA.Controllers
             ViewBag.Diasters = diasters;
             ViewBag.Diaster = diasters.FirstOrDefault(e => e.Id == diasterId.Value);
             ViewBag.Date = date;
+            ViewBag.AreaId = areaId;
             var result = DamageService.GetCityStatistics(new DamageReportFilterModel
             {
                 DiasterId = diasterId.Value,
-                Date = date
+                Date = date,
+                AreaId = areaId,
             });
 
             return View(result);

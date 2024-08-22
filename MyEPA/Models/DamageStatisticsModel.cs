@@ -66,6 +66,11 @@ namespace MyEPA.Models
         /// </summary>
         [DisplayName("已動用國軍人力(人次)")]
         public int NationalArmyQuantity { get; set; }
+        [DisplayName("已使用藥劑數量(公升)")]
+        public float CLE_DisinfectorL { get; set; }
+
+        [DisplayName("已使用藥劑數量(公斤)")]
+        public float CLE_DisinfectorW { get; set; }
         /// <summary>
         /// 已消毒面積(公頃)
         /// </summary>

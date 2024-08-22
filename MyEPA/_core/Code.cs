@@ -106,5 +106,21 @@ namespace MyEPA
 
             return result;
         }
+
+        /// <summary>
+        /// 區大隊
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<KeyValuePair<int, string>> GetCityArea()
+        {
+            List<KeyValuePair<int, string>> result = new List<KeyValuePair<int, string>>()
+            {
+                new KeyValuePair<int, string>(1, "北區環境督察大隊"),
+                new KeyValuePair<int, string>(2, "中區環境督察大隊"),
+                new KeyValuePair<int, string>(3, "南區環境督察大隊"),
+            };
+
+            return result;
+        }
     }
 }

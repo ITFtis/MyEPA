@@ -340,6 +340,8 @@ namespace MyEPA.Services
                     CLE_Garbage = e.Sum(f => f.CLE_Garbage),
                     FloodArea = e.Sum(f => f.FloodArea),
                     NationalArmyQuantity = e.Sum(f => f.NationalArmyQuantity),
+                    CLE_DisinfectorL = e.Sum(f => f.CLE_DisinfectorL),
+                    CLE_DisinfectorW = e.Sum(f => f.CLE_DisinfectorW),
                     CleaningMemberQuantity = e.Sum(f => f.CleaningMemberQuantity),
                     CLE_MUD = e.Sum(f => f.CLE_MUD),
                     CLE_Trash = e.Sum(f => f.CLE_Trash),

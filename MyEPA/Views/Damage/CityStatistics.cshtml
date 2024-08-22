@@ -7,6 +7,7 @@
     List<DiasterModel> diasters = ViewBag.Diasters;
     DiasterModel diaster = ViewBag.Diaster;
     DateTime? selectDate = ViewBag.Date;
+    int? selectAreaId = ViewBag.AreaId;
 }
 <h3>@ViewBag.Title </h3>
 <div>
@@ -38,10 +39,23 @@
                         </select>
                     </td>
                 </tr>
+                <tr>
+                    <td><h5>區大隊：</h5></td>
+                    <td>
+
+                        <select name="areaId">
+                            <option value="">全部</option>
+                            @foreach (var option in Code.GetCityArea())
+                            {
+                                <option value="@option.Key" @(selectAreaId == option.Key ? "selected" : string.Empty)> @option.Value</option>
+                            }
+                        </select>
+                    </td>
+                </tr>
                 <tr><td>&nbsp;</td></tr>
                 <tr align="center">
                     <td colspan="2"><button type="submit" class="btn btn-primary" href=""><i class="fa fa-search"></i>&nbsp;查詢</button></td>
-                    <td >@Html.ActionLink("水質抽檢統計", "Statistics", "WaterCheck", new { },new { @class = "btn btn-success" })</td>
+                    <td>@Html.ActionLink("水質抽檢統計", "Statistics", "WaterCheck", new { }, new { @class = "btn btn-success" })</td>
                 </tr>
             </tbody>
         </table>
@@ -58,18 +72,12 @@
         <th>
             @Html.DisplayNameFor(model => model.CityArea)
         </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.FloodArea)
-        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.DisinfectArea)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.CLE_MUD)
         </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.PR_Garbage)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CLE_Trash)
-        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.CLE_Garbage)
         </th>
@@ -80,7 +88,10 @@
             @Html.DisplayNameFor(model => model.NationalArmyQuantity)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DisinfectArea)
+            @Html.DisplayNameFor(model => model.CLE_DisinfectorL)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CLE_DisinfectorW)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.DisinfectantSolidAmount)
@@ -104,18 +115,12 @@
         <th>
             @Model.Sum(e => e.CityArea)
         </th>
-        @*<th>
-            @Model.Sum(e => e.FloodArea)
-        </th>*@
+        <th>
+            @Model.Sum(e => e.DisinfectArea)
+        </th>
         <th>
             @Model.Sum(e => e.CLE_MUD)
         </th>
-        @*<th>
-            @Model.Sum(e => e.PR_Garbage)
-        </th>
-        <th>
-            @Model.Sum(e => e.CLE_Trash)
-        </th>*@
         <th>
             @Model.Sum(e => e.CLE_Garbage)
         </th>
@@ -126,7 +131,10 @@
             @Model.Sum(e => e.NationalArmyQuantity)
         </th>
         <th>
-            @Model.Sum(e => e.DisinfectArea)
+            @Model.Sum(e => e.CLE_DisinfectorL)
+        </th>
+        <th>
+            @Model.Sum(e => e.CLE_DisinfectorW)
         </th>
         <th>
             @Model.Sum(e => e.DisinfectantSolidAmount)
@@ -147,18 +155,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.CityArea)
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.FloodArea)
-            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.DisinfectArea)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CLE_MUD)
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.PR_Garbage)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CLE_Trash)
-            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.CLE_Garbage)
             </td>
@@ -169,7 +171,10 @@
                 @Html.DisplayFor(modelItem => item.NationalArmyQuantity)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DisinfectArea)
+                @Html.DisplayFor(modelItem => item.CLE_DisinfectorL)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CLE_DisinfectorW)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DisinfectantSolidAmount)
@@ -180,7 +185,7 @@
             <td>
                 @item.UpdateDate.ToDateTimeString()
             </td>
-             <td>
+            <td>
                 @(item.IsDone.GetValueOrDefault() ? "是" : "否")
             </td>
         </tr>
