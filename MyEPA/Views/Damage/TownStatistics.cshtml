@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<MyEPA.Models.DamageStatisticsTownViewModel>
 @using MyEPA.Extensions;
 @{
-    ViewBag.Title = "災情統計-鄉鎮";
+    ViewBag.Title = "環境清理統計-鄉鎮";
     Layout = "~/Views/_Layout.cshtml";
 }
     <h3>@ViewBag.Title </h3>
@@ -15,18 +15,12 @@
         <th>
             @Html.DisplayNameFor(model => model.TownArea)
         </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.FloodArea)
-        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.DisinfectArea)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.CLE_MUD)
         </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.PR_Garbage)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CLE_Trash)
-        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.CLE_Garbage)
         </th>
@@ -37,7 +31,10 @@
             @Html.DisplayNameFor(model => model.NationalArmyQuantity)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DisinfectArea)
+            @Html.DisplayNameFor(model => model.CLE_DisinfectorL)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CLE_DisinfectorW)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.DisinfectantSolidAmount)
@@ -51,6 +48,20 @@
         </th>
     </tr>
 
+    <tr>
+        <th>合計</th>
+        <th>@Math.Round(Model.Sum(e => e.TownArea), 2)</th>
+        <th>@Model.Sum(e => e.DisinfectArea)</th>
+        <th>@Model.Sum(e => e.CLE_MUD)</th>
+        <th>@Model.Sum(e => e.CLE_Garbage)</th>
+        <th>@Model.Sum(e => e.CleaningMemberQuantity)</th>
+        <th>@Model.Sum(e => e.NationalArmyQuantity)</th>
+        <th>@Model.Sum(e => e.CLE_DisinfectorL)</th>
+        <th>@Model.Sum(e => e.CLE_DisinfectorW)</th>
+        <th>@Model.Sum(e => e.DisinfectantSolidAmount)</th>
+        <th>@Model.Sum(e => e.DisinfectantLiquidAmount)</th>
+    </tr>
+
     @foreach (var item in Model)
     {
         <tr>
@@ -60,18 +71,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.TownArea)
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.FloodArea)
-            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.DisinfectArea)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CLE_MUD)
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.PR_Garbage)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CLE_Trash)
-            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.CLE_Garbage)
             </td>
@@ -81,9 +86,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.NationalArmyQuantity)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DisinfectArea)
-            </td>
+            <th>
+                @Html.DisplayFor(modelItem => item.CLE_DisinfectorL)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.CLE_DisinfectorW)
+            </th>
             <td>
                 @Html.DisplayFor(modelItem => item.DisinfectantSolidAmount)
             </td>

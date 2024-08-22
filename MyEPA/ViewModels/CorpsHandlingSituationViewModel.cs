@@ -6,7 +6,8 @@ namespace MyEPA.ViewModels
     public class CorpsHandlingSituationViewModel
     {
         public int DamageId { get; set; }
-        [DisplayName("總隊處理情形")]
+        //總隊處理情形
+        [DisplayName("處理情形")]
         public string CorpsHandlingSituation { get; set; }
         public FacilityDamageTypeEnum Type { get; set; }
     }
