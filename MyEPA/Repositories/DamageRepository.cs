@@ -187,7 +187,7 @@ SELECT
 	,D.CLE_DisinfectorL
 	,D.CLE_DisinfectorW
 	,D.DisinfectArea
-	,D.UpdateDate
+	,D.CleanUpdateDate
 	,C.Id CityId
 	,C.City CityName
 	,Town.Id TownId
@@ -229,7 +229,7 @@ LEFT JOIN
         ,SUM(ISNULL(CLE_Garbage,0))CLE_Garbage						    --已清除廢棄物(公噸)
 		,SUM(ISNULL(CLE_DisinfectorL,0))CLE_DisinfectorL				--已使用藥劑數量(公升
 		,SUM(ISNULL(CLE_DisinfectorW,0))CLE_DisinfectorW				--已使用藥劑數量(公斤)
-		,MAX(d.UpdateDate)UpdateDate
+		,MAX(d.CleanUpdateDate)CleanUpdateDate
 	FROM Damage d
 	{damageWhereSQL}
 	And D.CleanDay Is Not Null  --環境清理資料
@@ -332,6 +332,16 @@ From Damage D
 			{
 				whereSQL += " AND DateDiff(Day, @EndTime, [CreateDate]) <= 0";
 			}
+
+            if (filter.CleanStartTime.HasValue)
+            {
+                whereSQL += " AND DateDiff(Day, @CleanStartTime, CleanCreateDate) >= 0";
+            }
+            if (filter.CleanEndTime.HasValue)
+            {
+                whereSQL += " AND DateDiff(Day, @CleanEndTime, CleanCreateDate) <= 0";
+            }
+
             if (filter.HType.HasValue)
             {
 				if (filter.HType == 1)

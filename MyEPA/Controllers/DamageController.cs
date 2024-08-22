@@ -26,7 +26,7 @@ namespace MyEPA.Controllers
         LandfillService LandfillService = new LandfillService();
         FileDataService FileDataService = new FileDataService();
 
-        public ActionResult Index(int? diasterId = null, int? cityId = null,int? townId = null, DateTime? startTime = null,DateTime? endTime = null)
+        public ActionResult Index(int? diasterId = null, int? cityId = null,int? townId = null, DateTime? cleanStartTime = null,DateTime? cleanEndTime = null)
         {
             List<DiasterModel> diasters = DiasterService.GetAll();
             
@@ -35,8 +35,8 @@ namespace MyEPA.Controllers
                 CityIds = new List<int>(),
                 TownIds = new List<int>(),
                 DiasterIds = new List<int>(),
-                EndTime = endTime,
-                StartTime = startTime
+                CleanEndTime = cleanEndTime,
+                CleanStartTime = cleanStartTime
             };
 
             if (cityId.HasValue)
@@ -57,8 +57,8 @@ namespace MyEPA.Controllers
             ViewBag.DiasterId = diasterId;
             ViewBag.CityId = cityId;
             ViewBag.TownId = townId;
-            ViewBag.StartTime = startTime;
-            ViewBag.EndTime = endTime;
+            ViewBag.CleanStartTime = cleanStartTime;
+            ViewBag.CleanEndTime = cleanEndTime;
             ViewBag.Diasters = diasters;
             ViewBag.Citys = CityService.GetCountyOrderBySort();
 

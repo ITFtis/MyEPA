@@ -46,16 +46,16 @@
             </tr>
             <tr>
                 <td rowspan="2">
-                    <h5>通報時間 </h5><h6>(非災害日期)</h6>
+                    <h5>環境清理建檔時間：</h5><h6>(非災害日期)</h6>
                 </td>
                 <td>
-                    起始時間：<input name="StartTime" type="date" value="@(startTime.HasValue ? startTime.Value.ToString("yyyy-MM-ddTHH:mm"):string.Empty)" />
+                    起始時間：<input name="cleanStartTime" type="date" value="@(startTime.HasValue ? startTime.Value.ToString("yyyy-MM-ddTHH:mm"):string.Empty)" />
 
                 </td>
             </tr>
             <tr>
                 <td>
-                    結束時間：<input name="EndTime" type="date" value="@(endTime.HasValue ? endTime.Value.ToString("yyyy-MM-ddTHH:mm"):string.Empty)" />
+                    結束時間：<input name="cleanEndTime" type="date" value="@(endTime.HasValue ? endTime.Value.ToString("yyyy-MM-ddTHH:mm"):string.Empty)" />
 
                 </td>
             </tr>
@@ -91,7 +91,7 @@
         <th>圖片</th>
         <th>檔案下載</th>
         <th>
-            @Html.DisplayNameFor(model => model.CreateDate)
+            @Html.DisplayNameFor(model => model.CleanCreateDate)
         </th>
     </tr>
     <tr bgcolor="#F7F7DE">
@@ -175,7 +175,7 @@
                 }
             </th>
             <th>
-                @item.CreateDate.ToString("yyyy/MM/dd HH:mm:ss")
+                @(item.CleanCreateDate != null ? ((DateTime)item.CleanCreateDate).ToString("yyyy/MM/dd HH:mm:ss") : "")
             </th>
         </tr>
     }

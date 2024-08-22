@@ -101,7 +101,7 @@
         </th>
 
         <th>
-            @Html.DisplayNameFor(model => model.UpdateDate)
+            @Html.DisplayNameFor(model => model.CleanUpdateDate)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.IsDone)
@@ -183,7 +183,7 @@
                 @Html.DisplayFor(modelItem => item.DisinfectantLiquidAmount)
             </td>
             <td>
-                @item.UpdateDate.ToDateTimeString()
+                @item.CleanUpdateDate.ToDateTimeString()
             </td>
             <td>
                 @(item.IsDone.GetValueOrDefault() ? "是" : "否")

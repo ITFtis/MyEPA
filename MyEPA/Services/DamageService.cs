@@ -361,7 +361,7 @@ namespace MyEPA.Services
                     CLE_MUD = e.Sum(f => f.CLE_MUD),
                     CLE_Trash = e.Sum(f => f.CLE_Trash),
                     PR_Garbage = e.Sum(f => f.PR_Garbage),
-                    UpdateDate = e.Max(f => f.UpdateDate),
+                    CleanUpdateDate = e.Max(f => f.CleanUpdateDate),
                     IsDone = e.FirstOrDefault()?.IsDone
                 }).ToList();
 

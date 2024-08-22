@@ -82,6 +82,11 @@ namespace MyEPA.Models
         [DisplayName("災情通報異動時間")]
         public DateTime? UpdateDate { get; set; }
         /// <summary>
+        /// 災情通報異動時間
+        /// </summary>
+        [DisplayName("環境清理異動時間")]
+        public DateTime? CleanUpdateDate { get; set; }
+        /// <summary>
         /// 庫存消毒藥品數量液體(公升)
         /// </summary>
         [DisplayName("庫存消毒藥品數量液體(公升)")]

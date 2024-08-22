@@ -20,6 +20,8 @@ namespace MyEPA.Models.FilterParameter
         public DateTime? CleanDay { get; set; }
         public DateTime? StartTime { get; set; }
         public DateTime? EndTime { get; set; }
+        public DateTime? CleanStartTime { get; set; }
+        public DateTime? CleanEndTime { get; set; }
         public FacilityDamageTypeEnum? Type { get; set; }
 
         /// <summary>
