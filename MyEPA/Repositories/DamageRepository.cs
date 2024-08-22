@@ -172,7 +172,7 @@ Order By C.Sort
             }
             if (filter.Date.HasValue)
 			{
-				damageWhereSQL += " AND d.ReportDay = @Date";
+				damageWhereSQL += " AND d.CleanDay = @Date";
 			}            
 
             string sql = $@"
