@@ -62,7 +62,7 @@ namespace MyEPA.Controllers
             ViewBag.Diasters = diasters;
             ViewBag.Citys = CityService.GetCountyOrderBySort();
 
-            var datas = DamageService.GetByFilter(filter);
+            var datas = DamageService.GetCleanByFilter(filter);
 
             //環境清理
             foreach (var data in datas)

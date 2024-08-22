@@ -42,6 +42,45 @@ Left JOIN Town T ON T.Id = D.TownId
             return GetListBySQL<DamageJoinModel>(sql, filter);
         }
 
+        public List<DamageJoinModel> GetReportListByFilter(DamageFilterParameter filter)
+        {
+            string whereSQL = GetWhereSQLByFilter(filter);
+
+            string sql = $@"
+Select D.*,C.City CityName,T.Name TownName
+From Damage D
+JOIN City C ON C.Id = D.CityId
+Left JOIN Town T ON T.Id = D.TownId
+{whereSQL}
+And D.ReportDay Is Not Null  --災情通報資料
+";
+
+
+            return GetListBySQL<DamageJoinModel>(sql, filter);
+        }
+
+        /// <summary>
+        /// 環境清理資料
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public List<DamageJoinModel> GetCleanListByFilter(DamageFilterParameter filter)
+        {
+            string whereSQL = GetWhereSQLByFilter(filter);
+
+            string sql = $@"
+Select D.*,C.City CityName,T.Name TownName
+From Damage D
+JOIN City C ON C.Id = D.CityId
+Left JOIN Town T ON T.Id = D.TownId
+{whereSQL}
+And D.CleanDay Is Not Null  --環境清理資料
+";
+
+
+            return GetListBySQL<DamageJoinModel>(sql, filter);
+        }
+
         public List<DamageReportModel> GetReport(DamageReportFilterModel input)
         {
 			string whereCity = string.Empty;
@@ -193,6 +232,7 @@ LEFT JOIN
 		,MAX(d.UpdateDate)UpdateDate
 	FROM Damage d
 	{damageWhereSQL}
+	And D.CleanDay Is Not Null  --環境清理資料
 	GROUP BY d.CityId,d.TownId
 ) AS D ON D.CityId = C.Id AND D.TownId = Town.ID
 LEFT JOIN admip ON C.Id = admip.CityId

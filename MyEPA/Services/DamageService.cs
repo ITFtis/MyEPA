@@ -111,6 +111,19 @@ namespace MyEPA.Services
             
             return model;
         }
+
+        /// <summary>
+        /// 環境清理資料
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public List<DamageJoinModel> GetCleanByFilter(DamageFilterParameter filter)
+        {
+            var model = DamageRepository.GetCleanListByFilter(filter);
+
+            return model;
+        }
+
         public DamageViewModel Get(int id)
         {
             DamageJoinModel damage = DamageRepository.GetListByFilter(new DamageFilterParameter 
@@ -891,7 +904,7 @@ namespace MyEPA.Services
 
         public List<FacilityDamageViewModel> GetFacilityDamages(DamageFilterParameter filter, FacilityDamageTypeEnum type)
         {
-            var damages = DamageRepository.GetListByFilter(filter);
+            var damages = DamageRepository.GetReportListByFilter(filter);
             switch (type)
             {
                   case FacilityDamageTypeEnum.ALL:
