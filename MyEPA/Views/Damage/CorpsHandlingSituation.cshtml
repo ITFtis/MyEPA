@@ -1,16 +1,41 @@
 ﻿@model MyEPA.ViewModels.CorpsHandlingSituationViewModel
+@using MyEPA.Models
+@using MyEPA.Enums;
 
 @{
     ViewBag.Title = "處理情形";
     Layout = "~/Views/_Layout.cshtml";
+
+    //三區回報處理情形
+    List<FileDataModel> DamageProcessFiles = ViewBag.DamageProcessFiles;
+    List<FileDataModel> DamageProcessImages = ViewBag.DamageProcessImages;
 }
+
+<style type="text/css">
+    .imgDiv {
+        display: inline-block;
+        position: relative;
+    }
+
+        .imgDiv .delete {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 10px;
+            height: 10px;
+        }
+
+    .mouse-pointer {
+        cursor: pointer;
+    }
+</style>
 
 <h2>@ViewBag.Title</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("CorpsHandlingSituation", "Damage", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    
+
 <div class="form-horizontal">
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -23,6 +48,62 @@
             @Html.ValidationMessageFor(model => model.CorpsHandlingSituation, "", new { @class = "text-danger" })
         </div>
     </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">照片(災情通報)</label>
+        <div class="col-md-10">
+            @if (Model.DamageProcessImage != null)
+            {
+                <img width="200" src="@Url.Action("Download","FileData",new {id = Model.DamageProcessImage.Id })" />
+            }
+            @foreach (var item in DamageProcessImages)
+            {
+                <div class="imgDiv">
+                    <img width="200" src="@Url.Action("Download","FileData",new {id = item.Id })" />
+                    <a class="mouse-pointer delete" style="color:red" onclick="delimg(this,@item.Id)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                            <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z" />
+                        </svg>
+                    </a>
+                </div>
+            }
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    <button type="button" onclick="addimg()">新增</button>
+                    <input class="imgs" type="file" name="DamageProcessImage" accept="image/*" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">檔案(環境清理)</label>
+        <div class="col-md-10">
+            <ul>
+                @if (Model.DamageProcessFile != null)
+                {
+                    <li>
+                        @Html.ActionLink(Model.DamageProcessFile.UserFileName, "Download", "FileData", new { id = Model.DamageProcessFile.Id }, new { })
+                        <a href="#" class="delete" style="color:red" onclick="del(this,@Model.DamageProcessFile.Id)">刪除</a>
+                    </li>
+                }
+                @foreach (var item in DamageProcessFiles)
+                {
+
+                    <li>
+                        @Html.ActionLink(item.UserFileName, "Download", "FileData", new { id = item.Id }, new { })
+                        <a class="mouse-pointer delete" style="color:red" onclick="del(this,@item.Id)">刪除</a>
+                    </li>
+                }
+            </ul>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <button type="button" onclick="addcc()">新增</button>
+                    <input class="files" type="file" name="DamageProcessFile" />
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
@@ -30,4 +111,47 @@
         </div>
     </div>
 </div>
+}
+
+@section scripts{
+    <script>
+        function addimg() {
+            $('.imgs:last').clone().insertAfter('.imgs:last')
+            $('.imgs:last').val('');
+        }
+
+        //環境清理通報
+        function addcc() {
+            $('.files:last').clone().insertAfter('.files:last');
+            $('.files:last').val('');
+        }
+
+        function delimg(item,id) {
+
+            var url = '@Url.Action("Delete","FileData",new {sourceType=SourceTypeEnum.DamageProcessImage})' + '&id=' + id;
+            $.ajax({
+                url: url,
+                error: function (xhr) {
+                    alert('刪除失敗');
+                },
+                success: function (response) {
+                    $(item).parent('div').remove()
+                }
+            });
+        }
+
+        function del(item, id) {
+
+            var url = '@Url.Action("Delete","FileData",new {sourceType=SourceTypeEnum.DamageProcessFile})' + '&id=' + id;
+            $.ajax({
+                url: url,
+                error: function (xhr) {
+                    alert('刪除失敗');
+                },
+                success: function (response) {
+                    $(item).parent('li').remove()
+                }
+            });
+        }
+    </script>
 }

@@ -1,10 +1,15 @@
 ﻿using MyEPA.Enums;
+using MyEPA.Models;
 using System.ComponentModel;
 
 namespace MyEPA.ViewModels
 {
     public class CorpsHandlingSituationViewModel
     {
+        public FileDataModel DamageProcessImage { get; set; }
+
+        public FileDataModel DamageProcessFile { get; set; }
+
         public int DamageId { get; set; }
         //總隊處理情形
         [DisplayName("處理情形")]

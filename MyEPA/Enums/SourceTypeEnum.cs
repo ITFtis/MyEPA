@@ -92,7 +92,16 @@ namespace MyEPA.Enums
         /// </summary>
         [Description("環境清理圖片")]
         DamageCCImage = 24,
-
+        /// <summary>
+        ///  三區回報處理圖片
+        /// </summary>
+        [Description("三區回報處理圖片")]
+        DamageProcessImage = 25,
+        /// <summary>
+        ///  三區回報處理檔案
+        /// </summary>
+        [Description("三區回報處理檔案")]
+        DamageProcessFile = 26,
         /// <summary>
         /// 各業務單位春節因應環境污染事故緊急應變摘要
         /// </summary>

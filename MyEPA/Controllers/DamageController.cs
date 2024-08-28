@@ -503,13 +503,58 @@ namespace MyEPA.Controllers
         { 
             var result = DamageService.GetCorpsHandlingSituation(id, type);
 
+            //三區回報處理情形
+            ViewBag.DamageProcessFiles = FileDataService.GetBySource(SourceTypeEnum.DamageProcessFile, id);
+            ViewBag.DamageProcessImages = FileDataService.GetBySource(SourceTypeEnum.DamageProcessImage, id);
+
             return View(result);
         }
         [HttpPost]
         public ActionResult CorpsHandlingSituation(CorpsHandlingSituationViewModel model)
         {
             DamageModel damage = DamageService.UpdateCorpsHandlingSituation(model);
-            
+
+            var user = GetUserBrief();
+
+            //照片(三區回報處理情形)
+            Dictionary<string, List<HttpPostedFileBase>> files = GetUploadFiles();
+            List<HttpPostedFileBase> fileBases;
+            string key;
+
+            key = "DamageProcessImage";
+            if (files.ContainsKey(key))
+            {
+                fileBases = files[key];
+                foreach (var file in fileBases)
+                {
+                    FileDataService.UploadFileByGuidName(new UploadFileBaseModel
+                    {
+                        File = file,
+                        SourceId = model.DamageId,
+                        SourceType = SourceTypeEnum.DamageProcessImage,
+                        User = user.UserName
+                    }, false);
+                }
+            }
+
+            //檔案(環境清理)
+            key = "DamageProcessFile";
+            if (files.ContainsKey(key))
+            {
+                fileBases = files[key];
+                foreach (var file in fileBases)
+                {
+                    FileDataService.UploadFileByGuidName(new UploadFileBaseModel
+                    {
+                        File = file,
+                        SourceId = model.DamageId,
+                        SourceType = SourceTypeEnum.DamageProcessFile,
+                        User = user.UserName
+                    }, false);
+                }
+            }
+
+
             return RedirectToAction("FacilityDamage", "Damage",new { diasterId  = damage.DiasterId, cityId = damage.CityId,townId = damage.TownId,type = model.Type });
         }
 
