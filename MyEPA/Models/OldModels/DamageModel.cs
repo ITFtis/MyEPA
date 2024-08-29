@@ -182,6 +182,8 @@ namespace MyEPA.Models
     {
         [DisplayName("縣市")]
         public string CityName { get; set; }
+        [DisplayName("縣市排序")]
+        public int CitySort { get; set; }
         [DisplayName("通報單位")]
         public string TownName { get; set; }
 

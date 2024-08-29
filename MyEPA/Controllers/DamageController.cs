@@ -473,6 +473,7 @@ namespace MyEPA.Controllers
             };
 
             var datas = DamageService.GetFacilityDamages(filter, type);
+            datas = datas.OrderBy(a => a.CitySort).ThenByDescending(a => a.ReportDay).ToList();
 
             //災情通報
             foreach (var data in datas)
@@ -554,8 +555,8 @@ namespace MyEPA.Controllers
                 }
             }
 
-
-            return RedirectToAction("FacilityDamage", "Damage",new { diasterId  = damage.DiasterId, cityId = damage.CityId,townId = damage.TownId,type = model.Type });
+            return RedirectToAction("FacilityDamage", "Damage");
+            //return RedirectToAction("FacilityDamage", "Damage",new { diasterId  = damage.DiasterId, cityId = damage.CityId,townId = damage.TownId,type = model.Type });
         }
 
         public ActionResult MemoShow(int id, FacilityDamageTypeEnum type)
@@ -576,7 +577,8 @@ namespace MyEPA.Controllers
         {
             DamageModel damage = DamageService.UpdateMemo(model);
 
-            return RedirectToAction("FacilityDamage", "Damage", new { diasterId = damage.DiasterId, cityId = damage.CityId, townId = damage.TownId, type = model.Type });
+            return RedirectToAction("FacilityDamage", "Damage");
+            //return RedirectToAction("FacilityDamage", "Damage", new { diasterId = damage.DiasterId, cityId = damage.CityId, townId = damage.TownId, type = model.Type });
         }
         
 

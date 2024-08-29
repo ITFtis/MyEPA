@@ -12,6 +12,8 @@ namespace MyEPA.ViewModels
         public int Id { get; set; }
         [DisplayName("縣市")]
         public string CityName { get; set; }
+        [DisplayName("縣市排序")]
+        public int CitySort { get; set; }
         [DisplayName("鄉鎮")]
         public string TownName { get; set; }
         [DisplayName("災害日期")]

@@ -920,6 +920,7 @@ namespace MyEPA.Services
                             ReportDay = e.ReportDay,
                             TownName = e.TownName,
                             CityName = e.CityName,
+                            CitySort = e.CitySort,
                             CreateDate = e.CreateDate,
                             DamagePlace = e.DamagePlace,
                             DumpSiteDesc = e.DumpSiteDesc,
