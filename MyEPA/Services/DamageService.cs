@@ -246,7 +246,7 @@ namespace MyEPA.Services
             entity.Note = model.Note;
 
             entity.UpdateDate = DateTimeHelper.GetCurrentTime();
-            entity.IsDamage = true;
+            entity.IsDamage = IsDamage(entity); //true;
             DamageRepository.Update(entity);
         }
 
@@ -705,7 +705,7 @@ namespace MyEPA.Services
                 damage.CreateDate = damage.CreateDate != null ? damage.CreateDate : DateTimeHelper.GetCurrentTime();
                 damage.UpdateDate = DateTimeHelper.GetCurrentTime();
                 damage.Status = DamageStatusEnum.Waiting;
-                damage.IsDamage = false;
+                damage.IsDamage = IsDamage(damage); //false;
                 damage.ReportDay = model.ReportDay;
             }
             else if (hType == 2)
@@ -990,6 +990,26 @@ namespace MyEPA.Services
                 default:
                     return new List<FacilityDamageViewModel>();
             }            
+        }
+
+        /// <summary>
+        /// 災情通報是否為災情
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static bool IsDamage(DamageModel model)
+        {
+            bool result = false;
+
+            if (model == null)
+                return false;
+
+            result = !string.IsNullOrEmpty(model.DamagePlace)
+                    || !string.IsNullOrEmpty(model.DumpSiteDesc)
+                    || !string.IsNullOrEmpty(model.IncinerationPlantDesc)
+                    || !string.IsNullOrEmpty(model.Other);
+
+            return result;
         }
     }
 }

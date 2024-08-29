@@ -571,7 +571,7 @@ namespace MyEPA.Controllers
                 model.Status = DamageStatusEnum.Waiting;
                 model.IncineratorIds = string.Join(",", incineratorIds);
                 model.LandfillIds = string.Join(",", landfillIds);
-                model.IsDamage = true;
+                model.IsDamage = DamageService.IsDamage(model);// true;
                 DamageRepository.Create(model);
 
                 //災情通報日期
@@ -595,7 +595,7 @@ namespace MyEPA.Controllers
                 damage.CreateDate = DateTimeHelper.GetCurrentTime();
                 damage.UpdateDate = DateTimeHelper.GetCurrentTime();
                 damage.Status = DamageStatusEnum.Waiting;
-                damage.IsDamage = true;
+                damage.IsDamage = DamageService.IsDamage(damage); //true;
                 DamageRepository.Update(damage);
 
                 dmgId = damage.Id;
