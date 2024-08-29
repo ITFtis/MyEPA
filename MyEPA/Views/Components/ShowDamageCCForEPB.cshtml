@@ -10,7 +10,6 @@
                 <th>通報日期</th>
                 <th>縣市</th>
                 <th>鄉鎮市區</th>
-                <th>有無災情</th>
                 <th>實際環境<br />消毒日期</th>
                 <th>實際消毒<br />面積(公頃)</th>
                 <th>已清除<br />污泥(公噸)</th>
@@ -35,7 +34,6 @@
                     <td>@(Item.CleanDay != null ? ((DateTime)Item.CleanDay).ToString("yyyy/MM/dd") : "")</td>
                     <td>@Item.CityName</td>
                     <td>@Item.TownName</td>
-                    <td>@(Item.IsDamageClean != null && (bool)Item.IsDamageClean ? "有" : "無災情")</td>
                     <td>@(Item.DisinfectDate != null ? ((DateTime)Item.DisinfectDate).ToString("yyyy/MM/dd") : "")</td>
                     <td>@Item.DisinfectArea</td>
                     <td>@Item.CLE_MUD</td>
