@@ -45,10 +45,15 @@
                     <br />
                     <!--資源查詢-->
                     <div class="row">
-                        <div class="col-md-8 line-gray-3px">
+                        <div class="col-md-6 line-gray-3px">
                             @{
                                 Html.RenderAction("Test", "SystemConfigSetting", new { });
                             }
+                        </div>
+                        <div class="col-md-2">
+                            <a href="@(AppConfig.DEDSWebSite + "User/Login")">
+                                <img width="100%" src="/Content/assets/css/images/button_main_menu_b.png" alt="緊急應變通聯手冊">
+                            </a>
                         </div>
                     </div>
                 </div>
