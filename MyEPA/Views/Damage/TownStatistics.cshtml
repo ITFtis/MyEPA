@@ -37,13 +37,6 @@
             @Html.DisplayNameFor(model => model.CLE_DisinfectorW)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DisinfectantSolidAmount)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DisinfectantLiquidAmount)
-        </th>
-
-        <th>
             @Html.DisplayNameFor(model => model.CleanUpdateDate)
         </th>
     </tr>
@@ -58,8 +51,6 @@
         <th>@Model.Sum(e => e.NationalArmyQuantity)</th>
         <th>@Model.Sum(e => e.CLE_DisinfectorL)</th>
         <th>@Model.Sum(e => e.CLE_DisinfectorW)</th>
-        <th>@Model.Sum(e => e.DisinfectantSolidAmount)</th>
-        <th>@Model.Sum(e => e.DisinfectantLiquidAmount)</th>
     </tr>
 
     @foreach (var item in Model)
@@ -92,12 +83,6 @@
             <th>
                 @Html.DisplayFor(modelItem => item.CLE_DisinfectorW)
             </th>
-            <td>
-                @Html.DisplayFor(modelItem => item.DisinfectantSolidAmount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DisinfectantLiquidAmount)
-            </td>
             <td>
                 @item.CleanUpdateDate.ToDateTimeString()
             </td>
