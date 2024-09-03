@@ -229,9 +229,20 @@ namespace MyEPA.Controllers
             }    
         }
 
-        public ActionResult TownCCList(int diasterId, DateTime? date, int? cityId = null)
+        public ActionResult TownCCList(int diasterId, DateTime? date, int? cityId = null, int? townId = null)
         {
             var datas = DamageService.GetTownCCList(diasterId, date, cityId);
+
+            if (townId != null)
+            {
+                //環保局通報(1筆)
+                datas = datas.Where(a => a.TownId == townId).ToList();
+            }
+            else
+            {
+                //鄉鎮通報(多筆)
+                datas = datas.Where(a => a.IsTown == true).ToList();
+            }
 
             //環境清理
             foreach (var data in datas)
@@ -249,7 +260,17 @@ namespace MyEPA.Controllers
             }
 
             var result = datas;
-            return View(result);
+
+            if (townId != null)
+            {
+                //環保局通報(1筆)
+                return View("~/Views/Damage/CityCCList.cshtml", datas);
+            }
+            else
+            {
+                //鄉鎮通報(多筆)
+                return View(result);
+            }
         }
 
         public ActionResult TeamConfirmList(int? diasterId = null,int? cityId = null)

@@ -1,0 +1,123 @@
+﻿@model IEnumerable<MyEPA.Models.DamageTownViewModel>
+
+@{
+    ViewBag.Title = "環境清理 - 縣市";
+    Layout = "~/Views/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<br />
+<div class="form-horizontal">
+    <div class="form-group">
+        <div class="col-md-12">
+            <label>災害日期：@(Model.FirstOrDefault() != null ? ((DateTime)Model.FirstOrDefault().CleanDay).ToString("yyyy/MM/dd") : "")</label>
+            <br />
+            <label>縣市：@Model.FirstOrDefault().CityName</label>
+        </div>
+    </div>
+</div>
+
+<p>
+    <a href="#" onclick="history.go(-1)" class="btn btn-success">返回上一頁</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CleanStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TownName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DisinfectDate)
+        </th>
+        <th>實際消毒<br />面積(公頃)</th>
+        <th>已清除<br />污泥(公噸)</th>
+        <th>已清除<br />廢棄物(公噸)</th>
+        <th>已動用<br />清潔人力(人次)</th>
+        <th>已動用<br />國軍人力(人次)</th>
+        <th>已使用<br />藥劑數量(公升)</th>
+        <th>已使用<br />藥劑數量(公斤)</th>
+        <th>已使用<br />機具</th>
+        <th>已使用<br />車輛</th>
+        <th>圖片</th>
+        <th>檔案下載</th>
+        <th>
+            通報資料更新日期
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @{
+                    if (item.CleanStatus == MyEPA.Enums.DamageStatusEnum.Waiting)
+                    {
+                        <span>已通報</span>
+                    }
+                    else if (item.CleanStatus == MyEPA.Enums.DamageStatusEnum.Confirm)
+                    {
+                        <span>已確認</span>
+                        <br />
+                        <span>
+                            @(item.CleanConfirmTime != null ? ((DateTime)item.CleanConfirmTime).ToString("yyyy/MM/dd") : "")
+                        </span>
+                    }
+                    else
+                    {
+                        <span style="color:red">@item.CleanStatus.GetDescription()</span>
+                    }
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TownName)
+            </td>
+            <td>
+                @(item.DisinfectDate != null ? ((DateTime)item.DisinfectDate).ToString("yyyy/MM/dd") : "")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DisinfectArea)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CLE_MUD)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CLE_Garbage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CleaningMemberQuantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NationalArmyQuantity)
+            </td>
+            <td>@item.CLE_DisinfectorL</td>
+            <td>@item.CLE_DisinfectorW</td>
+            <td>@item.CLE_EquipmentDesc</td>
+            <td>@item.CLE_CarDesc</td>
+            <td>
+                @foreach (var img in item.Images)
+                {
+                    <div class="imgDiv">
+                        <a href="@Url.Action("Download", "FileData",new {id = img.Id })" title="圖片" class="links">
+                            <img alt="圖片" src="@Url.Action("Download","FileData",new {id = img.Id })" height="30" width="30">
+                        </a>
+                    </div>
+                }
+            </td>
+            <td>
+                @foreach (var img in item.Files)
+                {
+                    <div class="imgDiv">
+                        @Html.ActionLink(img.UserFileName, "Download", "FileData", new { id = img.Id }, new { })
+                    </div>
+                }
+            </td>
+            <td>
+                @(item.UpdateDate.HasValue ? item.UpdateDate.Value.ToString("yyyy/MM/dd HH:mm") : string.Empty)
+            </td>
+        </tr>
+    }
+
+</table>

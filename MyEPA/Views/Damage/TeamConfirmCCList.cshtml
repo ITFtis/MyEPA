@@ -100,7 +100,7 @@
                 @(item.CleanDay != null ? ((DateTime)item.CleanDay).ToString("yyyy/MM/dd") : "")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CityName)
+                <a class="btn btn-default" href="@Url.Action("TownCCList", new { diasterId, cityId = item.CityId, townId = item.TownId, date = item.CleanDay != null ? ((DateTime)item.CleanDay).ToString("yyyy/MM/dd") : "" })">@item.CityName</a>
             </td>
             <td>
                 <a class="btn btn-default" href="@Url.Action("TownCCList", new { diasterId, cityId = item.CityId, date = item.CleanDay != null ? ((DateTime)item.CleanDay).ToString("yyyy/MM/dd") : "" })">查看</a>

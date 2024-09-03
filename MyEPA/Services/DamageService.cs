@@ -499,7 +499,7 @@ namespace MyEPA.Services
             var towns = TownRepository.GetListByFilter(new TownFilterParameter
             {
                 CityIds = citys.Select(e => e.Id).ToList(),
-                IsTown = true,
+                //IsTown = true,
             }).ToList();
 
             if (towns.IsEmptyOrNull())
@@ -545,6 +545,7 @@ namespace MyEPA.Services
                             CleanDay = date.Date,
                             TownId = town.Id,
                             TownName = town.Name,
+                            IsTown = town.IsTown,
                         });
                     }
                     else
@@ -579,7 +580,8 @@ namespace MyEPA.Services
                             CleanConfirmTime = damage.CleanConfirmTime,
                             CLE_Garbage = damage.CLE_Garbage,
                             DisinfectDate = damage.DisinfectDate,
-                            IsDamageClean = damage.IsDamageClean
+                            IsDamageClean = damage.IsDamageClean,
+                            IsTown = town.IsTown,
                         });
                     }
                 }
@@ -891,6 +893,7 @@ namespace MyEPA.Services
                     {
                         CityId = town.CityId,
                         CityName = citys.Where(e => e.Id == town.CityId).Select(e => e.City).FirstOrDefault(),
+                        TownId = town.Id,
                         CleanStatus = damage == null ? DamageStatusEnum.UnNotification : damage.CleanStatus,
                         Id = damage?.Id,
                         CleanDay = date.Date,
@@ -921,6 +924,7 @@ namespace MyEPA.Services
                             Id = e.Id,
                             ProcessDesc = e.ProcessDesc,
                             ReportDay = e.ReportDay,
+                            TownId = e.TownId,
                             TownName = e.TownName,
                             CityName = e.CityName,
                             CitySort = e.CitySort,
@@ -942,6 +946,7 @@ namespace MyEPA.Services
                             Id = e.Id,
                             ProcessDesc = e.ProcessDesc,
                             ReportDay = e.ReportDay,
+                            TownId = e.TownId,
                             TownName = e.TownName,
                             CityName = e.CityName,
                             CreateDate = e.CreateDate,
@@ -962,6 +967,7 @@ namespace MyEPA.Services
                             Id = e.Id,
                             ProcessDesc = e.ProcessDesc,
                             ReportDay = e.ReportDay,
+                            TownId = e.TownId,
                             TownName = e.TownName,
                             CityName = e.CityName,
                             CreateDate = e.CreateDate,
@@ -980,6 +986,7 @@ namespace MyEPA.Services
                         Id = e.Id,
                         ProcessDesc = e.ProcessDesc,
                         ReportDay = e.ReportDay,
+                        TownId = e.TownId,
                         TownName = e.TownName,
                         CityName = e.CityName,
                         CreateDate = e.CreateDate,
