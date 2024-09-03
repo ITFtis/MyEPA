@@ -326,6 +326,8 @@ namespace MyEPA.Models
         public decimal CLE_Disinfect { get; set; }
         [DisplayName("更新日期")]
         public DateTime? UpdateDate { get; set; }
+        [DisplayName("環境清理更新時間")]
+        public DateTime? CleanUpdateDate { get; set; }
         [DisplayName("災情通報確認時間")]
         public DateTime? ConfirmTime { get; set; }
         [DisplayName("環境清理確認時間")]

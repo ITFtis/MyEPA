@@ -577,6 +577,7 @@ namespace MyEPA.Services
                             TownId = damage.TownId,
                             TownName = damage.TownName,
                             UpdateDate = damage.UpdateDate,
+                            CleanUpdateDate = damage.CleanUpdateDate,
                             CleanConfirmTime = damage.CleanConfirmTime,
                             CLE_Garbage = damage.CLE_Garbage,
                             DisinfectDate = damage.DisinfectDate,
