@@ -69,7 +69,7 @@ And D.ReportDay Is Not Null  --災情通報資料
             string whereSQL = GetWhereSQLByFilter(filter);
 
             string sql = $@"
-Select D.*,C.City CityName,T.Name TownName
+Select D.*,C.City CityName, C.Sort AS CitySort, T.Name TownName
 From Damage D
 JOIN City C ON C.Id = D.CityId
 Left JOIN Town T ON T.Id = D.TownId

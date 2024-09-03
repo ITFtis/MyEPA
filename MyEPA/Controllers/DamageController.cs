@@ -63,6 +63,9 @@ namespace MyEPA.Controllers
             ViewBag.Citys = CityService.GetCountyOrderBySort();
 
             var datas = DamageService.GetCleanByFilter(filter);
+            datas = datas.OrderBy(a => a.CitySort)
+                        .ThenBy(a => a.TownName)
+                        .ThenByDescending(a => a.CleanDay).ToList();
 
             //環境清理
             foreach (var data in datas)
@@ -473,7 +476,9 @@ namespace MyEPA.Controllers
             };
 
             var datas = DamageService.GetFacilityDamages(filter, type);
-            datas = datas.OrderBy(a => a.CitySort).ThenByDescending(a => a.ReportDay).ToList();
+            datas = datas.OrderBy(a => a.CitySort)
+                        .ThenBy(a => a.TownName)
+                        .ThenByDescending(a => a.ReportDay).ToList();
 
             //災情通報
             foreach (var data in datas)
