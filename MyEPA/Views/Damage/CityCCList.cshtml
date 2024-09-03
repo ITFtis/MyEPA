@@ -115,7 +115,7 @@
                 }
             </td>
             <td>
-                @(item.UpdateDate.HasValue ? item.UpdateDate.Value.ToString("yyyy/MM/dd HH:mm") : string.Empty)
+                @(item.CleanUpdateDate.HasValue ? item.CleanUpdateDate.Value.ToString("yyyy/MM/dd HH:mm") : string.Empty)
             </td>
         </tr>
     }
