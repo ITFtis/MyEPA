@@ -391,7 +391,7 @@ namespace MyEPA.Services
             var towns = TownRepository.GetListByFilter(new TownFilterParameter
             {
                 CityIds = citys.Select(e => e.Id).ToList(),
-                IsTown = true,
+                //IsTown = true,
             }).ToList();
 
             if (towns.IsEmptyOrNull())
@@ -437,6 +437,7 @@ namespace MyEPA.Services
                             ReportDay = date.Date,
                             TownId = town.Id,
                             TownName = town.Name,
+                            IsTown = town.IsTown,
                         });
                     }
                     else
@@ -465,7 +466,8 @@ namespace MyEPA.Services
                             ConfirmTime = damage.ConfirmTime,
                             UpdateDate = damage.UpdateDate,
                             CLE_Garbage = damage.CLE_Garbage,
-                            IsDamage = damage.IsDamage
+                            IsDamage = damage.IsDamage,
+                            IsTown = town.IsTown,
                         });
                     }
                 }
@@ -822,6 +824,7 @@ namespace MyEPA.Services
                     {
                         CityId = town.CityId,
                         CityName = citys.Where(e => e.Id == town.CityId).Select(e => e.City).FirstOrDefault(),
+                        TownId = town.Id,
                         Status = damage == null ? DamageStatusEnum.UnNotification : damage.Status,
                         Id = damage?.Id,
                         ReportDay = date.Date,

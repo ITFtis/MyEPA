@@ -214,7 +214,7 @@ namespace MyEPA.Models
         [DisplayName("縣市名稱")]
         public string CityName { get; set; }
         public int CityId { get; set; }
-        
+        public int? TownId { get; set; }
     }
 
     public class DamageTownViewModel
@@ -338,6 +338,11 @@ namespace MyEPA.Models
         [DisplayName("環境清理通報日期")]
         public DateTime? CleanDay { get; set; }
         public int TownId { get; set; }
+
+        /// <summary>
+        /// 是否是環保局
+        /// </summary>
+        public bool IsTown { get; set; }
 
         [DisplayName("圖片")]
         public List<FileDataModel> Images { get; set; }

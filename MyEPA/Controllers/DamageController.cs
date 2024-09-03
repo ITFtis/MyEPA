@@ -185,9 +185,20 @@ namespace MyEPA.Controllers
             }
         }
 
-        public ActionResult TownList(int diasterId, DateTime? date, int? cityId = null)
+        public ActionResult TownList(int diasterId, DateTime? date, int? cityId = null, int? townId = null)
         {
             var datas = DamageService.GetTownList(diasterId, date, cityId);
+
+            if (townId != null)
+            {
+                //環保局通報(1筆)
+                datas = datas.Where(a => a.TownId == townId).ToList();
+            }
+            else
+            {
+                //鄉鎮通報(多筆)
+                datas = datas.Where(a => a.IsTown == true).ToList();
+            }
 
             //災情通報
             foreach (var data in datas)
@@ -205,7 +216,17 @@ namespace MyEPA.Controllers
             }
 
             var result = datas;
-            return View(result);
+
+            if (townId != null)
+            {
+                //環保局通報(1筆)
+                return View("~/Views/Damage/CityList.cshtml", datas);
+            }
+            else
+            {
+                //鄉鎮通報(多筆)
+                return View(result);
+            }    
         }
 
         public ActionResult TownCCList(int diasterId, DateTime? date, int? cityId = null)
