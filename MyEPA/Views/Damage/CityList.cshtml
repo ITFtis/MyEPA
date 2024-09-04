@@ -1,8 +1,12 @@
 ﻿@model IEnumerable<MyEPA.Models.DamageTownViewModel>
 
+@using MyEPA.Enums;
+
 @{
     ViewBag.Title = "災情通報 - 縣市";
     Layout = "~/Views/_Layout.cshtml";
+
+    DutyEnum duty = ViewBag.DutyId;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -46,6 +50,12 @@
         </th>
         <th>圖片</th>
         <th>檔案下載</th>
+        <th>
+            處理情形
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Note)
+        </th>
         <th>
             通報資料更新日期
         </th>
@@ -109,6 +119,15 @@
                         @Html.ActionLink(img.UserFileName, "Download", "FileData", new { id = img.Id }, new { })
                     </div>
                 }
+            </td>
+            <td>
+                @if (duty == DutyEnum.Team)
+                {
+                    @Html.ActionLink(string.IsNullOrWhiteSpace(item.ProcessDesc) ? "未輸入" : "已輸入", "CorpsHandlingSituation", new { id = item.Id, type = "ALL", returnUrl = Request.Url.AbsoluteUri })
+                }
+            </td>
+            <td>
+                @Html.ActionLink(string.IsNullOrWhiteSpace(item.Note) ? "未輸入" : "已輸入", "Memo", new { id = item.Id, type = "ALL", returnUrl = Request.Url.AbsoluteUri })
             </td>
             <td>
                 @(item.UpdateDate.HasValue ? item.UpdateDate.Value.ToString("yyyy/MM/dd HH:mm") : string.Empty)
