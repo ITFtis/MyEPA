@@ -329,6 +329,11 @@ namespace MyEPA.Models
         [DisplayName("已使用車輛(請列示車輛名稱及數量)")]
         public string CLE_CarDesc { get; set; }
 
+        [DisplayName("總隊處理情形")]
+        public string ProcessDesc { get; set; }
+        [DisplayName("備註")]
+        public string Note { get; set; }
+
         /// <summary>
         /// 已消毒環境(公噸)
         /// </summary>

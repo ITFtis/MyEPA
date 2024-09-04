@@ -547,9 +547,11 @@ namespace MyEPA.Controllers
             return View(result);
         }
 
-        public ActionResult CorpsHandlingSituation(int id, FacilityDamageTypeEnum type)
+        public ActionResult CorpsHandlingSituation(int id, FacilityDamageTypeEnum type, string returnUrl = "")
         { 
             var result = DamageService.GetCorpsHandlingSituation(id, type);
+
+            TempData["returnUrl"] = returnUrl;
 
             //三區回報處理情形
             ViewBag.DamageProcessFiles = FileDataService.GetBySource(SourceTypeEnum.DamageProcessFile, id);
@@ -602,7 +604,16 @@ namespace MyEPA.Controllers
                 }
             }
 
-            return RedirectToAction("FacilityDamage", "Damage");
+            string returnUrl = TempData["returnUrl"].ToString();
+            if (returnUrl != "")
+            {
+                Response.Redirect(returnUrl);
+                return null;
+            }
+            else
+            {
+                return RedirectToAction("FacilityDamage", "Damage");
+            }
             //return RedirectToAction("FacilityDamage", "Damage",new { diasterId  = damage.DiasterId, cityId = damage.CityId,townId = damage.TownId,type = model.Type });
         }
 
@@ -613,9 +624,11 @@ namespace MyEPA.Controllers
             return View(result);
         }
 
-        public ActionResult Memo(int id, FacilityDamageTypeEnum type)
+        public ActionResult Memo(int id, FacilityDamageTypeEnum type, string returnUrl = "")
         {
             var result = DamageService.GetDamageMemo(id, type);
+
+            TempData["returnUrl"] = returnUrl;
 
             return View(result);
         }
@@ -624,7 +637,18 @@ namespace MyEPA.Controllers
         {
             DamageModel damage = DamageService.UpdateMemo(model);
 
-            return RedirectToAction("FacilityDamage", "Damage");
+            string returnUrl = TempData["returnUrl"].ToString();
+            if (returnUrl != "")
+            {
+                Response.Redirect(returnUrl);
+                return null;
+            }
+            else
+            {
+                return RedirectToAction("FacilityDamage", "Damage");
+            }
+
+            //return RedirectToAction("FacilityDamage", "Damage");
             //return RedirectToAction("FacilityDamage", "Damage", new { diasterId = damage.DiasterId, cityId = damage.CityId, townId = damage.TownId, type = model.Type });
         }
         

@@ -474,6 +474,8 @@ namespace MyEPA.Services
                             CLE_Garbage = damage.CLE_Garbage,
                             IsDamage = damage.IsDamage,
                             IsTown = town.IsTown,
+                            ProcessDesc = damage.ProcessDesc,
+                            Note = damage.Note,
                         });
                     }
                 }
