@@ -74,6 +74,8 @@
                 else if (item.CleanStatus == MyEPA.Enums.DamageStatusEnum.Confirm)
                 {
                     <a href="#" onclick="Confirm(@item.Id,@(MyEPA.Enums.DamageStatusEnum.Waiting.ToInteger()))">取消確認</a>
+                    <br />
+                    <span>@item.CleanTeamConfirmTime</span>
                 }
             </td>
             <td>
