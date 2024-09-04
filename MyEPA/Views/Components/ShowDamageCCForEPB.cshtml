@@ -44,12 +44,18 @@
                     <td>@Item.CLE_DisinfectorW</td>
                     <td>
                         @Item.CLE_EquipmentNum
-                        &nbsp;
+                        @if (Item.CLE_EquipmentNum != null)
+                        {
+                            <br />
+                        }
                         @Item.CLE_EquipmentDesc
                     </td>
                     <td>
                         @Item.CLE_CarNum
-                        &nbsp;
+                        @if(Item.CLE_CarNum != null)
+                        { 
+                            <br />
+                        }
                         @Item.CLE_CarDesc
                     </td>
                     <td>
