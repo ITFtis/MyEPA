@@ -83,8 +83,16 @@
                             <td>@Item.NationalArmyQuantity</td>
                             <td>@Item.CLE_DisinfectorL</td>
                             <td>@Item.CLE_DisinfectorW</td>
-                            <td>@Item.CLE_EquipmentDesc</td>
-                            <td>@Item.CLE_CarDesc</td>
+                            <td>
+                                @Item.CLE_EquipmentNum
+                                &nbsp;
+                                @Item.CLE_EquipmentDesc
+                            </td>
+                            <td>
+                                @Item.CLE_CarNum
+                                &nbsp;
+                                @Item.CLE_CarDesc
+                            </td>
                             <td>
                                 @foreach (var img in Item.Images)
                                 {

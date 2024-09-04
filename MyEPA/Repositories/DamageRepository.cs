@@ -186,6 +186,8 @@ SELECT
 	,D.NationalArmyQuantity
 	,D.CLE_DisinfectorL
 	,D.CLE_DisinfectorW
+	,D.CLE_EquipmentNum
+	,D.CLE_CarNum
 	,D.DisinfectArea
 	,D.CleanUpdateDate
 	,C.Id CityId
@@ -229,6 +231,8 @@ LEFT JOIN
         ,SUM(ISNULL(CLE_Garbage,0))CLE_Garbage						    --已清除廢棄物(公噸)
 		,SUM(ISNULL(CLE_DisinfectorL,0))CLE_DisinfectorL				--已使用藥劑數量(公升
 		,SUM(ISNULL(CLE_DisinfectorW,0))CLE_DisinfectorW				--已使用藥劑數量(公斤)
+		,SUM(ISNULL(CLE_EquipmentNum,0))CLE_EquipmentNum				--已使用機具(總數量)
+		,SUM(ISNULL(CLE_CarNum,0))CLE_CarNum							--已使用車輛(總數量)
 		,MAX(d.CleanUpdateDate)CleanUpdateDate
 	FROM Damage d
 	{damageWhereSQL}

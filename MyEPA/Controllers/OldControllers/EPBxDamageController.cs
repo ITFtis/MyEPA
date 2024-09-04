@@ -730,7 +730,9 @@ namespace MyEPA.Controllers
                 damage.NationalArmyQuantity = model.NationalArmyQuantity;
                 damage.CLE_DisinfectorL = model.CLE_DisinfectorL;
                 damage.CLE_DisinfectorW = model.CLE_DisinfectorW;
+                damage.CLE_EquipmentNum = model.CLE_EquipmentNum;
                 damage.CLE_EquipmentDesc = model.CLE_EquipmentDesc;
+                damage.CLE_CarNum = model.CLE_CarNum;
                 damage.CLE_CarDesc = model.CLE_CarDesc;
                 damage.CleanCreateDate = DateTimeHelper.GetCurrentTime();
                 damage.CleanUpdateDate = DateTimeHelper.GetCurrentTime();

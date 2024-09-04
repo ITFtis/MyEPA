@@ -154,8 +154,16 @@
             </th>
             <th>@item.CLE_DisinfectorL</th>
             <th>@item.CLE_DisinfectorW</th>
-            <th>@item.CLE_EquipmentDesc</th>
-            <th>@item.CLE_CarDesc</th>
+            <th>
+                @item.CLE_EquipmentNum
+                <br />
+                @item.CLE_EquipmentDesc
+            </th>
+            <th>
+                @item.CLE_CarNum
+                <br />
+                @item.CLE_CarDesc
+            </th>
             <th>
                 @foreach (var img in item.Images)
                 {

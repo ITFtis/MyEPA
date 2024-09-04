@@ -176,7 +176,9 @@ namespace MyEPA.Services
                 ProcessDesc = damage.ProcessDesc,
                 CLE_DisinfectorL = damage.CLE_DisinfectorL,
                 CLE_DisinfectorW = damage.CLE_DisinfectorW,
+                CLE_EquipmentNum = damage.CLE_EquipmentNum,
                 CLE_EquipmentDesc = damage.CLE_EquipmentDesc,
+                CLE_CarNum = damage.CLE_CarNum,
                 CLE_CarDesc = damage.CLE_CarDesc,
                 PR_Garbage = damage.PR_Garbage,
                 ReportDay = damage.ReportDay,
@@ -280,7 +282,9 @@ namespace MyEPA.Services
             entity.NationalArmyQuantity = model.NationalArmyQuantity;
             entity.CLE_DisinfectorL = model.CLE_DisinfectorL;
             entity.CLE_DisinfectorW = model.CLE_DisinfectorW;
+            entity.CLE_EquipmentNum = model.CLE_EquipmentNum;
             entity.CLE_EquipmentDesc = model.CLE_EquipmentDesc;
+            entity.CLE_CarNum = model.CLE_CarNum;
             entity.CLE_CarDesc = model.CLE_CarDesc;
             entity.Note = model.Note;
 
@@ -357,6 +361,8 @@ namespace MyEPA.Services
                     NationalArmyQuantity = e.Sum(f => f.NationalArmyQuantity),
                     CLE_DisinfectorL = e.Sum(f => f.CLE_DisinfectorL),
                     CLE_DisinfectorW = e.Sum(f => f.CLE_DisinfectorW),
+                    CLE_EquipmentNum = e.Sum(f => f.CLE_EquipmentNum),
+                    CLE_CarNum = e.Sum(f => f.CLE_CarNum),
                     CleaningMemberQuantity = e.Sum(f => f.CleaningMemberQuantity),
                     CLE_MUD = e.Sum(f => f.CLE_MUD),
                     CLE_Trash = e.Sum(f => f.CLE_Trash),
