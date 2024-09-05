@@ -23,7 +23,7 @@
 </div>
 
 <p>
-    <a href="#" onclick="history.go(-1)" class="btn btn-success">返回上一頁</a>
+    <a href="@Url.Action("TeamConfirmList")" class="btn btn-success">返回上一頁</a>
 </p>
 <table class="table">
     <tr>
@@ -121,13 +121,16 @@
                 }
             </td>
             <td>
-                @if (duty == DutyEnum.Team)
+                @if (item.Id != 0 && duty == DutyEnum.Team)
                 {
                     @Html.ActionLink(string.IsNullOrWhiteSpace(item.ProcessDesc) ? "未輸入" : "已輸入", "CorpsHandlingSituation", new { id = item.Id, type = "ALL", returnUrl = Request.Url.AbsoluteUri })
                 }
             </td>
             <td>
-                @Html.ActionLink(string.IsNullOrWhiteSpace(item.Note) ? "未輸入" : "已輸入", "Memo", new { id = item.Id, type = "ALL", returnUrl = Request.Url.AbsoluteUri })
+                @if (item.Id != 0 && duty == DutyEnum.Team)
+                {
+                    @Html.ActionLink(string.IsNullOrWhiteSpace(item.Note) ? "未輸入" : "已輸入", "Memo", new { id = item.Id, type = "ALL", returnUrl = Request.Url.AbsoluteUri })
+                }
             </td>
             <td>
                 @(item.UpdateDate.HasValue ? item.UpdateDate.Value.ToString("yyyy/MM/dd HH:mm") : string.Empty)
