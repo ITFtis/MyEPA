@@ -31,7 +31,7 @@ GROUP BY DiasterId
             string whereSQL = GetWhereSQLByFilter(filter);
 
             string sql = $@"
-Select D.*,C.City CityName,T.Name TownName
+Select D.*,C.City CityName,T.Name TownName,T.IsTown,T.CityId
 From Damage D
 JOIN City C ON C.Id = D.CityId
 Left JOIN Town T ON T.Id = D.TownId

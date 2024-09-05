@@ -57,10 +57,8 @@
         <th>
             @Html.DisplayNameFor(model => model.CleanDay)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CityName)
-        </th>
-        <th> 鄉鎮資料</th>
+        <th>縣市資料</th>
+        <th>鄉鎮資料</th>
     </tr>
 
     @foreach (var item in Model)
@@ -105,7 +103,7 @@
                 <a class="btn btn-default" href="@Url.Action("TownCCList", new { diasterId, cityId = item.CityId, townId = item.TownId, date = item.CleanDay != null ? ((DateTime)item.CleanDay).ToString("yyyy/MM/dd") : "" })">@item.CityName</a>
             </td>
             <td>
-                <a class="btn btn-default" href="@Url.Action("TownCCList", new { diasterId, cityId = item.CityId, date = item.CleanDay != null ? ((DateTime)item.CleanDay).ToString("yyyy/MM/dd") : "" })">查看</a>
+                <a class="btn btn-default" href="@Url.Action("TownCCList", new { diasterId, cityId = item.CityId, date = item.CleanDay != null ? ((DateTime)item.CleanDay).ToString("yyyy/MM/dd") : "" })">鄉鎮查看</a>
             </td>
         </tr>
     }

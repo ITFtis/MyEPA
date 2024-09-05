@@ -801,33 +801,47 @@ namespace MyEPA.Services
                 return new List<DamageTeamConfirmViewModel>();
             }
 
-            var towns = TownRepository.GetListByFilter(new TownFilterParameter
+            //全部鄉鎮
+            var allTowns = TownRepository.GetListByFilter(new TownFilterParameter
             {
                 CityIds = citys.Select(e => e.Id).ToList(),
-                IsTown = false
+                //IsTown = false
             }).ToList();
 
-            if (towns.IsEmptyOrNull())
+            if (allTowns.IsEmptyOrNull())
             {
                 return new List<DamageTeamConfirmViewModel>();
             }
 
-            List<DamageJoinModel> damages =
+            //縣市(含鄉鎮)通報清單
+            List<DamageJoinModel> allDamages =
                DamageRepository.GetListByFilter(new DamageFilterParameter
                {
-                   TownIds = towns.Select(e => e.Id).ToList(),
+                   TownIds = allTowns.Select(e => e.Id).ToList(),
                    DiasterIds = diasterId.ToListCollection(),
                    CityIds = cityId.HasValue ? cityId.Value.ToListCollection() : new List<int>()
                });
+
+            //縣市通報清單
+            List<DamageJoinModel> damages = allDamages.Where(a => a.IsTown == false).ToList();              
 
             List<DamageTeamConfirmViewModel> result = new List<DamageTeamConfirmViewModel>();
 
             var dates = DateTimeHelper.GetBetweenAllDates(diaster.StartTime, diaster.EndTime);
 
-            foreach (TownModel town in towns)
+            //縣市環保局鄉鎮
+            List<TownModel> cityTowns = allTowns.Where(a => a.IsTown == false).ToList();
+            foreach (TownModel town in cityTowns)
             {
                 foreach (var date in dates)
                 {
+                    //指定縣市、鄉鎮災害數量合計 (篩選日期)
+                    var sss = allDamages.Where(a => a.CityId == town.CityId)
+                                .Where(e => (e.ReportDay != null && ((DateTime)e.ReportDay).Date == date.Date));
+                    
+                    int cityDamageNum = sss.Where(a => a.IsTown == false).Where(a => a.IsDamage != null && (a.IsDamage ?? false) == true).Count();
+                    int townDamageNum = sss.Where(a => a.IsTown == true).Where(a => a.IsDamage != null && (a.IsDamage ?? false) == true).Count();
+
                     DamageJoinModel damage = damages.FirstOrDefault(e => e.TownId == town.Id
                                                             && (e.ReportDay != null && ((DateTime)e.ReportDay).Date == date.Date));
 
@@ -840,6 +854,8 @@ namespace MyEPA.Services
                         Id = damage?.Id,
                         ReportDay = date.Date,
                         TeamConfirmTime = damage == null ? null : damage.TeamConfirmTime,
+                        CityDamageNum = cityDamageNum,
+                        TownDamageNum = townDamageNum,
                     });
                 }
             }

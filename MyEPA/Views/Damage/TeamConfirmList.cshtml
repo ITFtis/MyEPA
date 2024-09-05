@@ -57,10 +57,8 @@
         <th>
             災害通報日期
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CityName)
-        </th>
-        <th> 鄉鎮資料</th>
+        <th>縣市災情資料(@Model.Sum(a => a.CityDamageNum))</th>
+        <th>鄉鎮災情資料(@Model.Sum(a => a.TownDamageNum))</th>
     </tr>
 
     @foreach (var item in Model)
@@ -102,10 +100,10 @@
                 @(item.ReportDay != null ? ((DateTime)item.ReportDay).ToString("yyyy/MM/dd") : "")
             </td>
             <td>
-                <a class="btn btn-default" href="@Url.Action("TownList", new { diasterId, cityId = item.CityId, townId = item.TownId, date = item.ReportDay != null ? ((DateTime)item.ReportDay).ToString("yyyy/MM/dd") : "" })">@item.CityName</a>
+                <a class="btn btn-default" href="@Url.Action("TownList", new { diasterId, cityId = item.CityId, townId = item.TownId, date = item.ReportDay != null ? ((DateTime)item.ReportDay).ToString("yyyy/MM/dd") : "" })">@(item.CityName + "(" + item.CityDamageNum.ToString() + ")")</a>
             </td>
             <td>
-                <a class="btn btn-default" href="@Url.Action("TownList", new { diasterId, cityId = item.CityId, date = item.ReportDay != null ? ((DateTime)item.ReportDay).ToString("yyyy/MM/dd") : "" })">鄉鎮查看</a>
+                <a class="btn btn-default" href="@Url.Action("TownList", new { diasterId, cityId = item.CityId, date = item.ReportDay != null ? ((DateTime)item.ReportDay).ToString("yyyy/MM/dd") : "" })">鄉鎮查看(@item.TownDamageNum)</a>
             </td>
         </tr>
     }

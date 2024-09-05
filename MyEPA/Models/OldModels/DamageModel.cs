@@ -192,11 +192,12 @@ namespace MyEPA.Models
     {
         [DisplayName("縣市")]
         public string CityName { get; set; }
+        public int CityId { get; set; }
         [DisplayName("縣市排序")]
         public int CitySort { get; set; }
         [DisplayName("通報單位")]
         public string TownName { get; set; }
-
+        public bool? IsTown { get; set; }
         [DisplayName("圖片")]
         public List<FileDataModel> Images { get; set; }
 
@@ -218,6 +219,14 @@ namespace MyEPA.Models
 
         [DisplayName("災情通報確認時間")]
         public DateTime? TeamConfirmTime { get; set; }
+        /// <summary>
+        /// (縣市)有災情數量
+        /// </summary>
+        public int CityDamageNum { get; set; }
+        /// <summary>
+        /// (鄉鎮)有災情數量
+        /// </summary>
+        public int TownDamageNum { get; set; }
         [DisplayName("環境清理確認時間")]
         public DateTime? CleanTeamConfirmTime { get; set; }
 
