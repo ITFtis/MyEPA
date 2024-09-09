@@ -13,6 +13,7 @@
     var towns = (List<TownModel>)ViewBag.Towns;
     DutyEnum duty = ViewBag.DutyId;
 
+    int? selectAreaId = ViewBag.AreaId;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -34,6 +35,19 @@
                                 @foreach (var item in diasters)
                                 {
                                     <option value="@item.Id" @(item.Id == diasterId ? "selected" : string.Empty)>@item.DiasterName</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><h5>三區中心：</h5></td>
+                        <td>
+
+                            <select name="areaId">
+                                <option value="">全部</option>
+                                @foreach (var option in Code.GetCityArea())
+                                {
+                                    <option value="@option.Key" @(selectAreaId == option.Key ? "selected" : string.Empty)> @option.Value</option>
                                 }
                             </select>
                         </td>

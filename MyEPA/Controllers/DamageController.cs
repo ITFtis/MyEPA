@@ -319,6 +319,7 @@ namespace MyEPA.Controllers
             var result = DamageService.GetConfirmCCList(diasterId.Value, area.Value, cityId);
 
             ViewBag.DiasterId = diasterId;
+            ViewBag.CityId = cityId;
             ViewBag.Diasters = diasters;
             ViewBag.Citys = CityService.GetListByFilter(new CityFilterParameter
             {
@@ -496,7 +497,7 @@ namespace MyEPA.Controllers
         /// <param name="townId"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public ActionResult FacilityDamage(int? diasterId,int? cityId, int? townId, FacilityDamageTypeEnum type = FacilityDamageTypeEnum.ALL)
+        public ActionResult FacilityDamage(int? diasterId,int? cityId, int? townId, FacilityDamageTypeEnum type = FacilityDamageTypeEnum.ALL, int? areaId = null)
         {
             List<DiasterModel> diasters = DiasterService.GetAll();
 
@@ -511,6 +512,8 @@ namespace MyEPA.Controllers
             ViewBag.TownId = townId;
             ViewBag.DiasterId = diasterId;
             ViewBag.Diasters = diasters;
+            ViewBag.AreaId = areaId;
+
             ViewBag.FacilityDamageTypes = ExtensionsOfEnum.GetEnumAllValue<FacilityDamageTypeEnum>();
             var filter = new DamageFilterParameter();
 
@@ -521,6 +524,7 @@ namespace MyEPA.Controllers
                 Type = type,
                 CityIds = cityId.HasValue ? cityId.Value.ToListCollection() : new List<int>(),
                 TownIds = townId.HasValue ? townId.Value.ToListCollection() : new List<int>(),
+                AreaId = areaId,
             };
 
             var datas = DamageService.GetFacilityDamages(filter, type);
