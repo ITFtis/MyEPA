@@ -709,7 +709,7 @@ namespace MyEPA.Controllers
                 model.CleanCreateDate = DateTimeHelper.GetCurrentTime();
                 model.CleanUpdateDate = DateTimeHelper.GetCurrentTime();
                 model.CleanStatus = DamageStatusEnum.Waiting;
-                model.IsDamageClean = true;
+                model.IsDamageClean = DamageService.IsDamageClean(model); //true;
                 DamageRepository.Create(model);
 
                 //環境清理日期
@@ -737,7 +737,7 @@ namespace MyEPA.Controllers
                 damage.CleanCreateDate = DateTimeHelper.GetCurrentTime();
                 damage.CleanUpdateDate = DateTimeHelper.GetCurrentTime();
                 damage.CleanStatus = DamageStatusEnum.Waiting;
-                damage.IsDamageClean = true;
+                damage.IsDamageClean = DamageService.IsDamageClean(damage); //true;
                 DamageRepository.Update(damage);
 
                 dmgId = damage.Id;

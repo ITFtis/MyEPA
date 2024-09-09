@@ -297,7 +297,7 @@ namespace MyEPA.Services
             entity.CleanTeamConfirmTime = null;  //三區確認時間(for縣市)
 
             entity.CleanUpdateDate = DateTimeHelper.GetCurrentTime();
-            entity.IsDamageClean = true;
+            entity.IsDamageClean = IsDamageClean(entity); //true;
             DamageRepository.Update(entity);
         }
 
@@ -738,7 +738,7 @@ namespace MyEPA.Services
                 damage.CleanCreateDate = damage.CleanCreateDate != null ? damage.CleanCreateDate : DateTimeHelper.GetCurrentTime();
                 damage.CleanUpdateDate = DateTimeHelper.GetCurrentTime();
                 damage.CleanStatus = DamageStatusEnum.Waiting;
-                damage.IsDamageClean = false;
+                damage.IsDamageClean = IsDamageClean(damage); //false;
                 damage.CleanDay = model.CleanDay;
             }
 
@@ -1059,6 +1059,34 @@ namespace MyEPA.Services
                     || !string.IsNullOrEmpty(model.DumpSiteDesc)
                     || !string.IsNullOrEmpty(model.IncinerationPlantDesc)
                     || !string.IsNullOrEmpty(model.Other);
+
+            return result;
+        }
+
+        /// <summary>
+        /// 環境清理 是否有清理
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static bool IsDamageClean(DamageModel model)
+        {
+            bool result = false;
+
+            if (model == null)
+                return false;
+
+            //無清理
+            result = (model.DisinfectDate != null)
+                    || (model.DisinfectArea != null && model.DisinfectArea > 0)
+                    || (model.CLE_MUD != null && model.CLE_MUD > 0)
+                    || (model.CLE_Garbage != null && model.CLE_Garbage > 0)
+                    || (model.CleaningMemberQuantity != null && model.CleaningMemberQuantity > 0)
+                    || (model.NationalArmyQuantity != null && model.NationalArmyQuantity > 0)
+                    || (model.CLE_DisinfectorL != null && model.CLE_DisinfectorL > 0)
+                    || (model.CLE_DisinfectorW != null && model.CLE_DisinfectorW > 0)
+                    || (model.CLE_EquipmentNum != null && model.CLE_EquipmentNum > 0)
+                    || (model.CLE_CarNum != null && model.CLE_CarNum > 0)
+                    ;
 
             return result;
         }
