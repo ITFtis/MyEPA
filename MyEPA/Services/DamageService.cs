@@ -248,7 +248,8 @@ namespace MyEPA.Services
             entity.Note = model.Note;
 
             entity.Status = DamageStatusEnum.Waiting;
-            entity.ConfirmTime = null;
+            entity.ConfirmTime = null;      //三區確認時間(for鄉鎮)
+            entity.TeamConfirmTime = null;  //三區確認時間(for縣市)
 
             entity.UpdateDate = DateTimeHelper.GetCurrentTime();
             entity.IsDamage = IsDamage(entity); //true;
@@ -292,7 +293,8 @@ namespace MyEPA.Services
             entity.Note = model.Note;
 
             entity.CleanStatus = DamageStatusEnum.Waiting;
-            entity.CleanConfirmTime = null;
+            entity.CleanConfirmTime = null;      //三區確認時間(for鄉鎮)
+            entity.CleanTeamConfirmTime = null;  //三區確認時間(for縣市)
 
             entity.CleanUpdateDate = DateTimeHelper.GetCurrentTime();
             entity.IsDamageClean = true;
