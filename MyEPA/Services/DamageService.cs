@@ -761,17 +761,20 @@ namespace MyEPA.Services
                 return;
             }
 
+            //非確認狀態，確認時間還原
+            DateTime? time = status == DamageStatusEnum.Confirm ? DateTimeHelper.GetCurrentTime() : (DateTime?)null;
+
             if (hType == 1)
             {
                 result.Status = status;
 
                 if (user.Duty == DutyEnum.Team)
                 {
-                    result.TeamConfirmTime = DateTimeHelper.GetCurrentTime();
+                    result.TeamConfirmTime = time;
                 }
                 else
                 {
-                    result.ConfirmTime = DateTimeHelper.GetCurrentTime();
+                    result.ConfirmTime = time;
                 }
             }
             else if (hType == 2)
@@ -780,11 +783,11 @@ namespace MyEPA.Services
 
                 if (user.Duty == DutyEnum.Team)
                 {
-                    result.CleanTeamConfirmTime = DateTimeHelper.GetCurrentTime();
+                    result.CleanTeamConfirmTime = time;
                 }
                 else
                 {
-                    result.CleanConfirmTime = DateTimeHelper.GetCurrentTime();
+                    result.CleanConfirmTime = time;
                 }
             }           
 
