@@ -4,6 +4,7 @@
     ViewBag.Title = "環境清理確認(災時/後)";
     Layout = "~/Views/_Layout.cshtml";
     int diasterId = ViewBag.DiasterId;
+    int? cityId = ViewBag.CityId;
     List<DiasterModel> diasters = ViewBag.Diasters;
     List<CityModel> citys = ViewBag.Citys;
 }
@@ -32,7 +33,7 @@
                             <option value="">全部縣市</option>
                             @foreach (var item in citys)
                             {
-                                <option value="@item.Id">@item.City</option>
+                                <option value="@item.Id" @(item.Id == cityId ? "selected" : string.Empty)>@item.City</option>
                             }
                         </select>
                     </td>
