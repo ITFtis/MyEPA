@@ -251,6 +251,9 @@ namespace MyEPA
         {
             string result = "";
 
+            if (date == null)
+                return "";
+
             try
             {
                 DateTime dd = DateTime.Parse(date.ToString());

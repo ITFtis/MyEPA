@@ -366,6 +366,13 @@ namespace MyEPA.Models
         public DateTime? ConfirmTime { get; set; }
         [DisplayName("環境清理確認時間")]
         public DateTime? CleanConfirmTime { get; set; }
+
+        [DisplayName("區大隊確認時間")]
+        public DateTime? TeamConfirmTime { get; set; }
+
+        [DisplayName("環境清理確認時間")]
+        public DateTime? CleanTeamConfirmTime { get; set; }
+
         [DisplayName("縣市")]
         public string CityName { get; set; }
         public int CityId { get; set; }

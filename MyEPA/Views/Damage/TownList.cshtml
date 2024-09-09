@@ -75,7 +75,7 @@
                         <span>已確認</span>
                         <br />
                         <span>
-                            @(item.ConfirmTime != null ? ((DateTime)item.ConfirmTime).ToString("yyyy/MM/dd") : "")
+                           @DateFormat.ToDate7(item.ConfirmTime)
                         </span>
                     }
                     else

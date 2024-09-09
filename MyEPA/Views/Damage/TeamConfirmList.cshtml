@@ -73,7 +73,7 @@
                 {
                     <a href="#" onclick="Confirm(@item.Id,@(MyEPA.Enums.DamageStatusEnum.Waiting.ToInteger()))">取消確認</a>
                     <br />
-                    <span>@item.TeamConfirmTime</span>
+                    <span>@DateFormat.ToDate7(item.TeamConfirmTime)</span>
                 }
             </td>
             <td>
@@ -87,7 +87,7 @@
                         <span>已確認</span>
                         <br />
                         <span>
-                            @(item.TeamConfirmTime != null ? ((DateTime)item.TeamConfirmTime).ToString("yyyy/MM/dd") : "")
+                            @(item.TeamConfirmTime != null ? DateFormat.ToDate7(item.TeamConfirmTime) : "")
                         </span>
                     }
                     else

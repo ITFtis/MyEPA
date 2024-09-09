@@ -484,6 +484,7 @@ namespace MyEPA.Services
                             IsTown = town.IsTown,
                             ProcessDesc = damage.ProcessDesc,
                             Note = damage.Note,
+                            TeamConfirmTime = damage.TeamConfirmTime,                            
                         });
                     }
                 }
@@ -601,6 +602,7 @@ namespace MyEPA.Services
                             DisinfectDate = damage.DisinfectDate,
                             IsDamageClean = damage.IsDamageClean,
                             IsTown = town.IsTown,
+                            CleanTeamConfirmTime = damage.CleanTeamConfirmTime,
                         });
                     }
                 }
