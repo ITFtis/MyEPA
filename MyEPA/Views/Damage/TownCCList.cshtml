@@ -30,6 +30,9 @@
             @Html.DisplayNameFor(model => model.TownName)
         </th>
         <th>
+            有無清理
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.DisinfectDate)
         </th>
         <th>實際消毒<br />面積(公頃)</th>
@@ -73,6 +76,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TownName)
+            </td>
+            <td>
+                @(item.IsDamageClean.HasValue ? item.IsDamageClean.Value ? "有" : "無清理" : string.Empty)
             </td>
             <td>
                 @(item.DisinfectDate != null ? ((DateTime)item.DisinfectDate).ToString("yyyy/MM/dd") : "")

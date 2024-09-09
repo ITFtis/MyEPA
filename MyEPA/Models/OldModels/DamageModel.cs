@@ -177,7 +177,7 @@ namespace MyEPA.Models
         /// </summary>
         public bool? IsDamage { get; set; }
         /// <summary>
-        /// (環境清理)有無災情
+        /// (環境清理)有無清理
         /// </summary>
         public bool? IsDamageClean { get; set; }
         public DateTime? TeamConfirmTime { get; set; }
@@ -258,9 +258,9 @@ namespace MyEPA.Models
         [DisplayName("災害現況")]
         public bool? IsDamage { get; set; }
         /// <summary>
-        /// 有無災情
+        /// 有無清理
         /// </summary>
-        [DisplayName("(環境清理)有無災情")]
+        [DisplayName("(環境清理)有無清理")]
         public bool? IsDamageClean { get; set; }
         /// <summary>
         /// 災區面積(公頃)
