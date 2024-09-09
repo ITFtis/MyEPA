@@ -46,7 +46,7 @@
                                         <option value="">全部縣市</option>
                                         @foreach (var item in citys)
                                         {
-                                            <option value="@item.Id">@item.City</option>
+                                            <option value="@item.Id" @(item.Id == cityId ? "selected" : string.Empty)>@item.City</option>
                                         }
                                     </select>
                                 </td>
@@ -87,10 +87,10 @@
                                         <h5>督察大隊</h5>
                                     </td>
                                     <td bgcolor="#fff8d7" rowspan="2">
-                                        <h5>大隊確認/縣市通報情形<br><span class="blue">◎已確認</span><br><span class="green">△未確認</span><br><span class="red">●未通報</span></h5>
+                                        <h5>大隊確認情形<br><span class="blue">◎已確認</span><br><span class="green">△未確認</span><br><span class="red">●未通報</span></h5>
                                     </td>
                                     <td bgcolor="#fff8d7" colspan="3">
-                                        <h5>鄉鎮市通報</h5>
+                                        <h5>縣市、鄉鎮通報</h5>
                                     </td>
                                     <td rowspan="2" bgcolor="#fff8d7">
                                         <h5>通報負責人姓名</h5>
