@@ -12,6 +12,7 @@ namespace MyEPA.Models.FilterParameter
     public class DamageFilterParameter
     {
         public List<int> Ids { get; set; }
+        public int? AreaId { get; set; }
         public List<int> CityIds { get; set; }
         public List<int> TownIds { get; set; }
         public int? TownId { get; set; }

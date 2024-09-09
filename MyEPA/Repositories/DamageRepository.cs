@@ -295,6 +295,10 @@ From Damage D
             {
                 whereSQL += " AND D.DiasterId IN @DiasterIds";
             }
+            if (filter.AreaId.HasValue)
+            {
+                whereSQL += " AND C.AreaId = @AreaId";
+            }
             if (filter.CityIds.IsNotEmpty())
             {
                 whereSQL += " AND D.CityId IN @CityIds";

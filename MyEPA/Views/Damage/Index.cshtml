@@ -10,7 +10,8 @@
     List<CityModel> citys = ViewBag.Citys;
     DateTime? startTime = ViewBag.StartTime;
     DateTime? endTime = ViewBag.EndTime;
-    
+
+    int? selectAreaId = ViewBag.AreaId;
 }
 <h2>@ViewBag.Title</h2>
 @using (Html.BeginForm("Index", "Damage", new { }, FormMethod.Get, new { }))
@@ -24,6 +25,19 @@
                         @foreach (var item in Diasters)
                         {
                             <option value="@item.Id" @(item.Id == diasterId ? "selected" : string.Empty)>@item.DiasterName</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><h5>三區中心：</h5></td>
+                <td>
+
+                    <select name="areaId">
+                        <option value="">全部</option>
+                        @foreach (var option in Code.GetCityArea())
+                        {
+                            <option value="@option.Key" @(selectAreaId == option.Key ? "selected" : string.Empty)> @option.Value</option>
                         }
                     </select>
                 </td>
@@ -96,7 +110,9 @@
     </tr>
     <tr bgcolor="#F7F7DE">
         <th>合計</th>
-        <th></th>
+        <th>
+            共@(Model.Count())筆
+        </th>
         <th></th>
         <th>
             @Model.Sum(e => e.DisinfectArea)
