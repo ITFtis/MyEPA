@@ -332,10 +332,20 @@ namespace MyEPA.Models
         [DisplayName("已使用藥劑數量(公斤)")]
         public float CLE_DisinfectorW { get; set; }
 
-        [DisplayName("已使用機具(請列示機具名稱及數量)")]
+        //已使用機具(總數量)
+        [DisplayName("已使用機具(總數量)")]
+        public int? CLE_EquipmentNum { get; set; }
+
+        //機具明細(如噴霧機3台)
+        [DisplayName("機具明細")]
         public string CLE_EquipmentDesc { get; set; }
 
-        [DisplayName("已使用車輛(請列示車輛名稱及數量)")]
+        //已使用車輛(總數量)
+        [DisplayName("已使用車輛(總數量)")]
+        public int? CLE_CarNum { get; set; }
+
+        //車輛明細(如垃圾車3輛)
+        [DisplayName("車輛明細")]
         public string CLE_CarDesc { get; set; }
 
         [DisplayName("總隊處理情形")]

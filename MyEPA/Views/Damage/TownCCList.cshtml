@@ -94,8 +94,22 @@
             </td>
             <td>@item.CLE_DisinfectorL</td>
             <td>@item.CLE_DisinfectorW</td>
-            <td>@item.CLE_EquipmentDesc</td>
-            <td>@item.CLE_CarDesc</td>
+            <td>
+                @item.CLE_EquipmentNum
+                @if (item.CLE_EquipmentNum != null)
+                {
+                    <br />
+                }
+                @item.CLE_EquipmentDesc
+            </td>
+            <td>
+                @item.CLE_CarNum
+                @if (item.CLE_CarNum != null)
+                {
+                    <br />
+                }
+                @item.CLE_CarDesc
+            </td>
             <td>
                 @foreach (var img in item.Images)
                 {
