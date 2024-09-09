@@ -293,6 +293,7 @@ namespace MyEPA.Controllers
             var result = DamageService.GetConfirmList(diasterId.Value, area.Value, cityId);
 
             ViewBag.DiasterId = diasterId;
+            ViewBag.CityId = cityId;
             ViewBag.Diasters = diasters;
             ViewBag.Citys = CityService.GetListByFilter(new CityFilterParameter 
             {

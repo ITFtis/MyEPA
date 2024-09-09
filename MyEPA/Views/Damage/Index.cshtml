@@ -8,8 +8,8 @@
     int? cityId = ViewBag.CityId;
     int? townId = ViewBag.TownId;
     List<CityModel> citys = ViewBag.Citys;
-    DateTime? startTime = ViewBag.StartTime;
-    DateTime? endTime = ViewBag.EndTime;
+    DateTime? cleanStartTime = ViewBag.CleanStartTime;
+    DateTime? cleanEndTime = ViewBag.CleanEndTime;
 
     int? selectAreaId = ViewBag.AreaId;
 }
@@ -63,13 +63,13 @@
                     <h5>環境清理建檔時間：</h5><h6>(非災害日期)</h6>
                 </td>
                 <td>
-                    起始時間：<input name="cleanStartTime" type="date" value="@(startTime.HasValue ? startTime.Value.ToString("yyyy-MM-ddTHH:mm"):string.Empty)" />
+                    起始時間：<input name="cleanStartTime" type="date" value="@(cleanStartTime.HasValue ? cleanStartTime.Value.ToString("yyyy-MM-dd"):string.Empty)" />
 
                 </td>
             </tr>
             <tr>
                 <td>
-                    結束時間：<input name="cleanEndTime" type="date" value="@(endTime.HasValue ? endTime.Value.ToString("yyyy-MM-ddTHH:mm"):string.Empty)" />
+                    結束時間：<input name="cleanEndTime" type="date" value="@(cleanEndTime.HasValue ? cleanEndTime.Value.ToString("yyyy-MM-dd"):string.Empty)" />
 
                 </td>
             </tr>
