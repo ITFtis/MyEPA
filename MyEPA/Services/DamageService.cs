@@ -247,6 +247,8 @@ namespace MyEPA.Services
             //entity.ProcessDesc = model.ProcessDesc;
             entity.Note = model.Note;
 
+            entity.Status = DamageStatusEnum.Waiting;
+
             entity.UpdateDate = DateTimeHelper.GetCurrentTime();
             entity.IsDamage = IsDamage(entity); //true;
             DamageRepository.Update(entity);
@@ -287,6 +289,8 @@ namespace MyEPA.Services
             entity.CLE_CarNum = model.CLE_CarNum;
             entity.CLE_CarDesc = model.CLE_CarDesc;
             entity.Note = model.Note;
+
+            entity.Status = DamageStatusEnum.Waiting;
 
             entity.CleanUpdateDate = DateTimeHelper.GetCurrentTime();
             entity.IsDamageClean = true;
