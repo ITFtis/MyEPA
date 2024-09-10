@@ -87,3 +87,7 @@ Update DRINK_SECOND Set COUNTY_NAME = '環境管理署中區環境管理中心' Where COUNTY_
 -------View檢視表不用改
 
 ----------------------------------------------
+
+--留住有town(400,379,421)
+--delete (401,397,391,390)
+Delete [Town] Where Id In (401,397,391,390)
