@@ -1,5 +1,5 @@
 --1.代碼更新
-Select * From [Town] Where CityId = 23
+--Select * From [Town] Where CityId = 23
 
 Update [Town] Set Name = '部長辦公室' Where CityId = 23 And Name = '署長辦公室'
 Update [Town] Set Name = '環境管理署' Where CityId = 23 And Name = '環境督察總隊'
