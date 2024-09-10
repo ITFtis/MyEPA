@@ -1,4 +1,6 @@
 --1.代碼更新
+Select * From [Town] Where CityId = 23
+
 Update [Town] Set Name = '部長辦公室' Where CityId = 23 And Name = '署長辦公室'
 Update [Town] Set Name = '環境管理署' Where CityId = 23 And Name = '環境督察總隊'
 Update [Town] Set Name = '環境管理署北區環境管理中心' Where CityId = 23 And Name = '北區環境督察大隊'
@@ -50,26 +52,33 @@ Inner Join
 Go
 
 --Select Distinct Name, Len(Name)  From [Department]　Order By Len(Name) DESC
-Update [Department] Set Name = '氣候變遷署' Where Name = '環境衛生及毒物管理處'
-Update [Department] Set Name = '環境管理署北區環境管理中心' Where Name = '北區環境督察大隊'
-Update [Department] Set Name = '環境管理署中區環境管理中心' Where Name = '中區環境督察大隊'
-Update [Department] Set Name = '環境管理署南區環境管理中心' Where Name = '南區環境督察大隊'
-Update [Department] Set Name = '監測資訊司' Where Name = '環境監測及資訊處'
-Update [Department] Set Name = '資源循環署' Where Name = '廢棄物管理處'
-Update [Department] Set Name = '環境管理署' Where Name = '環境督察總隊'
-Update [Department] Set Name = '水質保護司' Where Name = '水質保護處'
-Update [Department] Set Name = '秘書處' Where Name = '秘書室'
+-------人工已改過
+--Update [Department] Set Name = '氣候變遷署' Where Name = '環境衛生及毒物管理處'
+--Update [Department] Set Name = '環境管理署北區環境管理中心' Where Name = '北區環境督察大隊'
+--Update [Department] Set Name = '環境管理署中區環境管理中心' Where Name = '中區環境督察大隊'
+--Update [Department] Set Name = '環境管理署南區環境管理中心' Where Name = '南區環境督察大隊'
+--Update [Department] Set Name = '監測資訊司' Where Name = '環境監測及資訊處'
+--Update [Department] Set Name = '資源循環署' Where Name = '廢棄物管理處'
+--Update [Department] Set Name = '環境管理署' Where Name = '環境督察總隊'
+--Update [Department] Set Name = '水質保護司' Where Name = '水質保護處'
+--Update [Department] Set Name = '秘書處' Where Name = '秘書室'
 
 --Select Distinct Name, Len(Name) From [ContactManualDepartment] Order By Len(Name) DESC
+------- ???
 
 --Select * From [Area]
+------- ???
 
 --Select Distinct COUNTY_NAME, Len(COUNTY_NAME) From [DRINK_DETAIL] Order By Len(COUNTY_NAME) DESC
+-------人工已改過
 
 --Select Distinct COUNTY_NAME, Len(COUNTY_NAME) From [DRINK_SECOND]　Order By Len(COUNTY_NAME) DESC
+-------人工已改過
 
 --Select Distinct Town, Len(Town) From [View_Users_Position] Order By Len(Town) DESC　
+-------人工已改過
 
 --Select Distinct Town, Len(Town) From [View_ContactManul]　Order By Len(Town) DESC　
+-------人工已改過
 
 ----------------------------------------------
