@@ -115,9 +115,9 @@ namespace MyEPA
         {
             List<KeyValuePair<int, string>> result = new List<KeyValuePair<int, string>>()
             {
-                new KeyValuePair<int, string>(1, "北區環境督察大隊"),
-                new KeyValuePair<int, string>(2, "中區環境督察大隊"),
-                new KeyValuePair<int, string>(3, "南區環境督察大隊"),
+                new KeyValuePair<int, string>(1, "環境管理署北區環境管理中心"),
+                new KeyValuePair<int, string>(2, "環境管理署中區環境管理中心"),
+                new KeyValuePair<int, string>(3, "環境管理署南區環境管理中心"),
             };
 
             return result;

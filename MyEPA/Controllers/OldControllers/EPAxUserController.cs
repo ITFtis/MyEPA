@@ -106,7 +106,7 @@ namespace MyEPA.Controllers
 
                         duty = DutyEnum.Team;                        
                     }
-                    else if(register.Town.Equals("環境督察總隊"))
+                    else if(register.Town.Equals("環境管理署"))
                     {
                         duty = DutyEnum.Corps;
                     }
@@ -465,7 +465,7 @@ namespace MyEPA.Controllers
 
                         duty = DutyEnum.Team;
                     }
-                    else if (model.EditingTown.Equals("環境督察總隊"))
+                    else if (model.EditingTown.Equals("環境管理署"))
                     {
                         duty = DutyEnum.Corps;
                     }

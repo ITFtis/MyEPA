@@ -29,7 +29,7 @@ namespace MyEPA.Services
 
             try
             {
-                bool isAdmin = user.Town.Trim() == "環境督察總隊".Trim() || user.IsAdmin;
+                bool isAdmin = user.Town.Trim() == "環境管理署".Trim() || user.IsAdmin;
                 //非管理者，不顯示內容
                 if (!isAdmin)
                 {

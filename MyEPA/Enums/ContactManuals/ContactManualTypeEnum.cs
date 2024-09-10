@@ -17,10 +17,10 @@ namespace MyEPA.Enums
         [Description("綜計處－環境影響評估案件緊急應變通聯表")]
         EPAGeneralPlanning = 2,
         /// <summary>
-        /// 秘書室－辦公大樓緊急事件主管單位
+        /// 秘書處－辦公大樓緊急事件主管單位
         /// </summary>
-        [ContactManualGroup("秘書室")]
-        [Description("環保署秘書室辦公大樓緊急事件主管單位")]
+        [ContactManualGroup("秘書處")]
+        [Description("環保署秘書處辦公大樓緊急事件主管單位")]
         EPASecretaryRoom = 3,
         /// <summary>
         /// 新聞公關組－重大輿論情緊急應變通聯表
@@ -35,10 +35,10 @@ namespace MyEPA.Enums
         [Description("環保署土汙基管會土壤及地下水環境污染事故應變計畫主管單位")]
         EPASoilPollution = 5,
         /// <summary>
-        /// 環檢所－環保署環境檢驗所災害防救緊急應變聯絡資料
+        /// 環檢所－環保署國家環境研究院災害防救緊急應變聯絡資料
         /// </summary>
         [ContactManualGroup("環檢所")]
-        [Description("環保署環境檢驗所災害防救緊急應變聯絡資料")]
+        [Description("環保署國家環境研究院災害防救緊急應變聯絡資料")]
         EPAEnvironmentalInspection = 6,
         /// <summary>
         /// 地方環保局長通聯名冊
@@ -70,15 +70,15 @@ namespace MyEPA.Enums
         [Description("各地方環保局春節期間一般廢棄物處理緊急應變通聯表")]
         EPBWaste = 11,
         /// <summary>
-        /// 環境督察總隊－各地方環保局春節期間天然災害事故緊急通聯表
+        /// 環境管理署－各地方環保局春節期間天然災害事故緊急通聯表
         /// </summary>
-        [ContactManualGroup("環境督察總隊")]
+        [ContactManualGroup("環境管理署")]
         [Description("各地方環保局春節期間天然災害事故緊急通聯表")]
         EPBEnvironmentDisaster = 12,
         /// <summary>
-        /// 環境督察總隊－各地方環保局春節期間流感疫情爆發之環境清理緊急通聯
+        /// 環境管理署－各地方環保局春節期間流感疫情爆發之環境清理緊急通聯
         /// </summary>
-        [ContactManualGroup("環境督察總隊")]
+        [ContactManualGroup("環境管理署")]
         [Description("各地方環保局春節期間流感疫情爆發之環境清理緊急通聯表")]
         EPBEnvironmentInfluenza = 13,
         /// <summary>
@@ -88,9 +88,9 @@ namespace MyEPA.Enums
         [Description("各地方環保局春節期間重大緊急公害糾紛事件通聯表")]
         EPBControlAssessment = 14,
         /// <summary>
-        /// 環境督察總隊－各地方環保局春節期間一般廢棄物處理設備設施緊急應變通聯表
+        /// 環境管理署－各地方環保局春節期間一般廢棄物處理設備設施緊急應變通聯表
         /// </summary>
-        [ContactManualGroup("環境督察總隊")]
+        [ContactManualGroup("環境管理署")]
         [Description("各地方環保局春節期間一般廢棄物處理設備設施緊急應變通聯表")]
         EPBTeam = 15,
         /// <summary>
@@ -106,15 +106,15 @@ namespace MyEPA.Enums
         [Description("各縣市環保局春節期間土壤及地下水環境污染事故緊急通聯表")]
         EPBSoilPollution = 17,
         /// <summary>
-        /// 化學局－各地方環保局春節期間毒性化學物質災害事故緊急通聯表
+        /// 化學物質管理署－各地方環保局春節期間毒性化學物質災害事故緊急通聯表
         /// </summary>
-        [ContactManualGroup("化學局")]
+        [ContactManualGroup("化學物質管理署")]
         [Description("各縣市環保局春節期間毒性化學物質災害事故緊急通聯表")]
         EPBChemical = 18,
         /// <summary>
-        /// 化學局－各地方環保局春節期間環境用藥重大消費事件緊急應變通聯表
+        /// 化學物質管理署－各地方環保局春節期間環境用藥重大消費事件緊急應變通聯表
         /// </summary>
-        [ContactManualGroup("化學局")]
+        [ContactManualGroup("化學物質管理署")]
         [Description("各地方環保局春節期間環境用藥重大消費事件緊急應變通聯表")]
         EPBChemicalDrug = 19,
         /// <summary>
@@ -132,13 +132,13 @@ namespace MyEPA.Enums
         [ContactManualGroup("廢管處")]
         [Description("環保署廢管處一般廢棄物緊急事故應變計畫主管單位")]
         EPARoleWaste = 23,
-        [ContactManualGroup("環境督察總隊")]
-        [Description("環保署環境督察總隊天然災害應變計畫主管單位")]
+        [ContactManualGroup("環境管理署")]
+        [Description("環保署環境管理署天然災害應變計畫主管單位")]
         EPARoleEnvironmentDisaster = 24,
         /// <summary>
-        /// 環境督察總隊-環保署春節期間流感疫情爆發之環境清理應變計畫主管單位
+        /// 環境管理署-環保署春節期間流感疫情爆發之環境清理應變計畫主管單位
         /// </summary>
-        [ContactManualGroup("環境督察總隊")]
+        [ContactManualGroup("環境管理署")]
         [Description("環保署春節期間流感疫情爆發之環境清理應變計畫主管單位")]
         EPARoleEnvironmentInfluenza = 25,
         /// <summary>
@@ -156,17 +156,17 @@ namespace MyEPA.Enums
         [ContactManualGroup("監資處")]
         [Description("監資處空品監測站各區安全維護緊急應變小組人員名冊")]
         EPARoleSupervisionAir = 28,
-        [ContactManualGroup("環境督察總隊")]
-        [Description("環保署環境督察總隊廢棄物處理事故緊急應變計畫主管單位")]
+        [ContactManualGroup("環境管理署")]
+        [Description("環保署環境管理署廢棄物處理事故緊急應變計畫主管單位")]
         EPARoleTeam = 29,
         [ContactManualGroup("回收基管會")]
         [Description("回收基管會應回收廢棄物回收處理業環境污染事故應變計畫主管單位")]
         EPARoleRecycle = 30,
-        [ContactManualGroup("化學局")]
-        [Description("環保署化學局毒災事故應變計畫主管單位")]
+        [ContactManualGroup("化學物質管理署")]
+        [Description("環保署化學物質管理署毒災事故應變計畫主管單位")]
         EPARoleChemicalPoison = 31,
-        [ContactManualGroup("化學局")]
-        [Description("環保署化學局環境用藥重大消費事件緊急應變計畫主管單位")]
+        [ContactManualGroup("化學物質管理署")]
+        [Description("環保署化學物質管理署環境用藥重大消費事件緊急應變計畫主管單位")]
         EPARoleChemicalDrug = 32,
         /// <summary>
         /// 綜計處
@@ -193,10 +193,10 @@ namespace MyEPA.Enums
         [Description("春節期間廢管處環境污染事故督導責任區域劃分表")]
         EPASuperviseWaste = 36,
         /// <summary>
-        /// 環境督察總隊
+        /// 環境管理署
         /// </summary>
-        [ContactManualGroup("環境督察總隊")]
-        [Description("春節期間環境督察總隊環境污染事故督導責任區域劃分表")]
+        [ContactManualGroup("環境管理署")]
+        [Description("春節期間環境管理署環境污染事故督導責任區域劃分表")]
         EPASuperviseTeam = 37,
         /// <summary>
         /// 管考處
@@ -219,8 +219,8 @@ namespace MyEPA.Enums
         /// <summary>
         /// 化學
         /// </summary>
-        [ContactManualGroup("化學局")]
-        [Description("春節期間化學局環境污染事故督導責任區域劃分表")]
+        [ContactManualGroup("化學物質管理署")]
+        [Description("春節期間化學物質管理署環境污染事故督導責任區域劃分表")]
         EPASuperviseChemical = 41,
         [ContactManualGroup("回收基管會")]
         [Description("回收基管會回收處理業重大異常事件緊急連絡通話")]
@@ -234,13 +234,13 @@ namespace MyEPA.Enums
         [ContactManualGroup("監資處")]
         [Description("監資處春節期間空氣品質污染指標預報值班人員通聯表(每日輪值 08:30~17:30)")]
         EPAOnDutySupervision = 44,
-        [ContactManualGroup("環境督察總隊")]
-        [Description("環境督察總隊春節期間一般廢棄物處理設備設施緊急應變通聯表")]
+        [ContactManualGroup("環境管理署")]
+        [Description("環境管理署春節期間一般廢棄物處理設備設施緊急應變通聯表")]
         EPATeam = 45,
         /// <summary>
-        /// 化學局24小時勤情單位
+        /// 化學物質管理署24小時勤情單位
         /// </summary>
-        [ContactManualGroup("化學局")]
+        [ContactManualGroup("化學物質管理署")]
         [Description("環保署24小時勤情表")]
         EPA24OnDutyChemical = 46,
         [ContactManualGroup("監資處")]

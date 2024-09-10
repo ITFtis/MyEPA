@@ -50,7 +50,7 @@ namespace MyEPA.Enums
         ContactManualRecycle,
         [Description("值班資料維護")]
         ContactManualOnDuty,
-        [Description("化學局24小時勤情單位")]
+        [Description("化學物質管理署24小時勤情單位")]
         ContactManual24OnDuty,
         ContactManualFileData,
         ContactManualSupervisionFileData

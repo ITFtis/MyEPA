@@ -4,11 +4,11 @@ namespace MyEPA.Enums
 {
     public enum AreaEnum
     {
-        [Description("北區環境督察大隊")]
+        [Description("環境管理署北區環境管理中心")]
         North = 1,
-        [Description("中區環境督察大隊")]
+        [Description("環境管理署中區環境管理中心")]
         Middle = 2,
-        [Description("南區環境督察大隊")]
+        [Description("環境管理署南區環境管理中心")]
         South = 3,
     }
 }

@@ -43,7 +43,7 @@ namespace MyEPA
         public static List<CityModel> GetCitysRecResource(UserBriefModel user)
         {
             List<CityModel> citys = new List<CityModel>();
-            bool isAdmin = user.Town.Trim() == "環境督察總隊".Trim() || user.IsAdmin;
+            bool isAdmin = user.Town.Trim() == "環境管理署".Trim() || user.IsAdmin;
             if (!isAdmin)
             {
                 citys.Add(CityService.Get(user.CityId));

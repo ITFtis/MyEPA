@@ -12,7 +12,7 @@
         /// </summary>
         Team = 2,
         /// <summary>
-        /// 化學局24小時勤情單位
+        /// 化學物質管理署24小時勤情單位
         /// </summary>
         EPA24OnDutyChemical = 3,
         /// <summary>

@@ -1,7 +1,7 @@
 ﻿@model MyEPA.ViewModels.ContactManualEPAViewModel
 @using MyEPA.Enums
 @{
-    ViewBag.Title = "化學局24小時勤情單位 - 新增";
+    ViewBag.Title = "化學物質管理署24小時勤情單位 - 新增";
     Layout = "~/Views/_ContactManualLayout.cshtml";
 }
 <style>
@@ -45,7 +45,7 @@
                 @Html.LabelFor(model => model.UserId, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div id="userlist" class="col-md-10">
                     @{
-                        Html.RenderAction("GetSelectListItem", "UserEPA", new { SearchDepartmentName = "化學局"});
+                        Html.RenderAction("GetSelectListItem", "UserEPA", new { SearchDepartmentName = "化學物質管理署"});
                     }
                     @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
                 </div>
