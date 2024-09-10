@@ -1,6 +1,9 @@
 
 Update Duty Set Name = '環境部' Where Name = '環保署'
 
+Update City Set City = '環境部' Where City = '環保署'
+Update [Users] Set City = '環境部' Where City = '環保署'
+Update [Users] Set Duty = '環境部' Where Duty = '環保署'
 
 --1.代碼更新
 --Select * From [Town] Where CityId = 23
