@@ -1,3 +1,7 @@
+
+Update Duty Set Name = '環境部' Where Name = '環保署'
+
+
 --1.代碼更新
 --Select * From [Town] Where CityId = 23
 
