@@ -43,7 +43,7 @@ Go
 
 --Select　Distinct Duty From [Users]
 Update [Users] Set Duty = '三區中心' Where Duty = '北中南督察大隊'
-Update [Users] Set Duty = '環境管理署' Where Duty = '督察總隊'
+Update [Users] Set Duty = '環管署' Where Duty = '督察總隊'
 Go
 
 --Select Distinct Town, Len(Town) From [Users]　Order By Len(Town) DESC
