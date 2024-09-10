@@ -24,7 +24,7 @@ namespace MyEPA.Controllers
             //var path = "~";
             var fullPath =  Server.MapPath("/"); 
             //Path.GetFullPath(path);
-            string fileName = string.Format("環保署111年度環境污染事故(含春節期間)緊急應變摘要及通聯手冊_New.pdf", fullPath);
+            string fileName = string.Format("環境部111年度環境污染事故(含春節期間)緊急應變摘要及通聯手冊_New.pdf", fullPath);
             return File(result, fileName);
         }
     }

@@ -10,9 +10,9 @@ namespace MyEPA.Enums
         [Description("手冊資料單位維護")]
         ContactManualDepartment,
         /// <summary>
-        /// 手冊資料環保署相關名單
+        /// 手冊資料環境部相關名單
         /// </summary>
-        [Description("手冊資料環保署相關名單")]
+        [Description("手冊資料環境部相關名單")]
         ContactManualEPA,
         /// <summary>
         /// 各業務單位緊急應變通聯表

@@ -7,7 +7,7 @@ using MyEPA.Models;
 namespace MyEPA.Controllers
 {
 
-    //以下是用戶以環保署(EPA)身分登入，然後需要與焚化場
+    //以下是用戶以環境部(EPA)身分登入，然後需要與焚化場
     //互動時，所需要的Controller
 
     public class EPAxIncineratorController : LoginBaseController
@@ -17,7 +17,7 @@ namespace MyEPA.Controllers
 
         public ActionResult A4x1Incinerator()
         {
-            //以下是在環保署使用者點選進入焚化廠的項目後
+            //以下是在環境部使用者點選進入焚化廠的項目後
             //系統將所有縣市焚化廠，呼叫IncineratorModel
             //存於IncinteratorModel的Linklist中，再放置ViewBag.Data中
             //以讓A4x1Incinterator.cshtml的頁面能顯示目前所有焚化廠的資料
@@ -29,7 +29,7 @@ namespace MyEPA.Controllers
             ViewBag.Msg = string.Empty;
 
             //以下兩行程式，是為了要在下個頁面，預設地圖座標輸入
-            //因為若沒設，兩個欄位空白，在環保署用戶儲存資料後，
+            //因為若沒設，兩個欄位空白，在環境部用戶儲存資料後，
             //無X,Y值的資料會造成Javascript當掉。先預設地圖中心在臺北
 
             ViewBag.Xpos = "25.039673";
@@ -37,7 +37,7 @@ namespace MyEPA.Controllers
             return View("~/Views/EPA/A4x1Incinerator.cshtml");
         }
 
-        //環保署用戶在顯現焚化廠的網頁(ShowIncinteratorForEdit.cshtml)中，針對某筆資料
+        //環境部用戶在顯現焚化廠的網頁(ShowIncinteratorForEdit.cshtml)中，針對某筆資料
         //勾選了瀏覽，於是系統透過IncinteratorModel的GetItem方法，將該筆資料存入A中
         //之後A的資料會被Javascript程式，放入瀏覽項目的聯絡單位、縣市、鄉鎮...等空格中
 

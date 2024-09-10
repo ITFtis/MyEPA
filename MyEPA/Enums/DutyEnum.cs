@@ -15,9 +15,9 @@ namespace MyEPA.Enums
         [Description("環保局")]
         EPB = 2,
         /// <summary>
-        /// 環保署
+        /// 環境部
         /// </summary>
-        [Description("環保署")]
+        [Description("環境部")]
         EPA = 3,
         /// <summary>
         /// 自來水公司

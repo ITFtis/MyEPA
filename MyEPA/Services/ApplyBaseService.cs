@@ -62,8 +62,8 @@ namespace MyEPA.Services
 
         public void SetBasicCreateModel(ref T model, UserBriefModel user, ApplyRequestViewModel requestViewModel)
         {
-            //環保局新增直接轉呈環保署
-            if(user.Duty == DutyEnum.EPB)
+            //環保局新增直接轉呈環境部
+            if (user.Duty == DutyEnum.EPB)
             {
                 model.IsToEpa = true;
                 model.EPAConfirmStatus = ApplyStatusEnum.Pending;
@@ -100,7 +100,7 @@ namespace MyEPA.Services
                 || entity.EPBConfirmStatus == ApplyStatusEnum.Reject
                 )
             {
-                //環保局直接轉呈環保署
+                //環保局直接轉呈環境部
                 if (user.Duty == DutyEnum.EPB)
                 {
                     entity.IsToEpa = true;

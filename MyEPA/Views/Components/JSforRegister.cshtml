@@ -3,11 +3,11 @@
         function DutyChanged() {
             var Choice = "";
             Choice = $('#Duty :selected').val();
-            if (Choice == "環保署") {
+            if (Choice == "環境部") {
                 $("#City").removeAttr("disabled");
                 $("#City").empty();
                 $('#City').append('<option value="" selected="selected">請選擇</option>');
-                $('#City').append('<option value="環保署">環保署</option>');
+                $('#City').append('<option value="環境部">環境部</option>');
             }
             else if (Choice == "環保局") {
                 $("#City").removeAttr("disabled");
@@ -83,7 +83,7 @@
             Choice = $('#Duty :selected').val();
             var Choice2 = "";
             Choice2 = $('#City :selected').val();
-            if (Choice2 == "環保署") {
+            if (Choice2 == "環境部") {
                 $("#Town").removeAttr("disabled");
                 $("#Town").empty();
                 $('#Town').append('<option value="部長辦公室" selected="selected">部長辦公室</option>');

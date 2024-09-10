@@ -27,7 +27,7 @@ namespace MyEPA.Services
         public ApplySubsidyRepository ApplySubsidyRepository = new ApplySubsidyRepository();
         public ApplySupportRepository ApplySupportRepository = new ApplySupportRepository();
         const string TotalCountTemplate = "請求共{0}項";
-        const string TotalCountToEpaTemplate = "其中有{0}筆轉呈環保署(含環保局的請求)";
+        const string TotalCountToEpaTemplate = "其中有{0}筆轉呈環境部(含環保局的請求)";
 
         public ApplySupportReportModel GetReport(ApplySupportReportFilterModel filterModel) 
         {

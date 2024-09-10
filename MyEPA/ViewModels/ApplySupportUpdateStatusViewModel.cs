@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace MyEPA.ViewModels
 {
     /// <summary>
-    /// 接收更新環保局, 環保署審核用 request viewModel
+    /// 接收更新環保局, 環境部審核用 request viewModel
     /// </summary>
     public class ApplySupportUpdateStatusViewModel
     {

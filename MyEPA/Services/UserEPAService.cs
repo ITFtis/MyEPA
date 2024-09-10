@@ -84,7 +84,7 @@ namespace MyEPA.Services
 
         public void Create(UserEPAViewModel model)
         {
-            CityModel city = CityRepository.GetByCityName("環保署");
+            CityModel city = CityRepository.GetByCityName("環境部");
 
             UsersRepository.Create(new UsersModel
             {

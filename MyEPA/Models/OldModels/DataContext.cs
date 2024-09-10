@@ -15,7 +15,7 @@ namespace MyEPA.Models
         //之後若方法變動，以下這行可刪除
         public DbSet<DeleteLandfillModel> DeleteLandfill { get; set; }
 
-        //在環保署用戶進入通報管考時，
+        //在環境部用戶進入通報管考時，
         //會以GridView顯示所有縣市的消毒設備、藥品...之數量
         //此顯示採用以下NewestCountValue的GridView
 

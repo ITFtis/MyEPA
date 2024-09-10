@@ -49,7 +49,7 @@ namespace MyEPA.ViewModels
         public int ProcessingCount { get; set; }
 
         /// <summary>
-        /// 轉呈環保署
+        /// 轉呈環境部
         /// </summary>
         public int SendToEpaCount { get; set; }
 

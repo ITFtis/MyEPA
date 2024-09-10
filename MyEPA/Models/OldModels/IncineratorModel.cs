@@ -57,7 +57,7 @@ namespace MyEPA.Models
                 Q.Parameters.AddWithValue("@UpdateTime", TaipeiLocalTime.ToString("yyyy/MM/dd HH: mm:ss"));
                 Q.ExecuteNonQuery();
                 StatisticsModel Statistics = new StatisticsModel();
-                string Msg2 = Statistics.StoreNewestUpdateTime("Incinerator", "環保署");
+                string Msg2 = Statistics.StoreNewestUpdateTime("Incinerator", "環境部");
 
                 X.Close();
 
@@ -78,7 +78,7 @@ namespace MyEPA.Models
                 Q.ExecuteNonQuery();
                 X.Close();
                 StatisticsModel Statistics = new StatisticsModel();
-                string Msg2 = Statistics.StoreNewestUpdateTime("Incinerator", "環保署");
+                string Msg2 = Statistics.StoreNewestUpdateTime("Incinerator", "環境部");
                 return ("已刪除資料");}
             catch (Exception) {
                 X.Close();

@@ -14,7 +14,7 @@ namespace MyEPA.Models
             String Code = String.Empty;
             switch (location)
             {
-                case "環保署":
+                case "環境部":
                     Code = "000";
                     break;
                 case "基隆市":
@@ -93,7 +93,7 @@ namespace MyEPA.Models
         {
             switch (location)
             {
-                case "環保署":
+                case "環境部":
                     Xpos = "25.039673"; Ypos = "121.507812";
                     break;
                 case "基隆市":

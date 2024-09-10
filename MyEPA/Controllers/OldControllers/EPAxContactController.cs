@@ -20,7 +20,7 @@ namespace MyEPA.Controllers
         //單一聯繫窗口編輯
         public ActionResult A8x5()
         {
-            ViewBag.Data = Contact.Show("環保署");
+            ViewBag.Data = Contact.Show("環境部");
             ViewBag.Msg = TempData["Msg"];
             TempData["Msg"] = null;
             return View("~/Views/EPA/A8x5.cshtml");
@@ -46,7 +46,7 @@ namespace MyEPA.Controllers
             string Phone3 = Request["Phone3"].ToString().Trim();
             string Fax3 = Request["Fax3"].ToString().Trim();
             string Mail3 = Request["Mail3"].ToString().Trim();
-            string City = "環保署";
+            string City = "環境部";
             TempData["Msg"] = Contact.Update(Place1, Line1, Phone1, Fax1, Mail1, Place2, Line2, Phone2, Fax2, Mail2, Place3, Line3, Phone3, Fax3, Mail3,City);
             return RedirectToAction("A8x5");
         }

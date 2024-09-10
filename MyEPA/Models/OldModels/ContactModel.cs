@@ -35,7 +35,7 @@ namespace MyEPA.Models
                 X.Open();        
                 MapModel Map= new MapModel();
                 string CityCode = Map.FindCode(City);
-                //where 後面限制的變數，一定要是key，所以不能寫成 where City='環保署'
+                //where 後面限制的變數，一定要是key，所以不能寫成 where City='環境部'
                 string G = "Update Contact Set Place1=@Place1, Line1=@Line1, Phone1=@Phone1, Fax1=@Fax1, Mail1=@Mail1,Place2=@Place2, Line2=@Line2, Phone2=@Phone2, Fax2=@Fax2, Mail2=@Mail2,Place3=@Place3, Line3=@Line3, Phone3=@Phone3, Fax3=@Fax3, Mail3=@Mail3 where Id=@CityCode";
                 SqlCommand Q = new SqlCommand(G, X);
                 Q.Parameters.AddWithValue("@Place1",Place1);

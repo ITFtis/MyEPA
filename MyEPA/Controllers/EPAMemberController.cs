@@ -9,7 +9,7 @@ using System.Web.Mvc;
 namespace MyEPA.Controllers
 {
     /// <summary>
-    /// 環保署使用 Controller
+    /// 環境部使用 Controller
     /// </summary>
     public class EPAMemberController : LoginBaseController
     {

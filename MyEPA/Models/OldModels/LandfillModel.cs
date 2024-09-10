@@ -60,7 +60,7 @@ namespace MyEPA.Models
                 Q.ExecuteNonQuery();
                 msg = "已成功新增資料";
                 StatisticsModel Statistics = new StatisticsModel();
-                string Msg2 = Statistics.StoreNewestUpdateTime("Landfill", "環保署");
+                string Msg2 = Statistics.StoreNewestUpdateTime("Landfill", "環境部");
 
             }
             catch (Exception) { msg = G; }
@@ -79,7 +79,7 @@ namespace MyEPA.Models
                 Q.ExecuteNonQuery();
                 msg = "已刪除資料";
                 StatisticsModel Statistics = new StatisticsModel();
-                string Msg2 = Statistics.StoreNewestUpdateTime("Landfill", "環保署");
+                string Msg2 = Statistics.StoreNewestUpdateTime("Landfill", "環境部");
 
             }
             catch (Exception) { msg = G; }

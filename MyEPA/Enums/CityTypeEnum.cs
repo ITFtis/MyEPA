@@ -7,7 +7,7 @@
         /// </summary>
         General = 0,
         /// <summary>
-        /// 環保署
+        /// 環境部
         /// </summary>
         EPA = 1,
         /// <summary>

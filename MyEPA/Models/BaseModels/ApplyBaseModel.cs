@@ -106,17 +106,17 @@ namespace MyEPA.Models.BaseModels
         public DateTime? EPBConfirmUpdateTime { get; set; }
 
         /// <summary>
-        /// 環保署辦理情形
+        /// 環境部辦理情形
         /// </summary>
         public ApplyStatusEnum? EPAConfirmStatus { get; set; }
 
         /// <summary>
-        /// 環保署辦理說明
+        /// 環境部辦理說明
         /// </summary>
         public string EPAConfirmDescribe { get; set; }
 
         /// <summary>
-        /// 環保署辦理更新時間
+        /// 環境部辦理更新時間
         /// </summary>
         public DateTime? EPAConfirmUpdateTime { get; set; }
        
@@ -127,7 +127,7 @@ namespace MyEPA.Models.BaseModels
         public int? PostStatus { get; set; }
 
         /// <summary>
-        /// 是否轉到環保署
+        /// 是否轉到環境部
         /// </summary>
         public bool IsToEpa { get; set; }
     }

@@ -81,9 +81,9 @@ namespace MyEPA.Models
         [DisplayName("環保局辦理日期")]
         public DateTime? EPBConfirmUpdateTime { get; set; }
         /// <summary>
-        /// 是否轉到環保署
+        /// 是否轉到環境部
         /// </summary>
-        [DisplayName("轉呈環保署")]
+        [DisplayName("轉呈環境部")]
         public bool IsToEpa { get; set; }
         /// <summary>
         /// 狀態
@@ -98,7 +98,7 @@ namespace MyEPA.Models
         public ApplyStatusEnum EPAConfirmStatus { get; set; }
         [DisplayName("本署辦理情形")]
         public string EPAConfirmDescribe { get; set; }
-        [DisplayName("環保署辦理日期")]
+        [DisplayName("環境部辦理日期")]
         public DateTime? EPAConfirmUpdateTime { get; set; }
         /// <summary>
         /// 通報人名稱

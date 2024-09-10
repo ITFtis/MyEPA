@@ -210,7 +210,7 @@ namespace MyEPA.Controllers
         }
 
         /// <summary>
-        /// 環保署身分 Menu 用的 請求核定(補助款)
+        /// 環境部身分 Menu 用的 請求核定(補助款)
         /// </summary>
         public ActionResult SubsidyReport(int? diasterId = null)
         {
@@ -250,7 +250,7 @@ namespace MyEPA.Controllers
         }
 
         /// <summary>
-        /// 環保署身分 Menu 用的 請求核定(處理情形)
+        /// 環境部身分 Menu 用的 請求核定(處理情形)
         /// </summary>
         public ActionResult ProcessReport(int? diasterId = null, int? cityId = null, int? townId = null, int applyTypeId = 0)
         {

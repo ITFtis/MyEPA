@@ -18,24 +18,24 @@ namespace MyEPA.ViewModels
         [DisplayName("縣市")]
         public string CityName { get; set; }
         /// <summary>
-        /// 環保署待審核
+        /// 環境部待審核
         /// </summary>
-        [DisplayName("環保署待審核")]
+        [DisplayName("環境部待審核")]
         public int EPAPendingCount { get; set; }
         /// <summary>
-        /// 環保署審核中
+        /// 環境部審核中
         /// </summary>
-        [DisplayName("環保署審核中")]
+        [DisplayName("環境部審核中")]
         public int EPAProcessingCount { get; set; }
         /// <summary>
-        /// 環保署已核定
+        /// 環境部已核定
         /// </summary>
-        [DisplayName("環保署已核定")]
+        [DisplayName("環境部已核定")]
         public int EPAConfrimCount { get; set; }
         /// <summary>
-        /// 環保署退回
+        /// 環境部退回
         /// </summary>
-        [DisplayName("環保署退回")]
+        [DisplayName("環境部退回")]
         public int EPARejectCount { get; set; }
         /// <summary>
         /// 環保局待審核

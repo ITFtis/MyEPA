@@ -98,7 +98,7 @@ namespace MyEPA.Controllers
 
             //地圖要依照該縣市中心顯現
             //所以呼叫MapModel，找到縣市中心點
-            //用戶是環保署，所以City設為臺北市
+            //用戶是環境部，所以City設為臺北市
 
             MapModel Taiwan = new MapModel();
             Taiwan = Taiwan.FindGPS(City);

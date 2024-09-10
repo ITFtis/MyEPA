@@ -20,7 +20,7 @@ namespace MyEPA.Enums
         /// 秘書處－辦公大樓緊急事件主管單位
         /// </summary>
         [ContactManualGroup("秘書處")]
-        [Description("環保署秘書處辦公大樓緊急事件主管單位")]
+        [Description("環境部秘書處辦公大樓緊急事件主管單位")]
         EPASecretaryRoom = 3,
         /// <summary>
         /// 新聞公關組－重大輿論情緊急應變通聯表
@@ -32,13 +32,13 @@ namespace MyEPA.Enums
         /// 土汙基管會－土壤及地下水環境污染事故緊急應變通聯表
         /// </summary>
         [ContactManualGroup("土汙基管會")]
-        [Description("環保署土汙基管會土壤及地下水環境污染事故應變計畫主管單位")]
+        [Description("環境部土汙基管會土壤及地下水環境污染事故應變計畫主管單位")]
         EPASoilPollution = 5,
         /// <summary>
-        /// 環檢所－環保署國家環境研究院災害防救緊急應變聯絡資料
+        /// 環檢所－環境部國家環境研究院災害防救緊急應變聯絡資料
         /// </summary>
         [ContactManualGroup("環檢所")]
-        [Description("環保署國家環境研究院災害防救緊急應變聯絡資料")]
+        [Description("環境部國家環境研究院災害防救緊急應變聯絡資料")]
         EPAEnvironmentalInspection = 6,
         /// <summary>
         /// 地方環保局長通聯名冊
@@ -121,52 +121,52 @@ namespace MyEPA.Enums
         /// 空保處－空氣污染緊急事故應變計畫主管單位
         /// </summary>
         [ContactManualGroup("空保處")]
-        [Description("環保署空保處空氣污染緊急事故應變計畫主管單位")]
+        [Description("環境部空保處空氣污染緊急事故應變計畫主管單位")]
         EPARoleAirSecurity = 20,
         [ContactManualGroup("水保處")]
-        [Description("環保署水保處河川水污染事故緊應變計畫主管單位")]
+        [Description("環境部水保處河川水污染事故緊應變計畫主管單位")]
         EPARoleWaterSecurityRiver = 21,
         [ContactManualGroup("水保處")]
-        [Description("環保署水保處飲用水重大事故應變計畫主管單位")]
+        [Description("環境部水保處飲用水重大事故應變計畫主管單位")]
         EPARoleWaterSecurityDrinkingWater = 22,
         [ContactManualGroup("廢管處")]
-        [Description("環保署廢管處一般廢棄物緊急事故應變計畫主管單位")]
+        [Description("環境部廢管處一般廢棄物緊急事故應變計畫主管單位")]
         EPARoleWaste = 23,
         [ContactManualGroup("環境管理署")]
-        [Description("環保署環境管理署天然災害應變計畫主管單位")]
+        [Description("環境部環境管理署天然災害應變計畫主管單位")]
         EPARoleEnvironmentDisaster = 24,
         /// <summary>
-        /// 環境管理署-環保署春節期間流感疫情爆發之環境清理應變計畫主管單位
+        /// 環境管理署-環境部春節期間流感疫情爆發之環境清理應變計畫主管單位
         /// </summary>
         [ContactManualGroup("環境管理署")]
-        [Description("環保署春節期間流感疫情爆發之環境清理應變計畫主管單位")]
+        [Description("環境部春節期間流感疫情爆發之環境清理應變計畫主管單位")]
         EPARoleEnvironmentInfluenza = 25,
         /// <summary>
-        /// 管考處-環保署管考處重大緊急公害糾紛事件主管單位
+        /// 管考處-環境部管考處重大緊急公害糾紛事件主管單位
         /// </summary>
         [ContactManualGroup("管考處")]
-        [Description("環保署管考處重大緊急公害糾紛事件主管單位")]
+        [Description("環境部管考處重大緊急公害糾紛事件主管單位")]
         EPARoleControlAssessment = 26,
         /// <summary>
         /// 監資處－空氣品質監測站安全維護緊急應變人員名冊
         /// </summary>
         [ContactManualGroup("監資處")]
-        [Description("環保署監資處空氣品質監測站安全維護緊急應變人員名冊")]
+        [Description("環境部監資處空氣品質監測站安全維護緊急應變人員名冊")]
         EPARoleSupervisionAirQuality = 27,
         [ContactManualGroup("監資處")]
         [Description("監資處空品監測站各區安全維護緊急應變小組人員名冊")]
         EPARoleSupervisionAir = 28,
         [ContactManualGroup("環境管理署")]
-        [Description("環保署環境管理署廢棄物處理事故緊急應變計畫主管單位")]
+        [Description("環境部環境管理署廢棄物處理事故緊急應變計畫主管單位")]
         EPARoleTeam = 29,
         [ContactManualGroup("回收基管會")]
         [Description("回收基管會應回收廢棄物回收處理業環境污染事故應變計畫主管單位")]
         EPARoleRecycle = 30,
         [ContactManualGroup("化學物質管理署")]
-        [Description("環保署化學物質管理署毒災事故應變計畫主管單位")]
+        [Description("環境部化學物質管理署毒災事故應變計畫主管單位")]
         EPARoleChemicalPoison = 31,
         [ContactManualGroup("化學物質管理署")]
-        [Description("環保署化學物質管理署環境用藥重大消費事件緊急應變計畫主管單位")]
+        [Description("環境部化學物質管理署環境用藥重大消費事件緊急應變計畫主管單位")]
         EPARoleChemicalDrug = 32,
         /// <summary>
         /// 綜計處
@@ -241,13 +241,13 @@ namespace MyEPA.Enums
         /// 化學物質管理署24小時勤情單位
         /// </summary>
         [ContactManualGroup("化學物質管理署")]
-        [Description("環保署24小時勤情表")]
+        [Description("環境部24小時勤情表")]
         EPA24OnDutyChemical = 46,
         [ContactManualGroup("監資處")]
         [Description("春節期間監資處環境污染事故督導責任區域劃分表")]
         EPASuperviseSupervision = 47,
         [ContactManualGroup("監資處")]
-        [Description("環保署監資處電腦機房及各項資訊系統運轉事故緊急應變人員名冊")]
+        [Description("環境部監資處電腦機房及各項資訊系統運轉事故緊急應變人員名冊")]
         EPARoleSupervisionInformation = 48,
         /// <summary>
         /// 監資處值班表

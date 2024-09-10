@@ -24,12 +24,12 @@ namespace MyEPA.Models.FilterParameter
         public List<ApplyStatusEnum> EPBConfirmStatus { get; set; }
 
         /// <summary>
-        /// 環保署辦理狀態
+        /// 環境部辦理狀態
         /// </summary>
         public List<ApplyStatusEnum> EPAConfirmStatus { get; set; }
 
         /// <summary>
-        /// 是否轉送環保署
+        /// 是否轉送環境部
         /// </summary>
         public bool? IsToEpa { get; set; }
     }

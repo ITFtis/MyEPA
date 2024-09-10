@@ -58,7 +58,7 @@ namespace MyEPA.Controllers
         //該網頁連結 @model IEnumerable<MyEPA.Models.Registers>
         //因此會從Entity Framework資料庫調出Register的表單，並且逐筆顯現
 
-        //以下會在顯示註冊者的GridView時，接受環保署審核人員點選某筆的同意或取消鍵
+        //以下會在顯示註冊者的GridView時，接受環境部審核人員點選某筆的同意或取消鍵
         //並傳回其ID（以RegisterId, RejectId顯示），並檢驗兩者的值是否為空，
         //（空的審查者沒點選該鍵，然後依同意或取消做不同的事
 

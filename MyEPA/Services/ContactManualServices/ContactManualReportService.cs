@@ -67,8 +67,8 @@ namespace MyEPA.Services
 
             //var fullPath = Path.GetFullPath(path);
             var fullPath = System.Web.HttpContext.Current.Server.MapPath("/");
-            string pdfPath = string.Format("{0}/環保署111年度環境污染事故(含春節期間)緊急應變摘要及通聯手冊.pdf", fullPath);
-            string pdfPath_ = string.Format("{0}/環保署111年度環境污染事故(含春節期間)緊急應變摘要及通聯手冊_.pdf", fullPath);
+            string pdfPath = string.Format("{0}/環境部111年度環境污染事故(含春節期間)緊急應變摘要及通聯手冊.pdf", fullPath);
+            string pdfPath_ = string.Format("{0}/環境部111年度環境污染事故(含春節期間)緊急應變摘要及通聯手冊_.pdf", fullPath);
             var user = UsersRepository.Get(userBrief.UserId);
             string dastr = DateTime.Now.ToDateString("yyyy/MM/dd");
             string text = user.UserName + " 僅供公務使用";
@@ -91,7 +91,7 @@ namespace MyEPA.Services
         {
             WordWriteHelper helper = new WordWriteHelper();
 
-            helper.AddWordTitle("環保署 111年度環境污染事故");
+            helper.AddWordTitle("環境部 111年度環境污染事故");
             helper.AddWordTitle("(含春節期間)緊急應變摘要及通聯手冊");
             helper.AddMainTitle("壹、本屬環境污染事故主政單位及地方環保局長通聯名冊", HeadingType.Heading1);
             AddEPATable(helper, $"一、{ContactManualTypeEnum.EPA.GetDescription()}", ContactManualTypeEnum.EPA, HeadingType.Heading2);
@@ -250,15 +250,15 @@ namespace MyEPA.Services
             helper.AddMainTitle("十三、化學物質管理署－毒災、毒化物管理、環境用藥緊急應變通聯表", HeadingType.Heading2);
             //14-1 毒性化學物質災害事故之緊急應變通聯表
             helper.AddMainTitle("13-1 毒性化學物質災害事故之緊急應變通聯表", HeadingType.Heading3);
-            //環保署化學物質管理署毒災事故應變計畫主管單位
+            //環境部化學物質管理署毒災事故應變計畫主管單位
             AddEPARoleTable(helper, ContactManualTypeEnum.EPARoleChemicalPoison);
-            //環保署24小時勤情表
+            //環境部24小時勤情表
             AddEPA24OnDuty(helper, ContactManualTypeEnum.EPA24OnDutyChemical);
             //各縣市環保局春節期間毒性化學物質災害事故緊急通聯表
             AddEPBTable(helper, ContactManualTypeEnum.EPBChemical);
             //14-2 環境用藥重大消費事件緊急應變通聯表
             helper.AddMainTitle("13-2 環境用藥重大消費事件緊急應變通聯表", HeadingType.Heading3);
-            //環保署化學物質管理署環境用藥重大消費事件緊急應變計畫主管單位
+            //環境部化學物質管理署環境用藥重大消費事件緊急應變計畫主管單位
             AddEPARoleTable(helper, ContactManualTypeEnum.EPARoleChemicalDrug);
             //各地方環保局春節期間環境用藥重大消費事件緊急應變通聯表
             AddEPBTable(helper, ContactManualTypeEnum.EPBChemicalDrug);
@@ -279,7 +279,7 @@ namespace MyEPA.Services
         private void AddEnvironmentalTable(WordWriteHelper helper)
         {
             helper.AddMainTitle("十二、環檢所－相關檢驗事項緊急應變通聯表", HeadingType.Heading2);
-            //環保署國家環境研究院災害防救緊急應變聯絡資料
+            //環境部國家環境研究院災害防救緊急應變聯絡資料
             AddEPAOther(helper, ContactManualTypeEnum.EPAEnvironmentalInspection);
         }
         /// <summary>
@@ -289,7 +289,7 @@ namespace MyEPA.Services
         private void AddSoilPollutionDepartment(WordWriteHelper helper)
         {
             helper.AddMainTitle("十一、土汙基管會-土壤及地下水環境污染事故緊急應變通聯表", HeadingType.Heading2);
-            //環保署土汙基管會土壤及地下水環境污染事故應變計畫主管單位
+            //環境部土汙基管會土壤及地下水環境污染事故應變計畫主管單位
             AddEPARoleTable(helper, ContactManualTypeEnum.EPASoilPollution);
             //各縣市環保局春節期間土壤及地下水環境污染事故緊急通聯表
             AddEPBTable(helper, ContactManualTypeEnum.EPBSoilPollution);
@@ -340,7 +340,7 @@ namespace MyEPA.Services
         private void AddSecretaryRoomTable(WordWriteHelper helper)
         {
             helper.AddMainTitle("八、秘書處－辦公大樓緊急事件應變通聯表", HeadingType.Heading2);
-            //環保署秘書處辦公大樓緊急事件主管單位
+            //環境部秘書處辦公大樓緊急事件主管單位
             AddEPAOther(helper, ContactManualTypeEnum.EPASecretaryRoom);
         }
 
@@ -365,7 +365,7 @@ namespace MyEPA.Services
         private void AddSupervisionDepartmentTwo(WordWriteHelper helper)
         {
             helper.AddMainTitle("6-2 電腦機房及資訊系統事故緊急應變通聯表", HeadingType.Heading3);
-            //環保署監資處電腦機房及各項資訊系統運轉事故緊急應變人員名冊
+            //環境部監資處電腦機房及各項資訊系統運轉事故緊急應變人員名冊
             AddEPARoleTable(helper, ContactManualTypeEnum.EPARoleSupervisionInformation);
             //委外載入2
             AddSupervisionOutsourcing(helper, SupervisionSourceEnum.Two);
@@ -394,7 +394,7 @@ namespace MyEPA.Services
         {
             helper.AddMainTitle("六、監資處－空品監測站安全維護及電腦機房及資訊系統事故緊急應變通連表", HeadingType.Heading2);
             helper.AddMainTitle("6-1 空品監測站安全維護緊急應變通連表", HeadingType.Heading3);
-            //環保署監資處空氣品質監測站安全維護緊急應變人員名冊
+            //環境部監資處空氣品質監測站安全維護緊急應變人員名冊
             AddEPARoleTable(helper, ContactManualTypeEnum.EPARoleSupervisionAirQuality);
             //監資處春節期間空氣品質污染指標預報值班人員通聯表
             AddEPAOnDutyTable(helper, ContactManualTypeEnum.EPAOnDutySupervision);
@@ -424,7 +424,7 @@ namespace MyEPA.Services
         private void AddControlAssessmentDepartment(WordWriteHelper helper)
         {
             helper.AddMainTitle("五、管考處－重大緊急公害糾紛事件通聯表", HeadingType.Heading2);
-            //環保署管考處重大緊急公害糾紛事件主管單位
+            //環境部管考處重大緊急公害糾紛事件主管單位
             AddEPARoleTable(helper, ContactManualTypeEnum.EPARoleControlAssessment);
             //各地方環保局春節期間重大緊急公害糾紛事件通聯表
             AddEPBTable(helper, ContactManualTypeEnum.EPBControlAssessment);
@@ -440,19 +440,19 @@ namespace MyEPA.Services
             helper.AddMainTitle("七、環境管理署－天然災害、因應流感疫情爆發事件緊急應變通連表", HeadingType.Heading2);
 
             helper.AddMainTitle("7-1 天然災害事故緊急應變通連表", HeadingType.Heading3);
-            //環保署環境管理署天然災害應變計畫主管單位
+            //環境部環境管理署天然災害應變計畫主管單位
             AddEPARoleTable(helper, ContactManualTypeEnum.EPARoleEnvironmentDisaster);
             //各地方環保局春節期間天然災害事故緊急通聯表
             AddEPBTable(helper, ContactManualTypeEnum.EPBEnvironmentDisaster);
 
             helper.AddMainTitle("7-2 春節因應流感疫情爆發之環境緊急應變通連表", HeadingType.Heading3);
-            //環保署春節期間流感疫情爆發之環境清理應變計畫主管單位
+            //環境部春節期間流感疫情爆發之環境清理應變計畫主管單位
             AddEPARoleTable(helper, ContactManualTypeEnum.EPARoleEnvironmentInfluenza);
             //各地方環保局春節期間流感疫情爆發之環境清理緊急通聯表
             AddEPBTable(helper, ContactManualTypeEnum.EPBEnvironmentInfluenza);
 
             helper.AddMainTitle("7-3 一般廢棄物處理設備設施緊急應變通連表", HeadingType.Heading3);
-            //環保署環境管理署廢棄物處理事故緊急應變計畫主管單位
+            //環境部環境管理署廢棄物處理事故緊急應變計畫主管單位
             AddEPARoleTable(helper, ContactManualTypeEnum.EPARoleTeam);
             //環境管理署春節期間一般廢棄物處理設備設施緊急應變通聯表
             AddEPATable(helper, ContactManualTypeEnum.EPATeam.GetDescription(), ContactManualTypeEnum.EPATeam, HeadingType.Heading4);
@@ -469,7 +469,7 @@ namespace MyEPA.Services
         private void AddWasteDepartment(WordWriteHelper helper)
         {
             helper.AddMainTitle("四、廢管處－一般廢棄物環境污染事故緊急應變通連表", HeadingType.Heading2);
-            //環保署廢管處一般廢棄物緊急事故應變計畫主管單位
+            //環境部廢管處一般廢棄物緊急事故應變計畫主管單位
             AddEPARoleTable(helper, ContactManualTypeEnum.EPARoleWaste);
             //各地方環保局春節期間一般廢棄物處理緊急應變通聯表
             AddEPBTable(helper, ContactManualTypeEnum.EPBWaste);
@@ -484,12 +484,12 @@ namespace MyEPA.Services
         {
             helper.AddMainTitle("三、水保處－河川水污染、飲用水重大事故緊急應變通連表", HeadingType.Heading2);
             helper.AddMainTitle("3-1 河川水污染事故緊急應變通連表", HeadingType.Heading3);
-            //環保署水保處河川水污染事故緊應變計畫主管單位
+            //環境部水保處河川水污染事故緊應變計畫主管單位
             AddEPARoleTable(helper, ContactManualTypeEnum.EPARoleWaterSecurityRiver);
             //各地方環保局春節期間河川污染應變通報名冊緊急通聯表
             AddEPBTable(helper, ContactManualTypeEnum.EPBWaterSecurityRiver);
             helper.AddMainTitle("3-2 飲用水重大事故緊急應變通聯表", HeadingType.Heading3);
-            //環保署水保處飲用水重大事故應變計畫主管單位
+            //環境部水保處飲用水重大事故應變計畫主管單位
             AddEPARoleTable(helper, ContactManualTypeEnum.EPARoleWaterSecurityDrinkingWater);
             //各地方環保局春節期間飲用水重大事故緊急通聯表
             AddEPBTable(helper, ContactManualTypeEnum.EPBWaterSecurityDrinkingWater);
@@ -503,7 +503,7 @@ namespace MyEPA.Services
         private void AddAirDepartment(WordWriteHelper helper)
         {
             helper.AddMainTitle("二、空保處－環境影響評估案件緊急應變通連表", HeadingType.Heading2);
-            //環保署空保處空氣污染緊急事故應變計畫主管單位
+            //環境部空保處空氣污染緊急事故應變計畫主管單位
             AddEPARoleTable(helper, ContactManualTypeEnum.EPARoleAirSecurity);
             //各地方環保局春節期間空氣污染事故緊急通連表
             AddEPBTable(helper, ContactManualTypeEnum.EPBAirSecurity);
@@ -517,7 +517,7 @@ namespace MyEPA.Services
         private void AddGeneralPlanningDepartment(WordWriteHelper helper)
         {
             helper.AddMainTitle("一、綜計處－環境影響評估案件緊急應變通連表", HeadingType.Heading2);
-            helper.AddTable("環保署環境保護司環境影響評估案件緊急應變主管單位", HeadingType.Heading4, GetEPAOther(ContactManualTypeEnum.EPAGeneralPlanning));
+            helper.AddTable("環境部環境保護司環境影響評估案件緊急應變主管單位", HeadingType.Heading4, GetEPAOther(ContactManualTypeEnum.EPAGeneralPlanning));
             AddSuperviseTable(helper, "綜計處", ContactManualTypeEnum.EPASuperviseGeneralPlanning);
         }
         private void AddEPAOtherHeading2(WordWriteHelper helper, ContactManualTypeEnum type)
@@ -557,7 +557,7 @@ namespace MyEPA.Services
             helper.AddTable(manualTypeEnum.GetDescription(), HeadingType.Heading4, GetEPB(manualTypeEnum));
         }
         /// <summary>
-        /// 新增環保署角色 Table
+        /// 新增環境部角色 Table
         /// </summary>
         /// <param name="helper"></param>
         /// <param name="manualTypeEnum"></param>
@@ -566,7 +566,7 @@ namespace MyEPA.Services
             helper.AddTable(manualTypeEnum.GetDescription(), HeadingType.Heading4, GetEPARole(manualTypeEnum));
         }
         /// <summary>
-        /// 取得環保署角色 Table
+        /// 取得環境部角色 Table
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
@@ -640,7 +640,7 @@ namespace MyEPA.Services
                 });
         }
         /// <summary>
-        /// 取得環保署其他表
+        /// 取得環境部其他表
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>

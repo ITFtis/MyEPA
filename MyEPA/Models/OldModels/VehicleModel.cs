@@ -34,9 +34,9 @@ namespace MyEPA.Models
         public string EnginePower { get; set; }
         [DisplayName("購置年份")]
         public string ROCyear { get; set; }
-        [DisplayName("是否為環保署補助購置")]
+        [DisplayName("是否為環境部補助購置")]
         public string EPAsubsidy { get; set; }
-        [DisplayName("可否提供環保署跨縣市調度支援")]
+        [DisplayName("可否提供環境部跨縣市調度支援")]
         public string CrossCityUse { get; set; }
         [DisplayName("可否提供縣府跨鄉鎮調度支援")]
         public string CrossTownUse { get; set; }
