@@ -48,7 +48,7 @@ namespace MyEPA.ViewModels
         public List<string> Places { get; set; }
         [DisplayName("損壞說明")]
         public string DamageDesc { get; set; }
-        [DisplayName("總隊處理情形")]
+        [DisplayName("環管署處理情形")]
         public string ProcessDesc { get; set; }
         [DisplayName("備註")]
         public string Note { get; set; }

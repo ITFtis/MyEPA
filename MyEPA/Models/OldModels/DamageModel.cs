@@ -163,9 +163,9 @@ namespace MyEPA.Models
         [DisplayName("焚化爐")]
         public string IncineratorIds { get; set; }
         /// <summary>
-        /// 總隊處理情形
+        /// 環管署處理情形
         /// </summary>
-        [DisplayName("總隊處理情形")]
+        [DisplayName("環管署處理情形")]
         public string ProcessDesc { get; set; }
         /// <summary>
         /// 備註
@@ -348,7 +348,7 @@ namespace MyEPA.Models
         [DisplayName("車輛明細")]
         public string CLE_CarDesc { get; set; }
 
-        [DisplayName("總隊處理情形")]
+        [DisplayName("環管署處理情形")]
         public string ProcessDesc { get; set; }
         [DisplayName("備註")]
         public string Note { get; set; }

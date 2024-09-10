@@ -30,9 +30,9 @@ namespace MyEPA.Enums
         [Description("北中南督察大隊")]
         Team = 5,
         /// <summary>
-        /// 督察總隊
+        /// 環管署
         /// </summary>
-        [Description("督察總隊")]
+        [Description("環管署")]
         Corps = 6,
         [Description("電子手冊")]
         ContactManual = 10,

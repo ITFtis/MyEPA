@@ -50,10 +50,10 @@
                     <b class="arrow"></b>
                 </li>
                 <!--
-                <li class="">
-                    <a href="#">資源通報時間查詢</a>
-                </li>
-            -->
+                    <li class="">
+                        <a href="#">資源通報時間查詢</a>
+                    </li>
+                -->
             </ul>
         </li>
         <li class="">
@@ -230,35 +230,35 @@
                 MyEPA.Enums.SourceTypeEnum sourceType = MyEPA.Enums.SourceTypeEnum.VehicleManagement;
                 <a href="@Url.Action("Index", "FileData", new { sourceType = sourceType })">@sourceType.GetDescription()</a>}
         </li>
-        
+
         @*
-        <li class="">
-            <a href="@Url.Action("B6x1","EPB",new {title = "參考資料(上傳/下載)"  })">參考資料(上傳/下載)</a>
-        </li>
-        <li class="">
-            <a href="@Url.Action("B6x1","EPB",new {title = "常用表單(上傳/下載)"  })">常用表單(上傳/下載)</a>
-        </li>
-        <li class="">
-            <a href="@Url.Action("B6x1","EPB",new {title = "災區小組(上傳/下載)"  })">災區小組(上傳/下載)</a>
-        </li>
-        <li class="">
-            <a href="@Url.Action("B6x1","EPB",new { title = "專案資源(上傳/下載)" })">專案資源(上傳/下載)</a>
-        </li>
-        <li class="">
-            <a href="@Url.Action("B6x1","EPB",new { title = "新聞稿(上傳/下載)" })">新聞稿(上傳/下載)</a>
-        </li>*@
+            <li class="">
+                <a href="@Url.Action("B6x1","EPB",new {title = "參考資料(上傳/下載)"  })">參考資料(上傳/下載)</a>
+            </li>
+            <li class="">
+                <a href="@Url.Action("B6x1","EPB",new {title = "常用表單(上傳/下載)"  })">常用表單(上傳/下載)</a>
+            </li>
+            <li class="">
+                <a href="@Url.Action("B6x1","EPB",new {title = "災區小組(上傳/下載)"  })">災區小組(上傳/下載)</a>
+            </li>
+            <li class="">
+                <a href="@Url.Action("B6x1","EPB",new { title = "專案資源(上傳/下載)" })">專案資源(上傳/下載)</a>
+            </li>
+            <li class="">
+                <a href="@Url.Action("B6x1","EPB",new { title = "新聞稿(上傳/下載)" })">新聞稿(上傳/下載)</a>
+            </li>*@
         @{
             if (ViewBag.IsAdmin)
             {
-                    <li class="">
-                        <a href="@Url.Action("Reference", "FileData", new { title = "應變摘要參考資料" })">應變摘要參考資料</a>
-                    </li>
-                }
+                <li class="">
+                    <a href="@Url.Action("Reference", "FileData", new { title = "應變摘要參考資料" })">應變摘要參考資料</a>
+                </li>
             }
+        }
         @*
-        <li class="">
-            <a href="@Url.Action("B6x1","EPB",new { })">各處室簡日報產製</a>
-        </li>*@
+            <li class="">
+                <a href="@Url.Action("B6x1","EPB",new { })">各處室簡日報產製</a>
+            </li>*@
     </ul>
 </li>
 <li class="">
@@ -303,7 +303,7 @@
                             @Html.ActionLink("環境管理署天災輪班表", "Index", "ShiftSchedule", new { departmentId = 4 }, new { })
                         </li>
                         <li class="">
-                            @Html.ActionLink("總隊天災輪班表", "Index", "TeamShiftSchedule", new { departmentId = 5 }, new { })
+                            @Html.ActionLink("環管署天災輪班表", "Index", "TeamShiftSchedule", new { departmentId = 5 }, new { })
                         </li>
                         <li class="">
                             @Html.ActionLink("廢管處輪班表", "Index", "ShiftSchedule", new { departmentId = 6 }, new { })
@@ -357,9 +357,9 @@
             <a href="@Url.Action("A8x5", "EPAxContact")">單一聯繫窗口維護</a>
         </li>
         @*
-        <li class="">
-            <a href="@Url.Action("EPA", "EPA")">環境部單位維護</a>
-        </li>*@
+            <li class="">
+                <a href="@Url.Action("EPA", "EPA")">環境部單位維護</a>
+            </li>*@
     </ul>
 </li>
 <li class="">
@@ -408,7 +408,7 @@
 <li class="">
     <a href="#" class="dropdown-toggle">
         <i class="menu-icon glyphicon glyphicon-copy"></i>
-        <span class="menu-text">總隊管理資訊</span>
+        <span class="menu-text">環管署管理資訊</span>
         <b class="arrow fa fa-angle-down"></b>
     </a>
     <b class="arrow"></b>
@@ -423,7 +423,7 @@
             <b class="arrow fa fa-angle-down"></b>
             <ul class="submenu">
                 <li class="">
-                    <a href="">總隊天災輪班表</a>
+                    <a href="">環管署天災輪班表</a>
                 </li>
             </ul>
         </li>

@@ -8,7 +8,7 @@
         /// </summary>
         Recycle = 1,
         /// <summary>
-        /// 督察總隊
+        /// 環管署
         /// </summary>
         Team = 2,
         /// <summary>

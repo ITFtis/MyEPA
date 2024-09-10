@@ -11,7 +11,7 @@ namespace MyEPA.ViewModels
         public FileDataModel DamageProcessFile { get; set; }
 
         public int DamageId { get; set; }
-        //總隊處理情形
+        //環管署處理情形
         [DisplayName("處理情形")]
         public string CorpsHandlingSituation { get; set; }
         public FacilityDamageTypeEnum Type { get; set; }
