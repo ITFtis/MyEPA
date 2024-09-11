@@ -756,7 +756,14 @@ namespace MyEPA.Services
             }
         }
 
-        public void Confirm(UserBriefModel user, int id, DamageStatusEnum status, int hType)
+        /// <summary>
+        /// 區大隊確認時間
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="id"></param>
+        /// <param name="status"></param>
+        /// <param name="hType"></param>
+        public void TeamConfirm(UserBriefModel user, int id, DamageStatusEnum status, int hType)
         {
             DamageModel result = DamageRepository.Get(id);
 
@@ -772,28 +779,12 @@ namespace MyEPA.Services
             if (hType == 1)
             {
                 result.Status = status;
-
-                if (user.Duty == DutyEnum.Team)
-                {
-                    result.TeamConfirmTime = time;
-                }
-                else
-                {
-                    result.ConfirmTime = time;
-                }
+                result.TeamConfirmTime = time;
             }
             else if (hType == 2)
             {
                 result.CleanStatus = status;
-
-                if (user.Duty == DutyEnum.Team)
-                {
-                    result.CleanTeamConfirmTime = time;
-                }
-                else
-                {
-                    result.CleanConfirmTime = time;
-                }
+                result.CleanTeamConfirmTime = time;
             }           
 
             DamageRepository.Update(result);

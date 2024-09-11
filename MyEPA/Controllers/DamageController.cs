@@ -339,7 +339,7 @@ namespace MyEPA.Controllers
         /// <returns></returns>
         public ActionResult Confirm(int id, DamageStatusEnum status, int hType)
         {
-            DamageService.Confirm(GetUserBrief(), id, status, hType);
+            DamageService.TeamConfirm(GetUserBrief(), id, status, hType);
             return JsonResult(new
             {
                 IsSuccess = true
