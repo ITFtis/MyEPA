@@ -25,9 +25,9 @@ namespace MyEPA.Enums
         [Description("自來水公司")]
         Water = 4,
         /// <summary>
-        /// 北中南督察大隊
+        /// 三區中心
         /// </summary>
-        [Description("北中南督察大隊")]
+        [Description("三區中心")]
         Team = 5,
         /// <summary>
         /// 環管署
