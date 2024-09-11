@@ -100,3 +100,9 @@ Update DRINK_SECOND Set COUNTY_NAME = '環境管理署中區環境管理中心' Where COUNTY_
 Delete [Town] Where Id In (401,397,391,390)
 
 Update [Contact] Set City = '環境部'	Where City = '環保署'
+
+--沒用town(單位)
+Delete [Town] 
+Where CityId = 23 
+And Name In ('永續發展室', '整潔方案室', '能資方案室', '溫減管理室', '生態社區推動方案室')
+
