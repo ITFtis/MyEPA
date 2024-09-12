@@ -51,9 +51,19 @@
                             }
                         </div>
                         <div class="col-md-2">
-                            <a href="@(AppConfig.DEDSWebSite + "User/Login")">
-                                <img width="100%" src="/Content/assets/css/images/button_main_menu_b.png" alt="緊急應變通聯手冊">
-                            </a>
+
+                            @if (ViewBag.IsDiasterRuning)
+                            {
+                                <a href="@(AppConfig.DEDSWebSite + "User/Login")">
+                                    <img width="100%" src="/Content/assets/css/images/button_main_menu_b.png" alt="緊急應變通聯手冊">
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@(AppConfig.DEDSWebSite + "User/Login")">
+                                    <img width="100%" src="/Content/assets/css/images/button_main_menu_bb.png" alt="緊急應變通聯手冊">
+                                </a>
+                            }
                         </div>
                     </div>
                 </div>
