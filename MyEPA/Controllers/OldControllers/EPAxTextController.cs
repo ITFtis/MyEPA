@@ -12,6 +12,8 @@ namespace MyEPA.Controllers
 {
     public class EPAxTextController : LoginBaseController
     {
+        private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         //簡訊發送
         public ActionResult A9x3()
         {
@@ -43,7 +45,66 @@ namespace MyEPA.Controllers
             ViewBag.Data = User.Show("ALL");
             return View("~/Views/EPA/A9x3.cshtml");
         }
-       
+
+        public ActionResult A9x3_New()
+        {
+            ViewBag.SendMsg = TempData["sendMsg"];
+            return View("~/Views/EPA/A9x3_New.cshtml");
+        }
+
+        public ActionResult Send_New()
+        {
+            string title = Request["Title"].ToString().Trim();
+            string email = Request["Email"].ToString().Trim();
+            string content = Request["Content"].ToString().Trim();
+
+            string sendMsg = "";
+            try
+            {
+                EmailHelper emailHelper = new EmailHelper();
+                MailParam p = new MailParam();
+                p.iniParam();
+                emailHelper.MailFrom = p.MailFrom;
+                emailHelper.MailFromName = p.MailFromName;
+                emailHelper.Account = p.Account;
+                emailHelper.Password = p.Password;
+                emailHelper.MailServer = p.MailServer;
+                emailHelper.MailPort = p.MailPort;
+                emailHelper.EnableSSL = p.EnableSSL;
+
+                emailHelper.Subject = title;
+                emailHelper.Body = content;
+                foreach (string addr in email.Split(','))
+                {
+                    if (addr != "")
+                    {
+                        emailHelper.AddTo(addr, "");
+                    }
+                }
+
+                emailHelper.IsSendEmail = true;
+                bool success = emailHelper.SendBySmtp();
+
+                if (success)
+                {
+                    sendMsg = "信件已寄出";
+                }
+                else
+                {
+                    sendMsg = "信件寄發失敗：" + emailHelper.ToMails;
+                    logger.Error(sendMsg);
+                }
+            }
+            catch (Exception ex)
+            {
+                sendMsg = "信件寄發錯誤：" + email + "\\n" + ex.Message;
+                logger.Error(sendMsg);
+            }
+
+            TempData["sendMsg"] = sendMsg;
+
+            return RedirectToAction("A9x3_New");
+        }
 
         public ActionResult Search()
         {

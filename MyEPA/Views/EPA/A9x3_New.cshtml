@@ -1,0 +1,58 @@
+﻿
+@{
+    Layout = "~/Views/_Layout.cshtml";
+    ViewBag.Title = "E-mail發送";
+}
+@{Html.RenderPartial("~/Views/Components/JSforA8x2.cshtml");}
+
+<div class="text-center">
+    <br />
+    <h3>
+        @ViewBag.Title
+
+        @{
+            if (!string.IsNullOrEmpty(ViewBag.SendMsg))
+            {
+                <script>
+             alert('@ViewBag.SendMsg');
+                </script>
+            }
+        }
+    </h3>
+    <br />
+</div>
+
+
+<font size="2">
+    <div id="TextArea" style="background-color:lightblue">
+        @using (Html.BeginForm("Send_New", "EPAxText"))
+        {
+            <table class="table">
+                <tr>
+                    <td style="width:20%">標題</td>
+                    <td>@Html.TextBox("Title", "", new { @Style = "width:70%;height:50px" })</td>
+                </tr>
+                <tr>
+                    <td style="width:20%">
+                        收件者Mail(多筆','區分)
+                        <br />
+                        aa@gmail.com,bb@gmail.com
+                    </td>
+                    <td>@Html.TextArea("Email", "", new { @Style = "width:70%;height:80px" })</td>
+                </tr>
+                <tr>
+                    <td style="width:20%">內容</td>
+                    <td>
+                        @Html.TextArea("Content", "", new { @Style = "width:70%;height:150px" })
+                        <br />
+                        <input type="submit" class="btn  btn-primary" style="margin:10px" value="發送Email" />
+                    </td>
+                </tr>
+            </table>
+        }
+    </div>
+
+</font>
+
+
+
