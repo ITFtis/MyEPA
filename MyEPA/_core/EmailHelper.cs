@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Net;
 using System.Web;
+using System.IO;
 
 namespace MyEPA
 {
@@ -398,5 +399,58 @@ namespace MyEPA
                 _bccMailList.Add(new MailAddress(address, displayName));
             }
         }
+    }
+
+    public class MailParam
+    {
+        public virtual void iniParam()
+        {
+            using (StreamReader sr = new StreamReader(Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath(("~/FileDatas/json")), "TestMailParam.json")))
+            {
+                string text = sr.ReadToEnd().Replace("\r\n", "");
+                TestMailParam obj = Newtonsoft.Json.JsonConvert.DeserializeObject<TestMailParam>(text);
+
+                this.MailFrom = obj.MailFrom;
+                this.MailFromName = obj.MailFromName;
+                this.Account = obj.Account;
+                this.Password = obj.Password;
+                this.MailServer = obj.MailServer;
+                this.MailPort = obj.MailPort;
+                this.EnableSSL = obj.EnableSSL;
+            }
+        }
+
+        public string MailFrom { get; set; }
+        public string MailFromName { get; set; }
+        public string Account { get; set; }
+        public string Password { get; set; }
+        public string MailServer { get; set; }
+        public int MailPort { get; set; }
+        public bool EnableSSL { get; set; }
+    }
+
+    public class TestMailParam : MailParam
+    {
+        public override void iniParam()
+        {
+            using (StreamReader sr = new StreamReader(Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath(("~/FileDatas/json")), "TestMailParam.json")))
+            {
+                string text = sr.ReadToEnd().Replace("\r\n", "");
+                TestMailParam obj = Newtonsoft.Json.JsonConvert.DeserializeObject<TestMailParam>(text);
+
+                this.ToMails = obj.ToMails;
+                this.BCCMails = obj.BCCMails;
+                this.MailFrom = obj.MailFrom;
+                this.MailFromName = obj.MailFromName;
+                this.Account = obj.Account;
+                this.Password = obj.Password;
+                this.MailServer = obj.MailServer;
+                this.MailPort = obj.MailPort;
+                this.EnableSSL = obj.EnableSSL;
+            }
+        }
+
+        public string ToMails { get; set; }
+        public string BCCMails { get; set; }
     }
 }

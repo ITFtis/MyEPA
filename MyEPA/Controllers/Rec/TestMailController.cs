@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Office.Interop.Word;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,10 +16,11 @@ namespace MyEPA.Controllers.Rec
         private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         // GET: TestMail
-        public ActionResult Index(EmailHelper model = null, string sendMsg = "")
+        public ActionResult Index(string sendMsg = "")
         {
             bool isAdmin = GetIsAdmin();
 
+            EmailHelper model = TempData["_EmailHelper"] as EmailHelper;
             //限定管理者使用
             if (!isAdmin)
             {                
@@ -28,21 +30,17 @@ namespace MyEPA.Controllers.Rec
             EmailHelper email = new EmailHelper();
             if (model == null || string.IsNullOrEmpty(model.Password))
             {
-                using (StreamReader sr = new StreamReader(Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath(("~/FileDatas/json")), "TestMailParam.json")))
-                {
-                    string text = sr.ReadToEnd().Replace("\r\n", "");
-                    TestMailParam obj = Newtonsoft.Json.JsonConvert.DeserializeObject<TestMailParam>(text);
-
-                    email.ToMails = obj.ToMails;
-                    email.BCCMails = obj.BCCMails;
-                    email.MailFrom = obj.MailFrom;
-                    email.MailFromName = obj.MailFromName;
-                    email.Account = obj.Account;
-                    email.Password = obj.Password;
-                    email.MailServer = obj.MailServer;
-                    email.MailPort = obj.MailPort;
-                    email.EnableSSL = obj.EnableSSL;
-                }
+                TestMailParam test = new TestMailParam();
+                test.iniParam();
+                email.ToMails = test.ToMails;
+                email.BCCMails = test.BCCMails;
+                email.MailFrom = test.MailFrom;
+                email.MailFromName = test.MailFromName;
+                email.Account = test.Account;
+                email.Password = test.Password;
+                email.MailServer = test.MailServer;
+                email.MailPort = test.MailPort;
+                email.EnableSSL = test.EnableSSL;
             }
             else
             {
@@ -72,7 +70,8 @@ namespace MyEPA.Controllers.Rec
         {
             ActionResult result = null;
 
-            EmailHelper email = (EmailHelper)model.Clone();
+            //EmailHelper email = (EmailHelper)model.Clone();
+            EmailHelper email = model;
 
             //(1)設定內容 (特休結算通知)
             string body = "";
@@ -131,7 +130,9 @@ namespace MyEPA.Controllers.Rec
                 sendMsg = "信件寄發失敗";
             }
 
-            result = RedirectToAction("Index", new { model, sendMsg = sendMsg });
+            TempData["_EmailHelper"] = model;
+
+            result = RedirectToAction("Index", new { sendMsg = sendMsg });
             
             return result;
         }
@@ -139,6 +140,8 @@ namespace MyEPA.Controllers.Rec
         private ActionResult DoSaveJson(EmailHelper model)
         {
             ActionResult result;
+
+            TempData["_EmailHelper"] = model;
 
             try
             {
@@ -153,10 +156,10 @@ namespace MyEPA.Controllers.Rec
             {                
                 logger.Error("更新Mail設定值(json)失敗：" + ex.Message);
                 logger.Error(ex.StackTrace);
-                return RedirectToAction("Index", new { model, sendMsg = "更新Mail設定值(json)失敗" });
+                return RedirectToAction("Index", new { sendMsg = "更新Mail設定值(json)失敗" });
             }
 
-            result = RedirectToAction("Index", new { model, sendMsg = "更新Mail設定值成功" });
+            result = RedirectToAction("Index", new { sendMsg = "更新Mail設定值成功" });
 
             return result;
         }

@@ -940,7 +940,6 @@
     <Compile Include="_core\LoginHelper.cs" />
     <Compile Include="_core\PwdHelper.cs" />
     <Compile Include="_core\SysFunc.cs" />
-    <Compile Include="_dataClass\TestMailParam.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\EPA.mdf" />
@@ -1662,6 +1661,7 @@
     <Folder Include="Views\Codes\" />
     <Folder Include="Views\Geolocation\" />
     <Folder Include="Views\Register\" />
+    <Folder Include="_dataClass\" />
     <Folder Include="_json\" />
   </ItemGroup>
   <ItemGroup>
