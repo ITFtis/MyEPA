@@ -28,9 +28,24 @@
         @using (Html.BeginForm("Send_New", "EPAxText"))
         {
             <table class="table">
+
+                @{
+                    string title = "【環境災害管理資訊系統】通知信";
+                    string content = 
+@"環境部長官、同仁，您好：
+
+一、為辦理本部　年度災害應變整備作業，請協助確認「環境部　年度環境污染事故（含春節期間）緊急應變通聯手冊」人員名單，請至「災情預警應變決策支援系統(https://newemis.moenv.gov.tw/DEDS/User/Login)」檢視確認各類型災害應變人員名單。
+二、「災情預警應變決策支援系統」登入請用「環境災害管理資訊系統(EMIS)」個人帳號、密碼登入，登入後右上角選擇【通聯資料】。相關操作說明請參閱附檔。
+三、本手冊資料內容涉及個人資料，請依「個人資料保護法」規定，務必妥善使用及保管。
+四、如有任何問題請洽詢『環境管理署 綜合規劃組』曾淑俐小姐(02-23832389轉59906) 或莊炳義環境技術師(02-23832389轉59903)。在此特致謝忱。
+ ※本郵件為系統自動發送，請至「災情預警應變決策支援系統」進行資料確認即可，無需回信。
+
+環境部環境管理署  敬啟";
+                }
+
                 <tr>
                     <td style="width:20%">標題</td>
-                    <td>@Html.TextBox("Title", "", new { @Style = "width:70%;height:50px" })</td>
+                    <td>@Html.TextBox("Title", @title, new { @Style = "width:70%;height:50px" })</td>
                 </tr>
                 <tr>
                     <td style="width:20%">
@@ -43,7 +58,7 @@
                 <tr>
                     <td style="width:20%">內容</td>
                     <td>
-                        @Html.TextArea("Content", "", new { @Style = "width:70%;height:150px" })
+                        @Html.TextArea("Content", @content, new { @Style = "width:70%;height:150px" })
                         <br />
                         <input type="submit" class="btn  btn-primary" style="margin:10px" value="發送Email" />
                     </td>
