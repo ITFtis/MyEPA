@@ -28,8 +28,8 @@ namespace MyEPA.Controllers
             string City = Session["AuthenticateCity"].ToString().Trim();
             string Town = Session["AuthenticateTown"].ToString().Trim();
 
-            bool isSupportCity = Request["IsSupportCity"] == null ? false : bool.Parse(Request["IsSupportCity"]);
-            int supportCityNum = Request["SupportCityNum"] == null ? 0 : int.Parse(Request["SupportCityNum"]);
+            bool isSupportCity = Request["IsSupportCity"].ToString() == "" ? false : bool.Parse(Request["IsSupportCity"]);
+            int supportCityNum = Request["SupportCityNum"].ToString() == "" ? 0 : int.Parse(Request["SupportCityNum"]);
 
             if (!isSupportCity)
             {
@@ -154,8 +154,8 @@ namespace MyEPA.Controllers
             string ROCyear = Request["EditROCyear"];
             int? UseType = Request["EditUseType"].TryToInt();
             string UserName = user.UserName;
-            bool IsSupportCity = Request["IsSupportCity"] == null ? false : bool.Parse(Request["IsSupportCity"]);
-            int SupportCityNum = Request["SupportCityNum"] == null ? 0 : int.Parse(Request["SupportCityNum"]);
+            bool IsSupportCity = Request["IsSupportCity"].ToString() == "" ? false : bool.Parse(Request["IsSupportCity"]);
+            int SupportCityNum = Request["SupportCityNum"].ToString() == "" ? 0 : int.Parse(Request["SupportCityNum"]);
 
             if (!IsSupportCity)
             {
