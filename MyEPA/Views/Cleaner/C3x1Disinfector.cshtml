@@ -35,7 +35,7 @@
                 @*//編號必須留在表上，因為從此抓資料去做更新。不想出現，就把寬度設為0*@
                 <tr>
                     <td>編號：</td>
-                    <td>@Html.TextBox("EditId", "", new { @readonly = "readonly"})</td>
+                    <td>@Html.TextBox("EditId", "", new { @readonly = "readonly" })</td>
                 </tr>
                 <tr>
                     <td>聯繫單位名稱：</td>
@@ -76,6 +76,21 @@
                 <tr>
                     <td>購買年份(民國)：</td>
                     <td>民國 @Html.TextBox("EditROCyear", "", new { @maxlength = "3" })年</td>
+                </tr>
+                <tr>
+                    <td>是否跨縣市調度：</td>
+                    <td>
+                        @Html.DropDownList("IsSupportCity", new List<SelectListItem>
+                           {
+                                new SelectListItem{Text = "否", Value = "false"},
+                                new SelectListItem{Text = "是", Value = "true"},
+                           })
+
+                        <span>
+                            @Html.TextBox("SupportCityNum")
+                            台
+                        </span>
+                    </td>
                 </tr>
                 <tr>
                     <td colspan="2" align="center">
@@ -140,8 +155,23 @@
             <tr>
                 <td>購買年份(民國)：</td>
                 <td>
-                    民國&nbsp;                    
+                    民國&nbsp;
                     @Html.TextBox("ROCyear", "", new { @maxlength = "3" })年
+                </td>
+            </tr>
+            <tr>
+                <td>是否跨縣市調度：</td>
+                <td>
+                    @Html.DropDownList("IsSupportCity", new List<SelectListItem>
+                       {
+                            new SelectListItem{Text = "否", Value = "false"},
+                            new SelectListItem{Text = "是", Value = "true"},
+                       })
+
+                    <span>
+                        @Html.TextBox("SupportCityNum")
+                        台
+                    </span>
                 </td>
             </tr>
             <tr>
@@ -174,7 +204,9 @@
             $("#EditStandard").val(data.Standard);
             $("#EditAmount").val(data.Amount);
             $("#EditROCyear").val(data.ROCyear);
-            $("#EditUseType").val(data.UseType);
+            $("#EditUseType").val(data.UseType);            
+            $("#IsSupportCity").val(data.IsSupportCity.toString()).change();
+            $("#SupportCityNum").val(data.SupportCityNum);
         });
 
         //移動到頂端

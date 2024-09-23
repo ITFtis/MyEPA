@@ -34,6 +34,10 @@ namespace MyEPA.Models
         public String Amount{ get; set; }
         [DisplayName("購置年份")]
         public String ROCyear { get; set; }
+        [DisplayName("是否跨縣市調度")]
+        public bool? IsSupportCity { get; set; }
+        [DisplayName("跨縣市調度數量")]
+        public int? SupportCityNum { get; set; }
         [DisplayName("資料更新日期")]
         public DateTime? UpdateTime { get; set; }
         [DisplayName("資料更新者")]
@@ -41,7 +45,7 @@ namespace MyEPA.Models
         public DateTime? ConfirmTime { get; set; }
         public int? UseType { get; set; }
 
-        public String Update(string Id, string City, string Town, string ContactUnit, string DisinfectInstrument, string Standard, string Amount, string ROCyear,int? UseType, string UserName)
+        public String Update(string Id, string City, string Town, string ContactUnit, string DisinfectInstrument, string Standard, string Amount, string ROCyear,int? UseType, string UserName, bool? IsSupportCity, int? SupportCityNum)
         {
             try
             {
@@ -57,6 +61,8 @@ Set ContactUnit = @ContactUnit
 , ConfirmTime = @ConfirmTime
 , UpdateUser = @UpdateUser
 , UseType = @UseType
+, IsSupportCity = @IsSupportCity
+, SupportCityNum = @SupportCityNum
 where Id=@Id";
                 SqlCommand Q = new SqlCommand(G, X);
                 Q.Parameters.AddWithValue("@Id", Id);
@@ -71,6 +77,8 @@ where Id=@Id";
                 Q.Parameters.AddWithValue("@ConfirmTime", DateTimeHelper.GetCurrentTime());
                 Q.Parameters.AddWithValue("@UseType", UseType);
                 Q.Parameters.AddWithValue("@UpdateUser", UserName);
+                Q.Parameters.AddWithValue("@IsSupportCity", IsSupportCity);
+                Q.Parameters.AddWithValue("@SupportCityNum", SupportCityNum);
                 Q.ExecuteNonQuery();
                 X.Close();
                 StatisticsModel Statistics = new StatisticsModel();

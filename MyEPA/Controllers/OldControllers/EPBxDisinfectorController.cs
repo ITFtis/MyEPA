@@ -81,6 +81,8 @@ namespace MyEPA.Controllers
                     model.Amount,
                     model.ROCyear,
                     model.UseType,
+                    model.IsSupportCity,
+                    model.SupportCityNum,
                 }, JsonRequestBehavior.AllowGet);
         }
 
@@ -101,7 +103,7 @@ namespace MyEPA.Controllers
             string ROCyear = Request["EditROCyear"];
             int? UseType = Request["EditUseType"].TryToInt();
             string UserName = user.UserName;
-            string Msg = Disinfector.Update(Id, City, Town, ContactUnit, Instrument, Standard, Amount, ROCyear, UseType, UserName);
+            string Msg = Disinfector.Update(Id, City, Town, ContactUnit, Instrument, Standard, Amount, ROCyear, UseType, UserName, null, null);
             ViewBag.Msg = Msg;
             ViewBag.City = City;
             return RedirectToAction("C3x1Disinfector", "Cleaner");

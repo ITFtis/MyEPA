@@ -27,7 +27,15 @@ namespace MyEPA.Controllers
 
             string City = Session["AuthenticateCity"].ToString().Trim();
             string Town = Session["AuthenticateTown"].ToString().Trim();
-            
+
+            bool isSupportCity = Request["IsSupportCity"] == null ? false : bool.Parse(Request["IsSupportCity"]);
+            int supportCityNum = Request["SupportCityNum"] == null ? 0 : int.Parse(Request["SupportCityNum"]);
+
+            if (!isSupportCity)
+            {
+                supportCityNum = 0;
+            }
+
             DisinfectorRepository.Create(new DisinfectorModel
             {
                 Amount = Request["Amount"],
@@ -41,6 +49,8 @@ namespace MyEPA.Controllers
                 UpdateTime = DateTimeHelper.GetCurrentTime(),                
                 UpdateUser = user.UserName,
                 ConfirmTime = DateTimeHelper.GetCurrentTime(),
+                IsSupportCity = isSupportCity,
+                SupportCityNum = supportCityNum
             });
             //string ResponseMsg = B.Add(Id, City, Town, ContactUnit, DisinfectInstrument, Standard, Amount, ROCyear);
 
@@ -144,7 +154,15 @@ namespace MyEPA.Controllers
             string ROCyear = Request["EditROCyear"];
             int? UseType = Request["EditUseType"].TryToInt();
             string UserName = user.UserName;
-            string Msg = Disinfector.Update(Id, City, Town, ContactUnit, Instrument, Standard, Amount, ROCyear, UseType, UserName);
+            bool IsSupportCity = Request["IsSupportCity"] == null ? false : bool.Parse(Request["IsSupportCity"]);
+            int SupportCityNum = Request["SupportCityNum"] == null ? 0 : int.Parse(Request["SupportCityNum"]);
+
+            if (!IsSupportCity)
+            {
+                SupportCityNum = 0;
+            }
+
+            string Msg = Disinfector.Update(Id, City, Town, ContactUnit, Instrument, Standard, Amount, ROCyear, UseType, UserName, IsSupportCity, SupportCityNum);
             ViewBag.Msg = Msg;
             ViewBag.City = City;
             ViewBag.Town = Town;
