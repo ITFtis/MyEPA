@@ -4,7 +4,7 @@
     ViewBag.Title = "消毒設備";
     List<DisinfectorUseTypeEnum> useTypes = ViewBag.UseTypes;
     List<DisinfectorNameEnum> names = ViewBag.Names;
-    
+
 }
 
 <div class="text-center">
@@ -27,159 +27,159 @@
             <br />
         </div>
 
-        <div id="EditArea"  class="text-center" style="display:none; padding:0px; width:100%">
+        <div id="EditArea" class="text-center" style="display:none; padding:0px; width:100%">
             @using (Html.BeginForm("Update", "CleanerxDisinfector"))
             {
-            <table class="table table-bordered table-striped  text-center">
+                <table class="table table-bordered table-striped  text-center">
 
-                @*//編號必須留在表上，因為從此抓資料去做更新。不想出現，就把寬度設為0*@
-                <tr>
-                    <td>編號：</td>
-                    <td>@Html.TextBox("EditId", "", new { @readonly = "readonly" })</td>
-                </tr>
-                <tr>
-                    <td>聯繫單位名稱：</td>
-                    <td>@Html.TextBox("EditContactUnit")</td>
-                </tr>
-                <tr>
-                    <td>用途：</td>
-                    <td>
-                        <select id="EditUseType" Name="EditUseType">
-                            @foreach (var item in useTypes)
-                            {
-                                <option value="@item.ToInteger()">@item.GetDescription()</option>
-                            }
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>消毒設備名稱：</td>
-                    <td>
-                        <select id="EditDisinfectInstrument" Name="EditDisinfectInstrument">
-                            @foreach (var item in names)
-                            {
-                                <option value="@item.GetDescription()">@item.GetDescription()</option>
-                            }
-                        </select>
-                        <small><br />※"消毒車"請至「車輛設備」填寫</small>
-                    </td>
-                </tr>
-                <tr>
-                    <td>規格：</td>
-                    <td>@Html.TextBox("EditStandard")</td>
-                </tr>
+                    @*//編號必須留在表上，因為從此抓資料去做更新。不想出現，就把寬度設為0*@
+                    <tr>
+                        <td>編號：</td>
+                        <td>@Html.TextBox("EditId", "", new { @readonly = "readonly" })</td>
+                    </tr>
+                    <tr>
+                        <td>聯繫單位名稱：</td>
+                        <td>@Html.TextBox("EditContactUnit")</td>
+                    </tr>
+                    <tr>
+                        <td>用途：</td>
+                        <td>
+                            <select id="EditUseType" Name="EditUseType">
+                                @foreach (var item in useTypes)
+                                {
+                                    <option value="@item.ToInteger()">@item.GetDescription()</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>消毒設備名稱：</td>
+                        <td>
+                            <select id="EditDisinfectInstrument" Name="EditDisinfectInstrument">
+                                @foreach (var item in names)
+                                {
+                                    <option value="@item.GetDescription()">@item.GetDescription()</option>
+                                }
+                            </select>
+                            <small><br />※"消毒車"請至「車輛設備」填寫</small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>規格：</td>
+                        <td>@Html.TextBox("EditStandard")</td>
+                    </tr>
 
-                <tr>
-                    <td>數量：</td>
-                    <td>@Html.TextBox("EditAmount")台</td>
-                </tr>
-                <tr>
-                    <td>購買年份(民國)：</td>
-                    <td>民國 @Html.TextBox("EditROCyear", "", new { @maxlength = "3" })年</td>
-                </tr>
-                <tr>
-                    <td>是否跨縣市調度：</td>
-                    <td>
-                        @Html.DropDownList("IsSupportCity", new List<SelectListItem>
-                           {
-                                new SelectListItem{Text = "否", Value = "false"},
-                                new SelectListItem{Text = "是", Value = "true"},
-                           })
+                    <tr>
+                        <td>數量：</td>
+                        <td>@Html.TextBox("EditAmount")台</td>
+                    </tr>
+                    <tr>
+                        <td>購買年份(民國)：</td>
+                        <td>民國 @Html.TextBox("EditROCyear", "", new { @maxlength = "3" })年</td>
+                    </tr>
+                    <tr>
+                        <td>是否跨縣市調度：</td>
+                        <td>
+                            @Html.DropDownList("IsSupportCity", new List<SelectListItem>
+                               {
+                                    new SelectListItem{Text = "是", Value = "true"},
+                                    new SelectListItem{Text = "否", Value = "false"},                                   
+                               })
 
-                        <span>
-                            @Html.TextBox("SupportCityNum", "", new { type = "number" })
-                            台
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" align="center">
-                        <input type="submit" class="btn btn-primary" style="margin:10px" value="確認儲存" />
-                    </td>
-                </tr>
-            </table>
+                            <span id="spnSupportCityNum">
+                                @Html.TextBox("SupportCityNum", "", new { type = "number" })
+                                台
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <input type="submit" class="btn btn-primary" style="margin:10px" value="確認儲存" />
+                        </td>
+                    </tr>
+                </table>
                 <br /><br />
             }
         </div>
 
-        <div id="AddArea"  class="text-center" style="display:none;width:100%">
+        <div id="AddArea" class="text-center" style="display:none;width:100%">
             <br />
             @using (Html.BeginForm("Add", "CleanerxDisinfector", FormMethod.Post, new { onsubmit = "return ValidateInput();" }))
             {
-        <table class="table table-bordered table-striped  text-center">
-            <tr>
-                <td>縣市：</td>
-                <td>@ViewBag.City</td>
-            </tr>
-            <tr>
-                <td>鄉鎮市：</td>
-                <td>@ViewBag.Town</td>
-            </tr>
-            <tr>
-                <td>聯繫單位名稱：</td>
-                <td>@Html.TextBox("ContactUnit", "")</td>
-            </tr>
-            <tr>
-                <td>用途：</td>
-                <td>
-                    <select id="UseType" Name="UseType">
-                        @foreach (var item in useTypes)
-                        {
-                            <option value="@item.ToInteger()">@item.GetDescription()</option>
-                        }
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>消毒設備名稱：</td>
-                <td>
-                    <select id="DisinfectInstrument" Name="DisinfectInstrument">
-                        @foreach (var item in names)
-                        {
-                            <option value="@item.GetDescription()">@item.GetDescription()</option>
-                        }
-                    </select>
-                    <small><br />※"消毒車"請至「車輛設備」填寫</small>
-                </td>
-            </tr>
-            <tr>
-                <td>規格：</td>
-                <td>@Html.TextBox("Standard", "")</td>
-            </tr>
-            <tr>
-                <td>數量：</td>
-                <td>
-                    @Html.TextBox("Amount")台
-                </td>
-            </tr>
-            <tr>
-                <td>購買年份(民國)：</td>
-                <td>
-                    民國&nbsp;
-                    @Html.TextBox("ROCyear", "", new { @maxlength = "3" })年
-                </td>
-            </tr>
-            <tr>
-                <td>是否跨縣市調度：</td>
-                <td>
-                    @Html.DropDownList("IsSupportCity", new List<SelectListItem>
-                       {
-                            new SelectListItem{Text = "否", Value = "false"},
-                            new SelectListItem{Text = "是", Value = "true"},
-                       })
+                <table class="table table-bordered table-striped  text-center">
+                    <tr>
+                        <td>縣市：</td>
+                        <td>@ViewBag.City</td>
+                    </tr>
+                    <tr>
+                        <td>鄉鎮市：</td>
+                        <td>@ViewBag.Town</td>
+                    </tr>
+                    <tr>
+                        <td>聯繫單位名稱：</td>
+                        <td>@Html.TextBox("ContactUnit", "")</td>
+                    </tr>
+                    <tr>
+                        <td>用途：</td>
+                        <td>
+                            <select id="UseType" Name="UseType">
+                                @foreach (var item in useTypes)
+                                {
+                                    <option value="@item.ToInteger()">@item.GetDescription()</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>消毒設備名稱：</td>
+                        <td>
+                            <select id="DisinfectInstrument" Name="DisinfectInstrument">
+                                @foreach (var item in names)
+                                {
+                                    <option value="@item.GetDescription()">@item.GetDescription()</option>
+                                }
+                            </select>
+                            <small><br />※"消毒車"請至「車輛設備」填寫</small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>規格：</td>
+                        <td>@Html.TextBox("Standard", "")</td>
+                    </tr>
+                    <tr>
+                        <td>數量：</td>
+                        <td>
+                            @Html.TextBox("Amount")台
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>購買年份(民國)：</td>
+                        <td>
+                            民國&nbsp;
+                            @Html.TextBox("ROCyear", "", new { @maxlength = "3" })年
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>是否跨縣市調度：</td>
+                        <td>
+                            @Html.DropDownList("IsSupportCity", new List<SelectListItem>
+                               {
+                                    new SelectListItem{Text = "是", Value = "true"},
+                                    new SelectListItem{Text = "否", Value = "false"},                                   
+                               })
 
-                    <span>
-                        @Html.TextBox("SupportCityNum", "", new { type = "number" })
-                        台
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" align="center">
-                    <input type="submit" class="btn btn-danger" style="margin:10px" value="確認儲存" onsubmit="return ValidateInput();" />
-                </td>
-            </tr>
-        </table>
+                            <span id="spnSupportCityNum">
+                                @Html.TextBox("SupportCityNum", "", new { type = "number" })
+                                台
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <input type="submit" class="btn btn-danger" style="margin:10px" value="確認儲存" onsubmit="return ValidateInput();" />
+                        </td>
+                    </tr>
+                </table>
             }
         </div>
 
@@ -204,7 +204,7 @@
             $("#EditStandard").val(data.Standard);
             $("#EditAmount").val(data.Amount);
             $("#EditROCyear").val(data.ROCyear);
-            $("#EditUseType").val(data.UseType);            
+            $("#EditUseType").val(data.UseType);
             $("#IsSupportCity").val(data.IsSupportCity.toString()).change();
             $("#SupportCityNum").val(data.SupportCityNum);
         });
@@ -244,4 +244,30 @@
     }
 </script>
 
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            //Add(跨縣市)
+            $("#AddArea #IsSupportCity").on("change", function () {
+                var isSupportCity = $(this).val();
+                if (isSupportCity == 'true') {
+                    $(this).parent().find('#spnSupportCityNum').show();
+                }
+                else {
+                    $(this).parent().find('#spnSupportCityNum').hide();
+                }
+            });
 
+            //Edit(跨縣市)
+            $("#EditArea #IsSupportCity").on("change", function () {
+                var isSupportCity = $(this).val();
+                if (isSupportCity == 'true') {
+                    $(this).parent().find('#spnSupportCityNum').show();
+                }
+                else {
+                    $(this).parent().find('#spnSupportCityNum').hide();
+                }
+            });
+        });
+    </script>
+}
