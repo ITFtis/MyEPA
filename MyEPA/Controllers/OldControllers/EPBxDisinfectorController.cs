@@ -103,7 +103,10 @@ namespace MyEPA.Controllers
             string ROCyear = Request["EditROCyear"];
             int? UseType = Request["EditUseType"].TryToInt();
             string UserName = user.UserName;
-            string Msg = Disinfector.Update(Id, City, Town, ContactUnit, Instrument, Standard, Amount, ROCyear, UseType, UserName, null, null);
+
+            ////Brian 20240925：不知哪用臨時註解，避免影響欄位(IsSupportCity, SupportCityNum...)
+            ////string Msg = Disinfector.Update(Id, City, Town, ContactUnit, Instrument, Standard, Amount, ROCyear, UseType, UserName, null, null);
+            string Msg = "不知哪用臨時註解";
             ViewBag.Msg = Msg;
             ViewBag.City = City;
             return RedirectToAction("C3x1Disinfector", "Cleaner");
