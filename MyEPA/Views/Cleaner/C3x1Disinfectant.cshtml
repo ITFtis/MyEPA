@@ -29,91 +29,86 @@
         <div id="Edit" class="text-center" style="display:none; padding:0px; width:100%">
             @using (Html.BeginForm("Update", "CleanerxDisinfectant"))
             {
-            <table class="table table-bordered table-striped  text-center">
-                <tr>
-                    <td>編號：</td>
-                    <td>@Html.TextBox("EditId", (string)ViewBag.EditId, new { @readonly = "readonly", @class = "form-control rounded-0" })</td>
-                </tr>
-                <tr>
-                    <td>聯繫單位名稱：</td>
-                    <td>@Html.TextBox("EditContactUnit", (string)ViewBag.EditContactUnit, new { @class = "form-control rounded-0" })</td>
-                </tr>
-                <tr>
-                    <td>用途：</td>
-                    <td>
-                        <select id="EditUseType" Name="EditUseType">
-                            @foreach (var item in useTypes)
-                            {
-                                <option value="@item.ToInteger()">@item.GetDescription()</option>
-                            }
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>消毒藥品名稱：</td>
-                    <td>
-                        <select id="EditDrugName" Name="EditDrugName" onchange="ShowEditDrugNameText()">
-                            @foreach (var item in names)
-                            {
-                                <option value="@item.GetDescription()">@item.GetDescription()</option>
-                            }
-                        </select>
-                        @Html.TextBox("EditDrugNameText", "", new { style = "width:50%;align:left;display:none" })
-                    </td>
-                </tr>
+                <table class="table table-bordered table-striped  text-center">
+                    <tr>
+                        <td>編號：</td>
+                        <td>@Html.TextBox("EditId", (string)ViewBag.EditId, new { @readonly = "readonly", @class = "form-control rounded-0" })</td>
+                    </tr>
+                    <tr>
+                        <td>聯繫單位名稱：</td>
+                        <td>@Html.TextBox("EditContactUnit", (string)ViewBag.EditContactUnit, new { @class = "form-control rounded-0" })</td>
+                    </tr>
+                    <tr>
+                        <td>用途：</td>
+                        <td>
+                            <select id="EditUseType" Name="EditUseType">
+                                @foreach (var item in useTypes)
+                                {
+                                    <option value="@item.ToInteger()">@item.GetDescription()</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>消毒藥品名稱：</td>
+                        <td>
+                            <select id="EditDrugName" Name="EditDrugName" onchange="ShowEditDrugNameText()">
+                                @foreach (var item in names)
+                                {
+                                    <option value="@item.GetDescription()">@item.GetDescription()</option>
+                                }
+                            </select>
+                            @Html.TextBox("EditDrugNameText", "", new { style = "width:50%;align:left;display:none" })
+                        </td>
+                    </tr>
 
 
 
 
-                <tr>
-                    <td>有效成分1：</td>
-                    <td>
-                        @Html.DropDownList("ActiveIngredients1", new List<SelectListItem>
-                      {
-                          new SelectListItem{Text = "無",Value = "無"},
-                          new SelectListItem{Text = "除蟲菊酯類",Value = "除蟲菊酯類"},
-                          new SelectListItem{Text = "有機磷類",Value = "有機磷類"},
-                          new SelectListItem{Text = "氨基甲酸鹽類",Value = "氨基甲酸鹽類"},
-                          new SelectListItem{Text = "昆蟲生長調節劑",Value = "昆蟲生長調節劑"},
-                          new SelectListItem{Text = "殺菌劑",Value = "殺菌劑"},
-                          new SelectListItem{Text = "四級銨",Value = "四級銨"},
-                          new SelectListItem{Text = "有機磷類",Value = "有機磷類"},
-                          new SelectListItem{Text = "多重類",Value = "多重類"},
-                          new SelectListItem{Text = "蘇力菌",Value = "蘇力菌"},
-                          new SelectListItem{Text = "百利普芬",Value = "百利普芬"},
-                          new SelectListItem{Text = "類尼古丁",Value = "類尼古丁"},
-                          new SelectListItem{Text = "其他",Value = "其他"}
+                    <tr>
+                        <td>有效成分1：</td>
+                        <td>
+                            @Html.DropDownList("ActiveIngredients1", new List<SelectListItem>
+                          {
+                              new SelectListItem{Text = "無",Value = "無"},
+                              new SelectListItem{Text = "除蟲菊酯類",Value = "除蟲菊酯類"},
+                              new SelectListItem{Text = "有機磷類",Value = "有機磷類"},
+                              new SelectListItem{Text = "氨基甲酸鹽類",Value = "氨基甲酸鹽類"},
+                              new SelectListItem{Text = "昆蟲生長調節劑",Value = "昆蟲生長調節劑"},
+                              new SelectListItem{Text = "殺菌劑",Value = "殺菌劑"},
+                              new SelectListItem{Text = "四級銨",Value = "四級銨"},
+                              new SelectListItem{Text = "有機磷類",Value = "有機磷類"},
+                              new SelectListItem{Text = "多重類",Value = "多重類"},
+                              new SelectListItem{Text = "蘇力菌",Value = "蘇力菌"},
+                              new SelectListItem{Text = "百利普芬",Value = "百利普芬"},
+                              new SelectListItem{Text = "類尼古丁",Value = "類尼古丁"},
+                              new SelectListItem{Text = "其他",Value = "其他"}
 
-                      })
-                    </td>
-                </tr>
-                <tr>
-                    <td>有效成分2：</td>
-                    <td>
-                        @Html.DropDownList("ActiveIngredients2", new List<SelectListItem>
-                      {
-                          new SelectListItem{Text = "無",Value = "無"},
-                          new SelectListItem{Text = "除蟲菊酯類",Value = "除蟲菊酯類"},
-                          new SelectListItem{Text = "有機磷類",Value = "有機磷類"},
-                          new SelectListItem{Text = "氨基甲酸鹽類",Value = "氨基甲酸鹽類"},
-                          new SelectListItem{Text = "昆蟲生長調節劑",Value = "昆蟲生長調節劑"},
-                          new SelectListItem{Text = "殺菌劑",Value = "殺菌劑"},
-                          new SelectListItem{Text = "四級銨",Value = "四級銨"},
-                          new SelectListItem{Text = "有機磷類",Value = "有機磷類"},
-                          new SelectListItem{Text = "多重類",Value = "多重類"},
-                          new SelectListItem{Text = "蘇力菌",Value = "蘇力菌"},
-                          new SelectListItem{Text = "百利普芬",Value = "百利普芬"},
-                           new SelectListItem{Text = "類尼古丁",Value = "類尼古丁"},
-                          new SelectListItem{Text = "其他",Value = "其他"}
+                          })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>有效成分2：</td>
+                        <td>
+                            @Html.DropDownList("ActiveIngredients2", new List<SelectListItem>
+                          {
+                              new SelectListItem{Text = "無",Value = "無"},
+                              new SelectListItem{Text = "除蟲菊酯類",Value = "除蟲菊酯類"},
+                              new SelectListItem{Text = "有機磷類",Value = "有機磷類"},
+                              new SelectListItem{Text = "氨基甲酸鹽類",Value = "氨基甲酸鹽類"},
+                              new SelectListItem{Text = "昆蟲生長調節劑",Value = "昆蟲生長調節劑"},
+                              new SelectListItem{Text = "殺菌劑",Value = "殺菌劑"},
+                              new SelectListItem{Text = "四級銨",Value = "四級銨"},
+                              new SelectListItem{Text = "有機磷類",Value = "有機磷類"},
+                              new SelectListItem{Text = "多重類",Value = "多重類"},
+                              new SelectListItem{Text = "蘇力菌",Value = "蘇力菌"},
+                              new SelectListItem{Text = "百利普芬",Value = "百利普芬"},
+                               new SelectListItem{Text = "類尼古丁",Value = "類尼古丁"},
+                              new SelectListItem{Text = "其他",Value = "其他"}
 
-                      })
-                    </td>
-                </tr>
-
-
-
-
-
+                          })
+                        </td>
+                    </tr>
 
 
 
@@ -123,61 +118,81 @@
 
 
 
-                <tr>
-                    <td>種類：</td>
-                    <td>
-                        @Html.DropDownList("EditDrugType", new List<SelectListItem>
+
+
+
+
+
+                    <tr>
+                        <td>種類：</td>
+                        <td>
+                            @Html.DropDownList("EditDrugType", new List<SelectListItem>
+                           {
+                               new SelectListItem{Text = "殺菌劑",Value = "殺菌劑"}
+                               ,new SelectListItem{Text = "殺蟲劑",Value = "殺蟲劑"}
+                           })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>型態：</td>
+                        <td>
+                            @Html.DropDownList("EditDrugState", new List<SelectListItem>
                        {
-                           new SelectListItem{Text = "殺菌劑",Value = "殺菌劑"}
-                           ,new SelectListItem{Text = "殺蟲劑",Value = "殺蟲劑"}
+                           new SelectListItem{Text = "固體", Value = "固體"},
+                           new SelectListItem{Text = "液體",Value = "液體"},
+                            new SelectListItem{Text = "乳劑", Value = "乳劑"},
+                             new SelectListItem{Text = "油劑", Value = "油劑"}
                        })
-                    </td>
-                </tr>
-                <tr>
-                    <td>型態：</td>
-                    <td>
-                        @Html.DropDownList("EditDrugState", new List<SelectListItem>
-                   {
-                       new SelectListItem{Text = "固體", Value = "固體"},
-                       new SelectListItem{Text = "液體",Value = "液體"},
-                        new SelectListItem{Text = "乳劑", Value = "乳劑"},
-                         new SelectListItem{Text = "油劑", Value = "油劑"}
-                   })
 
-                    </td>
-                </tr>
-                <tr>
-                    <td>數量：</td>
-                    <td>@Html.TextBox("EditAmount", (string)ViewBag.EditAmount, new { style = "width:50%;align:left" }) (公升、公斤)</td>
-                </tr>
-                <tr>
-                    <td>濃度：</td>
-                    <td>@Html.TextBox("EditDensity", (string)ViewBag.EditDensity, new { style = "width:50%;align:left" })%</td>
-                </tr>
-                <tr>
-                    <td>可消毒面積：</td>
-                    <td>@Html.TextBox("EditArea", (decimal?)ViewBag.EditArea, new { style = "width:50%;align:left" })公頃</td>
-                </tr>
-                <tr>
-                    <td>使用年限：</td>
-                    <td>
-                        @if (ViewBag.EditServiceLife != null)
-                        {
-                            <input id="EditServiceLife" name="EditServiceLife" required style="width:50%;align:left" type="date" value="@(((DateTime)ViewBag.EditServiceLife).ToString("yyyy-MM-dd"))">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>數量：</td>
+                        <td>@Html.TextBox("EditAmount", (string)ViewBag.EditAmount, new { style = "width:50%;align:left" }) (公升、公斤)</td>
+                    </tr>
+                    <tr>
+                        <td>濃度：</td>
+                        <td>@Html.TextBox("EditDensity", (string)ViewBag.EditDensity, new { style = "width:50%;align:left" })%</td>
+                    </tr>
+                    <tr>
+                        <td>可消毒面積：</td>
+                        <td>@Html.TextBox("EditArea", (decimal?)ViewBag.EditArea, new { style = "width:50%;align:left" })公頃</td>
+                    </tr>
+                    <tr>
+                        <td>使用年限：</td>
+                        <td>
+                            @if (ViewBag.EditServiceLife != null)
+                            {
+                                <input id="EditServiceLife" name="EditServiceLife" required style="width:50%;align:left" type="date" value="@(((DateTime)ViewBag.EditServiceLife).ToString("yyyy-MM-dd"))">
 
-                        }
-                        else
-                        {
-                            <input id="EditServiceLife" name="EditServiceLife" required style="width:50%;align:left" type="date" value="">
-                        }
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" align="center">
-                        <input type="submit" class="btn" style="margin:10px" value="資料確認儲存" />
-                    </td>
-                </tr>
-            </table>
+                            }
+                            else
+                            {
+                                <input id="EditServiceLife" name="EditServiceLife" required style="width:50%;align:left" type="date" value="">
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>是否跨縣市調度：</td>
+                        <td>
+                            @Html.DropDownList("IsSupportCity", new List<SelectListItem>
+                               {
+                                    new SelectListItem{Text = "是", Value = "true"},
+                                    new SelectListItem{Text = "否", Value = "false"},
+                               })
+
+                            <span id="spnSupportCityNum">
+                                @Html.TextBox("SupportCityNum", "", new { type = "number" })
+                                台
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <input type="submit" class="btn" style="margin:10px" value="資料確認儲存" />
+                        </td>
+                    </tr>
+                </table>
 
                 <br /><br />
             }
@@ -186,42 +201,42 @@
             <br />
             @using (Html.BeginForm("Add", "CleanerxDisinfectant", FormMethod.Post, new { onsubmit = "return ValidateInput();" }))
             {
-        <table class="table table-bordered table-striped  text-center">
-            <tr>
-                <td>縣市</td>
-                <td>@ViewBag.City</td>
-            </tr>
-            <tr>
-                <td>鄉鎮市</td>
-                <td>@ViewBag.Town</td>
-            </tr>
-            <tr>
-                <td>聯繫單位名稱</td>
-                <td>@Html.TextBox("ContactUnit", "", new { style = "width:100%" })</td>
-            </tr>
-            <tr>
-                <td>用途：</td>
-                <td>
-                    <select id="UseType" Name="UseType">
-                        @foreach (var item in useTypes)
-                        {
-                            <option value="@item.ToInteger()">@item.GetDescription()</option>
-                        }
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>消毒藥品名稱</td>
-                <td>
-                    <select id="DrugName" Name="DrugName" onchange="ShowEditDrugNameText()">
-                        @foreach (var item in names)
-                        {
-                            <option value="@item.GetDescription()">@item.GetDescription()</option>
-                        }
-                    </select>
-                    <input id="DrugNameText" type="text" style="width:50%;display:none" onchange="changeDrugName()">
-                </td>
-            </tr>
+                <table class="table table-bordered table-striped  text-center">
+                    <tr>
+                        <td>縣市</td>
+                        <td>@ViewBag.City</td>
+                    </tr>
+                    <tr>
+                        <td>鄉鎮市</td>
+                        <td>@ViewBag.Town</td>
+                    </tr>
+                    <tr>
+                        <td>聯繫單位名稱</td>
+                        <td>@Html.TextBox("ContactUnit", "", new { style = "width:100%" })</td>
+                    </tr>
+                    <tr>
+                        <td>用途：</td>
+                        <td>
+                            <select id="UseType" Name="UseType">
+                                @foreach (var item in useTypes)
+                                {
+                                    <option value="@item.ToInteger()">@item.GetDescription()</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>消毒藥品名稱</td>
+                        <td>
+                            <select id="DrugName" Name="DrugName" onchange="ShowEditDrugNameText()">
+                                @foreach (var item in names)
+                                {
+                                    <option value="@item.GetDescription()">@item.GetDescription()</option>
+                                }
+                            </select>
+                            <input id="DrugNameText" type="text" style="width:50%;display:none" onchange="changeDrugName()">
+                        </td>
+                    </tr>
 
 
 
@@ -231,50 +246,48 @@
 
 
 
-            <tr>
-                <td>有效成分1：</td>
-                <td>
-                    @Html.DropDownList("ActiveIngredients1", new List<SelectListItem>
-                  {
-                      new SelectListItem{Text = "無",Value = "無"},
-                      new SelectListItem{Text = "除蟲菊酯類",Value = "除蟲菊酯類"},
-                      new SelectListItem{Text = "有機磷類",Value = "有機磷類"},
-                      new SelectListItem{Text = "氨基甲酸鹽類",Value = "氨基甲酸鹽類"},
-                      new SelectListItem{Text = "昆蟲生長調節劑",Value = "昆蟲生長調節劑"},
-                      new SelectListItem{Text = "殺菌劑",Value = "殺菌劑"},
-                      new SelectListItem{Text = "四級銨",Value = "四級銨"},
-                      new SelectListItem{Text = "有機磷類",Value = "有機磷類"},
-                      new SelectListItem{Text = "多重類",Value = "多重類"},
-                      new SelectListItem{Text = "蘇力菌",Value = "蘇力菌"},
-                      new SelectListItem{Text = "百利普芬",Value = "百利普芬"},
-                      new SelectListItem{Text = "其他",Value = "其他"}
+                    <tr>
+                        <td>有效成分1：</td>
+                        <td>
+                            @Html.DropDownList("ActiveIngredients1", new List<SelectListItem>
+                          {
+                              new SelectListItem{Text = "無",Value = "無"},
+                              new SelectListItem{Text = "除蟲菊酯類",Value = "除蟲菊酯類"},
+                              new SelectListItem{Text = "有機磷類",Value = "有機磷類"},
+                              new SelectListItem{Text = "氨基甲酸鹽類",Value = "氨基甲酸鹽類"},
+                              new SelectListItem{Text = "昆蟲生長調節劑",Value = "昆蟲生長調節劑"},
+                              new SelectListItem{Text = "殺菌劑",Value = "殺菌劑"},
+                              new SelectListItem{Text = "四級銨",Value = "四級銨"},
+                              new SelectListItem{Text = "有機磷類",Value = "有機磷類"},
+                              new SelectListItem{Text = "多重類",Value = "多重類"},
+                              new SelectListItem{Text = "蘇力菌",Value = "蘇力菌"},
+                              new SelectListItem{Text = "百利普芬",Value = "百利普芬"},
+                              new SelectListItem{Text = "其他",Value = "其他"}
 
-                  })
-                </td>
-            </tr>
-            <tr>
-                <td>有效成分2：</td>
-                <td>
-                    @Html.DropDownList("ActiveIngredients2", new List<SelectListItem>
-                  {
-                      new SelectListItem{Text = "無",Value = "無"},
-                      new SelectListItem{Text = "除蟲菊酯類",Value = "除蟲菊酯類"},
-                      new SelectListItem{Text = "有機磷類",Value = "有機磷類"},
-                      new SelectListItem{Text = "氨基甲酸鹽類",Value = "氨基甲酸鹽類"},
-                      new SelectListItem{Text = "昆蟲生長調節劑",Value = "昆蟲生長調節劑"},
-                      new SelectListItem{Text = "殺菌劑",Value = "殺菌劑"},
-                      new SelectListItem{Text = "四級銨",Value = "四級銨"},
-                      new SelectListItem{Text = "有機磷類",Value = "有機磷類"},
-                      new SelectListItem{Text = "多重類",Value = "多重類"},
-                      new SelectListItem{Text = "蘇力菌",Value = "蘇力菌"},
-                      new SelectListItem{Text = "百利普芬",Value = "百利普芬"},
-                      new SelectListItem{Text = "其他",Value = "其他"}
+                          })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>有效成分2：</td>
+                        <td>
+                            @Html.DropDownList("ActiveIngredients2", new List<SelectListItem>
+                          {
+                              new SelectListItem{Text = "無",Value = "無"},
+                              new SelectListItem{Text = "除蟲菊酯類",Value = "除蟲菊酯類"},
+                              new SelectListItem{Text = "有機磷類",Value = "有機磷類"},
+                              new SelectListItem{Text = "氨基甲酸鹽類",Value = "氨基甲酸鹽類"},
+                              new SelectListItem{Text = "昆蟲生長調節劑",Value = "昆蟲生長調節劑"},
+                              new SelectListItem{Text = "殺菌劑",Value = "殺菌劑"},
+                              new SelectListItem{Text = "四級銨",Value = "四級銨"},
+                              new SelectListItem{Text = "有機磷類",Value = "有機磷類"},
+                              new SelectListItem{Text = "多重類",Value = "多重類"},
+                              new SelectListItem{Text = "蘇力菌",Value = "蘇力菌"},
+                              new SelectListItem{Text = "百利普芬",Value = "百利普芬"},
+                              new SelectListItem{Text = "其他",Value = "其他"}
 
-                  })
-                </td>
-            </tr>
-
-
+                          })
+                        </td>
+                    </tr>
 
 
 
@@ -286,54 +299,71 @@
 
 
 
-            <tr>
-                <td>類別</td>
-                <td>
-                    @Html.DropDownList("DrugType", new List<SelectListItem>
-             {
-                 new SelectListItem{Text = "殺菌劑",Value = "殺菌劑"}
-                 ,new SelectListItem{Text = "殺蟲劑",Value = "殺蟲劑"}
-             })
-                </td>
-            </tr>
-            <tr>
-                <td>狀態</td>
-                <td>
-                    @Html.DropDownList("DrugState", new List<SelectListItem>
-               {
-                     new SelectListItem{Text = "固體", Value = "固體",Selected=true },
-                     new SelectListItem{Text = "液體",Value = "液體"},
-                     new  SelectListItem{Text = "乳劑", Value = "乳劑"},
-                     new SelectListItem{Text = "油劑", Value = "油劑"}
 
-               })
 
-                </td>
-            </tr>
-            <tr>
-                <td>數量</td>
-                <td> @Html.TextBox("Amount", "", new { style = "width:50%;align:left" }) (公升、公斤)</td>
-            </tr>
-            <tr>
-                <td>濃度</td>
-                <td> @Html.TextBox("Density", "", new { style = "width:50%;align:left" })%</td>
-            </tr>
-            <tr>
-                <td>可消毒面積</td>
-                <td> @Html.TextBox("Area", "", new { style = "width:50%;align:left" }) 公頃</td>
-            </tr>
-            <tr>
-                <td>使用年限</td>
-                <td>
-                    <input id="ServiceLife" name="ServiceLife" required style="width:50%;align:left" type="date" value="">
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" align="center">
-                    <input type="submit" class="btn" style="margin:10px" value="資料確認儲存" onsubmit="return ValidateInput();" />
-                </td>
-            </tr>
-        </table>
+                    <tr>
+                        <td>類別</td>
+                        <td>
+                            @Html.DropDownList("DrugType", new List<SelectListItem>
+                     {
+                         new SelectListItem{Text = "殺菌劑",Value = "殺菌劑"}
+                         ,new SelectListItem{Text = "殺蟲劑",Value = "殺蟲劑"}
+                     })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>狀態</td>
+                        <td>
+                            @Html.DropDownList("DrugState", new List<SelectListItem>
+                       {
+                             new SelectListItem{Text = "固體", Value = "固體",Selected=true },
+                             new SelectListItem{Text = "液體",Value = "液體"},
+                             new  SelectListItem{Text = "乳劑", Value = "乳劑"},
+                             new SelectListItem{Text = "油劑", Value = "油劑"}
+
+                       })
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>數量</td>
+                        <td> @Html.TextBox("Amount", "", new { style = "width:50%;align:left" }) (公升、公斤)</td>
+                    </tr>
+                    <tr>
+                        <td>濃度</td>
+                        <td> @Html.TextBox("Density", "", new { style = "width:50%;align:left" })%</td>
+                    </tr>
+                    <tr>
+                        <td>可消毒面積</td>
+                        <td> @Html.TextBox("Area", "", new { style = "width:50%;align:left" }) 公頃</td>
+                    </tr>
+                    <tr>
+                        <td>使用年限</td>
+                        <td>
+                            <input id="ServiceLife" name="ServiceLife" required style="width:50%;align:left" type="date" value="">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>是否跨縣市調度：</td>
+                        <td>
+                            @Html.DropDownList("IsSupportCity", new List<SelectListItem>
+                               {
+                                    new SelectListItem{Text = "是", Value = "true"},
+                                    new SelectListItem{Text = "否", Value = "false"},
+                               })
+
+                            <span id="spnSupportCityNum">
+                                @Html.TextBox("SupportCityNum", "", new { type = "number" })
+                                台
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <input type="submit" class="btn" style="margin:10px" value="資料確認儲存" onsubmit="return ValidateInput();" />
+                        </td>
+                    </tr>
+                </table>
             }
         </div>
     </div>
@@ -348,7 +378,7 @@
 
     function changeDrugName() {
         $("#DrugName").prepend("<option value='" + $("#DrugNameText").val() + "'selected>" + $("#DrugNameText").val() + "</option>");
-           
+
 
 
     }
@@ -379,6 +409,8 @@
             debugger;
             $("#EditUseType").val(data.UseType);
             console.log(data.UseType);
+            $("#IsSupportCity").val(data.IsSupportCity.toString()).change();
+            $("#SupportCityNum").val(data.SupportCityNum);
         }).done(function () {
 
             if ($("#EditDrugName").val() == null) {
@@ -394,13 +426,13 @@
         });
     }
     function ShowEditDrugNameText() {
-       
+
 
         if ($("#EditDrugName").val() == "其他") {
-                 $("#EditDrugNameText").show()
-            }
-            else {
-                $("#EditDrugNameText").hide()
+            $("#EditDrugNameText").show()
+        }
+        else {
+            $("#EditDrugNameText").hide()
         }
 
 
@@ -447,4 +479,30 @@
     }
 </script>
 
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            //Add(跨縣市)
+            $("#AddArea #IsSupportCity").on("change", function () {
+                var isSupportCity = $(this).val();
+                if (isSupportCity == 'true') {
+                    $(this).parent().find('#spnSupportCityNum').show();
+                }
+                else {
+                    $(this).parent().find('#spnSupportCityNum').hide();
+                }
+            });
 
+            //Edit(跨縣市)
+            $("#Edit #IsSupportCity").on("change", function () {
+                var isSupportCity = $(this).val();
+                if (isSupportCity == 'true') {
+                    $(this).parent().find('#spnSupportCityNum').show();
+                }
+                else {
+                    $(this).parent().find('#spnSupportCityNum').hide();
+                }
+            });
+        });
+    </script>
+}

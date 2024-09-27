@@ -39,6 +39,10 @@ namespace MyEPA.Models
         public decimal Area { get; set; }
         [DisplayName("使用年限")]
         public DateTime? ServiceLife { get; set; }
+        [DisplayName("是否跨縣市調度")]
+        public bool? IsSupportCity { get; set; }
+        [DisplayName("跨縣市調度數量")]
+        public int? SupportCityNum { get; set; }
         [DisplayName("資料更新日期")]
         public DateTime? UpdateTime { get; set; }
         [DisplayName("資料更新者")]
@@ -52,12 +56,15 @@ namespace MyEPA.Models
         public string ActiveIngredients1 { get; set; }
         public string ActiveIngredients2 { get; set; }
 
-        public String Update(string Id, string City, string Town, string ContactUnit,string DrugName, string DrugType, string DrugState, string Amount, string Density, string Area, string ServiceLife,int UseType, string ActiveIngredients1, string ActiveIngredients2, string UserName)
+        public String Update(string Id, string City, string Town, string ContactUnit,string DrugName, string DrugType, string DrugState, string Amount, string Density, string Area, string ServiceLife,int UseType, string ActiveIngredients1, string ActiveIngredients2, string UserName, bool? IsSupportCity, int? SupportCityNum)
         {
             try
             {         
                 X.Open();
-                string G = "Update Disinfectant Set ContactUnit=@ContactUnit, DrugName=@DrugName, DrugType=@DrugType,DrugState=@DrugState, Amount=@Amount, Density=@Density, Area =@Area, ServiceLife=@ServiceLife,UseType=@UseType,UpdateTime=@UpdateTime,UpdateUser=@UpdateUser,ConfirmTime=@UpdateTime,ActiveIngredients1=@ActiveIngredients1,ActiveIngredients2=@ActiveIngredients2 where Id=@Id";
+                string G = @"Update Disinfectant Set ContactUnit=@ContactUnit, DrugName=@DrugName, DrugType=@DrugType,DrugState=@DrugState, Amount=@Amount, Density=@Density, Area =@Area, ServiceLife=@ServiceLife,UseType=@UseType,UpdateTime=@UpdateTime,UpdateUser=@UpdateUser,ConfirmTime=@UpdateTime,ActiveIngredients1=@ActiveIngredients1,ActiveIngredients2=@ActiveIngredients2 
+, IsSupportCity = @IsSupportCity
+, SupportCityNum = @SupportCityNum
+where Id=@Id";
 
                 //string G = "Update Disinfectant Set ContactUnit=@ContactUnit, DrugName=@DrugName, DrugType=@DrugType,DrugState=@DrugState, Amount=@Amount, Density=@Density, Area =@Area, ServiceLife=@ServiceLife, UpdateTime=@UpdateTime where Id=@Id";
                 SqlCommand Q = new SqlCommand(G, X);
@@ -75,6 +82,8 @@ namespace MyEPA.Models
                 Q.Parameters.AddWithValue("@UseType", UseType);
                 Q.Parameters.AddWithValue("@ActiveIngredients1", ActiveIngredients1);
                 Q.Parameters.AddWithValue("@ActiveIngredients2", ActiveIngredients2);
+                Q.Parameters.AddWithValue("@IsSupportCity", IsSupportCity);
+                Q.Parameters.AddWithValue("@SupportCityNum", SupportCityNum);
                 // HH表示24小時，hh表示12小時
                 // 之前網站上傳到 gear.host之後，會呈現主機的美國時間
                 // 以下方法讓網站上傳到哪，都呈現臺北時間

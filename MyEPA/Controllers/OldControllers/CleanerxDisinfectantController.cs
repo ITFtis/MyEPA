@@ -24,11 +24,22 @@ namespace MyEPA.Controllers
         public ActionResult Add(DisinfectantModel model)
         {
             var user = GetUserBrief();
+
+            bool isSupportCity = Request["IsSupportCity"].ToString() == "" ? false : bool.Parse(Request["IsSupportCity"]);
+            int supportCityNum = Request["SupportCityNum"].ToString() == "" ? 0 : int.Parse(Request["SupportCityNum"]);
+
+            if (!isSupportCity)
+            {
+                supportCityNum = 0;
+            }
+
             model.UpdateUser = user.UserName;
             model.UpdateTime = DateTimeHelper.GetCurrentTime();
             model.ConfirmTime = model.UpdateTime;
             model.City = user.City;
             model.Town = user.Town;
+            model.IsSupportCity = isSupportCity;
+            model.SupportCityNum = supportCityNum;
             DisinfectantRepository.Create(model);
             ViewBag.Msg = "新增成功";
 
@@ -102,6 +113,8 @@ namespace MyEPA.Controllers
             string Density = Item.Density;
             decimal Area = Item.Area;
             int UseType = Item.UseType;
+            bool? IsSupportCity = Item.IsSupportCity;
+            int? SupportCityNum = Item.SupportCityNum;
             //DateTime ServiceLife = Item.ServiceLife;            
             string ServiceLife = Item.ServiceLife == null ? "" : ((DateTime)Item.ServiceLife).ToString("yyyy-MM-dd");
             //因為編輯資料後，要回B1a4的View頁面，ˋ
@@ -112,7 +125,7 @@ namespace MyEPA.Controllers
             ViewBag.Data = ItemList;
             ViewBag.Msg = string.Empty;
 
-            return Json(new { ActiveIngredients1, ActiveIngredients2, City, Town, ContactUnit, DrugName, DrugType, DrugState, Amount, Density, Area, ServiceLife = ServiceLife, UseType }, JsonRequestBehavior.AllowGet);
+            return Json(new { ActiveIngredients1, ActiveIngredients2, City, Town, ContactUnit, DrugName, DrugType, DrugState, Amount, Density, Area, ServiceLife = ServiceLife, UseType, IsSupportCity, SupportCityNum }, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -136,8 +149,15 @@ namespace MyEPA.Controllers
             string ActiveIngredients1 = Request["ActiveIngredients1"];
             string ActiveIngredients2 = Request["ActiveIngredients2"];
             int UseType = Request["EditUseType"].TryToInt().GetValueOrDefault();
-            
-            string Msg = Disinfectant.Update(Id, City, Town, ContactUnit, DrugName, DrugType, DrugState, Amount, Density, Area, ServiceLife, UseType, ActiveIngredients1, ActiveIngredients2, UserName);
+            bool IsSupportCity = Request["IsSupportCity"].ToString() == "" ? false : bool.Parse(Request["IsSupportCity"]);
+            int SupportCityNum = Request["SupportCityNum"].ToString() == "" ? 0 : int.Parse(Request["SupportCityNum"]);
+
+            if (!IsSupportCity)
+            {
+                SupportCityNum = 0;
+            }
+
+            string Msg = Disinfectant.Update(Id, City, Town, ContactUnit, DrugName, DrugType, DrugState, Amount, Density, Area, ServiceLife, UseType, ActiveIngredients1, ActiveIngredients2, UserName, IsSupportCity, SupportCityNum);
 
             return RedirectToAction("C3x1Disinfectant", "Cleaner");
         }
