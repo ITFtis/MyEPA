@@ -5,3 +5,7 @@ alter Table Disinfector add [IsSupportCity] [bit] NULL
 alter Table Disinfector add [SupportCityNum] [int] NULL
 
 
+--2.·s¼WÄæ¦ì Disinfectant(IsSupportCity)
+alter Table Disinfectant add [IsSupportCity] [bit] NULL
+alter Table Disinfectant add [SupportCityNum] [int] NULL
+
