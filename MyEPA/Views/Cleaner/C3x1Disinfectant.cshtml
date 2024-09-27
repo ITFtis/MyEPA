@@ -409,7 +409,8 @@
             debugger;
             $("#EditUseType").val(data.UseType);
             console.log(data.UseType);
-            $("#IsSupportCity").val(data.IsSupportCity.toString()).change();
+            if (data.IsSupportCity != null)
+                $("#IsSupportCity").val(data.IsSupportCity.toString()).change();
             $("#SupportCityNum").val(data.SupportCityNum);
         }).done(function () {
 
