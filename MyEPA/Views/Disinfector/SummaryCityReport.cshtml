@@ -3,6 +3,9 @@
 @{
     ViewBag.Title = "消毒設備報表";
     Layout = "~/Views/_Layout.cshtml";
+
+    //跨縣市調度
+    List<MyEPA.Models.DisinfectorSummaryCityReportModel> SupportCitys = ViewBag.SupportCitys as List<MyEPA.Models.DisinfectorSummaryCityReportModel>;
 }
 @section styles{
     <link href="~/tablesorter/jq.css" rel="stylesheet" />
@@ -136,25 +139,25 @@
     </thead>
     @foreach (var item in Model)
     {
-<tr>
-    <td>
-        @item.Sort
-    </td>
-    <td>
-        @Html.ActionLink(item.City, "SummaryTownReport", new { CityId = item.CityId })
-    </td>
-    <td>
-        <a href="@Url.Action("TownReport", "Disinfector", new { CityId = item.CityId, Name = DisinfectorNameEnum.Sprayer.GetDescription() })">@item.SprayerCount</a>
-    </td>
-    <td>
-        <a href="@Url.Action("TownReport", "Disinfector", new { CityId = item.CityId, Name = DisinfectorNameEnum.Disinfector.GetDescription() })">@item.DisinfectorCount</a>
-    </td>
-    <td>
-        <a href="@Url.Action("TownReport", "Disinfector", new { CityId = item.CityId, Name = DisinfectorNameEnum.HotSmokeSachine.GetDescription() })">@item.HotSmokeSachineCount</a>
-    </td>
-    <td>
-        <a href="@Url.Action("TownReport", "Disinfector", new { CityId = item.CityId, Name = DisinfectorNameEnum.PressureWasher.GetDescription() })">@item.PressureWasherCount</a>
-    </td>
+        <tr>
+            <td>
+                @item.Sort
+            </td>
+            <td>
+                @Html.ActionLink(item.City, "SummaryTownReport", new { CityId = item.CityId })
+            </td>
+            <td>
+                <a href="@Url.Action("TownReport", "Disinfector", new { CityId = item.CityId, Name = DisinfectorNameEnum.Sprayer.GetDescription() })">@item.SprayerCount</a>
+            </td>
+            <td>
+                <a href="@Url.Action("TownReport", "Disinfector", new { CityId = item.CityId, Name = DisinfectorNameEnum.Disinfector.GetDescription() })">@item.DisinfectorCount</a>
+            </td>
+            <td>
+                <a href="@Url.Action("TownReport", "Disinfector", new { CityId = item.CityId, Name = DisinfectorNameEnum.HotSmokeSachine.GetDescription() })">@item.HotSmokeSachineCount</a>
+            </td>
+            <td>
+                <a href="@Url.Action("TownReport", "Disinfector", new { CityId = item.CityId, Name = DisinfectorNameEnum.PressureWasher.GetDescription() })">@item.PressureWasherCount</a>
+            </td>
 
 
 
@@ -163,18 +166,18 @@
 
 
 
-    <td>
-        <a href="@Url.Action("TownReport", "Disinfector", new { CityId = item.CityId, Name = DisinfectorNameEnum.SprayerCAR.GetDescription() })">@item.SprayerCAR</a>
-    </td>
-    <td>
-        <a href="@Url.Action("TownReport", "Disinfector", new { CityId = item.CityId, Name = DisinfectorNameEnum.SprayeSrHI.GetDescription() })">@item.SprayeSrHI</a>
-    </td>
-    <td>
-        <a href="@Url.Action("TownReport", "Disinfector", new { CityId = item.CityId, Name = DisinfectorNameEnum.SprayeSrLO.GetDescription() })">@item.SprayeSrLO</a>
-    </td>
-    <td>
-        <a href="@Url.Action("TownReport", "Disinfector", new { CityId = item.CityId, Name = DisinfectorNameEnum.SMOK.GetDescription() })">@item.SMOK</a>
-    </td>
+            <td>
+                <a href="@Url.Action("TownReport", "Disinfector", new { CityId = item.CityId, Name = DisinfectorNameEnum.SprayerCAR.GetDescription() })">@item.SprayerCAR</a>
+            </td>
+            <td>
+                <a href="@Url.Action("TownReport", "Disinfector", new { CityId = item.CityId, Name = DisinfectorNameEnum.SprayeSrHI.GetDescription() })">@item.SprayeSrHI</a>
+            </td>
+            <td>
+                <a href="@Url.Action("TownReport", "Disinfector", new { CityId = item.CityId, Name = DisinfectorNameEnum.SprayeSrLO.GetDescription() })">@item.SprayeSrLO</a>
+            </td>
+            <td>
+                <a href="@Url.Action("TownReport", "Disinfector", new { CityId = item.CityId, Name = DisinfectorNameEnum.SMOK.GetDescription() })">@item.SMOK</a>
+            </td>
 
 
 
@@ -182,19 +185,206 @@
 
 
 
-    <td>
-        <a href="@Url.Action("TownReport", "Disinfector", new { CityId = item.CityId, Name = DisinfectorNameEnum.Other.GetDescription() })">@item.OtherCount</a>
-    </td>
-    <td>
-        @(item.UpdateTime.HasValue ? item.UpdateTime.Value.ToString("yyyy/MM/dd HH:mm") : string.Empty)
-    </td>
-    <td>
-        @(item.ConfirmTime.HasValue ? item.ConfirmTime.Value.ToString("yyyy/MM/dd HH:mm") : string.Empty)
-    </td>
-</tr>
+            <td>
+                <a href="@Url.Action("TownReport", "Disinfector", new { CityId = item.CityId, Name = DisinfectorNameEnum.Other.GetDescription() })">@item.OtherCount</a>
+            </td>
+            <td>
+                @(item.UpdateTime.HasValue ? item.UpdateTime.Value.ToString("yyyy/MM/dd HH:mm") : string.Empty)
+            </td>
+            <td>
+                @(item.ConfirmTime.HasValue ? item.ConfirmTime.Value.ToString("yyyy/MM/dd HH:mm") : string.Empty)
+            </td>
+        </tr>
     }
 
 </table>
+
+@*跨縣市調度*@
+<div class="container-fluid">
+    <div class="row">
+        <h3>跨縣市調度</h3>
+    </div>
+</div>
+<table class="table1">
+    <thead>
+        <tr>
+            <th colspan="2">
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SprayerCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DisinfectorCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HotSmokeSachineCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PressureWasherCount)
+            </th>
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.SprayerCAR)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SprayeSrHI)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SprayeSrLO)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SMOK)
+            </th>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.OtherCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConfirmTime)
+            </th>
+        </tr>
+        <tr>
+            <th colspan="2">
+                合計
+            </th>
+            <th>
+                @SupportCitys.Sum(e => e.SprayerCount)
+            </th>
+            <th>
+                @SupportCitys.Sum(e => e.DisinfectorCount)
+            </th>
+            <th>
+                @SupportCitys.Sum(e => e.HotSmokeSachineCount)
+            </th>
+            <th>
+                @SupportCitys.Sum(e => e.PressureWasherCount)
+            </th>
+
+
+
+
+
+
+
+            <th>
+                @SupportCitys.Sum(e => e.SprayerCAR)
+            </th>
+
+            <th>
+                @SupportCitys.Sum(e => e.SprayeSrHI)
+            </th>
+            <th>
+                @SupportCitys.Sum(e => e.SprayeSrLO)
+            </th>
+            <th>
+                @SupportCitys.Sum(e => e.SMOK)
+            </th>
+
+
+
+
+
+
+
+            <th>
+                @SupportCitys.Sum(e => e.OtherCount)
+            </th>
+            <th colspan="2">
+
+            </th>
+        </tr>
+    </thead>
+    @foreach (var item in @SupportCitys)
+    {
+        <tr>
+            <td>
+                @item.Sort
+            </td>
+            <td>
+                @*@Html.ActionLink(item.City, "SummaryTownReport", new { CityId = item.CityId })*@
+                @item.City
+            </td>
+            <td>
+                @*<a href="@Url.Action("TownReport", "Disinfector", new { CityId = item.CityId, Name = DisinfectorNameEnum.Sprayer.GetDescription() })">@item.SprayerCount</a>*@
+                @item.SprayerCount
+            </td>
+            <td>
+                @*<a href="@Url.Action("TownReport", "Disinfector", new { CityId = item.CityId, Name = DisinfectorNameEnum.Disinfector.GetDescription() })">@item.DisinfectorCount</a>*@
+                @item.DisinfectorCount
+            </td>
+            <td>
+                @*<a href="@Url.Action("TownReport", "Disinfector", new { CityId = item.CityId, Name = DisinfectorNameEnum.HotSmokeSachine.GetDescription() })">@item.HotSmokeSachineCount</a>*@
+                @item.HotSmokeSachineCount
+            </td>
+            <td>
+                @*<a href="@Url.Action("TownReport", "Disinfector", new { CityId = item.CityId, Name = DisinfectorNameEnum.PressureWasher.GetDescription() })">@item.PressureWasherCount</a>*@
+                @item.PressureWasherCount
+            </td>
+
+
+
+
+
+
+
+
+            <td>
+                @*<a href="@Url.Action("TownReport", "Disinfector", new { CityId = item.CityId, Name = DisinfectorNameEnum.SprayerCAR.GetDescription() })">@item.SprayerCAR</a>*@
+                @item.SprayerCAR
+            </td>
+            <td>
+                @*<a href="@Url.Action("TownReport", "Disinfector", new { CityId = item.CityId, Name = DisinfectorNameEnum.SprayeSrHI.GetDescription() })">@item.SprayeSrHI</a>*@
+                @item.SprayeSrHI
+            </td>
+            <td>
+                @*<a href="@Url.Action("TownReport", "Disinfector", new { CityId = item.CityId, Name = DisinfectorNameEnum.SprayeSrLO.GetDescription() })">@item.SprayeSrLO</a>*@
+                @item.SprayeSrLO
+            </td>
+            <td>
+                @*<a href="@Url.Action("TownReport", "Disinfector", new { CityId = item.CityId, Name = DisinfectorNameEnum.SMOK.GetDescription() })">@item.SMOK</a>*@
+                @item.SMOK
+            </td>
+
+
+
+
+
+
+
+            <td>
+                @*<a href="@Url.Action("TownReport", "Disinfector", new { CityId = item.CityId, Name = DisinfectorNameEnum.Other.GetDescription() })">@item.OtherCount</a>*@
+                @item.OtherCount
+            </td>
+            <td>
+                @(item.UpdateTime.HasValue ? item.UpdateTime.Value.ToString("yyyy/MM/dd HH:mm") : string.Empty)
+            </td>
+            <td>
+                @(item.ConfirmTime.HasValue ? item.ConfirmTime.Value.ToString("yyyy/MM/dd HH:mm") : string.Empty)
+            </td>
+        </tr>
+    }
+
+</table>
+
 @section scripts{
     <script src="~/tablesorter/jquery-latest.min.js"></script>
     <script src="~/tablesorter/prettify.js"></script>

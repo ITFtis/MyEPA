@@ -64,6 +64,37 @@ namespace MyEPA.Services
 
             return query.Values.OrderBy(e => e.Sort).ToList();
         }
+
+        //跨縣市調度
+        public List<DisinfectorSummaryCityReportModel> GetSupportCityReport()
+        {
+            var query = DisinfectorRepository.GetSupportCityReport().ToDictionary(e => e.City, e => e);
+            var citys = CityRepository.GetListByFilter(new CityFilterParameter
+            {
+                IsCounty = true
+            });
+
+            foreach (var item in citys)
+            {
+                if (query.ContainsKey(item.City) == false)
+                {
+                    query.Add(item.City, new DisinfectorSummaryCityReportModel
+                    {
+                        Sort = item.Sort,
+                        City = item.City,
+                        CityId = item.Id
+                    });
+                }
+                else
+                {
+                    query[item.City].CityId = item.Id;
+                    query[item.City].Sort = item.Sort;
+                }
+            }
+
+            return query.Values.OrderBy(e => e.Sort).ToList();
+        }
+
         public List<DisinfectorSummaryTownReportModel> GetSummaryTownReport(int cityId)
         {
             var query = DisinfectorRepository.GetSummaryTownReport();

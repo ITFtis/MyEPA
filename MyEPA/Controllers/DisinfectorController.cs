@@ -27,6 +27,10 @@ namespace MyEPA.Controllers
         public ActionResult SummaryCityReport()
         {
             var result = DisinfectorService.GetSummaryCityReport();
+
+            //跨縣市調度
+            ViewBag.SupportCitys = DisinfectorService.GetSupportCityReport();
+
             return View(result);
         }
         [Route("Disinfector/DownSummaryCityReport/{file}")]
