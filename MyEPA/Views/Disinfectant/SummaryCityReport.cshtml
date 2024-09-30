@@ -3,6 +3,9 @@
 @{
     ViewBag.Title = "消毒藥劑報表";
     Layout = "~/Views/_Layout.cshtml";
+
+    //跨縣市調度
+    List<MyEPA.Models.DisinfectantSummaryCityReportModel> SupportCitys = ViewBag.SupportCitys as List<MyEPA.Models.DisinfectantSummaryCityReportModel>;
 }
 @section styles{
     <link href="~/tablesorter/jq.css" rel="stylesheet" />
@@ -114,21 +117,121 @@
     }
 
 </table>
-    @section scripts{
-        <script src="~/tablesorter/jquery-latest.min.js"></script>
-        <script src="~/tablesorter/prettify.js"></script>
-        <script src="~/tablesorter/docs.js"></script>
-        <script src="~/tablesorter/jquery.tablesorter.js"></script>
-        <script>
-            $(function () {
 
-                // initial sort set using sortList option
-                $(".table1").tablesorter({
-                    theme: 'blue',
-                    // sort on the first column and second column in ascending order
-                    sortList: [[0, 0], [1, 0]]
-                });
+<div class="container-fluid">
+    <div class="row">
+        <h3>跨縣市調度</h3>
+    </div>
+</div>
+<table class="table1">
+    <thead>
+        <tr>
+            <th colspan="2">
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EnvironmentCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DengueCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RIFACount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TessaratomaPapillosaDruryCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OtherCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConfirmTime)
+            </th>
+        </tr>
 
-            });
-        </script>
+        <tr>
+            <th colspan="2">
+                合計
+            </th>
+            <th>
+                @SupportCitys.Sum(e => e.EnvironmentCount)
+            </th>
+            <th>
+                @SupportCitys.Sum(e => e.DengueCount)
+            </th>
+            <th>
+                @SupportCitys.Sum(e => e.RIFACount)
+            </th>
+            <th>
+                @SupportCitys.Sum(e => e.TessaratomaPapillosaDruryCount)
+            </th>
+            <th>
+                @SupportCitys.Sum(e => e.OtherCount)
+            </th>
+            <th colspan="2">
+
+            </th>
+        </tr>
+    </thead>
+    @foreach (var item in SupportCitys)
+    {
+        <tr>
+            <td>
+                @item.Sort
+            </td>
+            <td>
+                @*@Html.ActionLink(item.City, "SummaryTownReport", new { CityId = item.CityId })*@
+                @item.City
+            </td>
+            <td>
+                @*<a href="@Url.Action("TownReport", "Disinfectant", new { CityId = item.CityId, UseType = DisinfectantUseTypeEnum.Environment })">@item.EnvironmentCount</a>*@
+                @item.EnvironmentCount
+            </td>
+            <td>
+                @*<a href="@Url.Action("TownReport", "Disinfectant", new { CityId = item.CityId, UseType = DisinfectantUseTypeEnum.Dengue })">@item.DengueCount</a>*@
+                @item.DengueCount
+            </td>
+            <td>
+                @*<a href="@Url.Action("TownReport", "Disinfectant", new { CityId = item.CityId, UseType = DisinfectantUseTypeEnum.RIFA })">@item.RIFACount</a>*@
+                @item.RIFACount
+            </td>
+            <td>
+                @*<a href="@Url.Action("TownReport", "Disinfectant", new { CityId = item.CityId, UseType = DisinfectantUseTypeEnum.TessaratomaPapillosaDrury })">@item.TessaratomaPapillosaDruryCount</a>*@
+                @item.TessaratomaPapillosaDruryCount
+            </td>
+            <td>
+                @*<a href="@Url.Action("TownReport", "Disinfectant", new { CityId = item.CityId, UseType = DisinfectantUseTypeEnum.Other })">@item.OtherCount</a>*@
+                @item.OtherCount
+            </td>
+            <td>
+                @(item.UpdateTime.HasValue?item.UpdateTime.Value.ToString("yyyy/MM/dd HH:mm"): string.Empty)
+            </td>
+            <td>
+                @(item.ConfirmTime.HasValue ? item.ConfirmTime.Value.ToString("yyyy/MM/dd HH:mm") : string.Empty)
+            </td>
+        </tr>
     }
+
+</table>
+
+@section scripts{
+    <script src="~/tablesorter/jquery-latest.min.js"></script>
+    <script src="~/tablesorter/prettify.js"></script>
+    <script src="~/tablesorter/docs.js"></script>
+    <script src="~/tablesorter/jquery.tablesorter.js"></script>
+    <script>
+        $(function () {
+
+            // initial sort set using sortList option
+            $(".table1").tablesorter({
+                theme: 'blue',
+                // sort on the first column and second column in ascending order
+                sortList: [[0, 0], [1, 0]]
+            });
+
+        });
+    </script>
+}

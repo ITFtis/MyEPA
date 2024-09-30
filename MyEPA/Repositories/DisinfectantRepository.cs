@@ -103,6 +103,60 @@ GROUP BY T.City";
             return GetListBySQL<DisinfectantSummaryCityReportModel>(sql);
         }
 
+        //跨縣市調度
+        private string GetSupportCityTownReportSQL()
+        {
+            string sql = @"
+SELECT 
+		p.City
+		, p.Town
+		,ISNULL(SUM(p.[1]),0) EnvironmentCount
+		,ISNULL(SUM(p.[2]),0) DengueCount
+		,ISNULL(SUM(p.[3]),0) RIFACount
+		,ISNULL(SUM(p.[4]),0) TessaratomaPapillosaDruryCount
+		,ISNULL(SUM(p.[5]),0) OtherCount
+		,MAX(UpdateTime)UpdateTime
+		,MAX(ConfirmTime) ConfirmTime
+	FROM (
+		SELECT City,Town,UseType,MAX(UpdateTime)UpdateTime,MAX(ConfirmTime)ConfirmTime,
+               SUM(Case When ISNULL(IsSupportCity, '') = 1 Then ISNULL(SupportCityNum, 0) Else 0 End) AS SupportCityNum
+		FROM Disinfectant
+		WHERE UseType IS NOT NULL
+		GROUP BY City,Town, UseType
+	) t 
+	PIVOT (
+		-- 設定彙總欄位及方式
+		MAX(SupportCityNum) 
+		-- 設定轉置欄位，並指定轉置欄位中需彙總的條件值作為新欄位
+		FOR UseType IN ([1],[2],[3],[4],[5])
+	) p
+	GROUP BY p.City,p.Town
+";
+            return sql;
+        }
+
+        //跨縣市調度
+        public List<DisinfectantSummaryCityReportModel> GetSupportCityReport()
+        {
+            string townSql = GetSupportCityTownReportSQL();
+            string sql = $@"
+SELECT
+	T.City
+	,ISNULL(SUM(T.EnvironmentCount),0) EnvironmentCount
+	,ISNULL(SUM(T.DengueCount),0) DengueCount
+	,ISNULL(SUM(T.RIFACount),0) RIFACount
+	,ISNULL(SUM(T.TessaratomaPapillosaDruryCount),0) TessaratomaPapillosaDruryCount
+	,ISNULL(SUM(T.OtherCount),0) OtherCount
+	,MAX(UpdateTime)UpdateTime
+	,MAX(ConfirmTime) ConfirmTime
+FROM
+(
+	{townSql}
+) T
+GROUP BY T.City";
+            return GetListBySQL<DisinfectantSummaryCityReportModel>(sql);
+        }
+
         public List<DisinfectantCityReportModel> GetCityReport(DisinfectantReportFilterParameter filter)
         {
             string where = GetWhereSQLByFilter(filter);
