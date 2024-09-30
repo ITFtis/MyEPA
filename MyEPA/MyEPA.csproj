@@ -939,6 +939,7 @@
     <Compile Include="_core\EmailHelper.cs" />
     <Compile Include="_core\LoginHelper.cs" />
     <Compile Include="_core\PwdHelper.cs" />
+    <Compile Include="_core\StringHelper.cs" />
     <Compile Include="_core\SysFunc.cs" />
   </ItemGroup>
   <ItemGroup>

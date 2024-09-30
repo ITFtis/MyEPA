@@ -38,7 +38,7 @@
             <th>聯絡單位</th>
             <th>車輛名稱</th>
             <th>車牌號碼</th>
-            <th>車輛狀態</th>
+            <th>是否可跨縣市使用</th>
             <th>確認時間</th>
             <th>確認人員</th>
         </tr>
@@ -55,7 +55,9 @@
         <td>@Item.VehicleName</td>
 
         <td>@Item.PlateNumber</td>
-        <td>@Item.VehicleState</td>
+        <td>
+            @Item.CrossCityUse
+        </td>
         @if (Item.ConfirmTime != null)
         {
             <td>@Item.ConfirmTime.ToString("yyyy/MM/dd HH:mm:ss")</td>

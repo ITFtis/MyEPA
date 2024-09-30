@@ -56,6 +56,14 @@ namespace MyEPA.Models
 
         public DateTime? ConfirmTime { get; set; }
 
+        [DisplayName("可否提供縣府跨鄉鎮調度支援 名稱")]
+        public string CrossCityUseName {
+            get
+            {
+               return StringHelper.YNToName(this.CrossCityUse);
+            }
+        }
+
         public LinkedList<VehicleModel> Show(string City, string Town)
         {
             VehicleModel A = new VehicleModel();
