@@ -9,6 +9,8 @@ alter Table Disinfector add [SupportCityNum] [int] NULL
 alter Table Disinfectant add [IsSupportCity] [bit] NULL
 alter Table Disinfectant add [SupportCityNum] [int] NULL
 
---3.新增欄位 Vehicle(IsSupportCity)
-alter Table Vehicle add [IsSupportCity] [bit] NULL
-alter Table Vehicle add [SupportCityNum] [int] NULL
+----不用(現有資料表已有欄位)  EPAsubsidy
+------3.新增欄位 Vehicle(IsSupportCity)
+----alter Table Vehicle add [IsSupportCity] [bit] NULL
+----alter Table Vehicle add [SupportCityNum] [int] NULL
+
