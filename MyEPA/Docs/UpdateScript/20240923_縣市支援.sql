@@ -9,3 +9,6 @@ alter Table Disinfector add [SupportCityNum] [int] NULL
 alter Table Disinfectant add [IsSupportCity] [bit] NULL
 alter Table Disinfectant add [SupportCityNum] [int] NULL
 
+--3.·s¼WÄæ¦ì Vehicle(IsSupportCity)
+alter Table Vehicle add [IsSupportCity] [bit] NULL
+alter Table Vehicle add [SupportCityNum] [int] NULL
