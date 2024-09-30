@@ -245,10 +245,13 @@
             amount = $(form).find('#EditAmount').val();
         }
         if (amount != null) {
-            SupportCityNum = $(form).find('#SupportCityNum').val();
-            if (parseInt(SupportCityNum) > parseInt(amount)) {
-                alert('垮縣市調度數量(' + SupportCityNum + ')不可超過設備數量(' + amount + ')');
-                return false;
+            IsSupportCity = $(form).find('#IsSupportCity').val();
+            if (IsSupportCity.toLowerCase() === "true") {
+                SupportCityNum = $(form).find('#SupportCityNum').val();
+                if (parseInt(SupportCityNum) > parseInt(amount)) {
+                    alert('垮縣市調度數量(' + SupportCityNum + ')不可超過設備數量(' + amount + ')');
+                    return false;
+                }
             }
         }       
 
