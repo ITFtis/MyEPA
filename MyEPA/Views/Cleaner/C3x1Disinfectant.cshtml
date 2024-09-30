@@ -182,7 +182,7 @@
                                })
 
                             <span id="spnSupportCityNum">
-                                @Html.TextBox("SupportCityNum", "", new { type = "number" })
+                                @Html.TextBox("SupportCityNum", "", new { type = "number", oninput = "validity.valid||(value='');" })
                                 (公升、公斤)
                             </span>
                         </td>
@@ -353,7 +353,7 @@
                                })
 
                             <span id="spnSupportCityNum">
-                                @Html.TextBox("SupportCityNum", "", new { type = "number" })
+                                @Html.TextBox("SupportCityNum", "", new { type = "number", oninput = "validity.valid||(value='');" })
                                 (公升、公斤)
                             </span>
                         </td>
