@@ -27,6 +27,11 @@ namespace MyEPA.Services
             return VehicleRepository.GetCarsCountByCity();
         }
 
+        public List<VehicleCountModel> GetCarsSupportCityCountByCity()
+        {
+            return VehicleRepository.GetCarsSupportCityCountByCity();
+        }
+
         public List<string> GetCarTypes()
         {
             List<string> VehicleType=new List<string>();

@@ -66,6 +66,18 @@ GROUP BY VT.Name,City
             return GetListBySQL<VehicleCountModel>(sql,new {});
         }
 
+        public List<VehicleCountModel> GetCarsSupportCityCountByCity()
+        {
+            string sql = @"SELECT City CityName, VT.Name VehicleName,
+                           Sum(Case When ISNULL(EPAsubsidy, '') = 'Y' Then 1 Else 0 End) AS COUNT
+FROM Vehicle V
+JOIN  VehicleType VT ON ISNULL(v.VehicleType, 'nullvalue') = VT.Type
+
+GROUP BY VT.Name,City
+";
+            return GetListBySQL<VehicleCountModel>(sql,new {});
+        }
+
         private static string GetSQLByFilter(VehicleFilterParameter filter)
         {
             string where = GetWhereSQLByFilter(filter);

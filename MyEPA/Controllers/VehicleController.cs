@@ -34,6 +34,9 @@ namespace MyEPA.Controllers
 
             ViewBag.Citys = CityService.GetCountyOrderBySort();
 
+            //跨縣市調度
+            ViewBag.SupportCitys = VehicleService.GetCarsSupportCityCountByCity();
+
             return View(result);
         }
 

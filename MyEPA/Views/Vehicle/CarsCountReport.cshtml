@@ -9,6 +9,11 @@
     List<CityModel> citys = ViewBag.Citys;
     MultiKeyDictionary<string, string, int> result =
         Model.ToMultiKeyDictionary(e => e.CityName, e => e.VehicleName, e => e.Count);
+
+    //跨縣市調度
+    List<VehicleCountModel> SupportCitys = ViewBag.SupportCitys as List<VehicleCountModel>;
+    MultiKeyDictionary<string, string, int> supResult =
+        SupportCitys.ToMultiKeyDictionary(e => e.CityName, e => e.VehicleName, e => e.Count);
 }
 
 @section styles{
@@ -100,6 +105,81 @@
             </div>
         </div>
     </div>
+
+    
+    @*跨縣市調度*@
+    <div class="page-content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="container-fluid">
+                    <h3 class="center">車輛跨縣市調度統計表</h3>
+                    <br />
+                    <table class="table1">
+                        <thead>
+                            <tr>
+                                <th colspan="2">
+                                    縣市名稱
+                                </th>
+                                @foreach (var car in cars)
+                                {
+                                    <th>
+                                        @car
+                                    </th>
+                                }
+                                <th>
+                                    合計
+                                </th>
+                            </tr>
+                            <tr>
+                                <td colspan="2">總計</td>
+                                @foreach (var car in cars)
+                                {
+                                    <td>
+                                        @SupportCitys.Where(e => e.VehicleName == car).Sum(e => e.Count)
+                                    </td>
+                                }
+                                <td>
+                                    @SupportCitys.Sum(e => e.Count)
+                                </td>
+                            </tr>
+                        </thead>
+                        @foreach (var city in citys)
+                        {
+                            Dictionary<string, int> cityCount = supResult.GetValue(city.City);
+                            <tr>
+                                <td>
+                                    @city.Sort
+                                </td>
+                                <td>
+                                    @*<a href="@Url.Action("Search", "Vehicle", new { CityIds = city.Id })">@city.City</a>*@
+                                    @city.City
+                                </td>
+                                @foreach (var car in cars)
+                                {
+                                    <td>
+                                        @cityCount.GetValue(car)
+                                    </td>
+                                }
+                                <td>
+                                    @if (cityCount == null)
+                                    {
+                                        @:0
+                                    }
+                                    else
+                                    {
+                                        @cityCount.Values.Sum()
+                                    }
+
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
                 @section scripts{
                     <script src="~/tablesorter/jquery-latest.min.js"></script>
                     <script src="~/tablesorter/prettify.js"></script>
