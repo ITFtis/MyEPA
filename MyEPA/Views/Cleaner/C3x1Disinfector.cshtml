@@ -28,7 +28,7 @@
         </div>
 
         <div id="EditArea" class="text-center" style="display:none; padding:0px; width:100%">
-            @using (Html.BeginForm("Update", "CleanerxDisinfector"))
+            @using (Html.BeginForm("Update", "CleanerxDisinfector", FormMethod.Post, new { onsubmit = "return ValidateInput('Update', this);" }))
             {
                 <table class="table table-bordered table-striped  text-center">
 
@@ -104,7 +104,7 @@
 
         <div id="AddArea" class="text-center" style="display:none;width:100%">
             <br />
-            @using (Html.BeginForm("Add", "CleanerxDisinfector", FormMethod.Post, new { onsubmit = "return ValidateInput();" }))
+            @using (Html.BeginForm("Add", "CleanerxDisinfector", FormMethod.Post, new { onsubmit = "return ValidateInput('Add', this);" }))
             {
                 <table class="table table-bordered table-striped  text-center">
                     <tr>
@@ -176,7 +176,7 @@
                     </tr>
                     <tr>
                         <td colspan="2" align="center">
-                            <input type="submit" class="btn btn-danger" style="margin:10px" value="確認儲存" onsubmit="return ValidateInput();" />
+                            <input type="submit" class="btn btn-danger" style="margin:10px" value="確認儲存" />
                         </td>
                     </tr>
                 </table>
@@ -234,7 +234,24 @@
 </script>
 
 <script>
-    function ValidateInput() {
+    function ValidateInput(act, form) {
+
+        //驗證數量
+        var amount;
+        if (act == "Add") {
+            amount = $(form).find('#Amount').val();
+        }
+        else if (act == "Update") {
+            amount = $(form).find('#EditAmount').val();
+        }
+        if (amount != null) {
+            SupportCityNum = $(form).find('#SupportCityNum').val();
+            if (parseInt(SupportCityNum) > parseInt(amount)) {
+                alert('垮縣市調度數量(' + SupportCityNum + ')不可超過設備數量(' + amount + ')');
+                return false;
+            }
+        }       
+
         return true;
         //以下程式可抓到ContactUnit的值
         //var x = $("#ContactUnit").val();
