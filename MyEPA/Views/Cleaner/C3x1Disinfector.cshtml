@@ -87,7 +87,7 @@
                                })
 
                             <span id="spnSupportCityNum">
-                                @Html.TextBox("SupportCityNum", "", new { type = "number", oninput = "validity.valid||(value='');"})
+                                @Html.TextBox("SupportCityNum", "", new { type = "number" })
                                 台
                             </span>
                         </td>
@@ -169,7 +169,7 @@
                                })
 
                             <span id="spnSupportCityNum">
-                                @Html.TextBox("SupportCityNum", "", new { type = "number", oninput = "validity.valid||(value='');" })
+                                @Html.TextBox("SupportCityNum", "", new { type = "number" })
                                 台
                             </span>
                         </td>
@@ -248,7 +248,15 @@
             IsSupportCity = $(form).find('#IsSupportCity').val();
             if (IsSupportCity.toLowerCase() === "true") {
                 SupportCityNum = $(form).find('#SupportCityNum').val();
-                if (parseInt(SupportCityNum) > parseInt(amount)) {
+                if (parseInt(amount) < 0) {
+                    alert('設備數量，不可負數(' + amount + ')');
+                    return false;
+                }
+                else if (parseInt(SupportCityNum) < 0) {
+                    alert('垮縣市調度數量，不可負數(' + SupportCityNum + ')');
+                    return false;
+                }
+                else if (parseInt(SupportCityNum) > parseInt(amount)) {
                     alert('垮縣市調度數量(' + SupportCityNum + ')不可超過設備數量(' + amount + ')');
                     return false;
                 }
