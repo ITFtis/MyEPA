@@ -67,7 +67,7 @@
             @Html.DisplayFor(modelItem => item.Area)
         </td>
         <td>
-            @item.UpdateTime.ToString("yyyy/MM/dd HH:mm")
+            @Html.Raw(DateFormat.ToDate7(@item.UpdateTime))
         </td>
     </tr>
 }

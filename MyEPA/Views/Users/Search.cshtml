@@ -82,7 +82,7 @@
                 @Html.DisplayFor(modelItem => item.Remark)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.UpdateDate)
+                @Html.Raw(DateFormat.ToDate7(@item.UpdateDate))
             </td>
 
         </tr>
