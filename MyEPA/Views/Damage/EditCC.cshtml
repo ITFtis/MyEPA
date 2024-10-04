@@ -46,7 +46,7 @@
     </div>
 </div>
 
-@using (Html.BeginForm("EditCC", "Damage", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("EditCC", "Damage", FormMethod.Post, new { @enctype = "multipart/form-data", onsubmit = "return ValidateInput(this);" }))
 {
     @Html.AntiForgeryToken()
 
@@ -228,6 +228,47 @@
     </div>
 </div>
 }
+
+<script>
+    function ValidateInput(form) {
+
+        if ($('#CLE_EquipmentNum').val() != '') {
+            //大於0判斷
+            if (parseInt($('#CLE_EquipmentNum').val()) < 0) {
+                $('#CLE_EquipmentNum').focus()
+                alert('已使用機具(總數量)，不可小於0');
+                return false;
+            }
+            //已使用機具(總數量) 有=>明細必填
+            if (parseInt($('#CLE_EquipmentNum').val()) > 0) {
+                if ($('#CLE_EquipmentDesc').val() == '') {
+                    $('#CLE_EquipmentDesc').focus()
+                    alert('請填寫機具明細');
+                    return false;
+                }
+            }
+        }
+
+
+        //已使用車輛(總數量) 有=>明細必填
+        if ($('#CLE_CarNum').val() != '') {
+            if (parseInt($('#CLE_CarNum').val()) < 0) {
+                $('#CLE_CarNum').focus()
+                alert('已使用車輛(總數量)，不可小於0');
+                return false;
+            }
+            if (parseInt($('#CLE_CarNum').val()) > 0) {
+                if ($('#CLE_CarDesc').val() == '') {
+                    $('#CLE_CarDesc').focus()
+                    alert('請填寫車輛明細');
+                    return false;
+                }
+            }
+        }
+
+    }
+</script>
+
 @section scripts{
     <script>
         function del(item,id) {
