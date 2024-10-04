@@ -237,7 +237,13 @@ namespace MyEPA.Controllers
                         {"CreateDate", datas.CreateDate.ToShortDateString() },
                         {"ContactPerson", datas.ContactPerson },
                         {"ContactMobilePhone", datas.ContactMobilePhone },
-                        {"Reason", datas.Reason }
+                        {"Reason", datas.Reason },
+                        {"GatherDate", DateFormat.ToDate7(datas.GatherDate) },
+                        {"GatherPlace", datas.GatherPlace },
+                        {"CheckPerson", datas.CheckPerson },
+                        {"CheckMobilePhone", datas.CheckMobilePhone },
+                        {"COPerson", datas.COPerson },
+                        {"COMobilePhone", datas.COMobilePhone },
                 };
 
                 foreach (XWPFTable table in docx.Tables)
@@ -278,23 +284,33 @@ namespace MyEPA.Controllers
 
                     XWPFTable table = docx.Tables[0];
 
+                    //範本(row5)：表格第5列(清單)
+                    int refn = 4;
 
-                    int refn = 0;
-                    if (datas.Type == 1)
-                    {
-                        //表格第5列(清單)
-                        refn = 4;
-                    }
-                    else if (datas.Type == 2)
-                    {
-                        //表格第4列(清單)
-                        refn = 3;
-                    }
+                    //範本(row6)：說明第6列(底部)
+                    int temfn5 = 5;
+                    XWPFTableRow rowDesc1 = table.Rows[temfn5];                   
+
+                    //範本(row7)：說明第7列(底部)
+                    int temfn6 = 6;
+                    XWPFTableRow rowDesc2 = table.Rows[temfn6];                   
+
+                    //範本(row8)：說明第8列(底部)
+                    int temfn7 = 7;
+                    XWPFTableRow rowDesc3 = table.Rows[temfn7];                   
+
+                    //範本(row9)：說明第9列(底部)
+                    int temfn8 = 8;
+                    XWPFTableRow rowDesc4 = table.Rows[temfn8];
+
+                    table.RemoveRow(temfn8);
+                    table.RemoveRow(temfn7);
+                    table.RemoveRow(temfn6);
+                    table.RemoveRow(temfn5);
 
                     XWPFTableRow refRows = table.Rows[refn];
 
                     //清單資料
-                    int count = 0;
                     foreach (RecResourceModel s in sList)
                     {
                         Dictionary<int, string> sdic = new Dictionary<int, string>()
@@ -365,12 +381,19 @@ namespace MyEPA.Controllers
                     }
 
                     //刪除字型保留列(xx)
-                    if (count == 0)
-                    {
-                        //refRows
-                        table.RemoveRow(refn);
-                    }
-                    count++;
+                    table.RemoveRow(refn);
+
+                    //補回底部說明1
+                    table.AddRow(rowDesc1);
+
+                    //補回底部說明2
+                    table.AddRow(rowDesc2);
+
+                    //補回底部說明3
+                    table.AddRow(rowDesc3);
+
+                    //補回底部說明4
+                    table.AddRow(rowDesc4);
                 }
 
                 if (!Directory.Exists(toFolder))
