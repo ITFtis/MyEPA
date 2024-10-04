@@ -1,4 +1,5 @@
 ﻿using Microsoft.Office.Interop.Word;
+using MyEPA.Enums;
 using MyEPA.Extensions;
 using MyEPA.Models;
 using MyEPA.Models.FilterParameter;
@@ -48,7 +49,10 @@ namespace MyEPA.Controllers.Rec
             ViewBag.RecResourceNeed = RecResourceNeed;
 
             ViewBag.DiasterName = diasterName;
-            ViewBag.Citys = SysFunc.GetCitysRecResource(GetUserBrief());
+            //三區中心開檢視
+            bool isAll = GetUserDutyId() == DutyEnum.Team.GetHashCode();
+            ViewBag.IsTeam = GetUserDutyId() == DutyEnum.Team.GetHashCode();
+            ViewBag.Citys = SysFunc.GetCitysRecResource(GetUserBrief(), isAll);
             ViewBag.RecResourceId = recResourceId;
 
             var result = GetMasterList(diasterId, recResourceId, RecResourceNeed);

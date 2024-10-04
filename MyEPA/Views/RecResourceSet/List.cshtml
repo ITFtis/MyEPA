@@ -17,6 +17,7 @@
     int type = ViewBag.Type;
     int diasterId = ViewBag.DiasterId;
     List<CityModel> Citys = ViewBag.Citys;
+    bool IsTeam = ViewBag.IsTeam;
 }
 
 <h2>調度審核情形</h2>
@@ -76,7 +77,8 @@
         </div>
     </div>
 
-    @if (RecResourceNeed.Status != 2)
+    @*三區中心開檢視*@
+    @if (!IsTeam && RecResourceNeed.Status != 2)
     {
         <input type="submit" value="儲存" class="btn btn-danger align-center" onclick="Save()" />
     }
@@ -104,7 +106,7 @@
                 <th width="15%">提供期間</th>
             </tr>
             @foreach (RecResourceViewModel Item in Model)
-    {
+            {
                 <tr>
                     <td name="Serial">@( ((Int32) 1) + @Model.IndexOf(Item) )</td>
                     @*
@@ -115,7 +117,7 @@
                     *@
                     <td>
                         @Html.Hidden("IdHelp", @Item.Id)
-                        <input name="SetQuantity" type="number" value="@Item.SetQuantity" @(RecResourceNeed.Status == 2 ? "disabled": "") >
+                        <input name="SetQuantity" type="number" value="@Item.SetQuantity" @(IsTeam || RecResourceNeed.Status == 2 ? "disabled" : "")>
                     </td>
                     <td>
                         @Citys.Where(a => a.Id == Item.CityId).FirstOrDefault().City

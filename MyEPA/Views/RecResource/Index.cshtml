@@ -21,6 +21,7 @@
     int type = ViewBag.Type ?? 0;
     int diasterId = ViewBag.DiasterId;
     bool IsAdmin = ViewBag.IsAdmin;
+    bool IsTeam = ViewBag.IsTeam;
 }
 
 <div class="btn-group">
@@ -237,13 +238,17 @@
                         @*2.提供需求(看自己，改自己)*@
                         @{
                             IEnumerable<RecResourceModel> iquery2;
-                            if (!IsAdmin)
+                            if (IsAdmin)
                             {
-                                iquery2 = Model.Where(a => a.CityId == user.CityId);
+                                iquery2 = Model;
+                            }
+                            else if (IsTeam)
+                            {
+                                iquery2 = Model;
                             }
                             else
                             {
-                                iquery2 = Model;
+                                iquery2 = Model.Where(a => a.CityId == user.CityId);
                             }
 
                             var datas_2 = iquery2.Where(a => a.Type == 2).ToList();
@@ -253,9 +258,13 @@
                         {
                             <tr>
                                 <td>
-                                    <a href="@Url.Action("Edit", new { item.Id})">編輯</a>
-                                    <a href="#" onclick="Delete(@item.Id, @diasterId)">删除</a>
-                                </td>
+                                    @if (IsAdmin
+|| (!IsAdmin && item.CityId == user.CityId))
+                                    {
+                                        <a href="@Url.Action("Edit", new { item.Id })">編輯</a>
+                                        <a href="#" onclick="Delete(@item.Id, @diasterId)">删除</a>
+                                    }
+                                    </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => citys.Where(a => a.Id == item.CityId).FirstOrDefault().City)
                                 </td>
@@ -371,7 +380,20 @@
                             <tr>
                                 <td>
                                     @{ 
-                                        string btnText = item.Status == 2 ? "檢視" : "編輯";
+                                        string btnText = "";
+                                        if (IsTeam)
+                                        {
+                                            //三區只能檢視
+                                            btnText = "檢視";
+                                        }
+                                        else if (item.Status == 2)
+                                        {
+                                            btnText = "檢視";
+                                        }
+                                        else
+                                        {
+                                            btnText = "編輯";
+                                        }
                                     }
                                     <a style="color:red" href="@Url.Action("List", "RecResourceSet", new { type = 3, diasterId = diasterId, recResourceId = item.Id })">
                                         @btnText
@@ -478,11 +500,12 @@
     <script>
 
         var IsAdmin = '@IsAdmin'.toLowerCase() == 'true';
+        var IsTeam = '@IsTeam'.toLowerCase() == 'true';
 
         $(function () {
             $("#Tabs2").tabs();
 
-            if (!(IsAdmin)) {
+            if (!(IsAdmin) && !(IsTeam)) {
                 $('#tab3').hide();
             }
 
