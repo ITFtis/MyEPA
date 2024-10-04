@@ -482,23 +482,16 @@ namespace MyEPA.Controllers
 
                     XWPFTable table = docx.Tables[0];
 
-
-                    int refn = 0;
-                    if (datas.Type == 1)
-                    {
-                        //表格第5列(清單)
-                        refn = 4;
-                    }
-                    else if (datas.Type == 2)
-                    {
-                        //表格第4列(清單)
-                        refn = 3;
-                    }
-
+                    //範本(row4)：表格第4列(清單)
+                    int refn = 3;
                     XWPFTableRow refRows = table.Rows[refn];
 
+                    //範本(row5)：說明第5列(底部)
+                    int temfn = 4;
+                    XWPFTableRow rowDesc1 = table.Rows[temfn];
+                    table.RemoveRow(temfn);
+
                     //清單資料
-                    int count = 0;
                     foreach (RecResourceModel s in sList)
                     {
                         Dictionary<int, string> sdic = new Dictionary<int, string>()
@@ -507,7 +500,8 @@ namespace MyEPA.Controllers
                             { 1, s.Spec},
                             { 2, s.Quantity.ToString()},
                             { 3, s.Unit},
-                            { 4, s.USDate.ToShortDateString() + " ~ " + s.UEDate.ToShortDateString()}
+                            { 4, s.USDate.ToShortDateString() + " ~ " + s.UEDate.ToShortDateString()},
+                            { 5, DateFormat.ToDate7(s.GoDate)},
                         };
 
                         //null預設空值
@@ -569,12 +563,10 @@ namespace MyEPA.Controllers
                     }
 
                     //刪除字型保留列(xx)
-                    if (count == 0)
-                    {
-                        //refRows
-                        table.RemoveRow(refn);
-                    }
-                    count++;
+                    table.RemoveRow(refn);
+
+                    //補回底部說明1
+                    table.AddRow(rowDesc1);
                 }
 
                 if (!Directory.Exists(toFolder))
