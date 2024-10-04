@@ -50,11 +50,13 @@
                     @item.CheckDate.ToString("yyyy/MM/dd")
                 </td>
                 <td>
-                    @if ((WaterCheckStatusEnum)item.Status != WaterCheckStatusEnum.NothingHappened)
+                    @*註解：無災情不可建置*@
+                    @*@if ((WaterCheckStatusEnum)item.Status != WaterCheckStatusEnum.NothingHappened)
                     {
                         <a href="@Url.Action("Index","WaterCheckDetail",item)">建置</a>
-                    }
+                    }*@
 
+                    <a href="@Url.Action("Index","WaterCheckDetail",item)">建置</a>
                 </td>
                 <td>
                     @if (item.DetailStatus == null)
