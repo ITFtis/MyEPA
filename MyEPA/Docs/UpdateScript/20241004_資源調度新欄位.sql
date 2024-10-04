@@ -11,3 +11,5 @@ alter Table RecResource add COPerson [nvarchar](50) NULL
 --指揮官電話  
 alter Table RecResource add COMobilePhone [nvarchar](50) NULL
 
+--出發時間
+alter Table RecResource add GoDate [datetime] NULL
