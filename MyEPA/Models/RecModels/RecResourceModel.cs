@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using System.Web;
@@ -117,5 +118,28 @@ namespace MyEPA.Models
 
         [DisplayName("修改日")]
         public DateTime? UpdateDate { get; set; }
+
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-ddTHH:mm}")]
+        [DisplayName("集合時間")]
+        public DateTime? GatherDate { get; set; }
+
+        [DisplayName("集合地點")]
+        public string GatherPlace { get; set; }
+
+        [DisplayName("報到人")]
+        public string CheckPerson { get; set; }
+
+        [DisplayName("報到人電話")]
+        public string CheckMobilePhone { get; set; }
+
+        [DisplayName("報到指揮官")]
+        public string COPerson { get; set; }
+
+        [DisplayName("指揮官電話")]
+        public string COMobilePhone { get; set; }
+
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-ddTHH:mm}")]
+        [DisplayName("出發時間")]
+        public DateTime? GoDate { get; set; }
     }
 }

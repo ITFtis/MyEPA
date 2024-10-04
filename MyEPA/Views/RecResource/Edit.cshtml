@@ -141,6 +141,49 @@
     </div>
 
     <div class="form-group">
+        @Html.LabelFor(model => model.GatherDate, htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.GatherDate, new { htmlAttributes = new { @type = "datetime-local" } })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.GatherPlace, htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.GatherPlace, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.CheckPerson, htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.CheckPerson, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.CheckMobilePhone, htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.CheckMobilePhone, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.COPerson, htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.COPerson, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.COMobilePhone, htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.COMobilePhone, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.GoDate, htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.GoDate, new { htmlAttributes = new { @type = "datetime-local" } })
+        </div>
+    </div>
+
+    <div class="form-group">
         <div class="col-md-offset-2 col-md-6">
             <input type="submit" value="修改" class="btn btn-success" />
             <a href="@Url.Action("Index")?type=@type&diasterId=@Model.DiasterId">

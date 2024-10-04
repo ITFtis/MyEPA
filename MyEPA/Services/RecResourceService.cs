@@ -127,6 +127,13 @@ namespace MyEPA.Services
             entity.Unit = model.Unit;
             entity.USDate = model.USDate;
             entity.UEDate = model.UEDate;
+            entity.GatherDate = model.GatherDate;
+            entity.GatherPlace = model.GatherPlace;
+            entity.CheckPerson = model.CheckPerson;
+            entity.CheckMobilePhone = model.CheckMobilePhone;
+            entity.COPerson = model.COPerson;
+            entity.COMobilePhone = model.COMobilePhone;
+            entity.GoDate = model.GoDate;
 
             entity.UpdateDate = DateTimeHelper.GetCurrentTime();
             entity.UpdateUser = user.UserName;
