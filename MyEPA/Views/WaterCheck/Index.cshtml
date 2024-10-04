@@ -77,14 +77,15 @@
                     @switch ((WaterCheckStatusEnum)item.Status)
                     {
                         case WaterCheckStatusEnum.NothingHappened:
-                            @:<input id="NothingHappened[@i]" type="checkbox" onchange="change('NothingHappened[@i]','Failure[@i]',@item.Id,'@item.CheckDate')" checked="checked" @(item.IsHasDateils ? "disabled=\"disabled\"" : string.Empty  )/>
+                            @*註解：建置無災情可勾*@
+                            @:<input id="NothingHappened[@i]" type="checkbox" onchange="change('NothingHappened[@i]','Failure[@i]',@item.Id,'@item.CheckDate')" checked="checked"/>
                             break;
                         case WaterCheckStatusEnum.Success:
                         case WaterCheckStatusEnum.Failure:
-                            @:<input id="NothingHappened[@i]" type="checkbox"onchange="change('NothingHappened[@i]','Failure[@i]',@item.Id,'@item.CheckDate')" disabled="disabled" />
+                            @:<input id="NothingHappened[@i]" type="checkbox"onchange="change('NothingHappened[@i]','Failure[@i]',@item.Id,'@item.CheckDate')" />
                             break;
                         case WaterCheckStatusEnum.Pending:
-                            @:<input id="NothingHappened[@i]" type="checkbox" onchange="change('NothingHappened[@i]','Failure[@i]',@item.Id,'@item.CheckDate')" @(item.IsHasDateils ? "disabled=\"disabled\"" : string.Empty  )/>
+                            @:<input id="NothingHappened[@i]" type="checkbox" onchange="change('NothingHappened[@i]','Failure[@i]',@item.Id,'@item.CheckDate')" />
                             break;
                     }
                 </td>
