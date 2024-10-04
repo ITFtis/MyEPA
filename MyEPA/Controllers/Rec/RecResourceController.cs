@@ -276,11 +276,14 @@ namespace MyEPA.Controllers
                 //讀取表格
                 if (1 == 1)
                 {
-                    List<RecResourceModel> sList = RecResourceService.GetByCityId(datas.CityId)
-                                                        .Where(a => a.Type == datas.Type)
-                                                        .Where(a => a.DiasterId == datas.DiasterId)
-                                                        .OrderByDescending(a => a.Id)
-                                                        .ToList();
+                    ////List<RecResourceModel> sList = RecResourceService.GetByCityId(datas.CityId)
+                    ////                                    .Where(a => a.Type == datas.Type)
+                    ////                                    .Where(a => a.DiasterId == datas.DiasterId)
+                    ////                                    .OrderByDescending(a => a.Id)
+                    ////                                    .ToList();
+
+                    //單筆列印(環衛組需求)
+                    List<RecResourceModel> sList = datas.ToListCollection();
 
                     XWPFTable table = docx.Tables[0];
 
