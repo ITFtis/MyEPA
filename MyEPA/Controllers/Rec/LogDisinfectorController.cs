@@ -47,5 +47,30 @@ namespace MyEPA.Controllers.Rec
 
             return View(result);
         }
+
+        public ActionResult Update(int diasterId)
+        {
+            AdminResultModel result = null;
+
+            if (diasterId == 0)
+            {
+                result = new AdminResultModel() { IsSuccess = false, ErrorMessage = "diasterId不可為0" + diasterId };
+                return JsonResult(result);
+            }
+
+            try
+            {
+                //int n = int.Parse("a");
+
+
+                result = new AdminResultModel() { IsSuccess = true };
+            }
+            catch (Exception ex)
+            {
+                result = new AdminResultModel() { IsSuccess = false, ErrorMessage = ex.Message };
+            }
+
+            return JsonResult(result);
+        }
     }
 }

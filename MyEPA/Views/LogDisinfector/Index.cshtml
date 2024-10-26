@@ -31,6 +31,9 @@
         <div class="col-xs-12">
             <h2> (閥值)消毒設備 </h2>
 
+            <input type="submit" value="更新閥值" class="btn btn-danger align-center" onclick="Update()" />
+            <br /><br />
+
             <table class="table">
                 <tr>
                     <th>縣市</th>
@@ -69,3 +72,33 @@
         </div>
     </div>
 </div>
+
+@section scripts{
+    <script>
+
+        function Update() {
+
+            var diasterId = @diasterId;
+            var root = "@Url.Content("/LogDisinfector/Update")";
+
+            $.ajax({
+                url: root,
+                method: 'Post',
+                data: { diasterId: diasterId },
+                success: function (data) {
+                    if (data.IsSuccess) {
+                        isChanged = false;
+                        alert('更新閥值成功');
+                    }
+                    else {
+                        alert('更新閥值失敗,' + data.ErrorMessage);
+                    }
+                },
+                error: function (data) {
+                    alert('更新閥值失敗');
+                }
+            });
+
+        }
+    </script>
+}
