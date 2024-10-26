@@ -1,7 +1,6 @@
 ﻿using MyEPA.Extensions;
 using MyEPA.Models;
 using MyEPA.Models.FilterParameter;
-using MyEPA.Models.RecModels;
 using MyEPA.Repositories.BaseRepositories;
 using System;
 using System.Collections.Generic;

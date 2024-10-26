@@ -325,6 +325,7 @@
     <Compile Include="Controllers\FileDataController.cs" />
     <Compile Include="Controllers\PositionController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
+    <Compile Include="Controllers\Rec\LogDisinfectorController.cs" />
     <Compile Include="Controllers\Rec\RecResourceController.cs" />
     <Compile Include="Controllers\Rec\RecResourceSetController.cs" />
     <Compile Include="Controllers\Rec\TestMailController.cs" />
@@ -2016,6 +2017,7 @@
     <Content Include="Views\Damage\CityList.cshtml" />
     <Content Include="Views\Damage\CityCCList.cshtml" />
     <Content Include="Views\EPA\A9x3_New.cshtml" />
+    <Content Include="Views\LogDisinfector\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="C:\NuGetPackages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.7\analyzers\dotnet\cs\Microsoft.CodeAnalysis.VersionCheckAnalyzer.resources.dll" />

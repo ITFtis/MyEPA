@@ -9,7 +9,6 @@ using System.Web.Mvc;
 using MyEPA.Enums;
 using MyEPA.Extensions;
 using MyEPA.Models;
-using MyEPA.Models.RecModels;
 using MyEPA.Repositories;
 using MyEPA.Services;
 

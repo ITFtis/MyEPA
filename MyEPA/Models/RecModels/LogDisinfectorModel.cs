@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
-namespace MyEPA.Models.RecModels
+namespace MyEPA.Models
 {
     public class LogDisinfectorModel
     {
