@@ -11,6 +11,9 @@ namespace MyEPA.Services
 {
     public class LogDisinfectorService
     {
+        //初始閥值(對應災害編號)
+        int _iniDiasterId = 999999999;
+
         LogDisinfectorRepository LogDisinfectorRepository = new LogDisinfectorRepository();
         DiasterRepository DiasterRepository = new DiasterRepository();
 
@@ -31,6 +34,16 @@ namespace MyEPA.Services
 
             var logDisinfector = LogDisinfectorRepository
                 .GetByFilter(filter);
+           
+            if (logDisinfector.Count == 0)
+            {
+                //預設值
+                filter = new LogDisinfectorFilterParameter
+                {
+                    DiasterIds = _iniDiasterId.ToListCollection(),
+                };
+                logDisinfector = LogDisinfectorRepository.GetByFilter(filter);
+            }
 
             return logDisinfector;
         }
