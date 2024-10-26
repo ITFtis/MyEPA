@@ -44,5 +44,11 @@ namespace MyEPA.Repositories
 
             return wherwSQL;
         }
+
+        public bool Delete(int DiasterId)
+        {
+            string whereSql = "WHERE DiasterId = @DiasterId";
+            return DeleteByWhereSQL(whereSql, new { DiasterId });
+        }
     }
 }
