@@ -89,6 +89,7 @@
                     if (data.IsSuccess) {
                         isChanged = false;
                         alert('更新閥值成功');
+                        location.reload();
                     }
                     else {
                         alert('更新閥值失敗,' + data.ErrorMessage);

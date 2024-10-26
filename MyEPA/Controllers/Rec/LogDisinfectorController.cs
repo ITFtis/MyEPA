@@ -1,4 +1,5 @@
-﻿using MyEPA.Models;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using MyEPA.Models;
 using MyEPA.Services;
 using System;
 using System.Collections.Generic;
@@ -60,8 +61,15 @@ namespace MyEPA.Controllers.Rec
 
             try
             {
-                //int n = int.Parse("a");
+                //閥值資料建置(LogDisinfectorModel)
+                LogDisinfectorService LogDisinfectorService = new LogDisinfectorService();
 
+                //刪除
+                LogDisinfectorService.DeleteByDiasterId(diasterId);
+
+                //新增
+                var user = GetUserBrief();
+                LogDisinfectorService.Create(user, diasterId);
 
                 result = new AdminResultModel() { IsSuccess = true };
             }

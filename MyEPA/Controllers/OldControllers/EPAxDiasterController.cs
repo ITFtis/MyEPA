@@ -139,26 +139,9 @@ namespace MyEPA.Controllers
             if (id > 0)
             {
                 //閥值資料建置(LogDisinfectorModel)
-                DisinfectorService DisinfectorService = new DisinfectorService();
-                LogDisinfectorRepository LogDisinfectorRepository = new LogDisinfectorRepository();
-
-                var datas = DisinfectorService.GetAll();
-
-                DateTime date = DateTime.Now;
-                foreach (var data in datas)
-                {
-                    //消毒設備
-                    LogDisinfectorModel logFector = new LogDisinfectorModel();
-                    ClassUtility.CopyPropertiesTo(data, logFector);
-
-                    var user = GetUserBrief();
-                    logFector.DiasterId = id;
-                    logFector.CtPoint = float.Parse(logFector.Amount) / 2;
-                    logFector.LogBDate = date;
-                    logFector.LogBUser = user.UserName;
-
-                    LogDisinfectorRepository.Create(logFector);
-                }
+                LogDisinfectorService LogDisinfectorService = new LogDisinfectorService();
+                var user = GetUserBrief();
+                LogDisinfectorService.Create(user, id);
             }
 
             return RedirectToAction("A9x1", "EPAxDiaster");
