@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using MyEPA.Enums;
 using MyEPA.Extensions;
 using MyEPA.Models;
+using MyEPA.Models.RecModels;
 using MyEPA.Repositories;
+using MyEPA.Services;
 
 namespace MyEPA.Controllers
 {
@@ -129,7 +134,33 @@ namespace MyEPA.Controllers
         {
             diaster.DiasterState = "災害關閉";
             diaster.Status = NormalActiveStatusEnum.Inactive.ToInteger();
-            new DiasterRepository().Create(diaster);
+            int id = DiasterRepository.CreateAndResultIdentity<int>(diaster);
+
+            //災害id
+            if (id > 0)
+            {
+                //閥值資料建置(LogDisinfectorModel)
+                DisinfectorService DisinfectorService = new DisinfectorService();
+                LogDisinfectorRepository LogDisinfectorRepository = new LogDisinfectorRepository();
+
+                var datas = DisinfectorService.GetAll();
+
+                DateTime date = DateTime.Now;
+                foreach (var data in datas)
+                {
+                    //消毒設備
+                    LogDisinfectorModel logFector = new LogDisinfectorModel();
+                    ClassUtility.CopyPropertiesTo(data, logFector);
+
+                    var user = GetUserBrief();
+                    logFector.DiasterId = id;
+                    logFector.CtPoint = float.Parse(logFector.Amount) / 2;
+                    logFector.LogBDate = date;
+                    logFector.LogUser = user.UserName;
+
+                    LogDisinfectorRepository.Create(logFector);
+                }
+            }
 
             return RedirectToAction("A9x1", "EPAxDiaster");
         }

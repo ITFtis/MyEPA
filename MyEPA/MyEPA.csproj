@@ -382,12 +382,14 @@
     <Compile Include="Models\ContactManuals\ContactManualDownloadRecordModel.cs" />
     <Compile Include="Models\DisinfectantTypeModel.cs" />
     <Compile Include="Models\DisinfectorTypeModel.cs" />
+    <Compile Include="Models\FilterParameter\LogDisinfectorFilterParameter.cs" />
     <Compile Include="Models\FilterParameter\RecResourceFilterParameter.cs" />
     <Compile Include="Models\FilterParameter\RecResourceSetFilterParameter.cs" />
     <Compile Include="Models\FilterParameter\UserLoginLogFilterParameter.cs" />
     <Compile Include="Models\FilterParameter\UsersBriefFilterParameter.cs" />
     <Compile Include="Models\FilterParameter\UsersFilterPaginationParameter.cs" />
     <Compile Include="Models\FilterParameter\UsersFilterParameter.cs" />
+    <Compile Include="Models\RecModels\LogDisinfectorModel.cs" />
     <Compile Include="Models\RecModels\RecResourceModel.cs" />
     <Compile Include="Models\RecModels\RecResourceSetModel.cs" />
     <Compile Include="Models\ResourceSetModel.cs" />
@@ -400,6 +402,7 @@
     <Compile Include="Repositories\ContactManualDownloadRecordRepository.cs" />
     <Compile Include="Repositories\DisinfectantTypeRepository.cs" />
     <Compile Include="Repositories\DisinfectorTypeRepository.cs" />
+    <Compile Include="Repositories\LogDisinfectorRepository.cs" />
     <Compile Include="Repositories\RecResourceRepository.cs" />
     <Compile Include="Repositories\RecResourceSetRepository.cs" />
     <Compile Include="Repositories\UserLoginLogRepository.cs" />
@@ -409,6 +412,7 @@
     <Compile Include="Services\ContactManualServices\ContactManualReportService.cs" />
     <Compile Include="Services\ContactManualServices\ContactManualSupervisionFileDataService.cs" />
     <Compile Include="Services\ContactManualServices\ContactManualTeamService.cs" />
+    <Compile Include="Services\LogDisinfectorService.cs" />
     <Compile Include="Services\PDFHelper.cs" />
     <Compile Include="Services\RecResourceService.cs" />
     <Compile Include="Services\RecResourceSetService.cs" />
@@ -933,6 +937,7 @@
     <Compile Include="ViewModels\YearReportViewModel.cs" />
     <Compile Include="_applyClass\TypeItems.cs" />
     <Compile Include="_core\AppConfig.cs" />
+    <Compile Include="_core\ClassUtility.cs" />
     <Compile Include="_core\Code.cs" />
     <Compile Include="_core\CommonFunc.cs" />
     <Compile Include="_core\DateFormat.cs" />

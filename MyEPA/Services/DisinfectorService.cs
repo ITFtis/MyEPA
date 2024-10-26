@@ -14,6 +14,12 @@ namespace MyEPA.Services
         DisinfectorRepository DisinfectorRepository = new DisinfectorRepository();
         CityRepository CityRepository = new CityRepository();
         TownRepository TownRepository = new TownRepository();
+
+        public List<DisinfectorModel> GetAll()
+        {
+            return DisinfectorRepository.GetList().OrderByDescending(e => e.Id).ToList();
+        }
+
         public DisinfectorModel Get(int id)
         {
             return DisinfectorRepository.Get(id);
