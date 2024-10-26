@@ -12,6 +12,7 @@ namespace MyEPA.Controllers.Rec
     {
         private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+        LogDisinfectorService LogDisinfectorService = new LogDisinfectorService();
         DiasterService DiasterService = new DiasterService();
 
         // GET: LogDisinfector
@@ -36,7 +37,15 @@ namespace MyEPA.Controllers.Rec
                 return View(new List<RecResourceModel>());
             }
 
-            return View();
+            IEnumerable<LogDisinfectorModel> iquery = LogDisinfectorService.GetByDiasterId(diasterId.Value);
+            iquery = iquery.OrderByDescending(a => a.Id);
+
+            List<LogDisinfectorModel> result = iquery.ToList();
+
+            //querystring
+            ViewBag.DiasterId = diasterId;
+
+            return View(result);
         }
     }
 }

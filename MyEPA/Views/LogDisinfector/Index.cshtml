@@ -3,10 +3,69 @@
 @using MyEPA.Enums;
 
 @{
-    ViewBag.Title = "資源調度";
+    ViewBag.Title = "(閥值)消毒設備";
     Layout = "~/Views/_Layout.cshtml";
+
+    List<DiasterModel> diasters = ViewBag.Diasters;
+
+    //querystring
+    int diasterId = ViewBag.DiasterId;
 }
 
-(閥值)消毒設備
+<div class="btn-group">
+    <button data-toggle="dropdown" class="btn btn-primary btn-white dropdown-toggle" aria-expanded="false">
+        @(diasters.FirstOrDefault(e => e.Id == diasterId).DiasterName)<i class="ace-icon fa fa-angle-down icon-on-right"></i>
+    </button>
+    <ul class="dropdown-menu">
+        @foreach (DiasterModel Item in diasters)
+        {
+            <li>
+                <a href="@Url.Action("Index", new { diasterId = Item.Id })">@Item.DiasterName</a>
+            </li>
+        }
+    </ul>
+</div>
 
+<div class="page-content">
+    <div class="row">
+        <div class="col-xs-12">
+            <h2> (閥值)消毒設備 </h2>
 
+            <table class="table">
+                <tr>
+                    <th>縣市</th>
+                    <th>鄉鎮市</th>
+                    <th>聯繫單位名稱</th>
+                    <th>用途</th>
+                    <th>
+                        消毒設備名稱
+                        <br />
+                        購買年份(民國)
+                    </th>
+                    <th>數量</th>
+                    <th>閥值</th>
+                    <th>閥值建置時間</th>
+                    <th>閥值更新人員</th>
+                </tr>
+                @foreach (var Item in Model)
+                {
+                    <tr>
+                        <td>@Item.City</td>
+                        <td>@Item.Town</td>
+                        <td>@Item.ContactUnit</td>
+                        <td>@(((DisinfectorUseTypeEnum?)Item.UseType).GetDescription())</td>
+                        <td>
+                            @Item.DisinfectInstrument
+                            <br />
+                            @(!string.IsNullOrEmpty(Item.ROCyear) ? ("(" + Item.ROCyear + ")") : "")
+                        </td>
+                        <td>@Item.Amount</td>
+                        <td>@Item.CtPoint</td>
+                        <td>@(DateFormat.ToDate7(Item.LogBDate))</td>
+                        <th>@Item.LogUser</th>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
