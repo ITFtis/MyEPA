@@ -48,6 +48,6 @@ namespace MyEPA.Models
         public DateTime LogBDate { get; set; }
 
         [DisplayName("Log更新者")]
-        public string LogUser { get; set; }
+        public string LogBUser { get; set; }
     }
 }

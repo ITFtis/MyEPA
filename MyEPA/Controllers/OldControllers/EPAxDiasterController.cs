@@ -155,7 +155,7 @@ namespace MyEPA.Controllers
                     logFector.DiasterId = id;
                     logFector.CtPoint = float.Parse(logFector.Amount) / 2;
                     logFector.LogBDate = date;
-                    logFector.LogUser = user.UserName;
+                    logFector.LogBUser = user.UserName;
 
                     LogDisinfectorRepository.Create(logFector);
                 }
