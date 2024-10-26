@@ -1,5 +1,7 @@
 ﻿using DocumentFormat.OpenXml.Office2010.Excel;
 using MyEPA.Models;
+using MyEPA.Models.FilterParameter;
+using MyEPA.Repositories;
 using MyEPA.Services;
 using System;
 using System.Collections.Generic;
@@ -42,6 +44,22 @@ namespace MyEPA.Controllers.Rec
             iquery = iquery.OrderByDescending(a => a.Id);
 
             List<LogDisinfectorModel> result = iquery.ToList();
+
+            if (result.Count == 0)
+            {
+                //閥值預設值
+                iquery = LogDisinfectorService.GetByDiasterId(LogDisinfectorService.iniDiasterId);
+                iquery = iquery.OrderByDescending(a => a.Id);
+                result = iquery.ToList();
+                
+                //是否可更新閥值
+                ViewBag.CanUpdate = false;
+            }
+            else
+            {
+                //是否可更新閥值
+                ViewBag.CanUpdate = true;
+            }
 
             //querystring
             ViewBag.DiasterId = diasterId;

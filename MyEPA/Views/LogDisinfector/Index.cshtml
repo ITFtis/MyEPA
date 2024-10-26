@@ -10,6 +10,7 @@
 
     //querystring
     int diasterId = ViewBag.DiasterId;
+    bool CanUpdate = ViewBag.CanUpdate;
 }
 
 <div class="btn-group">
@@ -31,8 +32,10 @@
         <div class="col-xs-12">
             <h2> (閥值)消毒設備 </h2>
 
-            <input type="submit" value="更新閥值" class="btn btn-danger align-center" onclick="Update()" />
-            <br /><br />
+            <div id="divUpdate">
+                <input type="submit" value="更新閥值" class="btn btn-danger align-center" onclick="Update()" />
+                <br /><br />
+            </div>
 
             <table class="table">
                 <tr>
@@ -75,6 +78,15 @@
 
 @section scripts{
     <script>
+
+        $(document).ready(function () {
+
+            var CanUpdate = '@CanUpdate'.toLowerCase() == 'true';
+            if (!CanUpdate) {
+                //預設值不給更新
+                $('#divUpdate').hide()
+            }
+        });
 
         function Update() {
 
