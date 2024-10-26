@@ -10,7 +10,7 @@
 --»Ö­È(®ø¬r³]³Æ)
 ----DB¡Gepaemis_local_20240930_t
 --Select 1 AS Id, 999999999 AS DiasterId, 
---       Id, City, Town, ContactUnit, DisinfectInstrument, Standard, Amount, ROCyear, UpdateTime, ConfirmTime, UseType, 
+--       City, Town, ContactUnit, DisinfectInstrument, Standard, Amount, ROCyear, UpdateTime, ConfirmTime, UseType, 
 --	   Null AS Duty, Null AS UserTypeDesc, Null AS Type, Null AS Shape, Null AS PowerFrom, Null AS Xpos, Null AS Ypos, Null AS BuyDate, 
 --	   UpdateUser, Null AS IsSupportCity, Null AS SupportCityNum,
 --	   0 AS CtPoint, GetDate() AS LogBDate, 'system' AS LogUser
