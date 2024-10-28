@@ -16,6 +16,8 @@ namespace MyEPA.Controllers
 {
     public class EPAxDiasterController : LoginBaseController
     {
+        private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         DiasterRepository DiasterRepository = new DiasterRepository();
         DiasterBLModel Diaster = new DiasterBLModel();
         bool[] CityCover = new bool[23] {false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false };               
@@ -136,12 +138,25 @@ namespace MyEPA.Controllers
             int id = DiasterRepository.CreateAndResultIdentity<int>(diaster);
 
             //災害id
+            var user = GetUserBrief();
             if (id > 0)
             {
-                //閥值資料建置(LogDisinfectorModel)
-                LogDisinfectorService LogDisinfectorService = new LogDisinfectorService();
-                var user = GetUserBrief();
-                LogDisinfectorService.Create(user, id);
+                try
+                {
+                    //(消毒設備)閥值資料建置(LogDisinfectorModel)
+                    LogDisinfectorService LogDisinfectorService = new LogDisinfectorService();
+                    LogDisinfectorService.Create(user, id);
+
+                    //(消毒藥劑)閥值資料建置(LogDisinfectantModel)
+                    LogDisinfectantService LogDisinfectantService = new LogDisinfectantService();
+                    LogDisinfectantService.Create(user, id);
+                }
+                catch (Exception ex)
+                {
+                    logger.Error("閥值資料建置錯誤");
+                    logger.Error(ex.Message);
+                    logger.Error(ex.StackTrace);
+                }
             }
 
             return RedirectToAction("A9x1", "EPAxDiaster");
