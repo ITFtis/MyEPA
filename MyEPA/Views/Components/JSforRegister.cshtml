@@ -61,7 +61,7 @@
                 $('#City').append('<option value="宜蘭縣">宜蘭縣</option>');
                 $('#City').append('<option value="澎湖縣">澎湖縣</option>');
                 $('#City').append('<option value="金門縣">金門縣</option>');
-                $('#City').append('<option value="連江縣">連江縣</option>')
+                $('#City').append('<option value="連江縣">連江縣</option>');
             }
             else if (Choice == "自來水公司") {
                 $("#City").removeAttr("disabled");
@@ -110,15 +110,42 @@
                 $('#Town').append('<option value="國家環境研究院">國家環境研究院</option>'); 
             }
 
-            else if (Choice2 == "基隆市") {
+            else if ((Choice2 == "基隆市") && (Choice == "環保局")) {
+                $("#Town").removeAttr("disabled");
+                $("#Town").empty();
+                $('#Town').append('<option value="環保局" selected="selected">環保局</option>');
+            }
+            else if ((Choice2 == "基隆市") && (Choice == "清潔隊")) {
+                $("#Town").removeAttr("disabled");
+                $("#Town").empty();
+                $('#Town').append('<option value="中正區">中正區</option>');
+                $('#Town').append('<option value="七堵區">七堵區</option>');
+                $('#Town').append('<option value="暖暖區">暖暖區</option>');
+                $('#Town').append('<option value="仁愛區">仁愛區</option>');
+                $('#Town').append('<option value="中山區">中山區</option>');
+                $('#Town').append('<option value="安樂區">安樂區</option>');
+                $('#Town').append('<option value="信義區">信義區</option>');
+            }
+            else if ((Choice2 == "臺北市") && (Choice == "環保局")) {
                 $("#Town").removeAttr("disabled");
                 $("#Town").empty();
                 $('#Town').append('<option value="環保局" selected="selected">環保局</option>')
             }
-            else if (Choice2 == "臺北市") {
+            else if ((Choice2 == "臺北市") && (Choice == "清潔隊")) {
                 $("#Town").removeAttr("disabled");
                 $("#Town").empty();
-                $('#Town').append('<option value="環保局" selected="selected">環保局</option>')
+                $('#Town').append('<option value="松山區">松山區</option>');
+                $('#Town').append('<option value="信義區">信義區</option>');
+                $('#Town').append('<option value="大安區">大安區</option>');
+                $('#Town').append('<option value="中山區">中山區</option>');
+                $('#Town').append('<option value="中正區">中正區</option>');
+                $('#Town').append('<option value="大同區">大同區</option>');
+                $('#Town').append('<option value="萬華區">萬華區</option>');
+                $('#Town').append('<option value="文山區">文山區</option>');
+                $('#Town').append('<option value="南港區">南港區</option>');
+                $('#Town').append('<option value="內湖區">內湖區</option>');
+                $('#Town').append('<option value="士林區">士林區</option>');
+                $('#Town').append('<option value="北投區">北投區</option>');
             }
             else if ((Choice2 == "新北市") && (Choice == "環保局")) {
                 $("#Town").removeAttr("disabled");
@@ -139,7 +166,7 @@
                 $('#Town').append('<option value="樹林區">樹林區</option>');
                 $('#Town').append('<option value="汐止區">汐止區</option>');
                 $('#Town').append('<option value="鶯歌區">鶯歌區</option>');
-                $('#Town').append('<option value="三峽區">三峽區"</option>');
+                $('#Town').append('<option value="三峽區">三峽區</option>');
                 $('#Town').append('<option value="淡水區">淡水區</option>');
                 $('#Town').append('<option value="瑞芳區">瑞芳區</option>');
                 $('#Town').append('<option value="五股區">五股區</option>');
@@ -156,7 +183,7 @@
                 $('#Town').append('<option value="貢寮區">貢寮區</option>');
                 $('#Town').append('<option value="金山區">金山區</option>');
                 $('#Town').append('<option value="萬里區">萬里區</option>');
-                $('#Town').append('<option value="烏來區">烏來區</option>')
+                $('#Town').append('<option value="烏來區">烏來區</option>');
             }
             else if ((Choice2 == "桃園市") && (Choice == "環保局")) {
                 $("#Town").removeAttr("disabled");
@@ -178,7 +205,7 @@
                 $('#Town').append('<option value="大溪區">大溪區</option>');
                 $('#Town').append('<option value="大園區">大園區</option>');
                 $('#Town').append('<option value="觀音區">觀音區</option>');
-                $('#Town').append('<option value="復興區">復興區</option>')
+                $('#Town').append('<option value="復興區">復興區</option>');
             }
             else if ((Choice2 == "新竹縣") && (Choice == "環保局")) {
                 $("#Town").removeAttr("disabled");
@@ -192,20 +219,27 @@
                 $('#Town').append('<option value="竹東鎮">竹東鎮</option>');
                 $('#Town').append('<option value="新埔鎮">新埔鎮</option>');
                 $('#Town').append('<option value="關西鎮">關西鎮</option>');
+                $('#Town').append('<option value="湖口鄉">湖口鄉</option>');
+                $('#Town').append('<option value="新豐鄉">新豐鄉</option>');
                 $('#Town').append('<option value="峨眉鄉">峨眉鄉</option>');
                 $('#Town').append('<option value="寶山鄉">寶山鄉</option>');
                 $('#Town').append('<option value="北埔鄉">北埔鄉</option>');
                 $('#Town').append('<option value="橫山鄉">橫山鄉</option>');
                 $('#Town').append('<option value="芎林鄉">芎林鄉</option>');
-                $('#Town').append('<option value="湖口鄉">大園區湖口鄉</option>');
-                $('#Town').append('<option value="新豐鄉">觀音區新豐鄉</option>');
-                $('#Town').append('<option value="尖石鄉">尖石鄉"</option>')
-                $('#Town').append('<option value="五峰鄉">五峰鄉"</option>')
+                $('#Town').append('<option value="尖石鄉">尖石鄉</option>');
+                $('#Town').append('<option value="五峰鄉">五峰鄉</option>');
             }
-            else if (Choice2 == "新竹市") {
+            else if (Choice2 == "新竹市" && (Choice == "環保局")) {
                 $("#Town").removeAttr("disabled");
                 $("#Town").empty();
-                $('#Town').append('<option value="環保局" selected="selected">環保局</option>')
+                $('#Town').append('<option value="環保局" selected="selected">環保局</option>');
+            }
+            else if ((Choice2 == "新竹市") && (Choice == "清潔隊")) {
+                $("#Town").removeAttr("disabled");
+                $("#Town").empty();
+                $('#Town').append('<option value="東區">東區</option>');
+                $('#Town').append('<option value="北區">北區</option>');
+                $('#Town').append('<option value="香山區">香山區</option>');
             }
             else if ((Choice2 == "苗栗縣") && (Choice == "環保局")) {
                 $("#Town").removeAttr("disabled");
@@ -215,7 +249,6 @@
             else if ((Choice2 == "苗栗縣") && (Choice == "清潔隊")) {
                 $("#Town").removeAttr("disabled");
                 $("#Town").empty();
-                $('#Town').append('<option value="環保局" selected="selected">環保局</option>');
                 $('#Town').append('<option value="苗栗市">苗栗市</option>');
                 $('#Town').append('<option value="通霄鎮">通霄鎮</option>');
                 $('#Town').append('<option value="苑裡鎮">苑裡鎮</option>');
@@ -231,7 +264,7 @@
                 $('#Town').append('<option value="南庄鄉">南庄鄉</option>');
                 $('#Town').append('<option value="大湖鄉">大湖鄉</option>');
                 $('#Town').append('<option value="獅潭鄉">獅潭鄉</option>');
-                $('#Town').append('<option value="泰安鄉">泰安鄉</option>')
+                $('#Town').append('<option value="泰安鄉">泰安鄉</option>');
             }
             else if ((Choice2 == "臺中市") && (Choice == "環保局")) {
                 $("#Town").removeAttr("disabled");
@@ -242,7 +275,7 @@
             else if ((Choice2 == "臺中市") && (Choice == "清潔隊")) {
                 $("#Town").removeAttr("disabled");
                 $("#Town").empty();
-                $('#Town').append('<option value="中西區" selected="selected">中西區</option>');
+                $('#Town').append('<option value="中西區">中西區</option>');
                 $('#Town').append('<option value="東南區">東南區</option>');
                 //$('#Town').append('<option value="南區">南區</option>');
                 //$('#Town').append('<option value="西區">西區</option>');
@@ -283,7 +316,7 @@
             else if ((Choice2 == "南投縣") && (Choice == "清潔隊")) {
                 $("#Town").removeAttr("disabled");
                 $("#Town").empty();
-                $('#Town').append('<option value="南投市" selected="selected">南投市</option>');
+                $('#Town').append('<option value="南投市">南投市</option>');
                 $('#Town').append('<option value="埔里鎮">埔里鎮</option>');
                 $('#Town').append('<option value="草屯鎮">草屯鎮</option>');
                 $('#Town').append('<option value="竹山鎮">竹山鎮</option>');
@@ -295,7 +328,7 @@
                 $('#Town').append('<option value="國姓鄉">國姓鄉</option>');
                 $('#Town').append('<option value="水里鄉">水里鄉</option>');
                 $('#Town').append('<option value="信義鄉">信義鄉</option>');
-                $('#Town').append('<option value="仁愛鄉">仁愛鄉</option>')
+                $('#Town').append('<option value="仁愛鄉">仁愛鄉</option>');
             }
             else if ((Choice2 == "彰化縣") && (Choice == "環保局")) {
                 $("#Town").removeAttr("disabled");
@@ -306,7 +339,7 @@
             else if ((Choice2 == "彰化縣") && (Choice == "清潔隊")) {
                 $("#Town").removeAttr("disabled");
                 $("#Town").empty();
-                $('#Town').append('<option value="彰化市" selected="selected">彰化市</option>');
+                $('#Town').append('<option value="彰化市">彰化市</option>');
                 $('#Town').append('<option value="員林市">員林市</option>');
                 $('#Town').append('<option value="和美鎮">和美鎮</option>');
                 $('#Town').append('<option value="鹿港鎮">鹿港鎮</option>');
@@ -331,7 +364,7 @@
                 $('#Town').append('<option value="二水鄉">二水鄉</option>');
                 $('#Town').append('<option value="田尾鄉">田尾鄉</option>');
                 $('#Town').append('<option value="埤頭鄉">埤頭鄉</option>');
-                $('#Town').append('<option value="溪州鄉">溪州鄉</option>')
+                $('#Town').append('<option value="溪州鄉">溪州鄉</option>');
             }
             else if ((Choice2 == "雲林縣") && (Choice == "環保局")) {
                 $("#Town").removeAttr("disabled");
@@ -343,7 +376,7 @@
             else if ((Choice2 == "雲林縣") && (Choice == "清潔隊")) {
                 $("#Town").removeAttr("disabled");
                 $("#Town").empty();
-                $('#Town').append('<option value="斗六市" selected="selected">斗六市</option>');
+                $('#Town').append('<option value="斗六市">斗六市</option>');
                 $('#Town').append('<option value="斗南鎮">斗南鎮</option>');
                 $('#Town').append('<option value="虎尾鎮">虎尾鎮</option>');
                 $('#Town').append('<option value="西螺鎮">西螺鎮</option>');
@@ -362,7 +395,7 @@
                 $('#Town').append('<option value="四湖鄉">四湖鄉</option>');
                 $('#Town').append('<option value="口湖鄉">口湖鄉</option>');
                 $('#Town').append('<option value="水林鄉">水林鄉</option>');
-                $('#Town').append('<option value="元長鄉">元長鄉</option>')
+                $('#Town').append('<option value="元長鄉">元長鄉</option>');
             }
             else if ((Choice2 == "嘉義縣") && (Choice == "環保局")) {
                 $("#Town").removeAttr("disabled");
@@ -372,7 +405,7 @@
             else if ((Choice2 == "嘉義縣") && (Choice == "清潔隊")) {
                 $("#Town").removeAttr("disabled");
                 $("#Town").empty();
-                $('#Town').append('<option value="太保市" selected="selected">太保市</option>');
+                $('#Town').append('<option value="太保市">太保市</option>');
                 $('#Town').append('<option value="朴子市">朴子市</option>');
                 $('#Town').append('<option value="布袋鎮">布袋鎮</option>');
                 $('#Town').append('<option value="大林鎮">大林鎮</option>');
@@ -389,13 +422,19 @@
                 $('#Town').append('<option value="梅山鄉">梅山鄉</option>');
                 $('#Town').append('<option value="番路鄉">番路鄉</option>');
                 $('#Town').append('<option value="大埔鄉">大埔鄉</option>');
-                $('#Town').append('<option value="阿里山鄉">阿里山鄉</option>')
+                $('#Town').append('<option value="阿里山鄉">阿里山鄉</option>');
             }
-            else if (Choice2 == "嘉義市") {
+            else if ((Choice2 == "嘉義市") && (Choice == "環保局")) {
                 $("#Town").removeAttr("disabled");
                 $("#Town").empty();
-                $('#Town').append('<option value="環保局" selected="selected">環保局</option>')
+                $('#Town').append('<option value="環保局" selected="selected">環保局</option>');
             }
+            else if ((Choice2 == "嘉義市") && (Choice == "清潔隊")) {
+                $("#Town").removeAttr("disabled");
+                $("#Town").empty();
+                $('#Town').append('<option value="東區">東區</option>');
+                $('#Town').append('<option value="西區">西區</option>');
+            }            
             else if ((Choice2 == "臺南市") && (Choice == "環保局")) {
                 $("#Town").removeAttr("disabled");
                 $("#Town").empty();
@@ -405,7 +444,7 @@
             else if ((Choice2 == "臺南市") && (Choice == "清潔隊")) {
                 $("#Town").removeAttr("disabled");
                 $("#Town").empty();
-                $('#Town').append('<option value="安平中西區" selected="selected">安平中西區</option>');
+                $('#Town').append('<option value="安平中西區">安平中西區</option>');
                 $('#Town').append('<option value="東區">東區</option>');
                 $('#Town').append('<option value="南區">南區</option>');
                 $('#Town').append('<option value="北區">北區</option>');
@@ -451,7 +490,7 @@
             else if ((Choice2 == "高雄市") && (Choice == "清潔隊")) {
                 $("#Town").removeAttr("disabled");
                 $("#Town").empty();
-                $('#Town').append('<option value="楠梓區" selected="selected">楠梓區</option>');
+                $('#Town').append('<option value="楠梓區">楠梓區</option>');
                 $('#Town').append('<option value="左營區">左營區</option>');
                 $('#Town').append('<option value="鼓山區">鼓山區</option>');
                 $('#Town').append('<option value="鹽埕區">鹽埕區</option>');
@@ -490,7 +529,7 @@
                 $('#Town').append('<option value="六龜區">六龜區</option>');
                 $('#Town').append('<option value="茂林區">茂林區</option>');
                 $('#Town').append('<option value="桃源區">桃源區</option>');
-                $('#Town').append('<option value="那瑪夏區">那瑪夏區</option>')
+                $('#Town').append('<option value="那瑪夏區">那瑪夏區</option>');
             }
             else if ((Choice2 == "屏東縣") && (Choice == "環保局")) {
                 $("#Town").removeAttr("disabled");
@@ -500,7 +539,7 @@
             else if ((Choice2 == "屏東縣") && (Choice == "清潔隊")) {
                 $("#Town").removeAttr("disabled");
                 $("#Town").empty();
-                $('#Town').append('<option value="屏東市" selected="selected">屏東市</option>');
+                $('#Town').append('<option value="屏東市">屏東市</option>');
                 $('#Town').append('<option value="潮州鎮">潮州鎮</option>');
                 $('#Town').append('<option value="東港鎮">東港鎮</option>');
                 $('#Town').append('<option value="恆春鎮">恆春鎮</option>');
@@ -543,7 +582,7 @@
             else if ((Choice2 == "臺東縣") && (Choice == "清潔隊")) {
                 $("#Town").removeAttr("disabled");
                 $("#Town").empty();
-                $('#Town').append('<option value="台東市" selected="selected">台東市</option>');
+                $('#Town').append('<option value="台東市">台東市</option>');
                 $('#Town').append('<option value="成功鎮">成功鎮</option>');
                 $('#Town').append('<option value="關山鎮">關山鎮</option>');
                 $('#Town').append('<option value="長濱鄉">長濱鄉</option>');
@@ -558,7 +597,7 @@
                 $('#Town').append('<option value="達仁鄉">達仁鄉</option>');
                 $('#Town').append('<option value="綠島鄉">綠島鄉</option>');
                 $('#Town').append('<option value="蘭嶼鄉">蘭嶼鄉</option>');
-                $('#Town').append('<option value="太麻里鄉">太麻里鄉</option>')
+                $('#Town').append('<option value="太麻里鄉">太麻里鄉</option>');
             }
             else if ((Choice2 == "花蓮縣") && (Choice == "環保局")) {
                 $("#Town").removeAttr("disabled");
@@ -568,7 +607,7 @@
             else if ((Choice2 == "花蓮縣") && (Choice == "清潔隊")) {
                 $("#Town").removeAttr("disabled");
                 $("#Town").empty();
-                $('#Town').append('<option value="花蓮市" selected="selected">花蓮市</option>');
+                $('#Town').append('<option value="花蓮市">花蓮市</option>');
                 $('#Town').append('<option value="鳳林鎮">鳳林鎮</option>');
                 $('#Town').append('<option value="玉里鎮">玉里鎮</option>');
                 $('#Town').append('<option value="新城鄉">新城鄉</option>');
@@ -590,7 +629,7 @@
             else if ((Choice2 == "宜蘭縣") && (Choice == "清潔隊")) {
                 $("#Town").removeAttr("disabled");
                 $("#Town").empty();
-                $('#Town').append('<option value="宜蘭市" selected="selected">宜蘭市</option>');
+                $('#Town').append('<option value="宜蘭市">宜蘭市</option>');
                 $('#Town').append('<option value="羅東鎮">羅東鎮</option>');
                 $('#Town').append('<option value="蘇澳鎮">蘇澳鎮</option>');
                 $('#Town').append('<option value="頭城鎮">頭城鎮</option>');
@@ -599,7 +638,7 @@
                 $('#Town').append('<option value="員山鄉">員山鄉</option>');
                 $('#Town').append('<option value="冬山鄉">冬山鄉</option>');
                 $('#Town').append('<option value="五結鄉">五結鄉</option>');
-                $('#Town').append('<option value="三星鄉">三星鄉</option>')
+                $('#Town').append('<option value="三星鄉">三星鄉</option>');
                 $('#Town').append('<option value="南澳鎮">南澳鎮</option>');
             }
             else if ((Choice2 == "澎湖縣") && (Choice == "環保局")) {
@@ -610,12 +649,12 @@
             else if ((Choice2 == "澎湖縣") && (Choice == "清潔隊")) {
                 $("#Town").removeAttr("disabled");
                 $("#Town").empty();
-                $('#Town').append('<option value="馬公市" selected="selected">馬公市</option>');
+                $('#Town').append('<option value="馬公市">馬公市</option>');
                 $('#Town').append('<option value="湖西鄉">湖西鄉</option>');
                 $('#Town').append('<option value="白沙鄉">白沙鄉</option>');
                 $('#Town').append('<option value="西嶼鄉">西嶼鄉</option>');
                 $('#Town').append('<option value="望安鄉">望安鄉</option>');
-                $('#Town').append('<option value="七美鄉">七美鄉</option>')
+                $('#Town').append('<option value="七美鄉">七美鄉</option>');
             }
             else if ((Choice2 == "金門縣") && (Choice == "環保局")) {
                 $("#Town").removeAttr("disabled");
@@ -625,12 +664,12 @@
             else if ((Choice2 == "金門縣") && (Choice == "清潔隊")) {
                 $("#Town").removeAttr("disabled");
                 $("#Town").empty();
-                $('#Town').append('<option value="金城鎮" selected="selected">金城鎮</option>');
+                $('#Town').append('<option value="金城鎮">金城鎮</option>');
                 $('#Town').append('<option value="金湖鎮">金湖鎮</option>');
                 $('#Town').append('<option value="金沙鎮">金沙鎮</option>');
-                $('#Town').append('<option value="金寧鄉">金寧鄉/option>');
+                $('#Town').append('<option value="金寧鄉">金寧鄉</option>');
                 $('#Town').append('<option value="烈嶼鄉">烈嶼鄉</option>');
-                $('#Town').append('<option value="烏坵鄉">烏坵鄉</option>')
+                $('#Town').append('<option value="烏坵鄉">烏坵鄉</option>');
             }
             else if ((Choice2 == "連江縣") && (Choice == "環保局")) {
                 $("#Town").removeAttr("disabled");
@@ -640,10 +679,10 @@
             else if ((Choice2 == "連江縣") && (Choice == "清潔隊")) {
                 $("#Town").removeAttr("disabled");
                 $("#Town").empty();
-                $('#Town').append('<option value="南竿鄉" selected="selected">南竿鄉</option>');
+                $('#Town').append('<option value="南竿鄉">南竿鄉</option>');
                 $('#Town').append('<option value="北竿鄉">北竿鄉</option>');
                 $('#Town').append('<option value="莒光鄉">莒光鄉</option>');
-                $('#Town').append('<option value="東引鄉">東引鄉/option>')
+                $('#Town').append('<option value="東引鄉">東引鄉</option>');
             }
             else if (Choice2 == "金門縣自來水廠") {
                 $("#Town").removeAttr("disabled");
