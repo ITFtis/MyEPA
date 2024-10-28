@@ -1,0 +1,17 @@
+﻿@model IEnumerable<MyEPA.Models.LogDisinfectorModel>
+@using MyEPA.Models;
+@using MyEPA.Enums;
+
+@{
+    ViewBag.Title = "(閥值)消毒藥劑";
+    Layout = "~/Views/_Layout.cshtml";
+
+    List<DiasterModel> diasters = ViewBag.Diasters;
+
+    ////querystring
+    //int diasterId = ViewBag.DiasterId;
+    //bool CanUpdate = ViewBag.CanUpdate;
+}
+
+
+消毒藥劑
