@@ -143,11 +143,11 @@ namespace MyEPA.Controllers
             {
                 try
                 {
-                    //(消毒設備)閥值資料建置(LogDisinfectorModel)
+                    //(閥值)消毒設備資料建置(LogDisinfectorModel)
                     LogDisinfectorService LogDisinfectorService = new LogDisinfectorService();
                     LogDisinfectorService.Create(user, id);
 
-                    //(消毒藥劑)閥值資料建置(LogDisinfectantModel)
+                    //(閥值)消毒藥劑資料建置(LogDisinfectantModel)
                     LogDisinfectantService LogDisinfectantService = new LogDisinfectantService();
                     LogDisinfectantService.Create(user, id);
                 }

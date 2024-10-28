@@ -12,7 +12,7 @@ namespace MyEPA
     public static class ClassUtility
     {
         /// <summary>
-        /// (消毒設備)閥值資料建置，屬性Copy
+        /// (閥值)消毒設備資料建置，屬性Copy
         /// </summary>
         /// <param name="source">來源</param>
         /// <param name="dest">目的</param>
@@ -36,7 +36,7 @@ namespace MyEPA
 
 
         /// <summary>
-        /// (消毒藥劑)閥值資料建置，屬性Copy
+        /// (閥值)消毒藥劑資料建置，屬性Copy
         /// </summary>
         /// <param name="source">來源</param>
         /// <param name="dest">目的</param>

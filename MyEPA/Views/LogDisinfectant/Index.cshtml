@@ -100,15 +100,15 @@
                 success: function (data) {
                     if (data.IsSuccess) {
                         isChanged = false;
-                        alert('更新閥值成功');
+                        alert('閥值更新成功');
                         location.reload();
                     }
                     else {
-                        alert('更新閥值失敗,' + data.ErrorMessage);
+                        alert('閥值更新失敗,' + data.ErrorMessage);
                     }
                 },
                 error: function (data) {
-                    alert('更新閥值失敗');
+                    alert('閥值更新失敗');
                 }
             });
 
