@@ -383,6 +383,7 @@
     <Compile Include="Models\ContactManuals\ContactManualDownloadRecordModel.cs" />
     <Compile Include="Models\DisinfectantTypeModel.cs" />
     <Compile Include="Models\DisinfectorTypeModel.cs" />
+    <Compile Include="Models\FilterParameter\LogDisinfectantFilterParameter.cs" />
     <Compile Include="Models\FilterParameter\LogDisinfectorFilterParameter.cs" />
     <Compile Include="Models\FilterParameter\RecResourceFilterParameter.cs" />
     <Compile Include="Models\FilterParameter\RecResourceSetFilterParameter.cs" />
@@ -390,6 +391,7 @@
     <Compile Include="Models\FilterParameter\UsersBriefFilterParameter.cs" />
     <Compile Include="Models\FilterParameter\UsersFilterPaginationParameter.cs" />
     <Compile Include="Models\FilterParameter\UsersFilterParameter.cs" />
+    <Compile Include="Models\RecModels\LogDisinfectantModel.cs" />
     <Compile Include="Models\RecModels\LogDisinfectorModel.cs" />
     <Compile Include="Models\RecModels\RecResourceModel.cs" />
     <Compile Include="Models\RecModels\RecResourceSetModel.cs" />
@@ -403,6 +405,7 @@
     <Compile Include="Repositories\ContactManualDownloadRecordRepository.cs" />
     <Compile Include="Repositories\DisinfectantTypeRepository.cs" />
     <Compile Include="Repositories\DisinfectorTypeRepository.cs" />
+    <Compile Include="Repositories\LogDisinfectantRepository.cs" />
     <Compile Include="Repositories\LogDisinfectorRepository.cs" />
     <Compile Include="Repositories\RecResourceRepository.cs" />
     <Compile Include="Repositories\RecResourceSetRepository.cs" />
@@ -413,6 +416,7 @@
     <Compile Include="Services\ContactManualServices\ContactManualReportService.cs" />
     <Compile Include="Services\ContactManualServices\ContactManualSupervisionFileDataService.cs" />
     <Compile Include="Services\ContactManualServices\ContactManualTeamService.cs" />
+    <Compile Include="Services\LogDisinfectantService.cs" />
     <Compile Include="Services\LogDisinfectorService.cs" />
     <Compile Include="Services\PDFHelper.cs" />
     <Compile Include="Services\RecResourceService.cs" />

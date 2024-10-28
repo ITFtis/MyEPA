@@ -12,7 +12,7 @@ namespace MyEPA
     public static class ClassUtility
     {
         /// <summary>
-        /// 閥值資料建置，屬性Copy
+        /// (消毒設備)閥值資料建置，屬性Copy
         /// </summary>
         /// <param name="source">來源</param>
         /// <param name="dest">目的</param>
@@ -20,6 +20,30 @@ namespace MyEPA
         {
             var sourceProps = typeof(DisinfectorModel).GetProperties().Where(x => x.CanRead).ToList();
             var destProps = typeof(LogDisinfectorModel).GetProperties()
+                    .Where(x => x.CanWrite)
+                    .ToList();
+
+            foreach (var sourceProp in sourceProps)
+            {
+                if (destProps.Any(x => x.Name == sourceProp.Name))
+                {
+                    var p = destProps.First(x => x.Name == sourceProp.Name);
+                    p.SetValue(dest, sourceProp.GetValue(source, null), null);
+                }
+
+            }
+        }
+
+
+        /// <summary>
+        /// (消毒藥劑)閥值資料建置，屬性Copy
+        /// </summary>
+        /// <param name="source">來源</param>
+        /// <param name="dest">目的</param>
+        public static void CopyPropertiesTo(this DisinfectantModel source, LogDisinfectantModel dest)
+        {
+            var sourceProps = typeof(DisinfectantModel).GetProperties().Where(x => x.CanRead).ToList();
+            var destProps = typeof(LogDisinfectantModel).GetProperties()
                     .Where(x => x.CanWrite)
                     .ToList();
 
