@@ -11,10 +11,15 @@ Go
 
 ----鄉鎮不需要多一筆三區中心
 ------鄉鎮
-----Declare @CityId AS Int
-----Select @CityId = Id from City Where City = '三區中心'
+Declare @CityId AS Int
+Select @CityId = Id from City Where City = '三區中心'
 
-----Insert Into Town(CityId, Name, IsTown)
-----select @CityId AS CityId, '三區中心' AS Name, 0 AS IsTown
-----Go
+Insert Into Town(CityId, Name, IsTown)
+select @CityId AS CityId, '三區中心北區' AS Name, 0 AS IsTown
 
+Insert Into Town(CityId, Name, IsTown)
+select @CityId AS CityId, '三區中心中區' AS Name, 0 AS IsTown
+
+Insert Into Town(CityId, Name, IsTown)
+select @CityId AS CityId, '三區中心南區' AS Name, 0 AS IsTown
+Go
