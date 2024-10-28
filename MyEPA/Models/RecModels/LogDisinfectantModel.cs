@@ -11,6 +11,7 @@ namespace MyEPA.Models
 {
     public class LogDisinfectantModel
     {
+        [AutoKey]
         public int Id { get; set; }
 
         [DisplayName("對應災害主題Id")]
