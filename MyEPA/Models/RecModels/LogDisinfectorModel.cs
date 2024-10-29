@@ -53,6 +53,9 @@ namespace MyEPA.Models
 
     public class LogDisinfectorViewModel : LogDisinfectorModel
     {
+        [DisplayName("現有設備使用年限說明")]
+        public string CurYearDesc { get; set; }
+
         [DisplayName("現有設備數量")]
         public int? CurAmount { get; set; }   
     }

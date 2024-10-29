@@ -68,7 +68,11 @@
                         <td>@Item.CtPoint</td>
                         <td>@(DateFormat.ToDate7(Item.LogBDate))</td>
                         <th>@Item.LogBUser</th>
-                        <td>@Item.CurAmount</td>
+                        <td>
+                            @Item.CurAmount
+                            <br />
+                            @Html.Raw(Item.CurYearDesc)
+                        </td>
                     </tr>
                 }
             </table>

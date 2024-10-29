@@ -41,6 +41,20 @@ namespace MyEPA.Services
         {
             var model = LogDisinfectorRepository.GetLogDisinfectorCurrentByFilter(filter);
 
+            //個別資訊
+            if (filter.DiasterIds.Count > 0)
+            {
+                var logs = GetByDiasterId(filter.DiasterIds.First());
+                foreach (var item in model)
+                {
+                    var fs = logs.Where(a => a.City == item.City && a.Town == item.Town
+                                        && a.ContactUnit == item.ContactUnit
+                                        && a.DisinfectInstrument == item.DisinfectInstrument);
+
+                    item.CurYearDesc = string.Join("<br />", fs.Select(a => "數量(" + a.Amount + ")" + "：年限(" + a.ROCyear + ")"));
+                }
+            }
+
             return model;
         }
 
