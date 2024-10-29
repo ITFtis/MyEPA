@@ -1,4 +1,6 @@
-﻿using MyEPA.Models;
+﻿using MyEPA.Extensions;
+using MyEPA.Models;
+using MyEPA.Models.FilterParameter;
 using MyEPA.Services;
 using System;
 using System.Collections.Generic;
@@ -37,15 +39,26 @@ namespace MyEPA.Controllers.Rec
                 return View(new List<RecResourceModel>());
             }
 
-            IEnumerable<LogDisinfectantModel> iquery = LogDisinfectantService.GetByDiasterId(diasterId.Value);
+            LogDisinfectantFilterParameter filter = new LogDisinfectantFilterParameter()
+            {
+                DiasterIds = diasterId.Value.ToListCollection(),
+            };
+
+            //IEnumerable<LogDisinfectantModel> iquery = LogDisinfectantService.GetByDiasterId(diasterId.Value);
+            IEnumerable<LogDisinfectantViewModel> iquery = LogDisinfectantService.GetLogDisinfectantCurrentByFilter(filter);
             iquery = iquery.OrderByDescending(a => a.Id);
 
-            List<LogDisinfectantModel> result = iquery.ToList();
+            List<LogDisinfectantViewModel> result = iquery.ToList();
 
             if (result.Count == 0)
             {
                 //閥值預設值
-                iquery = LogDisinfectantService.GetByDiasterId(LogDisinfectantService.iniDiasterId);
+                //iquery = LogDisinfectantService.GetByDiasterId(LogDisinfectantService.iniDiasterId);
+                filter = new LogDisinfectantFilterParameter()
+                {
+                    DiasterIds = LogDisinfectantService.iniDiasterId.ToListCollection(),
+                };
+                iquery = LogDisinfectantService.GetLogDisinfectantCurrentByFilter(filter);
                 iquery = iquery.OrderByDescending(a => a.Id);
                 result = iquery.ToList();
 

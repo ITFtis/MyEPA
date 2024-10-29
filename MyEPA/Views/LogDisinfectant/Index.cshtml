@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MyEPA.Models.LogDisinfectantModel>
+﻿@model IEnumerable<MyEPA.Models.LogDisinfectantViewModel>
 @using MyEPA.Models;
 @using MyEPA.Enums;
 
@@ -42,7 +42,6 @@
                     <th>縣市</th>
                     <th>鄉鎮市</th>
                     <th>聯繫單位名稱</th>
-                    <th>用途</th>
                     <th>
                         消毒藥劑名稱
                         <br />
@@ -52,6 +51,7 @@
                     <th>閥值</th>
                     <th>閥值建置時間</th>
                     <th>閥值更新人員</th>
+                    <th>現有數量</th>
                 </tr>
                 @foreach (var Item in Model)
                 {
@@ -59,7 +59,6 @@
                         <td>@Item.City</td>
                         <td>@Item.Town</td>
                         <td>@Item.ContactUnit</td>
-                        <td>@(((DisinfectorUseTypeEnum?)Item.UseType).GetDescription())</td>
                         <td>
                             @Item.DrugName
                             <br />
@@ -69,6 +68,11 @@
                         <td>@Item.CtPoint</td>
                         <td>@(DateFormat.ToDate7(Item.LogBDate))</td>
                         <th>@Item.LogBUser</th>
+                        <td>
+                            @Item.CurAmount
+                            <br />
+                            @Html.Raw(Item.CurYearDesc)
+                        </td>
                     </tr>
                 }
             </table>

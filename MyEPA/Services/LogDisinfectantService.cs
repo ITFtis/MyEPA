@@ -32,6 +32,33 @@ namespace MyEPA.Services
         }
 
         /// <summary>
+        /// (閥值)消毒藥品，當下數量比較
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public List<LogDisinfectantViewModel> GetLogDisinfectantCurrentByFilter(LogDisinfectantFilterParameter filter)
+        {
+            var model = LogDisinfectantRepository.GetLogDisinfectantCurrentByFilter(filter);
+
+            //個別資訊
+            if (filter.DiasterIds.Count > 0)
+            {
+                var logs = GetByDiasterId(filter.DiasterIds.First());
+                foreach (var item in model)
+                {
+                    var fs = logs.Where(a => a.City == item.City && a.Town == item.Town
+                                        && a.ContactUnit == item.ContactUnit
+                                        && a.DrugName == item.DrugName);
+
+                    item.CurYearDesc = string.Join("<br />", fs.Select(a => "數量(" + a.Amount + ")" + "：使用年限(" + a.ServiceLifeName + ")"));
+                }
+            }
+
+            return model;
+        }
+
+
+        /// <summary>
         /// 閥值資料建置
         /// </summary>
         /// <param name="user"></param>
