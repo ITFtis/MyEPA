@@ -71,10 +71,10 @@ From
 Left Join
 (
 	Select City, Town, ContactUnit, DrugName, Sum(Amount) AS CurAmount
-	From LogDisinfectant
+	From Disinfectant
 	Group By City, Town, ContactUnit, DrugName
 )b On a.City = b.City And a.Town = b.Town
-And a.ContactUnit = b.ContactUnit
+And ISNULL(a.ContactUnit, '') = ISNULL(b.ContactUnit, '')
 And a.DrugName = b.DrugName 
 Left Join City c On a.City = c.City
 Order By c.Sort

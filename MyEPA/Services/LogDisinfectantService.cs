@@ -55,7 +55,7 @@ namespace MyEPA.Services
                                     ServiceLifeName = a.ServiceLife != null ? DateFormat.ToDate4((DateTime)a.ServiceLife) : ""
                             });
 
-                    item.CurYearDesc = string.Join("<br />", fs.Select(a => "數量(" + a.Amount + ")" + "：使用年限(" + a.ServiceLifeName + ")"));
+                    item.CurYearDesc = string.Join("<br />", fs.Select(a => "數量(" + a.Amount + ")" + "：有限年(" + a.ServiceLifeName + ")"));
                 }
             }
 
