@@ -38,15 +38,6 @@ namespace MyEPA.Models
         [DisplayName("使用年限")]
         public DateTime? ServiceLife { get; set; }
 
-        [DisplayName("使用年限")]
-        public string ServiceLifeName 
-        {
-            get
-            {
-                return this.ServiceLife != null ? DateFormat.ToDate4((DateTime)this.ServiceLife) : "";
-            }
-        }
-
         [DisplayName("是否跨縣市調度")]
         public bool? IsSupportCity { get; set; }
         [DisplayName("跨縣市調度數量")]

@@ -46,9 +46,14 @@ namespace MyEPA.Services
                 var logs = GetByDiasterId(filter.DiasterIds.First());
                 foreach (var item in model)
                 {
-                    var fs = logs.Where(a => a.City == item.City && a.Town == item.Town
+                    var tmp = logs.Where(a => a.City == item.City && a.Town == item.Town
                                         && a.ContactUnit == item.ContactUnit
                                         && a.DrugName == item.DrugName);
+
+                    var fs = tmp.Select(a => new { 
+                                    Amount = a.Amount,
+                                    ServiceLifeName = a.ServiceLife != null ? DateFormat.ToDate4((DateTime)a.ServiceLife) : ""
+                            });
 
                     item.CurYearDesc = string.Join("<br />", fs.Select(a => "數量(" + a.Amount + ")" + "：使用年限(" + a.ServiceLifeName + ")"));
                 }
