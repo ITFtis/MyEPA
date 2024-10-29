@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using MyEPA.Extensions;
 using MyEPA.Models;
 using MyEPA.Models.FilterParameter;
 using MyEPA.Repositories;
@@ -40,15 +41,26 @@ namespace MyEPA.Controllers.Rec
                 return View(new List<RecResourceModel>());
             }
 
-            IEnumerable<LogDisinfectorModel> iquery = LogDisinfectorService.GetByDiasterId(diasterId.Value);
+            LogDisinfectorFilterParameter filter = new LogDisinfectorFilterParameter()
+            {
+                DiasterIds = diasterId.Value.ToListCollection(),
+            };
+
+            //IEnumerable<LogDisinfectorModel> iquery = LogDisinfectorService.GetByDiasterId(diasterId.Value);
+            IEnumerable<LogDisinfectorViewModel> iquery = LogDisinfectorService.GetLogDisinfectorCurrentByFilter(filter);
             iquery = iquery.OrderByDescending(a => a.Id);
 
-            List<LogDisinfectorModel> result = iquery.ToList();
+            List<LogDisinfectorViewModel> result = iquery.ToList();
 
             if (result.Count == 0)
             {
                 //閥值預設值
-                iquery = LogDisinfectorService.GetByDiasterId(LogDisinfectorService.iniDiasterId);
+                //iquery = LogDisinfectorService.GetByDiasterId(LogDisinfectorService.iniDiasterId);
+                filter = new LogDisinfectorFilterParameter()
+                {
+                    DiasterIds = LogDisinfectorService.iniDiasterId.ToListCollection(),
+                };
+                iquery = LogDisinfectorService.GetLogDisinfectorCurrentByFilter(filter);
                 iquery = iquery.OrderByDescending(a => a.Id);
                 result = iquery.ToList();
                 

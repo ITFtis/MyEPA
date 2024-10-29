@@ -50,4 +50,10 @@ namespace MyEPA.Models
         [DisplayName("Log更新者")]
         public string LogBUser { get; set; }
     }
+
+    public class LogDisinfectorViewModel : LogDisinfectorModel
+    {
+        [DisplayName("現有設備數量")]
+        public int? CurAmount { get; set; }   
+    }
 }

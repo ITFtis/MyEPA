@@ -33,6 +33,18 @@ namespace MyEPA.Services
         }
 
         /// <summary>
+        /// (閥值)消毒設備，當下數量比較
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public List<LogDisinfectorViewModel> GetLogDisinfectorCurrentByFilter(LogDisinfectorFilterParameter filter)
+        {
+            var model = LogDisinfectorRepository.GetLogDisinfectorCurrentByFilter(filter);
+
+            return model;
+        }
+
+        /// <summary>
         /// 閥值資料建置
         /// </summary>
         /// <param name="user"></param>

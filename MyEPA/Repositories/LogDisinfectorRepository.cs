@@ -44,6 +44,47 @@ namespace MyEPA.Repositories
             return wherwSQL;
         }
 
+        /// <summary>
+        /// (閥值)消毒設備，當下數量比較
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public List<LogDisinfectorViewModel> GetLogDisinfectorCurrentByFilter(LogDisinfectorFilterParameter filter)
+        {
+            string whereSQL = GetWhereSQLByFilter(filter);
+
+            string sql = $@"
+
+Select a.DiasterId, 
+       a.City, a.Town, a.ContactUnit, a.DisinfectInstrument, 
+       a.Amount, a.CtPoint, a.LogBDate, a.LogBUser,
+	   b.CurAmount,
+	   c.Sort
+From
+(
+	Select DiasterId, City, Town, ContactUnit, DisinfectInstrument, Sum(Amount) AS Amount, Sum(CtPoint) AS CtPoint,
+	       MAX(LogBDate) AS LogBDate, MAX(LogBUser) AS LogBUser
+	From LogDisinfector
+    {whereSQL}
+	Group By DiasterId, City, Town, ContactUnit, DisinfectInstrument
+)a
+Left Join
+(
+	Select City, Town, ContactUnit, DisinfectInstrument, Sum(Amount) AS CurAmount
+	From Disinfector
+	Group By City, Town, ContactUnit, DisinfectInstrument
+)b On a.City = b.City And a.Town = b.Town
+And a.ContactUnit = b.ContactUnit
+And a.DisinfectInstrument = b.DisinfectInstrument 
+Left Join City c On a.City = c.City
+Order By c.Sort
+
+";
+
+
+            return GetListBySQL<LogDisinfectorViewModel>(sql, filter);
+        }
+
         public bool Delete(int DiasterId)
         {
             string whereSql = "WHERE DiasterId = @DiasterId";
