@@ -51,7 +51,7 @@ namespace MyEPA.Services
                                         && a.ContactUnit == item.ContactUnit
                                         && a.DisinfectInstrument == item.DisinfectInstrument);
 
-                    item.CurYearDesc = string.Join("<br />", fs.Select(a => "數量(" + a.Amount + ")" + "：年限(" + a.ROCyear + ")"));
+                    item.CurYearDesc = string.Join("<br />", fs.Select(a => "數量(" + a.Amount + ")" + "：購買年(" + a.ROCyear + ")"));
                 }
             }
 
