@@ -16,7 +16,7 @@ namespace MyEPA.Services
 
         LogDisinfectantRepository LogDisinfectantRepository = new LogDisinfectantRepository();
         DiasterRepository DiasterRepository = new DiasterRepository();
-
+        DisinfectantRepository DisinfectantRepository = new DisinfectantRepository();
         public List<LogDisinfectantModel> GetByDiasterId(int diasterId)
         {
             LogDisinfectantFilterParameter filter =
@@ -40,13 +40,14 @@ namespace MyEPA.Services
         {
             var model = LogDisinfectantRepository.GetLogDisinfectantCurrentByFilter(filter);
 
-            //個別資訊
+            //個別現有數量明細
             if (filter.DiasterIds.Count > 0)
             {
-                var logs = GetByDiasterId(filter.DiasterIds.First());
+                var curs = DisinfectantRepository.GetList();
+
                 foreach (var item in model)
                 {
-                    var tmp = logs.Where(a => a.City == item.City && a.Town == item.Town
+                    var tmp = curs.Where(a => a.City == item.City && a.Town == item.Town
                                         && a.ContactUnit == item.ContactUnit
                                         && a.DrugName == item.DrugName);
 
