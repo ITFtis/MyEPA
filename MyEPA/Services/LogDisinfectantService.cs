@@ -12,23 +12,31 @@ namespace MyEPA.Services
     public class LogDisinfectantService
     {
         //初始閥值(對應災害編號)
-        public static int iniDiasterId = 999999999;
+        public const int iniDiasterId = 999999999;
 
         LogDisinfectantRepository LogDisinfectantRepository = new LogDisinfectantRepository();
         DiasterRepository DiasterRepository = new DiasterRepository();
         DisinfectantRepository DisinfectantRepository = new DisinfectantRepository();
-        public List<LogDisinfectantModel> GetByDiasterId(int diasterId)
+
+        /// <summary>
+        /// (閥值)正確災害編號，舊資料使用預設
+        /// </summary>
+        /// <param name="diasterId"></param>
+        /// <returns></returns>
+        public int GetYDiasterId(int diasterId)
         {
-            LogDisinfectantFilterParameter filter =
-                new LogDisinfectantFilterParameter
-                {
-                    DiasterIds = diasterId.ToListCollection(),
-                };
+            int result = diasterId;
 
-            var LogDisinfectant = LogDisinfectantRepository
-                .GetByFilter(filter);
+            LogDisinfectantFilterParameter filter = new LogDisinfectantFilterParameter
+            {
+                DiasterIds = diasterId.ToListCollection(),
+            };
 
-            return LogDisinfectant;
+            List<LogDisinfectantModel> list = LogDisinfectantRepository.GetByFilter(filter);
+
+            result = list.Count != 0 ? result : iniDiasterId;
+
+            return result;
         }
 
         /// <summary>
