@@ -49,17 +49,15 @@
                             </tr>
                             <tr><td>&nbsp;</td></tr>
                             <tr align="center">
-                                <td colspan="2"><button type="submit" class="btn btn-primary" href=""><i class="fa fa-search"></i>&nbsp;查詢</button></td>
+                                <td colspan="2">
+                                    <button type="submit" class="btn btn-primary" href=""><i class="fa fa-search"></i>&nbsp;查詢</button>
+                                    <input id="divUpdate" style="display:none" type="submit" value="更新閥值" class="btn btn-danger align-center" onclick="Update()" />
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                 }
-                <hr>
-            </div>
-
-            <div id="divUpdate" style="display:none">
-                <input type="submit" value="更新閥值" class="btn btn-danger align-center" onclick="Update()" />
-                <br /><br />
+                <br />
             </div>
 
             <table class="table">
@@ -118,6 +116,10 @@
         });
 
         function Update() {
+
+            if (!window.confirm('確定要更新：(閥值)消毒藥劑?')) {
+                return;
+            };
 
             var diasterId = @diasterId;
             var root = "@Url.Content("/LogDisinfectant/Update")";

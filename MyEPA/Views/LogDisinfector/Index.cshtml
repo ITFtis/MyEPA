@@ -14,20 +14,6 @@
     int? selectDDLCt = ViewBag.selectDDLCt;
 }
 
-@*<div class="btn-group">
-    <button data-toggle="dropdown" class="btn btn-primary btn-white dropdown-toggle" aria-expanded="false">
-        @(diasters.FirstOrDefault(e => e.Id == diasterId).DiasterName)<i class="ace-icon fa fa-angle-down icon-on-right"></i>
-    </button>
-    <ul class="dropdown-menu">
-        @foreach (DiasterModel Item in diasters)
-        {
-            <li>
-                <a href="@Url.Action("Index", new { diasterId = Item.Id })">@Item.DiasterName</a>
-            </li>
-        }
-    </ul>
-</div>*@
-
 <div class="page-content">
     <div class="row">
         <div class="col-xs-12">
@@ -41,8 +27,7 @@
                             <tr>
                                 <td><h5>災害名稱：</h5></td>
                                 <td>
-                                    @*"*@
-                                    <select id="diasterId" name="diasterId" onchange="Redirect('Index','LogDisinfector')">
+                                    <select id="diasterId" name="diasterId">
                                         @foreach (var item in diasters)
                                         {
                                             <option value="@item.Id" @(item.Id == diasterId ? "selected" : string.Empty)>@item.DiasterName</option>
@@ -64,17 +49,15 @@
                             </tr>
                             <tr><td>&nbsp;</td></tr>
                             <tr align="center">
-                                <td colspan="2"><button type="submit" class="btn btn-primary" href=""><i class="fa fa-search"></i>&nbsp;查詢</button></td>
+                                <td colspan="2">
+                                    <button type="submit" class="btn btn-primary" href=""><i class="fa fa-search"></i>&nbsp;查詢</button>
+                                    <input id="divUpdate" style="display:none" type="submit" value="更新閥值" class="btn btn-danger align-center" onclick="Update()" />
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                 }
-                <hr>
-            </div>
-
-            <div id="divUpdate" style="display:none">
-                <input type="submit" value="更新閥值" class="btn btn-danger align-center" onclick="Update()" />
-                <br /><br />
+                <br />
             </div>
 
             <table class="table">
@@ -133,6 +116,9 @@
         });
 
         function Update() {
+            if (!window.confirm('確定要更新：(閥值)消毒設備?')) {
+                return;
+            };
 
             var diasterId = @diasterId;
             var root = "@Url.Content("/LogDisinfector/Update")";
