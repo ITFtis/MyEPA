@@ -61,10 +61,19 @@ namespace MyEPA.Services
 
                     var fs = tmp.Select(a => new { 
                                     Amount = a.Amount,
-                                    ServiceLifeName = a.ServiceLife != null ? DateFormat.ToDate4((DateTime)a.ServiceLife) : ""
+                                    a.ServiceLife,
+                                    ServiceLifeDiffDay = DateFormat.ToDiffDays(a.ServiceLife, DateTime.Now),
+                            }).Select(a => new
+                            {
+                                Amount = a.Amount,
+                                ServiceLifeName = a.ServiceLife != null ? DateFormat.ToDate4((DateTime)a.ServiceLife) : "",
+                                ServiceLifeDay = a.ServiceLife != null ? 
+                                            (a.ServiceLifeDiffDay >=0 ? a.ServiceLifeDiffDay.ToString() : "<span style='color:red'>" + a.ServiceLifeDiffDay.ToString() + "</span>") 
+                                            + "天" 
+                                        : "",
                             });
 
-                    item.CurYearDesc = string.Join("<br />", fs.Select(a => "數量(" + a.Amount + ")" + "：有限年(" + a.ServiceLifeName + ")"));
+                    item.CurYearDesc = string.Join("<br />", fs.Select(a => "數量(" + a.Amount + ")" + "：有限(" + a.ServiceLifeName + ") " + a.ServiceLifeDay));
                 }
             }
 
