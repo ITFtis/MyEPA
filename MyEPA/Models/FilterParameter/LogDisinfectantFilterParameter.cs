@@ -13,5 +13,8 @@ namespace MyEPA.Models.FilterParameter
 
         //1.高於閥值2.低於閥值
         public int? Ct { get; set; }
+
+        //有效天數
+        public int? ServiceLifeDay { get; set; }
     }
 }

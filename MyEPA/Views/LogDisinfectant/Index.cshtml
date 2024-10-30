@@ -12,6 +12,7 @@
     bool CanUpdate = ViewBag.CanUpdate;
     int diasterId = ViewBag.DiasterId;
     int? selectDDLCt = ViewBag.selectDDLCt;
+    int? selectServiceLifeDay = ViewBag.selectServiceLifeDay;
 }
 
 <div class="page-content">
@@ -45,6 +46,12 @@
                                             <option value="@item.Key" @(item.Key == selectDDLCt ? "selected" : string.Empty)>@item.Value</option>
                                         }
                                     </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><h5>有效天數：</h5></td>
+                                <td>
+                                    <input type="number" id="selectServiceLifeDay" name="selectServiceLifeDay" value="@selectServiceLifeDay" />
                                 </td>
                             </tr>
                             <tr><td>&nbsp;</td></tr>

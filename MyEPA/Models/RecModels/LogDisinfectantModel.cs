@@ -66,7 +66,11 @@ namespace MyEPA.Models
     }
 
     public class LogDisinfectantViewModel : LogDisinfectantModel
-    {
+    {      
+        [DisplayName("序號")]
+        public string SerialNo { get; set; }
+
+
         [DisplayName("現有設備使用年限說明")]
         public string CurYearDesc { get; set; }
 

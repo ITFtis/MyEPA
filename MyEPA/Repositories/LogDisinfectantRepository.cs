@@ -56,7 +56,8 @@ namespace MyEPA.Repositories
 
             string sql = $@"
 
-Select a.DiasterId, 
+Select ROW_NUMBER() over (ORDER BY c.Sort) AS SerialNo,
+       a.DiasterId, 
        a.City, a.Town, a.ContactUnit, a.DrugName, 
        a.Amount, a.CtPoint, a.LogBDate, a.LogBUser,
 	   b.CurAmount,

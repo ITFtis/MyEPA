@@ -19,7 +19,7 @@ namespace MyEPA.Controllers.Rec
 
         // GET: LogDisinfectant
         public ActionResult Index(int? diasterId = null,
-                                    int? selectDDLCt = null)
+                                    int? selectDDLCt = null, int? selectServiceLifeDay = null)
         {
             List<DiasterModel> diasters = DiasterService.GetAll();
 
@@ -41,6 +41,7 @@ namespace MyEPA.Controllers.Rec
             {
                 DiasterIds = YDiasterId.ToListCollection(),
                 Ct = selectDDLCt,
+                ServiceLifeDay = selectServiceLifeDay,
             };
 
             IEnumerable<LogDisinfectantViewModel> iquery = LogDisinfectantService.GetLogDisinfectantCurrentByFilter(filter);
@@ -61,6 +62,7 @@ namespace MyEPA.Controllers.Rec
             //querystring
             ViewBag.DiasterId = diasterId;
             ViewBag.selectDDLCt = selectDDLCt;
+            ViewBag.selectServiceLifeDay = selectServiceLifeDay;
 
             return View(result);
         }

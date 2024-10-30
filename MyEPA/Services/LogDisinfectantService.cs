@@ -53,28 +53,46 @@ namespace MyEPA.Services
             {
                 var curs = DisinfectantRepository.GetList();
 
+                List<LogDisinfectantViewModel> removeList = new List<LogDisinfectantViewModel>();
                 foreach (var item in model)
                 {
                     var tmp = curs.Where(a => a.City == item.City && a.Town == item.Town
                                         && a.ContactUnit == item.ContactUnit
                                         && a.DrugName == item.DrugName);
 
-                    var fs = tmp.Select(a => new { 
+                    var vs = tmp.Select(a => new { 
                                     Amount = a.Amount,
                                     a.ServiceLife,
                                     ServiceLifeDiffDay = DateFormat.ToDiffDays(a.ServiceLife, DateTime.Now),
-                            }).Select(a => new
-                            {
-                                Amount = a.Amount,
-                                ServiceLifeName = a.ServiceLife != null ? DateFormat.ToDate4((DateTime)a.ServiceLife) : "",
-                                ServiceLifeDay = a.ServiceLife != null ? 
-                                            (a.ServiceLifeDiffDay >=0 ? a.ServiceLifeDiffDay.ToString() : "<span style='color:red'>" + a.ServiceLifeDiffDay.ToString() + "</span>") 
-                                            + "天" 
-                                        : "",
                             });
+
+                    if (filter.ServiceLifeDay.HasValue)
+                    {
+                        vs = vs.Where(a => a.ServiceLifeDiffDay <= filter.ServiceLifeDay.Value);
+
+                        //主表不顯示：有效天數條件，若沒符合詳細資料
+                        if (vs.Count() == 0)
+                        {
+                            removeList.Add(item);
+                            continue;
+                        }
+
+                    }
+
+                    var fs = vs.Select(a => new
+                    {
+                        Amount = a.Amount,
+                        ServiceLifeName = a.ServiceLife != null ? DateFormat.ToDate4((DateTime)a.ServiceLife) : "",
+                        ServiceLifeDay = a.ServiceLife != null ?
+                                            (a.ServiceLifeDiffDay >= 0 ? a.ServiceLifeDiffDay.ToString() : "<span style='color:red'>" + a.ServiceLifeDiffDay.ToString() + "</span>")
+                                            + "天"
+                                        : "",
+                    });
 
                     item.CurYearDesc = string.Join("<br />", fs.Select(a => "數量(" + a.Amount + ")" + "：有限(" + a.ServiceLifeName + ") " + a.ServiceLifeDay));
                 }
+
+                model = model.Where(a => !removeList.Any(b => a.SerialNo == b.SerialNo)).ToList();
             }
 
             return model;
