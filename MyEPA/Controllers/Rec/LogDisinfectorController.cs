@@ -20,13 +20,9 @@ namespace MyEPA.Controllers.Rec
         DiasterService DiasterService = new DiasterService();
 
         // GET: LogDisinfector
-        public ActionResult Index(int? type, int? diasterId = null)
+        public ActionResult Index(int? diasterId = null, 
+                                    int? selectDDLCt = null)
         {
-            if (type.HasValue == false)
-            {
-                type = 1;
-            }
-
             List<DiasterModel> diasters = DiasterService.GetAll();
 
             if (diasterId.HasValue == false)
@@ -41,40 +37,32 @@ namespace MyEPA.Controllers.Rec
                 return View(new List<RecResourceModel>());
             }
 
+            //(閥值)正確災害編號，舊資料使用預設
+            int YDiasterId = LogDisinfectorService.GetYDiasterId((int)diasterId);
             LogDisinfectorFilterParameter filter = new LogDisinfectorFilterParameter()
             {
-                DiasterIds = diasterId.Value.ToListCollection(),
+                DiasterIds = YDiasterId.ToListCollection(),
+                Ct = selectDDLCt,
             };
 
-            //IEnumerable<LogDisinfectorModel> iquery = LogDisinfectorService.GetByDiasterId(diasterId.Value);
             IEnumerable<LogDisinfectorViewModel> iquery = LogDisinfectorService.GetLogDisinfectorCurrentByFilter(filter);
             iquery = iquery.OrderByDescending(a => a.Id);
-
             List<LogDisinfectorViewModel> result = iquery.ToList();
 
-            if (result.Count == 0)
-            {
-                //閥值預設值
-                //iquery = LogDisinfectorService.GetByDiasterId(LogDisinfectorService.iniDiasterId);
-                filter = new LogDisinfectorFilterParameter()
-                {
-                    DiasterIds = LogDisinfectorService.iniDiasterId.ToListCollection(),
-                };
-                iquery = LogDisinfectorService.GetLogDisinfectorCurrentByFilter(filter);
-                iquery = iquery.OrderByDescending(a => a.Id);
-                result = iquery.ToList();
-                
-                //是否可更新閥值
-                ViewBag.CanUpdate = false;
+            if (YDiasterId != LogDisinfectorService.iniDiasterId)
+            {               
+                //可更新閥值
+                ViewBag.CanUpdate = true;
             }
             else
             {
-                //是否可更新閥值
-                ViewBag.CanUpdate = true;
+                //不可更新閥值
+                ViewBag.CanUpdate = false;
             }
 
             //querystring
             ViewBag.DiasterId = diasterId;
+            ViewBag.selectDDLCt = selectDDLCt;
 
             return View(result);
         }

@@ -9,11 +9,12 @@
     List<DiasterModel> diasters = ViewBag.Diasters;
 
     //querystring
-    int diasterId = ViewBag.DiasterId;
     bool CanUpdate = ViewBag.CanUpdate;
+    int diasterId = ViewBag.DiasterId;
+    int? selectDDLCt = ViewBag.selectDDLCt;
 }
 
-<div class="btn-group">
+@*<div class="btn-group">
     <button data-toggle="dropdown" class="btn btn-primary btn-white dropdown-toggle" aria-expanded="false">
         @(diasters.FirstOrDefault(e => e.Id == diasterId).DiasterName)<i class="ace-icon fa fa-angle-down icon-on-right"></i>
     </button>
@@ -25,12 +26,51 @@
             </li>
         }
     </ul>
-</div>
+</div>*@
 
 <div class="page-content">
     <div class="row">
         <div class="col-xs-12">
             <h2> (閥值)消毒設備 </h2>
+
+            <div>
+                @using (Html.BeginForm("Index", "LogDisinfector", new { }, FormMethod.Get, new { diasterId = @diasterId }))
+                {
+                    <table border="0">
+                        <tbody>
+                            <tr>
+                                <td><h5>災害名稱：</h5></td>
+                                <td>
+                                    @*"*@
+                                    <select id="diasterId" name="diasterId" onchange="Redirect('Index','LogDisinfector')">
+                                        @foreach (var item in diasters)
+                                        {
+                                            <option value="@item.Id" @(item.Id == diasterId ? "selected" : string.Empty)>@item.DiasterName</option>
+                                        }
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><h5>閥值：</h5></td>
+                                <td>
+                                    <select id="selectDDLCt" name="selectDDLCt">
+                                        <option value="">請選擇閥值</option>
+                                        @foreach (var item in Code.GetDDLCt())
+                                        {
+                                            <option value="@item.Key" @(item.Key == selectDDLCt ? "selected" : string.Empty)>@item.Value</option>
+                                        }
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr><td>&nbsp;</td></tr>
+                            <tr align="center">
+                                <td colspan="2"><button type="submit" class="btn btn-primary" href=""><i class="fa fa-search"></i>&nbsp;查詢</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
+                <hr>
+            </div>
 
             <div id="divUpdate" style="display:none">
                 <input type="submit" value="更新閥值" class="btn btn-danger align-center" onclick="Update()" />

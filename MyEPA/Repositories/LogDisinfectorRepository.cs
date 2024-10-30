@@ -52,6 +52,7 @@ namespace MyEPA.Repositories
         public List<LogDisinfectorViewModel> GetLogDisinfectorCurrentByFilter(LogDisinfectorFilterParameter filter)
         {
             string whereSQL = GetWhereSQLByFilter(filter);
+            string where2 = "";
 
             string sql = $@"
 
@@ -77,10 +78,26 @@ Left Join
 And a.ContactUnit = b.ContactUnit
 And a.DisinfectInstrument = b.DisinfectInstrument 
 Left Join City c On a.City = c.City
-Order By c.Sort
-
+Where 1=1
 ";
 
+            if (filter.Ct.HasValue)
+            {
+                if (filter.Ct == 1)
+                {
+                    //低於閥值
+                    sql += " AND (a.CtPoint > b.CurAmount Or a.CtPoint Is Null Or b.CurAmount Is Null)";
+                }
+                else if (filter.Ct == 2)
+                {
+                    //高於閥值(正常)
+                    sql += " AND a.CtPoint <= b.CurAmount";
+                }                
+            }
+
+            sql += @"
+                        Order By c.Sort
+                ";
 
             return GetListBySQL<LogDisinfectorViewModel>(sql, filter);
         }
