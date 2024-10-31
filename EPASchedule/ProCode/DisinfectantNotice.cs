@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MyEPA.Models;
+using MyEPA.Services;
 
 namespace EPASchedule
 {
@@ -37,6 +39,8 @@ namespace EPASchedule
         {
             try
             {
+                DisinfectantService DisinfectantService = new DisinfectantService();
+                var aa = DisinfectantService.GetAll();
 
                 return true;
             }
