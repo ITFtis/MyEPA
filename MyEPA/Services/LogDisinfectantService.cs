@@ -89,7 +89,7 @@ namespace MyEPA.Services
                                         : "",
                     });
 
-                    item.CurYearDesc = string.Join("<br />", fs.Select(a => "數量(" + a.Amount + ")" + "：有限(" + a.ServiceLifeName + ") " + a.ServiceLifeDay));
+                    item.CurYearDesc = string.Join("<br />", fs.Select(a => "數量(" + a.Amount + ")" + "：效期(" + a.ServiceLifeName + ") " + a.ServiceLifeDay));
                 }
 
                 model = model.Where(a => !removeList.Any(b => a.SerialNo == b.SerialNo)).ToList();
