@@ -865,6 +865,9 @@ namespace EPASchedule
         /// <returns></returns>
         public static int ToDiffDays(DateTime? date1, DateTime date2)
         {
+            if (date1 == null)
+                return 0;
+
             return ToDiffDays((DateTime)date1, date2);
         }
 

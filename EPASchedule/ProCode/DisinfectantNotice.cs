@@ -40,7 +40,22 @@ namespace EPASchedule
             try
             {
                 DisinfectantService DisinfectantService = new DisinfectantService();
-                var aa = DisinfectantService.GetAll();
+
+                //母體資料
+                var datas = DisinfectantService.GetAll();
+
+                //City, Town, ContactUnit, DrugName
+                var tmp = datas.Select(a => new
+                {
+                    City = a.City,
+                    Town = a.Town,
+                    ContactUnit = a.ContactUnit,
+                    DrugName = a.DrugName,
+                    ServiceLife = a.ServiceLife,
+                    ServiceLifeDiffDay = DateFormat.ToDiffDays(a.ServiceLife, DateTime.Now),
+                });
+
+                var notices = tmp.Where(a => a.ServiceLifeDiffDay <= AppConfig.ValidDay).ToList();
 
                 return true;
             }
