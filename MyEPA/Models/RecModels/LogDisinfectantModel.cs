@@ -75,6 +75,6 @@ namespace MyEPA.Models
         public string CurYearDesc { get; set; }
 
         [DisplayName("現有設備數量")]
-        public int? CurAmount { get; set; }   
+        public float? CurAmount { get; set; }   
     }
 }
