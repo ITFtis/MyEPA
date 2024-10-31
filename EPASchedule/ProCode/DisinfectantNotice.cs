@@ -59,7 +59,7 @@ namespace EPASchedule
                 var datas = tmp.Where(a => a.ServiceLifeDiffDay <= AppConfig.ValidDay).ToList();
 
                 //待警示藥劑單位
-                var units = datas.Select(a => new { a.City, a.Town }).Distinct();
+                var units = datas.Select(a => new { a.City, a.Town }).Distinct().OrderBy(a => a.City);
 
                 //鄉鎮帳號
                 var accounts = new UsersService().GetAll().Where(a => a.MainContacter == "是").ToList();
@@ -72,7 +72,7 @@ namespace EPASchedule
                     //紀錄查無主要聯絡人資訊
                     if (account == null)
                     {                        
-                        var msgs = infos.Select((a, index) => (index + 1).ToString() + "." + "藥劑(" + a.DrugName + ")：效期(" + a.ServiceLife + "),天數(" + a.ServiceLifeDiffDay + ")");
+                        var msgs = infos.Select((a, index) => (index + 1).ToString() + "." + "藥劑(" + a.DrugName + ")：效期(" + DateFormat.ToDate14(a.ServiceLife) + "),天數(" + a.ServiceLifeDiffDay + ")");
                         string msg = string.Join("\r\n", msgs);
 
                         string errors = string.Format("\r***查無此單位主要聯絡人：{0}{1}***\r{2}", 

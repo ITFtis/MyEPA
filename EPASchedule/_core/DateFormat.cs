@@ -475,6 +475,31 @@ namespace EPASchedule
         }
 
         /// <summary>
+        /// yyyy/MM/dd
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public static string ToDate14(object date)
+        {
+            if (date == null)
+                return "";
+
+            string result = "";
+
+            try
+            {
+                DateTime dd = DateTime.Parse(date.ToString());
+                result = string.Format("{0:yyyy/MM/dd}", dd);
+            }
+            catch
+            {
+                return null;
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// yyyy年MM月dd日 HH點
         /// </summary>
         /// <param name="date"></param>
