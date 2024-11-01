@@ -79,7 +79,7 @@ namespace EPASchedule
         }
 
         /// <summary>
-        /// 環衛組與綜規組
+        /// Email負責人 中央單位(環衛組與綜規組)
         /// </summary>
         public static string EmailAddressGov
         {
