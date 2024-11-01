@@ -71,5 +71,36 @@ namespace MyEPA
 
             return result;
         }
+
+        /// <summary>
+        /// 測試目的端是否正常連線, 修正(防火牆內主機不回應，等待時間)
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public static bool TestMailServerSmtpIp_2(string ip, int port)
+        {
+            bool result = false;
+
+            System.Net.Sockets.TcpClient client = new TcpClient();
+            try
+            {
+                if (!client.ConnectAsync(ip, port).Wait(1 * 1000))
+                {
+                    // connection failure
+                    logger.Error(string.Format("SMTP 無法正常連線：{0}, {1}", ip, port.ToString()));
+                    logger.Error("錯誤：client.ConnectAsync");
+                    return false;
+                }
+                result = true;
+            }
+            catch (SocketException ex)
+            {
+                logger.Error(string.Format("SMTP 無法正常連線：{0}, {1}", ip, port.ToString()));
+                logger.Error("錯誤：" + ex.Message);
+                logger.Error(ex.StackTrace);
+            }
+
+            return result;
+        }
     }
 }
