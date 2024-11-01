@@ -70,6 +70,7 @@
     <Compile Include="_core\DateFormat.cs" />
     <Compile Include="_core\EmailHelper.cs" />
     <Compile Include="_core\MyExtensions.cs" />
+    <Compile Include="_core\TotalUnitMsg.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -82,7 +83,9 @@
       <Name>MyEPA</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="_applyClass\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
