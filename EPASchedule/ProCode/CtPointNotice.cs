@@ -65,7 +65,7 @@ namespace EPASchedule
                 var ors = LogDisinfectorService.GetLogDisinfectorCurrentByFilter(filterOr);
                 
                 //閥值藥劑
-                LogDisinfectantService DisinfectantRepository = new LogDisinfectantService();
+                LogDisinfectantService LogDisinfectantService = new LogDisinfectantService();
 
                 //低於閥值藥劑
                 LogDisinfectantFilterParameter filterAnt = new LogDisinfectantFilterParameter()
@@ -74,7 +74,7 @@ namespace EPASchedule
                     Ct = 1,
                 };
 
-                var ants = DisinfectantRepository.GetLogDisinfectantCurrentByFilter(filterAnt);
+                var ants = LogDisinfectantService.GetLogDisinfectantCurrentByFilter(filterAnt);
 
                 var tmp1 = ors.Select(a => new LogDisinfectant
                 {
