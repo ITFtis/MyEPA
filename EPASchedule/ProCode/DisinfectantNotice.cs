@@ -73,7 +73,8 @@ namespace EPASchedule
                 foreach (var unit in units)
                 {
                     var infos = datas.Where(a => a.City == unit.City && a.Town == unit.Town && a.ContactUnit == unit.ContactUnit);
-                    var account = accounts.Where(a => a.City == unit.City && a.Town == unit.Town).FirstOrDefault();
+                    //var account = accounts.Where(a => a.City == unit.City && a.Town == unit.Town).FirstOrDefault();
+                    var account = accounts.Where(a => a.City == unit.City && a.Town == unit.ContactUnit).FirstOrDefault();
                     
                     //紀錄查無主要聯絡人資訊
                     if (account == null)
@@ -130,32 +131,22 @@ namespace EPASchedule
 
                         string content = string.Format(@"
 
-{0}{1}，聯繫單位名稱({2})，{3}您好：
+{0}{1}(聯繫單位名稱)，{2}您好：
 <br/><br/>
 
 貴局尚有消毒藥劑使用期限即將到期，<br/>
 請優先使用以下藥劑以避免逾期藥效失效。
 <br/><br/>
 
-{4}
+{3}
 
 ",
 unit.City, 
-unit.Town,
 unit.ContactUnit,
 account.Name,
 msg);
 
                         bool done = ToSend(content, account);
-
-                        ////xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                        //if (done)
-                        //{
-                        //    logger.Info("寄信成功，開發階段只送一封");
-                        //    return true;
-                        //}
-                        ////xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
                     }
                 }
 
