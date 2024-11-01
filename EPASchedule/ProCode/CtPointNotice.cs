@@ -128,7 +128,7 @@ namespace EPASchedule
         <th width='10%'>項次</th>
         <th width='15%'>縣市</th>
         <th width='15%'>單位</th>
-        <th width='20%'>消毒設備</th>
+        <th width='20%' style='color:blue'>消毒設備</th>
         <th width='10%'>閥值</th>
         <th width='10%'>現有數量</th>
     </tr>";
