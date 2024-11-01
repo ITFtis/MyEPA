@@ -228,7 +228,7 @@ CityMsg);
 
                     string GovMsg = string.Join("<br/>", totalMsgs.Select(a => a.Msg));
                     string content = string.Format(@"
-您好：
+中央單位，您好：
 <br/><br/>
 
 以下清潔隊尚有消毒藥劑使用期限即將到期，<br/>

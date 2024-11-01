@@ -30,7 +30,7 @@ namespace EPASchedule
             _testEmailAddress = ConfigurationManager.AppSettings["TestEmailAddress"].ToString();
             _emailAddressCC = ConfigurationManager.AppSettings["EmailAddressCC"] == null ? "" : ConfigurationManager.AppSettings["EmailAddressCC"].ToString();
             _emailAddressResp = ConfigurationManager.AppSettings["EmailAddressResp"] == null ? "" : ConfigurationManager.AppSettings["EmailAddressResp"].ToString();
-            _emailAddressGov = ConfigurationManager.AppSettings["EmailAddressGov"] == null ? "" : ConfigurationManager.AppSettings["EmailAddressResp"].ToString();
+            _emailAddressGov = ConfigurationManager.AppSettings["EmailAddressGov"] == null ? "" : ConfigurationManager.AppSettings["EmailAddressGov"].ToString();
             _onlyStep = ConfigurationManager.AppSettings["OnlyStep"].ToString();
         }
 
