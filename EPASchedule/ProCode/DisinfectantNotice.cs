@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls;
@@ -45,9 +46,9 @@ namespace EPASchedule
                 //所有藥劑
                 var ants = DisinfectantService.GetAll();
 
-                //測試 xxxxxxxxxxxxxxx
-                ants = ants.Where(a => a.City == "宜蘭縣").ToList();
-                //xxxxxxxxxxxxxxx
+                ////////測試 xxxxxxxxxxxxxxx
+                //////ants = ants.Where(a => a.City == "宜蘭縣").ToList();
+                ////////xxxxxxxxxxxxxxx
 
                 //City, Town, ContactUnit(聯繫單位名稱), DrugName
                 var tmp = ants.Select(a => new
@@ -212,88 +213,34 @@ CityMsg);
                     }
                 }
 
-                //(3).環衛組與環保局信件
+                //(3).中央單位(環衛組與綜規組)信件
+                foreach (string addr in AppConfig.EmailAddressGov.Split(','))
+                {
+                    //寄發Mail
+                    //v 資訊 + account 收件者帳號
+                    string subject = "(中央單位)資源預警通報機制 - 使用期限到期";
 
-                //////                //通知
-                //////                foreach (var unit in units)
-                //////                {
-                //////                    var infos = datas.Where(a => a.City == unit.City && a.Town == unit.Town && a.ContactUnit == unit.ContactUnit);
-                //////                    //var account = accounts.Where(a => a.City == unit.City && a.Town == unit.Town).FirstOrDefault();
-                //////                    var account = accounts.Where(a => a.City == unit.City && a.Town == unit.ContactUnit).FirstOrDefault();
+                    UsersModel account = new UsersModel()
+                    {
+                        Name = addr,
+                        Email = addr
+                    };
 
-                //////                    //紀錄查無主要聯絡人資訊
-                //////                    if (account == null)
-                //////                    {                        
-                //////                        var msgs = infos.Select((a, index) => (index + 1).ToString() + "." + "藥劑(" + a.DrugName + ")：效期(" + DateFormat.ToDate14(a.ServiceLife) + "),天數(" + a.ServiceLifeDiffDay + ")");
-                //////                        string msg = string.Join("\r\n", msgs);
+                    string GovMsg = string.Join("<br/>", totalMsgs.Select(a => a.Msg));
+                    string content = string.Format(@"
+您好：
+<br/><br/>
 
-                //////                        string errors = string.Format("\r***無法通知，因查無此單位主要聯絡人：{0}{1}***\r{2}", 
-                //////                                                unit.City, unit.Town, unit.ContactUnit,
-                //////                                                msg);
-                //////                        logger.Error(errors);
-                //////                        continue;
-                //////                    }
-                //////                    else
-                //////                    {
-                //////                        //寄發Mail
-                //////                        //infos 資訊 + account 收件者帳號
-                //////                        var aaa = infos.ToList();
+以下清潔隊尚有消毒藥劑使用期限即將到期，<br/>
+請優先使用以下藥劑以避免逾期藥效失效。
+<br/><br/>
 
-                //////                        string msg = "";
+{0}",
+                    GovMsg);
 
-                //////                        msg = @"
-                //////<table border='1' Cellpadding='3' Cellspacing='3' width='40%'>
-                //////     <tr>
-                //////        <th width='10%'>項次</th>
-                //////        <th width='30%'>消毒藥劑</th>
-                //////        <th width='20%'>數量</th>
-                //////        <th width='20%'>到期日</th>
-                //////        <th width='20%'>剩餘天數</th>
-                //////    </tr>";
-
-                //////                        int index = 0;
-                //////                        foreach (var info in infos)
-                //////                        {
-                //////                            index++;
-
-                //////                            //超過期限
-                //////                            string alertStyle = info.ServiceLifeDiffDay < 0 ? "style='color:red'" : "";
-
-                //////                            msg = msg + string.Format(@"   
-                //////    <tr>
-                //////        <td align='center'>{0}</td>
-                //////        <td align='center'>{1}</td>
-                //////        <td align='center'>{2}</td>
-                //////        <td align='center'>{3}</td>
-                //////        <td align='center' {5}>{4}</td>
-                //////    </tr>
-
-                //////", index, info.DrugName, info.Amount, DateFormat.ToDate14(info.ServiceLife), info.ServiceLifeDiffDay, alertStyle);
-                //////                        }
-
-                //////                        msg = msg + @"
-                //////</table>";
-
-                //////                        string content = string.Format(@"
-
-                //////{0}{1}(聯繫單位名稱)，{2}您好：
-                //////<br/><br/>
-
-                //////貴局尚有消毒藥劑使用期限即將到期，<br/>
-                //////請優先使用以下藥劑以避免逾期藥效失效。
-                //////<br/><br/>
-
-                //////{3}
-
-                //////",
-                //////unit.City, 
-                //////unit.ContactUnit,
-                //////account.Name,
-                //////msg);
-
-                //////                        bool done = ToSend(content, account);
-                //////                    }
-                //////                }
+                    bool done = ToSend(subject, content, account);
+                }
+                
 
                 return true;
             }

@@ -16,6 +16,7 @@ namespace EPASchedule
         private static string _testEmailAddress;
         private static string _emailAddressCC;
         private static string _emailAddressResp;
+        private static string _emailAddressGov;
         private static string _onlyStep;
 
         #endregion
@@ -29,6 +30,7 @@ namespace EPASchedule
             _testEmailAddress = ConfigurationManager.AppSettings["TestEmailAddress"].ToString();
             _emailAddressCC = ConfigurationManager.AppSettings["EmailAddressCC"] == null ? "" : ConfigurationManager.AppSettings["EmailAddressCC"].ToString();
             _emailAddressResp = ConfigurationManager.AppSettings["EmailAddressResp"] == null ? "" : ConfigurationManager.AppSettings["EmailAddressResp"].ToString();
+            _emailAddressGov = ConfigurationManager.AppSettings["EmailAddressGov"] == null ? "" : ConfigurationManager.AppSettings["EmailAddressResp"].ToString();
             _onlyStep = ConfigurationManager.AppSettings["OnlyStep"].ToString();
         }
 
@@ -74,6 +76,14 @@ namespace EPASchedule
         public static string EmailAddressResp
         {
             get { return _emailAddressResp; }
+        }
+
+        /// <summary>
+        /// 環衛組與綜規組
+        /// </summary>
+        public static string EmailAddressGov
+        {
+            get { return _emailAddressGov; }
         }
 
         /// <summary>
