@@ -231,7 +231,7 @@ namespace EPASchedule
                     {
                         //寄發Mail
                         //v 資訊 + account 收件者帳號
-                        string subject = "(環保局)資源預警通報機制 - 數量低於閥值";
+                        string subject = "(環保局)資源預警通報機制 - 數量低於閥值通知";
 
 
                         string CityMsg = string.Join("<br/>", totals.Select(a => a.Msg));
@@ -283,7 +283,7 @@ CityMsg);
                 emailHelper.MailPort = p.MailPort;
                 emailHelper.EnableSSL = p.EnableSSL;
 
-                emailHelper.Subject = "資源預警通報機制 - 數量低於閥值通知";
+                emailHelper.Subject = subject;
                 emailHelper.Body = content;
 
                 //收件者
