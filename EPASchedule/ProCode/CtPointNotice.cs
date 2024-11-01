@@ -38,6 +38,7 @@ namespace EPASchedule
         {
             try
             {
+                //1.設定災害期間資料
                 DiasterRepository DiasterRepository = new DiasterRepository();
                 var diasters = DiasterRepository.GetList();
                 var date = DateTime.Parse(DateTime.Now.ToShortDateString());
@@ -51,6 +52,7 @@ namespace EPASchedule
 
                 var diasterId = ds.FirstOrDefault().Id;
 
+                //閥值藥劑
                 LogDisinfectantService DisinfectantRepository = new LogDisinfectantService();
 
                 //低於閥值藥劑
@@ -62,11 +64,7 @@ namespace EPASchedule
 
                 var ants = DisinfectantRepository.GetLogDisinfectantCurrentByFilter(filterAnt);
 
-                //測試 xxxxxxxxxxxxxxx
-                ants = ants.Where(a => a.City == "宜蘭縣").ToList();
-                //xxxxxxxxxxxxxxx
-
-                //City, Town, ContactUnit, DrugName
+                //City, Town, ContactUnit(聯繫單位名稱), DrugName
                 var tmp = ants.Select(a => new
                 {
                     City = a.City,
@@ -77,6 +75,7 @@ namespace EPASchedule
                     CurAmount = a.CurAmount,
                 });
 
+                //2.資料
                 //待警示藥劑(母體)
                 var datas = tmp.ToList();
 
@@ -86,82 +85,181 @@ namespace EPASchedule
                 //鄉鎮帳號
                 var accounts = new UsersService().GetAll().Where(a => a.MainContacter == "是").ToList();
 
-                //通知
+                //信件內容
+                List<TotalUnitMsg> totalMsgs = new List<TotalUnitMsg>();
+                CityService cityService = new CityService();
+
                 foreach (var unit in units)
                 {
+                    TotalUnitMsg aaa = new TotalUnitMsg();
                     var infos = datas.Where(a => a.City == unit.City && a.Town == unit.Town && a.ContactUnit == unit.ContactUnit);
-                    var account = accounts.Where(a => a.City == unit.City && a.Town == unit.Town).FirstOrDefault();
 
+                    string msg = "";
+
+                    msg = @"
+<table border='1' Cellpadding='3' Cellspacing='3' width='70%'>
+     <tr>
+        <th width='10%'>項次</th>
+        <th width='15%'>縣市</th>
+        <th width='15%'>單位</th>
+        <th width='20%'>消毒藥劑</th>
+        <th width='10%'>閥值</th>
+        <th width='10%'>現有數量</th>
+    </tr>";
+
+                    int index = 0;
+                    foreach (var info in infos)
+                    {
+                        index++;
+
+                        msg = msg + string.Format(@"   
+    <tr>
+        <td align='center'>{0}</td>
+        <td align='center'>{1}</td>
+        <td align='center'>{2}</td>
+        <td align='center'>{3}</td>
+        <td align='center'>{4}</td>
+        <td align='center'>{5}</td>
+    </tr>
+
+", index, info.City, info.ContactUnit,
+info.DrugName, info.CtPoint, info.CurAmount);
+                    }
+
+                    msg = msg + @"
+</table>";
+
+                    int citySort = 0;
+                    var city = cityService.GetByCityName(unit.City);
+                    if (city != null)
+                    {
+                        citySort = city.Sort;
+                    }
+
+                    totalMsgs.Add(new TotalUnitMsg { City = unit.City, Town = unit.ContactUnit, Msg = msg, CitySort = citySort });
+                }
+
+                //2.通知(totalMsgs)
+                totalMsgs = totalMsgs.OrderBy(a => a.CitySort).ToList();
+
+                //(2).環保局信件
+                var citys = cityService.GetAll().Where(a => a.Type == 0);
+                foreach (var city in citys)
+                {
+                    //有警示資料才要send
+                    var totals = totalMsgs.Where(a => a.City == city.City).ToList();
+                    if (totals.Count() == 0)
+                        continue;
+
+                    var account = accounts.Where(a => a.City == city.City).FirstOrDefault();
                     //紀錄查無主要聯絡人資訊
                     if (account == null)
                     {
-                        var msgs = infos.Select((a, index) => (index + 1).ToString() + "." + "藥劑(" + a.DrugName + ")");
-                        string msg = string.Join("\r\n", msgs);
-
-                        string errors = string.Format("\r***無法通知，因查無此單位主要聯絡人：{0}{1}***\r{2}",
-                                                unit.City, unit.Town, unit.ContactUnit,
-                                                msg);
+                        string errors = string.Format("***(環保局)無法通知，無此單位主要聯絡人：{0}***", city.City);
                         logger.Error(errors);
                         continue;
                     }
                     else
                     {
                         //寄發Mail
-                        //infos 資訊 + account 收件者帳號
-                        var aaa = infos.ToList();
+                        //v 資訊 + account 收件者帳號
+                        string subject = "(環保局)資源預警通報機制 - 數量低於閥值";
 
-                        string msg = "";
 
-                        msg = @"
-                <table border='1' Cellpadding='3' Cellspacing='3' width='40%'>
-                     <tr>
-                        <th width='10%'>項次</th>
-                        <th width='30%'>消毒藥劑</th>
-                        <th width='20%'>閥值</th>
-                        <th width='20%'>現有數量</th>                        
-                    </tr>";
-
-                        int index = 0;
-                        foreach (var info in infos)
-                        {
-                            index++;
-
-                            msg = msg + string.Format(@"   
-                    <tr>
-                        <td align='center'>{0}</td>
-                        <td align='center'>{1}</td>
-                        <td align='center'>{2}</td>
-                        <td align='center'>{3}</td>
-                    </tr>
-
-                ", index, info.DrugName, info.CtPoint, info.CurAmount);
-                        }
-
-                        msg = msg + @"
-                </table>";
-
+                        string CityMsg = string.Join("<br/>", totals.Select(a => a.Msg));
                         string content = string.Format(@"
+{0}，{1}您好：
+<br/><br/>
 
-                {0}{1}，聯繫單位名稱({2})，{3}您好：
-                <br/><br/>
+貴局消毒藥劑數量低於預警閥值，<br/>
+請儘快採購消毒藥劑以因應環境消毒需求。
+<br/><br/>
 
-                貴局消毒藥劑數量低於預警閥值，<br/>
-                請儘快採購消毒藥劑以因應環境消毒需求。
-                <br/><br/>
-
-                {4}
-
-                ",
-unit.City,
-unit.Town,
-unit.ContactUnit,
+{2}",
+city.City,
 account.Name,
-msg);
+CityMsg);
 
-                        bool done = ToSend(content, account);
-
+                        bool done = ToSend(subject, content, account);
                     }
                 }
+
+                //                //通知
+                //                foreach (var unit in units)
+                //                {
+                //                    var infos = datas.Where(a => a.City == unit.City && a.Town == unit.Town && a.ContactUnit == unit.ContactUnit);
+                //                    var account = accounts.Where(a => a.City == unit.City && a.Town == unit.Town).FirstOrDefault();
+
+                //                    //紀錄查無主要聯絡人資訊
+                //                    if (account == null)
+                //                    {
+                //                        var msgs = infos.Select((a, index) => (index + 1).ToString() + "." + "藥劑(" + a.DrugName + ")");
+                //                        string msg = string.Join("\r\n", msgs);
+
+                //                        string errors = string.Format("\r***無法通知，因查無此單位主要聯絡人：{0}{1}***\r{2}",
+                //                                                unit.City, unit.Town, unit.ContactUnit,
+                //                                                msg);
+                //                        logger.Error(errors);
+                //                        continue;
+                //                    }
+                //                    else
+                //                    {
+                //                        //寄發Mail
+                //                        //infos 資訊 + account 收件者帳號
+                //                        var aaa = infos.ToList();
+
+                //                        string msg = "";
+
+                //                        msg = @"
+                //                <table border='1' Cellpadding='3' Cellspacing='3' width='40%'>
+                //                     <tr>
+                //                        <th width='10%'>項次</th>
+                //                        <th width='30%'>消毒藥劑</th>
+                //                        <th width='20%'>閥值</th>
+                //                        <th width='20%'>現有數量</th>                        
+                //                    </tr>";
+
+                //                        int index = 0;
+                //                        foreach (var info in infos)
+                //                        {
+                //                            index++;
+
+                //                            msg = msg + string.Format(@"   
+                //                    <tr>
+                //                        <td align='center'>{0}</td>
+                //                        <td align='center'>{1}</td>
+                //                        <td align='center'>{2}</td>
+                //                        <td align='center'>{3}</td>
+                //                    </tr>
+
+                //                ", index, info.DrugName, info.CtPoint, info.CurAmount);
+                //                        }
+
+                //                        msg = msg + @"
+                //                </table>";
+
+                //                        string content = string.Format(@"
+
+                //                {0}{1}，聯繫單位名稱({2})，{3}您好：
+                //                <br/><br/>
+
+                //                貴局消毒藥劑數量低於預警閥值，<br/>
+                //                請儘快採購消毒藥劑以因應環境消毒需求。
+                //                <br/><br/>
+
+                //                {4}
+
+                //                ",
+                //unit.City,
+                //unit.Town,
+                //unit.ContactUnit,
+                //account.Name,
+                //msg);
+
+                //                        bool done = ToSend(content, account);
+
+                //                    }
+                //                }
 
                 return true;
             }
@@ -177,7 +275,7 @@ msg);
             return true;
         }
 
-        private bool ToSend(string content, UsersModel account)
+        private bool ToSend(string subject, string content, UsersModel account)
         {
             bool result = false;
 
