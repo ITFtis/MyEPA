@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MyEPA.Repositories;
+using MyEPA.Models.FilterParameter;
 
 namespace EPASchedule
 {
@@ -36,10 +38,29 @@ namespace EPASchedule
         {
             try
             {
-                DisinfectantService DisinfectantService = new DisinfectantService();
+                DiasterRepository DiasterRepository = new DiasterRepository();
+                var diasters = DiasterRepository.GetList();
+                var date = DateTime.Parse(DateTime.Now.ToShortDateString());
+                var ds  = diasters.Where(a => date >= a.StartTime && date <= a.EndTime).ToList();
+                if (ds.Count == 0)
+                {
+                    //當天日期不存在災害期間內
+                    logger.Info("當天日期不存在災害期間內，無需通知：" + DateFormat.ToDate4(date));
+                    return true;
+                }
 
-                //所有藥劑
-                var ants = DisinfectantService.GetAll();
+                var diasterId = ds.FirstOrDefault().Id;
+
+                LogDisinfectantService DisinfectantRepository = new LogDisinfectantService();
+
+                //低於閥值藥劑
+                LogDisinfectantFilterParameter filterAnt = new LogDisinfectantFilterParameter()
+                {
+                    DiasterIds = new List<int>() { diasterId },
+                    Ct = 1,
+                };
+
+                var ants = DisinfectantRepository.GetLogDisinfectantCurrentByFilter(filterAnt);
 
                 //測試 xxxxxxxxxxxxxxx
                 ants = ants.Where(a => a.City == "宜蘭縣").ToList();
@@ -52,13 +73,12 @@ namespace EPASchedule
                     Town = a.Town,
                     ContactUnit = a.ContactUnit,
                     DrugName = a.DrugName,
-                    Amount = a.Amount,
-                    ServiceLife = a.ServiceLife,
-                    ServiceLifeDiffDay = DateFormat.ToDiffDays(a.ServiceLife, DateTime.Now),
+                    CtPoint = a.CtPoint,
+                    CurAmount = a.CurAmount,
                 });
 
                 //待警示藥劑(母體)
-                var datas = tmp.Where(a => a.ServiceLifeDiffDay <= AppConfig.ValidDay).ToList();
+                var datas = tmp.ToList();
 
                 //待警示藥劑單位
                 var units = datas.Select(a => new { a.City, a.Town, a.ContactUnit }).Distinct().OrderBy(a => a.City);
@@ -75,7 +95,7 @@ namespace EPASchedule
                     //紀錄查無主要聯絡人資訊
                     if (account == null)
                     {
-                        var msgs = infos.Select((a, index) => (index + 1).ToString() + "." + "藥劑(" + a.DrugName + ")：效期(" + DateFormat.ToDate14(a.ServiceLife) + "),天數(" + a.ServiceLifeDiffDay + ")");
+                        var msgs = infos.Select((a, index) => (index + 1).ToString() + "." + "藥劑(" + a.DrugName + ")");
                         string msg = string.Join("\r\n", msgs);
 
                         string errors = string.Format("\r***無法通知，因查無此單位主要聯絡人：{0}{1}***\r{2}",
@@ -93,50 +113,45 @@ namespace EPASchedule
                         string msg = "";
 
                         msg = @"
-<table border='1' Cellpadding='3' Cellspacing='3' width='40%'>
-     <tr>
-        <th width='10%'>項次</th>
-        <th width='30%'>消毒藥劑</th>
-        <th width='20%'>數量</th>
-        <th width='20%'>到期日</th>
-        <th width='20%'>剩餘天數</th>
-    </tr>";
+                <table border='1' Cellpadding='3' Cellspacing='3' width='40%'>
+                     <tr>
+                        <th width='10%'>項次</th>
+                        <th width='30%'>消毒藥劑</th>
+                        <th width='20%'>閥值</th>
+                        <th width='20%'>現有數量</th>                        
+                    </tr>";
 
                         int index = 0;
                         foreach (var info in infos)
                         {
                             index++;
 
-                            //超過期限
-                            string alertStyle = info.ServiceLifeDiffDay < 0 ? "style='color:red'" : "";
-
                             msg = msg + string.Format(@"   
-    <tr>
-        <td align='center'>{0}</td>
-        <td align='center'>{1}</td>
-        <td align='center'>{2}</td>
-        <td align='center'>{3}</td>
-        <td align='center' {5}>{4}</td>
-    </tr>
+                    <tr>
+                        <td align='center'>{0}</td>
+                        <td align='center'>{1}</td>
+                        <td align='center'>{2}</td>
+                        <td align='center'>{3}</td>
+                    </tr>
 
-", index, info.DrugName, info.Amount, DateFormat.ToDate14(info.ServiceLife), info.ServiceLifeDiffDay, alertStyle);
+                ", index, info.DrugName, info.CtPoint, info.CurAmount);
                         }
 
                         msg = msg + @"
-</table>";
+                </table>";
 
                         string content = string.Format(@"
 
-{0}{1}，聯繫單位名稱({2})，{3}您好：
-<br/><br/>
+                {0}{1}，聯繫單位名稱({2})，{3}您好：
+                <br/><br/>
 
-貴局尚有消毒藥劑使用期限即將到期，<br/>
-請優先使用以下藥劑以避免逾期藥效失效。
-<br/><br/>
+                貴局消毒藥劑數量低於預警閥值，<br/>
+                請儘快採購消毒藥劑以因應環境消毒需求。
+                <br/><br/>
 
-{4}
+                {4}
 
-",
+                ",
 unit.City,
 unit.Town,
 unit.ContactUnit,
@@ -144,14 +159,6 @@ account.Name,
 msg);
 
                         bool done = ToSend(content, account);
-
-                        ////xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                        //if (done)
-                        //{
-                        //    logger.Info("寄信成功，開發階段只送一封");
-                        //    return true;
-                        //}
-                        ////xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
                     }
                 }
@@ -187,7 +194,7 @@ msg);
                 emailHelper.MailPort = p.MailPort;
                 emailHelper.EnableSSL = p.EnableSSL;
 
-                emailHelper.Subject = "資源預警通報機制 - 閥值消毒設備藥劑到期通知";
+                emailHelper.Subject = "資源預警通報機制 - 數量低於閥值到期通知";
                 emailHelper.Body = content;
 
                 //收件者
