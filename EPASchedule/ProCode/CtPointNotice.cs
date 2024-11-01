@@ -283,7 +283,7 @@ CityMsg);
                 emailHelper.MailPort = p.MailPort;
                 emailHelper.EnableSSL = p.EnableSSL;
 
-                emailHelper.Subject = "資源預警通報機制 - 數量低於閥值到期通知";
+                emailHelper.Subject = "資源預警通報機制 - 數量低於閥值通知";
                 emailHelper.Body = content;
 
                 //收件者
