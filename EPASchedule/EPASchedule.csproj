@@ -67,10 +67,11 @@
     <Compile Include="ProCode\DisinfectantNotice.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="_applyClass\LogDisinfectant.cs" />
+    <Compile Include="_applyClass\TotalUnitMsg.cs" />
     <Compile Include="_core\DateFormat.cs" />
     <Compile Include="_core\EmailHelper.cs" />
     <Compile Include="_core\MyExtensions.cs" />
-    <Compile Include="_core\TotalUnitMsg.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -83,9 +84,7 @@
       <Name>MyEPA</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="_applyClass\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

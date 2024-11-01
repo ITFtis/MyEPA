@@ -52,6 +52,18 @@ namespace EPASchedule
 
                 var diasterId = ds.FirstOrDefault().Id;
 
+                //閥值設備
+                LogDisinfectorService LogDisinfectorService = new LogDisinfectorService();
+
+                //低於閥值設備
+                LogDisinfectorFilterParameter filterOr = new LogDisinfectorFilterParameter()
+                {
+                    DiasterIds = new List<int>() { diasterId },
+                    Ct = 1,
+                };
+
+                var ors = LogDisinfectorService.GetLogDisinfectorCurrentByFilter(filterOr);
+                
                 //閥值藥劑
                 LogDisinfectantService DisinfectantRepository = new LogDisinfectantService();
 
@@ -64,16 +76,27 @@ namespace EPASchedule
 
                 var ants = DisinfectantRepository.GetLogDisinfectantCurrentByFilter(filterAnt);
 
-                //City, Town, ContactUnit(聯繫單位名稱), DrugName
-                var tmp = ants.Select(a => new
+                var tmp1 = ors.Select(a => new LogDisinfectant
                 {
+                    Type = "設備",
+                    City = a.City,
+                    Town = a.Town,
+                    ContactUnit = a.ContactUnit,
+                    DrugName = a.DisinfectInstrument,
+                    CtPoint = a.CtPoint,
+                    CurAmount = a.CurAmount,
+                }).ToList();
+                var tmp2 = ants.Select(a => new LogDisinfectant
+                {
+                    Type = "藥劑",
                     City = a.City,
                     Town = a.Town,
                     ContactUnit = a.ContactUnit,
                     DrugName = a.DrugName,
                     CtPoint = a.CtPoint,
                     CurAmount = a.CurAmount,
-                });
+                }).ToList();
+                var tmp = tmp1.Concat(tmp2);
 
                 //2.資料
                 //待警示藥劑(母體)
@@ -94,25 +117,28 @@ namespace EPASchedule
                     TotalUnitMsg aaa = new TotalUnitMsg();
                     var infos = datas.Where(a => a.City == unit.City && a.Town == unit.Town && a.ContactUnit == unit.ContactUnit);
 
-                    string msg = "";
-
-                    msg = @"
+                    //設備
+                    string msg1 = "";                   
+                    var v1s = infos.Where(a => a.Type == "設備");
+                    if (v1s.Count() > 0)
+                    {
+                        msg1 = @"
 <table border='1' Cellpadding='3' Cellspacing='3' width='70%'>
      <tr>
         <th width='10%'>項次</th>
         <th width='15%'>縣市</th>
         <th width='15%'>單位</th>
-        <th width='20%'>消毒藥劑</th>
+        <th width='20%'>消毒設備</th>
         <th width='10%'>閥值</th>
         <th width='10%'>現有數量</th>
     </tr>";
 
-                    int index = 0;
-                    foreach (var info in infos)
-                    {
-                        index++;
+                        int index = 0;
+                        foreach (var info in v1s)
+                        {
+                            index++;
 
-                        msg = msg + string.Format(@"   
+                            msg1 = msg1 + string.Format(@"   
     <tr>
         <td align='center'>{0}</td>
         <td align='center'>{1}</td>
@@ -123,11 +149,53 @@ namespace EPASchedule
     </tr>
 
 ", index, info.City, info.ContactUnit,
-info.DrugName, info.CtPoint, info.CurAmount);
+    info.DrugName, info.CtPoint, info.CurAmount);
+                        }
+
+                        msg1 = msg1 + @"
+</table>";
                     }
 
-                    msg = msg + @"
+                    //藥劑
+                    string msg2 = "";
+                    var v2s = infos.Where(a => a.Type == "藥劑");
+                    if (v2s.Count() > 0)
+                    {
+                        msg2 = @"
+<table border='1' Cellpadding='3' Cellspacing='3' width='70%'>
+     <tr>
+        <th width='10%'>項次</th>
+        <th width='15%'>縣市</th>
+        <th width='15%'>單位</th>
+        <th width='20%'>消毒藥劑</th>
+        <th width='10%'>閥值</th>
+        <th width='10%'>現有數量</th>
+    </tr>";
+
+                        int index = 0;
+                        foreach (var info in v2s)
+                        {
+                            index++;
+
+                            msg2 = msg2 + string.Format(@"   
+    <tr>
+        <td align='center'>{0}</td>
+        <td align='center'>{1}</td>
+        <td align='center'>{2}</td>
+        <td align='center'>{3}</td>
+        <td align='center'>{4}</td>
+        <td align='center'>{5}</td>
+    </tr>
+
+", index, info.City, info.ContactUnit,
+    info.DrugName, info.CtPoint, info.CurAmount);
+                        }
+
+                        msg2 = msg2 + @"
 </table>";
+                    }
+
+                    string msg = msg1 + msg2;
 
                     int citySort = 0;
                     var city = cityService.GetByCityName(unit.City);
