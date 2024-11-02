@@ -527,8 +527,9 @@ namespace MyEPA.Controllers
                             { 1, s.Spec},
                             { 2, s.Quantity.ToString()},
                             { 3, s.Unit},
-                            { 4, s.USDate.ToShortDateString() + " ~ " + s.UEDate.ToShortDateString()},
-                            { 5, DateFormat.ToDate7(s.GoDate)},
+                            { 4, DateFormat.ToDate7_2(s.VDate)},
+                            { 5, s.USDate.ToShortDateString() + " ~ " + s.UEDate.ToShortDateString()},
+                            { 6, DateFormat.ToDate7(s.GoDate)},
                         };
 
                         //null預設空值
