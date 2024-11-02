@@ -105,6 +105,17 @@
             @Html.EditorFor(model => model.Unit, new { htmlAttributes = new { @class = "form-control" } })
         </div>
     </div>
+    @{
+        if (type == 2)
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.VDate, htmlAttributes: new { @class = "control-label col-md-1" })
+                <div class="col-md-6">
+                    @Html.TextBox("VDate", Model.VDate != null? ((DateTime)Model.VDate).ToString("yyyy-MM-dd") : "", new { @type = "Date" })
+                </div>
+            </div>
+        }
+    }
     <div class="form-group">
         @{
             string lblUSDate = "";
@@ -140,7 +151,7 @@
         </div>
     </div>
 
-    @{ 
+    @{
         if (type == 1)
         {
             <div class="form-group">
@@ -181,7 +192,7 @@
             </div>
         }
         else if (type == 2)
-        { 
+        {
             <div class="form-group">
                 @Html.LabelFor(model => model.GoDate, htmlAttributes: new { @class = "control-label col-md-1" })
                 <div class="col-md-6">

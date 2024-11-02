@@ -98,6 +98,9 @@ namespace MyEPA.Models
         [DisplayName("單位")]
         public string Unit { get; set; }
 
+        [DisplayName("有效期限")]
+        public DateTime? VDate { get; set; }
+
         [DisplayName("使用期間(起)")]
         public DateTime USDate { get; set; }
 

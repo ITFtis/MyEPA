@@ -225,6 +225,9 @@
                                 @Html.DisplayNameFor(model => model.Unit)
                             </th>
                             <th>
+                                @Html.DisplayNameFor(model => model.VDate)
+                            </th>
+                            <th>
                                 提供期間(起)
                             </th>
                             <th>
@@ -264,7 +267,7 @@
                                         <a href="@Url.Action("Edit", new { item.Id })">編輯</a>
                                         <a href="#" onclick="Delete(@item.Id, @diasterId)">删除</a>
                                     }
-                                    </td>
+                                </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => citys.Where(a => a.Id == item.CityId).FirstOrDefault().City)
                                 </td>
@@ -319,6 +322,9 @@
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Unit)
+                                </td>
+                                <td>
+                                    @DateFormat.ToDate7_2(item.VDate)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.USDate)

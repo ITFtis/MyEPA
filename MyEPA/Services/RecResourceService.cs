@@ -125,6 +125,7 @@ namespace MyEPA.Services
             entity.Spec = model.Spec;
             entity.Quantity = model.Quantity;
             entity.Unit = model.Unit;
+            entity.VDate = model.VDate;
             entity.USDate = model.USDate;
             entity.UEDate = model.UEDate;
             entity.GatherDate = model.GatherDate;

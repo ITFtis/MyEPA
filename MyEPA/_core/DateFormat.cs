@@ -268,6 +268,31 @@ namespace MyEPA
         }
 
         /// <summary>
+        /// yyyy/MM/dd
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public static string ToDate7_2(object date)
+        {
+            string result = "";
+
+            if (date == null)
+                return "";
+
+            try
+            {
+                DateTime dd = DateTime.Parse(date.ToString());
+                result = string.Format("{0:yyyy/MM/dd}", dd);
+            }
+            catch
+            {
+                return null;
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// yyyyMMdd
         /// </summary>
         /// <param name="date"></param>
