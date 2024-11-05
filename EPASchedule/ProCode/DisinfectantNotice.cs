@@ -137,7 +137,8 @@ DateFormat.ToDate14(info.ServiceLife), info.ServiceLifeDiffDay, alertStyle);
                 //(1)清潔隊信件
                 foreach (var v in totalMsgs)
                 {
-                    var account = accounts.Where(a => a.City == v.City && a.Town == v.Town).FirstOrDefault();
+                    var account = accounts.Where(a => a.DutyId == 1)
+                                    .Where(a => a.City == v.City && a.Town == v.Town).FirstOrDefault();
 
                     //紀錄查無主要聯絡人資訊
                     if (account == null)
@@ -161,6 +162,9 @@ DateFormat.ToDate14(info.ServiceLife), info.ServiceLifeDiffDay, alertStyle);
 請優先使用以下藥劑以避免逾期藥效失效。
 <br/><br/>
 
+「如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）」
+<br/><br/>
+
 {3}",
 v.City,
 v.Town,
@@ -180,7 +184,8 @@ v.Msg);
                     if (totals.Count() == 0)
                         continue;
 
-                    var account = accounts.Where(a => a.City == city.City).FirstOrDefault();
+                    var account = accounts.Where(a => a.DutyId == 2)
+                                    .Where(a => a.City == city.City).FirstOrDefault();
                     //紀錄查無主要聯絡人資訊
                     if (account == null)
                     {
@@ -202,6 +207,9 @@ v.Msg);
 
 以下清潔隊尚有消毒藥劑使用期限即將到期，<br/>
 請優先使用以下藥劑以避免逾期藥效失效。
+<br/><br/>
+
+「如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）」
 <br/><br/>
 
 {2}",
