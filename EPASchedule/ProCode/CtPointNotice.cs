@@ -219,7 +219,8 @@ namespace EPASchedule
                     if (totals.Count() == 0)
                         continue;
 
-                    var account = accounts.Where(a => a.City == city.City).FirstOrDefault();
+                    var account = accounts.Where(a => a.DutyId == 2)
+                                    .Where(a => a.City == city.City).FirstOrDefault();
                     //紀錄查無主要聯絡人資訊
                     if (account == null)
                     {
@@ -241,6 +242,9 @@ namespace EPASchedule
 
 貴局消毒藥劑數量低於預警閥值，<br/>
 請儘快採購消毒藥劑以因應環境消毒需求。
+<br/><br/>
+
+「如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）」
 <br/><br/>
 
 {2}",
