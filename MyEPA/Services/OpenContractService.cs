@@ -50,6 +50,7 @@ namespace MyEPA.Services
                 OContractDateEnd = model.OContractDateEnd,
                 Owner = model.Owner,
                 TEL = model.TEL,
+                IsSupportCity = model.IsSupportCity,
                 ResourceTypeId = model.ResourceTypeId,
             };
         }
@@ -116,6 +117,7 @@ namespace MyEPA.Services
             entity.OContractDateEnd = model.OContractDateEnd;
             entity.Owner = model.Owner;
             entity.TEL = model.TEL;
+            entity.IsSupportCity = model.IsSupportCity;
 
             if (entity.CreateDate == DateTime.MinValue)
             {

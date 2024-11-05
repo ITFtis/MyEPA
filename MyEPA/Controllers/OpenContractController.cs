@@ -46,7 +46,10 @@ namespace MyEPA.Controllers
             }
 
             var result = OpenContractService.GetListByFilter(filter);
-            
+
+            //排序
+            result = result.OrderByDescending(a => a.CreateDate).ToList();
+
             if (id.HasValue == false && result.Any())
             {
                 id = result.FirstOrDefault().Id;

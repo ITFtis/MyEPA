@@ -37,6 +37,10 @@ namespace MyEPA.ViewModels
         [DisplayName("行動電話")]
         public string MobileTEL { get; set; }
 
+        //1是0否
+        [DisplayName("跨縣市支援")]
+        public bool? IsSupportCity { get; set; }
+
         public FileDataModel FileData { get; set; }
     }
 }

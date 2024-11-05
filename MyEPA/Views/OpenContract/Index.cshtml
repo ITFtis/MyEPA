@@ -48,6 +48,9 @@
         <th>
             @Html.DisplayNameFor(model => model.MobileTEL)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsSupportCity)
+        </th>
         <th></th>
     </tr>
 
@@ -77,6 +80,12 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.MobileTEL)
+            </td>
+            <td>
+                @if(item.IsSupportCity != null)
+                {
+                    @(item.IsSupportCity == true ? "是" : "否")
+                }
             </td>
             <td>
                 @Html.ActionLink("合約資料細目", "Index", "OpenContract", new { id = item.Id }, new { }) |
