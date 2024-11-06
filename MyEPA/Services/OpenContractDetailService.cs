@@ -38,6 +38,13 @@ namespace MyEPA.Services
             }).ToList();
         }
 
+        public List<OpenContractDetailModel> GetList2(int openContractId)
+        {
+            var details = OpenContractDetailRepository.GetListByOpenContractId(openContractId);
+
+            return details;
+        }
+
         public OpenContractDetailModel Get(int id)
         {
             return OpenContractDetailRepository.Get(id);

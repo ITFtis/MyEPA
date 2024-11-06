@@ -118,6 +118,15 @@ namespace MyEPA.Controllers
             //建置並取得主約Id
             var id = OpenContractService.CopyOpenContractById(user, copyId);
 
+            //細目
+            OpenContractDetailService OpenContractDetailService = new OpenContractDetailService();
+            var details = OpenContractDetailService.GetList2(copyId);
+            foreach (var detail in details)
+            {
+                detail.OpenContractId = id;
+                OpenContractDetailService.Create(GetUserName(), detail);
+            }
+
             ViewBag.CopyIdNew = id;
             return View();
         }
