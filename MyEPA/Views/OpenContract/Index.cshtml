@@ -90,13 +90,22 @@
                 @Html.DisplayFor(modelItem => item.MobileTEL)
             </td>
             <td>
-                @if(item.IsSupportCity != null)
+                @if (item.IsSupportCity != null)
                 {
                     @(item.IsSupportCity == true ? "是" : "否")
                 }
             </td>
             <td>
-                @Html.ActionLink("合約資料細目", "Index", "OpenContract", new { id = item.Id }, new { }) |
+                @if (item.Id == ViewBag.Id)
+                {
+                    string strDetailCount = item.Id == ViewBag.Id ? "(" + ViewBag.DetailCount + ")" : "";
+                    @Html.ActionLink("合約細目" + strDetailCount, "Index", "OpenContract", new { id = item.Id }, new { style = "color:blue;font-weight:bold" })
+                }
+                else
+                {
+                    @Html.ActionLink("合約細目", "Index", "OpenContract", new { id = item.Id }, new { });
+                }
+                |
                 @Html.ActionLink("修改", "Edit", new { id = item.Id }) |
                 <a id="DeleteBtn" href="#" onclick="Delete(@item.Id)">删除</a>
             </td>

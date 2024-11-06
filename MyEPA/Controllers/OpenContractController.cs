@@ -54,8 +54,14 @@ namespace MyEPA.Controllers
             {
                 id = result.FirstOrDefault().Id;
             }
+
+            //細目
+            OpenContractDetailService OpenContractDetailService = new OpenContractDetailService();
+            var details = OpenContractDetailService.GetList2(id.Value);
+
             ViewBag.Type = type;
             ViewBag.Id = id;
+            ViewBag.DetailCount = details.Count;
             ViewBag.Types = types;
             return View(result);
         }
