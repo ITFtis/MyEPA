@@ -6,6 +6,13 @@
     var type = ViewBag.Type;
     var types = (List<ResourceTypeModel>)ViewBag.Types;
 }
+
+<style>
+    .nav-tabs .nav-item .nav-link.active {
+        color: #eb8f00;
+    }
+</style>
+
 <h2>開口合約</h2>
 <p>
     @Html.ActionLink("新增合約", "Create", new { type = type }, new { @class = "btn btn-success" })
@@ -14,7 +21,7 @@
     @foreach (var item in types)
     {
         <li class="nav-item">
-            @Html.ActionLink(item.Name, "Index", new { type = item.Id }, new { @class = (type == item.Id ? "nav-link active" : "nav-link") })
+            @Html.ActionLink(item.Name, "Index", new { type = item.Id }, new { type = item.Id, @class = (type == item.Id ? "nav-link active" : "nav-link") })
         </li>
     }
     <li class="nav-item">
@@ -143,3 +150,20 @@
     };
 </script>
 
+@section scripts
+{
+    <script src="~/Content/assets/js/jquery-ui.min.js"></script>
+    <script src="~/Content/assets/js/jquery.ui.touch-punch.min.js"></script>
+    <script src="~/Content/chart.js"></script>
+
+    <script>
+
+        $(function () {
+            //Tab預設切換
+            if (@type != 0) {
+                $('.nav-tabs .nav-item [type=' + @type + ']').find('a').trigger('click');
+            }
+        });
+
+    </script>
+}
