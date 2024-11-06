@@ -42,6 +42,8 @@ namespace MyEPA.Models
         [Required]
         [DisplayName("行動電話")]
         public string MobileTEL { get; set; }
+        
+        //-1:Copy主約未修改,0:一般資料
         public int Status { get; set; }
 
         public DateTime CreateDate { get; set; }

@@ -58,7 +58,15 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @if (item.Status == -1)
+                {
+                    <span style="color:red">請更新：</span>
+                    @item.Name
+                }
+                else
+                {
+                    @item.Name
+                }
             </td>
             <td>
                 @item.KeyInDate.ToString("yyyy/MM/dd")

@@ -2,6 +2,7 @@
 using MyEPA.Helper;
 using MyEPA.Models;
 using MyEPA.Repositories.BaseRepositories;
+using MyEPA.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,6 +76,35 @@ namespace MyEPA.Repositories
                 whereSQL += $" AND oc.OContractDateEnd > '{now.ToString("yyyy/MM/dd HH:mm:ss")}'";
             }
             return whereSQL;
+        }
+
+        /// <summary>
+        /// 複製來源主約Id
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="copyId"></param>
+        /// <returns></returns>
+        public int CopyOpenContractById(UserBriefModel user, int copyId)
+        {
+            //主約
+            var oc = Get(copyId);
+            if (oc == null)
+            {
+                return -1;
+            }
+
+            oc.Name = "(複製)" + oc.Name;
+            oc.CreateDate = DateTimeHelper.GetCurrentTime();
+            oc.UpdateDate = DateTimeHelper.GetCurrentTime();
+            oc.CreateUser = user.UserName;
+            oc.UpdateUser = user.UserName;
+            oc.CityId = user.CityId;
+            oc.TownId = user.TownId;
+
+            oc.Status = -1;
+            var id = CreateAndResultIdentity<int>(oc);
+
+            return id;
         }
     }
 }

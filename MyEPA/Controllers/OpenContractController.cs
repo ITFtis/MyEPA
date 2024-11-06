@@ -94,10 +94,32 @@ namespace MyEPA.Controllers
             return View(result);
         }
         [HttpPost]
-        public ActionResult Edit(OpenContractViewModel model, HttpPostedFileBase file)
+        public ActionResult Edit(string submitButton, OpenContractViewModel model, HttpPostedFileBase file)
         {
+            if (submitButton == "Copy")
+            {
+                //複製來源主約Id
+                return CopyOpenContractById(model.Id);
+            }
+
             OpenContractService.Update(GetUserBrief() ,model, file);
             return RedirectToIndex();
+        }
+
+        /// <summary>
+        /// 複製來源主約Id
+        /// </summary>
+        /// <param name="copyId"></param>
+        /// <returns></returns>
+        public ActionResult CopyOpenContractById(int copyId)
+        {
+            var user = GetUserBrief();
+
+            //建置並取得主約Id
+            var id = OpenContractService.CopyOpenContractById(user, copyId);
+
+            ViewBag.CopyIdNew = id;
+            return View();
         }
 
         [HttpPost]

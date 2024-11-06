@@ -74,7 +74,19 @@ namespace MyEPA.Services
                 User = user.UserName
             });
         }
-        
+
+        /// <summary>
+        /// 複製來源主約Id
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="copyId"></param>
+        /// <returns>新建置主約Id</returns>
+        public int CopyOpenContractById(UserBriefModel user, int copyId)
+        {
+            int id = OpenContractRepository.CopyOpenContractById(user, copyId);
+            return id;
+        }
+
         public AdminResultModel Delete(UserBriefModel user, int id)
         {
             var entity = OpenContractRepository.Get(id);
@@ -119,6 +131,8 @@ namespace MyEPA.Services
             entity.TEL = model.TEL;
             entity.IsSupportCity = model.IsSupportCity;
 
+            //-1:Copy主約未修改,0:一般資料
+            entity.Status = 0;
             if (entity.CreateDate == DateTime.MinValue)
             {
                 entity.CreateDate = DateTime.Now;
