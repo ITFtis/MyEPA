@@ -78,6 +78,10 @@ namespace MyEPA.Services
             entity.UpdateDate = DateTimeHelper.GetCurrentTime();
             entity.UpdateUser = user;
 
+            //舊資料錯誤(CreateDate Null)
+            if (entity.CreateDate == DateTime.MinValue)
+                entity.CreateDate = entity.UpdateDate;
+
             OpenContractDetailRepository.Update(entity);
         }
     }
