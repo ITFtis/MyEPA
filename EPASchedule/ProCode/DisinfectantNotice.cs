@@ -152,7 +152,7 @@ DateFormat.ToDate14(info.ServiceLife), info.ServiceLifeDiffDay, alertStyle);
                     {
                         //寄發Mail
                         //v 資訊 + account 收件者帳號
-                        string subject = "(清潔隊)資源預警通報機制 - 使用期限到期";
+                        string subject = "(清潔隊)資源預警通報機制 - 使用期限到期通知";
 
                         string content = string.Format(@"
 {0}{1}，{2}您好：
@@ -197,7 +197,7 @@ v.Msg);
                     {
                         //寄發Mail
                         //v 資訊 + account 收件者帳號
-                        string subject = "(環保局)資源預警通報機制 - 使用期限到期";
+                        string subject = "(環保局)資源預警通報機制 - 使用期限到期通知";
 
 
                         string CityMsg = string.Join("<br/>", totals.Select(a => a.Msg));
@@ -221,12 +221,12 @@ CityMsg);
                     }
                 }
 
-                //(3).中央單位(環衛組與綜規組)信件
+                //(3).環境部(環衛組與綜規組)信件
                 foreach (string addr in AppConfig.EmailAddressGov.Split(','))
                 {
                     //寄發Mail
                     //v 資訊 + account 收件者帳號
-                    string subject = "(中央單位)資源預警通報機制 - 使用期限到期";
+                    string subject = "(環境部)資源預警通報機制 - 使用期限到期通知";
 
                     UsersModel account = new UsersModel()
                     {
@@ -236,7 +236,7 @@ CityMsg);
 
                     string GovMsg = string.Join("<br/>", totalMsgs.Select(a => a.Msg));
                     string content = string.Format(@"
-中央單位，您好：
+環境部環境管理署，您好：
 <br/><br/>
 
 以下清潔隊尚有消毒藥劑使用期限即將到期，<br/>
