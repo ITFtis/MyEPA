@@ -102,6 +102,8 @@ namespace MyEPA.Controllers
         [HttpPost]
         public ActionResult Edit(string submitButton, OpenContractViewModel model, HttpPostedFileBase file)
         {
+            int type = model.ResourceTypeId;
+
             if (submitButton == "Copy")
             {
                 //複製來源主約Id
@@ -109,7 +111,8 @@ namespace MyEPA.Controllers
             }
 
             OpenContractService.Update(GetUserBrief() ,model, file);
-            return RedirectToIndex();
+            
+            return RedirectToAction("index", new { type = type });
         }
 
         /// <summary>
