@@ -114,7 +114,7 @@
                 }
                 |
                 @Html.ActionLink("修改", "Edit", new { id = item.Id }) |
-                <a id="DeleteBtn" href="#" onclick="Delete(@item.Id)">删除</a>
+                <a id="DeleteBtn" href="#" onclick="DeleteMain(@item.Id)">删除</a>
             </td>
         </tr>
 
@@ -126,7 +126,7 @@
     { Html.RenderAction("Index", "OpenContractDetail", new { openContractId = ViewBag.Id }); }
 }
 <script>
-    function Delete(id) {
+    function DeleteMain(id) {
         if (!window.confirm('確定要刪除?')) {
             return;
         };
@@ -137,7 +137,8 @@
         success: function (data) {
                 if (data.IsSuccess) {
                     alert('刪除成功');
-                    location.reload();
+                    //location.reload();
+                    location.href = '@Url.Action("Index", new { type = type})';
                 }
                 else {
                     alert('刪除失敗,' + data.ErrorMessage);
