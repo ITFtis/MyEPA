@@ -106,11 +106,11 @@
                 @if (item.Id == ViewBag.Id)
                 {
                     string strDetailCount = item.Id == ViewBag.Id ? "(" + ViewBag.DetailCount + ")" : "";
-                    @Html.ActionLink("合約細目" + strDetailCount, "Index", "OpenContract", new { id = item.Id }, new { style = "color:blue;font-weight:bold" })
+                    @Html.ActionLink("合約細目" + strDetailCount, "Index", "OpenContract", new { id = item.Id, type = type, }, new { style = "color:blue;font-weight:bold" })
                 }
                 else
                 {
-                    @Html.ActionLink("合約細目", "Index", "OpenContract", new { id = item.Id }, new { });
+                    @Html.ActionLink("合約細目", "Index", "OpenContract", new { id = item.Id, type = type, }, new { });
                 }
                 |
                 @Html.ActionLink("修改", "Edit", new { id = item.Id }) |
