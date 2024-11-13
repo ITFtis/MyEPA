@@ -53,19 +53,8 @@ namespace MyEPA.Controllers.Report
         public ActionResult ExportDisasterResponseReport()
         {
             //1.車輛
-            VehicleTypeRepository VehicleTypeRepository = new VehicleTypeRepository();
-            VehicleService VehicleService = new VehicleService();
-            //CityService CityService = new CityService();
-
-            //var cars = VehicleService.GetCarTypes();
-            var carTypes = VehicleTypeRepository.GetList();
-            var carDatas = VehicleService.GetCarsCountByCity();
-            var tmp1Car = carTypes.GroupJoin(carDatas, a => a.Name, b => b.VehicleName, (o, c) => new
-            {
-                Type = o.Type.Trim(),
-                TypeName = o.Name.Trim(),
-                Count = c.Sum(a => a.Count),
-            }).ToList();
+            var tmp1Car = EasyReport.GetCars();
+            var carTypes = EasyReport.GetCarsType();
 
             //2.1 消毒設備            
             var disinfectorDatas = EasyReport.GetDisinfector();
