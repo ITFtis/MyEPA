@@ -224,6 +224,9 @@ CityMsg);
                 //(3).環境部(環衛組與綜規組)信件
                 foreach (string addr in AppConfig.EmailAddressGov.Split(','))
                 {
+                    if (addr == "")
+                        continue;
+
                     //寄發Mail
                     //v 資訊 + account 收件者帳號
                     string subject = "(環境部)資源預警通報機制 - 使用期限到期通知";

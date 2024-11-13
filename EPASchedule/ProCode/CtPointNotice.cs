@@ -256,6 +256,41 @@ CityMsg);
                     }
                 }
 
+                //(3).環境部(環衛組與綜規組)信件
+                foreach (string addr in AppConfig.EmailAddressGov.Split(','))
+                {
+                    if (addr == "")
+                        continue;
+
+                    //寄發Mail
+                    //v 資訊 + account 收件者帳號
+                    string subject = "(環境部)資源預警通報機制 - 數量低於閥值通知";
+
+                    UsersModel account = new UsersModel()
+                    {
+                        Name = addr,
+                        Email = addr
+                    };
+
+                    string GovMsg = string.Join("<br/>", totalMsgs.Select(a => a.Msg));
+
+                    string content = string.Format(@"
+環境部環境管理署您好：
+<br/><br/>
+
+貴局消毒藥劑數量低於預警閥值，<br/>
+請儘快採購消毒藥劑以因應環境消毒需求。
+<br/><br/>
+
+「如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）」
+<br/><br/>
+
+{0}",
+                    GovMsg);
+
+                    bool done = ToSend(subject, content, account);
+                }
+
                 return true;
             }
             catch (Exception ex)
