@@ -952,6 +952,7 @@
     <Compile Include="_core\PwdHelper.cs" />
     <Compile Include="_core\StringHelper.cs" />
     <Compile Include="_core\SysFunc.cs" />
+    <Compile Include="_report\EasyReport.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\EPA.mdf" />
