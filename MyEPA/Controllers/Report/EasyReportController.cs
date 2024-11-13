@@ -74,7 +74,7 @@ namespace MyEPA.Controllers.Report
             //匯出Excel
             //我要下載的檔案位置
             string filefolder = Server.MapPath("~/FileDatas/Template/");
-            string fileName = "(範本)緊急應變統計表_1.xlsx";
+            string fileName = "(範本)簡報產製1_緊急應變統計表.xlsx";
             string path = filefolder + fileName;
 
             //取得檔案名稱
