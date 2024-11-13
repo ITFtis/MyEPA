@@ -12,6 +12,18 @@ namespace MyEPA
     public class EasyReport
     {
         /// <summary>
+        /// 消毒設備全部
+        /// </summary>
+        /// <returns></returns>
+        public static List<DisinfectorSummaryCityReportModel> GetDisinfector()
+        {
+            DisinfectorService DisinfectorService = new DisinfectorService();
+            var Totals = DisinfectorService.GetSummaryCityReport();
+
+            return Totals;
+        }
+
+        /// <summary>
         /// 消毒藥劑全部
         /// </summary>
         /// <returns></returns>

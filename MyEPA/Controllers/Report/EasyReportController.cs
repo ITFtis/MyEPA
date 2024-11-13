@@ -67,9 +67,8 @@ namespace MyEPA.Controllers.Report
                 Count = c.Sum(a => a.Count),
             }).ToList();
 
-            //2.1 消毒設備
-            DisinfectorService DisinfectorService = new DisinfectorService();
-            var disinfectorDatas = DisinfectorService.GetSummaryCityReport();
+            //2.1 消毒設備            
+            var disinfectorDatas = EasyReport.GetDisinfector();
             var tmp2Disinfector = disinfectorDatas;
 
             //匯出Excel
