@@ -75,7 +75,7 @@ namespace MyEPA.Controllers.Report
             //匯出Excel
             //我要下載的檔案位置
             string filefolder = Server.MapPath("~/FileDatas/Template/");
-            string fileName = "(範本)緊急應變統計表.xlsx";
+            string fileName = "(範本)緊急應變統計表_1.xlsx";
             string path = filefolder + fileName;
 
             //取得檔案名稱
@@ -128,7 +128,7 @@ namespace MyEPA.Controllers.Report
                     UseType = DisinfectantUseTypeEnum.Environment,
                 });
                 dic2.Add("EnvironmentSolidAmount", d22_disinfectants.Where(a => a.DrugState == "固體").Sum(a => a.Amount).ToString());
-                dic2.Add("EnvironmentLiquidAmount", d22_disinfectants.Where(a => a.DrugState == "液體").Sum(a => a.Amount).ToString());
+                dic2.Add("EnvironmentLiquidAmount", d22_disinfectants.Where(a => a.DrugState != "液體").Sum(a => a.Amount).ToString());
 
                 //2.3 => 登革熱
                 var d23_disinfectants = DisinfectantService.GetTownReport(new DisinfectantReportFilterParameter
@@ -136,8 +136,8 @@ namespace MyEPA.Controllers.Report
                     UseType = DisinfectantUseTypeEnum.Dengue,
                 });
                 dic2.Add("DengueSolidAmount", d23_disinfectants.Where(a => a.DrugState == "固體").Sum(a => a.Amount).ToString());
-                dic2.Add("DengueLiquidAmount", d23_disinfectants.Where(a => a.DrugState == "液體").Sum(a => a.Amount).ToString());
-                dic2.Add("DengueEmulsionAmount", d23_disinfectants.Where(a => a.DrugState == "乳劑").Sum(a => a.Amount).ToString());
+                dic2.Add("DengueLiquidAmount", d23_disinfectants.Where(a => a.DrugState != "液體").Sum(a => a.Amount).ToString());
+                //dic2.Add("DengueEmulsionAmount", d23_disinfectants.Where(a => a.DrugState == "乳劑").Sum(a => a.Amount).ToString());
 
                 //遍歷每一列中的每一個Cell
                 for (int rowIndex = 0; rowIndex <= sheet.LastRowNum; rowIndex++)
