@@ -34,11 +34,11 @@ namespace MyEPA
             try
             {
                 //1.車輛
-                var tmp1Car = EasyReport.GetCars();
-                var carTypes = EasyReport.GetCarsType();
+                var tmp1Car = GetCars();
+                var carTypes = GetCarsType();
 
                 //2.1 消毒設備            
-                var disinfectorDatas = EasyReport.GetDisinfector();
+                var disinfectorDatas = GetDisinfector();
                 var tmp2Disinfector = disinfectorDatas;
 
                 //匯出Excel
@@ -91,12 +91,12 @@ namespace MyEPA
                     dic2.Add("TotalDisinfectorCount", d21_count.ToString());
 
                     //2.2 消毒藥劑 => 環境消毒
-                    var d22_disinfectants = EasyReport.GetDisinfectantEnumEnvironment();
+                    var d22_disinfectants = GetDisinfectantEnumEnvironment();
                     dic2.Add("EnvironmentSolidAmount", d22_disinfectants.Where(a => a.DrugState == "固體").Sum(a => a.Amount).ToString());
                     dic2.Add("EnvironmentLiquidAmount", d22_disinfectants.Where(a => a.DrugState != "固體").Sum(a => a.Amount).ToString());
 
                     //2.3 => 登革熱
-                    var d23_disinfectants = EasyReport.GetDisinfectantEnumDengue();
+                    var d23_disinfectants = GetDisinfectantEnumDengue();
                     dic2.Add("DengueSolidAmount", d23_disinfectants.Where(a => a.DrugState == "固體").Sum(a => a.Amount).ToString());
                     dic2.Add("DengueLiquidAmount", d23_disinfectants.Where(a => a.DrugState != "固體").Sum(a => a.Amount).ToString());
                     //dic2.Add("DengueEmulsionAmount", d23_disinfectants.Where(a => a.DrugState == "乳劑").Sum(a => a.Amount).ToString());
