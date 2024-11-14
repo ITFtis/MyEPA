@@ -50,7 +50,7 @@ namespace MyEPA.Controllers.Report
         /// <summary>
         /// 匯出(簡報產製1_緊急應變統計表)
         /// </summary>
-        public ActionResult ExportExport1_Urgent()
+        public ActionResult Export1_Urgent()
         {
             string toPath = EasyReport.Export1_Urgent();
 
@@ -64,6 +64,27 @@ namespace MyEPA.Controllers.Report
             else
             {
                 ViewBag.Msg = "執行失敗：" + "簡報產製1_緊急應變統計表";
+                return View("DisasterResponseReport");
+            }
+        }
+
+        /// <summary>
+        /// 匯出(簡報產製5_環境消毒物資)
+        /// </summary>
+        public ActionResult Export5_EnvDisinSupplies()
+        {
+            string toPath = EasyReport.Export5_EnvDisinSupplies();
+
+            if (toPath != "")
+            {
+                //讀成串流
+                var iStream = new FileStream(toPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                //回傳出檔案
+                return File(iStream, GetContentType("xlsx"), Path.GetFileName(toPath));
+            }
+            else
+            {
+                ViewBag.Msg = "執行失敗：" + "(範本)簡報產製5_環境消毒物資.xlsx";
                 return View("DisasterResponseReport");
             }
         }
