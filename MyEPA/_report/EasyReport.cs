@@ -229,14 +229,6 @@ namespace MyEPA
 
             try
             {
-                //1.車輛
-                var tmp1Car = GetCars();
-                var carTypes = GetCarsType();
-
-                //2.1 消毒設備            
-                var disinfectorDatas = GetDisinfector();
-                var tmp2Disinfector = disinfectorDatas;
-
                 //匯出Excel
                 //我要下載的檔案位置
                 string filefolder = HttpContext.Current.Server.MapPath("~/FileDatas/Template/");
@@ -260,6 +252,59 @@ namespace MyEPA
 
                     //oooooooooooooooooooo
                     //內容處理
+                    CityService CityService = new CityService();
+                    var citys = CityService.GetAll();
+
+                    //Header 縣市對應欄位(index)
+                    Dictionary<string, int> dicIndexs = new Dictionary<string, int>();
+
+                    IRow hrow = sheet.GetRow(1);
+                    int index = -1;
+                    foreach(ICell cell in hrow.Cells)
+                    {
+                        index++;
+                        string city = cell.StringCellValue;
+                        if (citys.Any(a => a.City == city))
+                        {
+                            dicIndexs.Add(city, index);
+                        }
+                    }
+
+                    //資料列
+                    IRow row;
+
+                    //設備(臺) 2
+                    row = sheet.GetRow(2);
+
+                    //消毒設備
+                    var disinfectorDatas = GetDisinfector();
+
+                    //xxxxxxxxxxx 92 29
+                    var zzzzz = disinfectorDatas.Where(a => a.City == "金門縣");
+
+                    int s1 = zzzzz.Sum(a => a.SprayerCount + a.DisinfectorCount + a.HotSmokeSachineCount
+                                            + a.PressureWasherCount + a.SprayerCAR + a.SprayeSrHI
+                                            + a.SprayeSrLO + a.SMOK + a.OtherCount);
+
+                    foreach (var dic in dicIndexs)
+                    {
+                        ICell cell = row.GetCell(dic.Value);
+                        var tmp2Disinfector = disinfectorDatas.Where(a => a.City == dic.Key);
+
+                        int sum = tmp2Disinfector.Sum(a => a.SprayerCount + a.DisinfectorCount + a.HotSmokeSachineCount
+                                                + a.PressureWasherCount + a.SprayerCAR + a.SprayeSrHI
+                                                + a.SprayeSrLO + a.SMOK + a.OtherCount);
+
+                        cell.SetCellValue(sum);
+                    }
+
+                    //消毒藥劑 - 液態 3
+
+                    //消毒藥劑 - 固態 4
+
+                    //登革熱藥劑 - 液態(公升) 5
+
+                    //登革熱藥劑 - 固態(公斤)
 
                     //oooooooooooooooooooo
 
