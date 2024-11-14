@@ -9,6 +9,7 @@ using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -303,6 +304,7 @@ namespace MyEPA
                         double sum = double.Parse(tmp2disinfectants.Sum(a => a.Amount).ToString());
 
                         cell.SetCellValue(sum);
+                        cell.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat("@");
                     }
 
                     //消毒藥劑 - 固態 4
@@ -315,6 +317,7 @@ namespace MyEPA
                         double sum = double.Parse(tmp2disinfectants.Sum(a => a.Amount).ToString());
 
                         cell.SetCellValue(sum);
+                        cell.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat("@");
                     }
 
                     //登革熱藥劑 - 液態(公升) 5
@@ -329,6 +332,7 @@ namespace MyEPA
                         double sum = double.Parse(tmp2dengues.Sum(a => a.Amount).ToString());
 
                         cell.SetCellValue(sum);
+                        cell.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat("@");
                     }
 
                     //登革熱藥劑 - 固態(公斤) 6
@@ -341,6 +345,7 @@ namespace MyEPA
                         double sum = double.Parse(tmp2dengues.Sum(a => a.Amount).ToString());
 
                         cell.SetCellValue(sum);
+                        cell.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat("@");
                     }
 
                     FileStream xlsFile = new FileStream(toPath, FileMode.Create, FileAccess.Write);
