@@ -279,13 +279,6 @@ namespace MyEPA
                     //消毒設備
                     var disinfectorDatas = GetDisinfector();
 
-                    //xxxxxxxxxxx 92 29
-                    var zzzzz = disinfectorDatas.Where(a => a.City == "金門縣");
-
-                    int s1 = zzzzz.Sum(a => a.SprayerCount + a.DisinfectorCount + a.HotSmokeSachineCount
-                                            + a.PressureWasherCount + a.SprayerCAR + a.SprayeSrHI
-                                            + a.SprayeSrLO + a.SMOK + a.OtherCount);
-
                     foreach (var dic in dicIndexs)
                     {
                         ICell cell = row.GetCell(dic.Value);
@@ -299,18 +292,55 @@ namespace MyEPA
                     }
 
                     //消毒藥劑 - 液態 3
+                    var disinfectants = GetDisinfectantEnumEnvironment();
+
+                    row = sheet.GetRow(3);
+                    foreach (var dic in dicIndexs)
+                    {
+                        ICell cell = row.GetCell(dic.Value);
+                        var tmp2disinfectants = disinfectants.Where(a => a.DrugState != "固體").Where(a => a.City == dic.Key);
+
+                        double sum = double.Parse(tmp2disinfectants.Sum(a => a.Amount).ToString());
+
+                        cell.SetCellValue(sum);
+                    }
 
                     //消毒藥劑 - 固態 4
+                    row = sheet.GetRow(4);
+                    foreach (var dic in dicIndexs)
+                    {
+                        ICell cell = row.GetCell(dic.Value);
+                        var tmp2disinfectants = disinfectants.Where(a => a.DrugState == "固體").Where(a => a.City == dic.Key);
+
+                        double sum = double.Parse(tmp2disinfectants.Sum(a => a.Amount).ToString());
+
+                        cell.SetCellValue(sum);
+                    }
 
                     //登革熱藥劑 - 液態(公升) 5
+                    var dengues = GetDisinfectantEnumDengue();
 
-                    //登革熱藥劑 - 固態(公斤)
-
-                    //oooooooooooooooooooo
-
-                    if (!Directory.Exists(toFolder))
+                    row = sheet.GetRow(5);
+                    foreach (var dic in dicIndexs)
                     {
-                        Directory.CreateDirectory(toFolder);
+                        ICell cell = row.GetCell(dic.Value);
+                        var tmp2dengues = dengues.Where(a => a.DrugState != "固體").Where(a => a.City == dic.Key);
+
+                        double sum = double.Parse(tmp2dengues.Sum(a => a.Amount).ToString());
+
+                        cell.SetCellValue(sum);
+                    }
+
+                    //登革熱藥劑 - 固態(公斤) 6
+                    row = sheet.GetRow(6);
+                    foreach (var dic in dicIndexs)
+                    {
+                        ICell cell = row.GetCell(dic.Value);
+                        var tmp2dengues = dengues.Where(a => a.DrugState == "固體").Where(a => a.City == dic.Key);
+
+                        double sum = double.Parse(tmp2dengues.Sum(a => a.Amount).ToString());
+
+                        cell.SetCellValue(sum);
                     }
 
                     FileStream xlsFile = new FileStream(toPath, FileMode.Create, FileAccess.Write);
