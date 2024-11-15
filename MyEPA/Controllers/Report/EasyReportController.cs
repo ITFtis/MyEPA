@@ -69,6 +69,27 @@ namespace MyEPA.Controllers.Report
         }
 
         /// <summary>
+        /// 匯出(簡報產製4_環境清理機具)
+        /// </summary>
+        public ActionResult Export4_Cars()
+        {
+            string toPath = EasyReport.Export4_Cars();
+
+            if (toPath != "")
+            {
+                //讀成串流
+                var iStream = new FileStream(toPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                //回傳出檔案
+                return File(iStream, GetContentType("xlsx"), Path.GetFileName(toPath));
+            }
+            else
+            {
+                ViewBag.Msg = "執行失敗：" + "簡報產製4_環境清理機具";
+                return View("DisasterResponseReport");
+            }
+        }
+
+        /// <summary>
         /// 匯出(簡報產製5_環境消毒物資)
         /// </summary>
         public ActionResult Export5_EnvDisinSupplies()

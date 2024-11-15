@@ -220,6 +220,153 @@ namespace MyEPA
         }
 
         /// <summary>
+        /// 簡報產製4_環境清理機具
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        public static string Export4_Cars()
+        {
+            string result = "";
+
+            try
+            {
+                //匯出Excel
+                //我要下載的檔案位置
+                string filefolder = HttpContext.Current.Server.MapPath("~/FileDatas/Template/");
+                string fileName = "(範本)簡報產製4_環境清理機具.xlsx";
+                string path = filefolder + fileName;
+
+                //取得檔案名稱
+                string filename = System.IO.Path.GetFileName(path);
+
+                StringBuilder sb = new StringBuilder();
+                string toFolder = HttpContext.Current.Server.MapPath("~/FileDatas/Temp/");
+                string toFileName = fileName + DateTime.Now.ToString("yyyy-MM-dd") + ".xlsx";
+                string toPath = toFolder + toFileName.Replace("(範本)", "");
+
+                using (FileStream stream = System.IO.File.OpenRead(path))
+                {
+                    XSSFWorkbook workbook = new XSSFWorkbook(stream);
+                    XSSFSheet sheet = (XSSFSheet)workbook.GetSheetAt(0);
+                    workbook.SetSheetName(workbook.GetSheetIndex(sheet), "環境清理機具");
+
+
+                    //////oooooooooooooooooooo
+                    //////內容處理
+                    ////CityService CityService = new CityService();
+                    ////var citys = CityService.GetAll();
+
+                    //////Header 縣市對應欄位(index)
+                    ////Dictionary<string, int> dicIndexs = new Dictionary<string, int>();
+
+                    ////IRow hrow = sheet.GetRow(1);
+                    ////int index = -1;
+                    ////foreach (ICell cell in hrow.Cells)
+                    ////{
+                    ////    index++;
+                    ////    string city = cell.StringCellValue;
+                    ////    if (citys.Any(a => a.City == city))
+                    ////    {
+                    ////        dicIndexs.Add(city, index);
+                    ////    }
+                    ////}
+
+                    //////資料列
+                    ////IRow row;
+
+                    //////設備(臺) 2
+                    ////row = sheet.GetRow(2);
+
+                    //////消毒設備
+                    ////var disinfectorDatas = GetDisinfector();
+
+                    ////foreach (var dic in dicIndexs)
+                    ////{
+                    ////    ICell cell = row.GetCell(dic.Value);
+                    ////    var tmp2Disinfector = disinfectorDatas.Where(a => a.City == dic.Key);
+
+                    ////    int sum = tmp2Disinfector.Sum(a => a.SprayerCount + a.DisinfectorCount + a.HotSmokeSachineCount
+                    ////                            + a.PressureWasherCount + a.SprayerCAR + a.SprayeSrHI
+                    ////                            + a.SprayeSrLO + a.SMOK + a.OtherCount);
+
+                    ////    cell.SetCellValue(sum);
+                    ////}
+
+                    //////消毒藥劑 - 液態 3
+                    ////var disinfectants = GetDisinfectantEnumEnvironment();
+
+                    ////row = sheet.GetRow(3);
+                    ////foreach (var dic in dicIndexs)
+                    ////{
+                    ////    ICell cell = row.GetCell(dic.Value);
+                    ////    var tmp2disinfectants = disinfectants.Where(a => a.DrugState != "固體").Where(a => a.City == dic.Key);
+
+                    ////    double sum = double.Parse(tmp2disinfectants.Sum(a => a.Amount).ToString());
+
+                    ////    cell.SetCellValue(sum);
+                    ////    cell.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat("@");
+                    ////}
+
+                    //////消毒藥劑 - 固態 4
+                    ////row = sheet.GetRow(4);
+                    ////foreach (var dic in dicIndexs)
+                    ////{
+                    ////    ICell cell = row.GetCell(dic.Value);
+                    ////    var tmp2disinfectants = disinfectants.Where(a => a.DrugState == "固體").Where(a => a.City == dic.Key);
+
+                    ////    double sum = double.Parse(tmp2disinfectants.Sum(a => a.Amount).ToString());
+
+                    ////    cell.SetCellValue(sum);
+                    ////    cell.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat("@");
+                    ////}
+
+                    //////登革熱藥劑 - 液態(公升) 5
+                    ////var dengues = GetDisinfectantEnumDengue();
+
+                    ////row = sheet.GetRow(5);
+                    ////foreach (var dic in dicIndexs)
+                    ////{
+                    ////    ICell cell = row.GetCell(dic.Value);
+                    ////    var tmp2dengues = dengues.Where(a => a.DrugState != "固體").Where(a => a.City == dic.Key);
+
+                    ////    double sum = double.Parse(tmp2dengues.Sum(a => a.Amount).ToString());
+
+                    ////    cell.SetCellValue(sum);
+                    ////    cell.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat("@");
+                    ////}
+
+                    //////登革熱藥劑 - 固態(公斤) 6
+                    ////row = sheet.GetRow(6);
+                    ////foreach (var dic in dicIndexs)
+                    ////{
+                    ////    ICell cell = row.GetCell(dic.Value);
+                    ////    var tmp2dengues = dengues.Where(a => a.DrugState == "固體").Where(a => a.City == dic.Key);
+
+                    ////    double sum = double.Parse(tmp2dengues.Sum(a => a.Amount).ToString());
+
+                    ////    cell.SetCellValue(sum);
+                    ////    cell.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat("@");
+                    ////}
+
+                    FileStream xlsFile = new FileStream(toPath, FileMode.Create, FileAccess.Write);
+                    workbook.Write(xlsFile);
+                    xlsFile.Close();
+                    workbook.Close();
+
+                    result = toPath;
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error("執行錯誤：簡報產製4_環境清理機具");
+                logger.Error(ex.Message);
+                logger.Error(ex.StackTrace);
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// 簡報產製5_環境消毒物資
         /// </summary>
         /// <param name="query"></param>
