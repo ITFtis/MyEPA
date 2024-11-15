@@ -419,7 +419,7 @@ namespace MyEPA
                         double sum = double.Parse(tmp2disinfectants.Sum(a => a.Amount).ToString());
 
                         cell.SetCellValue(sum);
-                        cell.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat("@");
+                        cell.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat("#,#0");
                     }
 
                     //消毒藥劑 - 固態 4
@@ -432,7 +432,7 @@ namespace MyEPA
                         double sum = double.Parse(tmp2disinfectants.Sum(a => a.Amount).ToString());
 
                         cell.SetCellValue(sum);
-                        cell.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat("@");
+                        cell.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat("#,#0");
                     }
 
                     //登革熱藥劑 - 液態(公升) 5
@@ -447,7 +447,7 @@ namespace MyEPA
                         double sum = double.Parse(tmp2dengues.Sum(a => a.Amount).ToString());
 
                         cell.SetCellValue(sum);
-                        cell.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat("@");
+                        cell.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat("#,#0");
                     }
 
                     //登革熱藥劑 - 固態(公斤) 6
@@ -460,7 +460,7 @@ namespace MyEPA
                         double sum = double.Parse(tmp2dengues.Sum(a => a.Amount).ToString());
 
                         cell.SetCellValue(sum);
-                        cell.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat("@");
+                        cell.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat("#,#0");
                     }
 
                     FileStream xlsFile = new FileStream(toPath, FileMode.Create, FileAccess.Write);
