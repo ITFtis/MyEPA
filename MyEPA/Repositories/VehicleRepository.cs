@@ -57,11 +57,11 @@ Order By aaa.Type
 
         public List<VehicleCountModel> GetCarsCountByCity()
         {
-            string sql = @"SELECT City CityName, VT.Name VehicleName,COUNT(1)COUNT
+            string sql = @"SELECT City CityName, VT.Type AS VehicleType, VT.Name VehicleName,COUNT(1)COUNT
 FROM Vehicle V
 JOIN  VehicleType VT ON ISNULL(v.VehicleType, 'nullvalue') = VT.Type
 
-GROUP BY VT.Name,City
+GROUP BY VT.Type, VT.Name,City
 ";
             return GetListBySQL<VehicleCountModel>(sql,new {});
         }

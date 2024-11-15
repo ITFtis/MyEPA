@@ -35,7 +35,7 @@ namespace MyEPA
             try
             {
                 //1.車輛
-                var tmp1Car = GetCars();
+                var tmp1Car = GetCarsTotal();
                 var carTypes = GetCarsType();
 
                 //2.1 消毒設備            
@@ -251,102 +251,70 @@ namespace MyEPA
                     workbook.SetSheetName(workbook.GetSheetIndex(sheet), "環境清理機具");
 
 
-                    //////oooooooooooooooooooo
-                    //////內容處理
-                    ////CityService CityService = new CityService();
-                    ////var citys = CityService.GetAll();
+                    //oooooooooooooooooooo
+                    //內容處理
+                    CityService CityService = new CityService();
+                    var citys = CityService.GetAll();
 
-                    //////Header 縣市對應欄位(index)
-                    ////Dictionary<string, int> dicIndexs = new Dictionary<string, int>();
+                    //Header 縣市對應欄位(index)
+                    Dictionary<string, int> dicIndexs = new Dictionary<string, int>();
 
-                    ////IRow hrow = sheet.GetRow(1);
-                    ////int index = -1;
-                    ////foreach (ICell cell in hrow.Cells)
-                    ////{
-                    ////    index++;
-                    ////    string city = cell.StringCellValue;
-                    ////    if (citys.Any(a => a.City == city))
-                    ////    {
-                    ////        dicIndexs.Add(city, index);
-                    ////    }
-                    ////}
+                    IRow hrow = sheet.GetRow(1);
+                    int index = -1;
+                    foreach (ICell cell in hrow.Cells)
+                    {
+                        index++;
+                        string city = cell.StringCellValue;
+                        if (citys.Any(a => a.City == city))
+                        {
+                            dicIndexs.Add(city, index);
+                        }
+                    }
 
-                    //////資料列
-                    ////IRow row;
+                    //資料列
+                    for (int i = 2; i <= sheet.LastRowNum; i++)
+                    {
+                        IRow row = sheet.GetRow(i);
+                        
+                        //第一個欄位
+                        string h0_string = row.Cells[0].StringCellValue;
+                        List<string> list = h0_string.Split('_').ToList();
+                        if (list.Count > 1)
+                        {
+                            //類型
+                            string type = list[0];
+                            //車輛名稱
+                            string name = list[1];
 
-                    //////設備(臺) 2
-                    ////row = sheet.GetRow(2);
+                            //修改第一欄名稱
+                            row.Cells[0].SetCellValue(name);
 
-                    //////消毒設備
-                    ////var disinfectorDatas = GetDisinfector();
+                            var cars = GetCarsByCity().Where(a => a.VehicleType == type);
+                            foreach (var dic in dicIndexs)
+                            {
+                                ICell cell = row.GetCell(dic.Value);
+                                var datas = cars.Where(a => a.CityName == dic.Key);
 
-                    ////foreach (var dic in dicIndexs)
-                    ////{
-                    ////    ICell cell = row.GetCell(dic.Value);
-                    ////    var tmp2Disinfector = disinfectorDatas.Where(a => a.City == dic.Key);
+                                double sum = double.Parse(datas.Sum(a => a.Count).ToString());
 
-                    ////    int sum = tmp2Disinfector.Sum(a => a.SprayerCount + a.DisinfectorCount + a.HotSmokeSachineCount
-                    ////                            + a.PressureWasherCount + a.SprayerCAR + a.SprayeSrHI
-                    ////                            + a.SprayeSrLO + a.SMOK + a.OtherCount);
+                                cell.SetCellValue(sum);
+                                cell.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat("#,#0");
+                            }
+                        }
 
-                    ////    cell.SetCellValue(sum);
-                    ////}
+                        //執行公式
+                        if (h0_string == "合計")
+                        {
+                            //修改第一欄名稱
+                            row.Cells[0].SetCellValue("合計");
 
-                    //////消毒藥劑 - 液態 3
-                    ////var disinfectants = GetDisinfectantEnumEnvironment();
-
-                    ////row = sheet.GetRow(3);
-                    ////foreach (var dic in dicIndexs)
-                    ////{
-                    ////    ICell cell = row.GetCell(dic.Value);
-                    ////    var tmp2disinfectants = disinfectants.Where(a => a.DrugState != "固體").Where(a => a.City == dic.Key);
-
-                    ////    double sum = double.Parse(tmp2disinfectants.Sum(a => a.Amount).ToString());
-
-                    ////    cell.SetCellValue(sum);
-                    ////    cell.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat("@");
-                    ////}
-
-                    //////消毒藥劑 - 固態 4
-                    ////row = sheet.GetRow(4);
-                    ////foreach (var dic in dicIndexs)
-                    ////{
-                    ////    ICell cell = row.GetCell(dic.Value);
-                    ////    var tmp2disinfectants = disinfectants.Where(a => a.DrugState == "固體").Where(a => a.City == dic.Key);
-
-                    ////    double sum = double.Parse(tmp2disinfectants.Sum(a => a.Amount).ToString());
-
-                    ////    cell.SetCellValue(sum);
-                    ////    cell.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat("@");
-                    ////}
-
-                    //////登革熱藥劑 - 液態(公升) 5
-                    ////var dengues = GetDisinfectantEnumDengue();
-
-                    ////row = sheet.GetRow(5);
-                    ////foreach (var dic in dicIndexs)
-                    ////{
-                    ////    ICell cell = row.GetCell(dic.Value);
-                    ////    var tmp2dengues = dengues.Where(a => a.DrugState != "固體").Where(a => a.City == dic.Key);
-
-                    ////    double sum = double.Parse(tmp2dengues.Sum(a => a.Amount).ToString());
-
-                    ////    cell.SetCellValue(sum);
-                    ////    cell.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat("@");
-                    ////}
-
-                    //////登革熱藥劑 - 固態(公斤) 6
-                    ////row = sheet.GetRow(6);
-                    ////foreach (var dic in dicIndexs)
-                    ////{
-                    ////    ICell cell = row.GetCell(dic.Value);
-                    ////    var tmp2dengues = dengues.Where(a => a.DrugState == "固體").Where(a => a.City == dic.Key);
-
-                    ////    double sum = double.Parse(tmp2dengues.Sum(a => a.Amount).ToString());
-
-                    ////    cell.SetCellValue(sum);
-                    ////    cell.CellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat("@");
-                    ////}
+                            foreach (var dic in dicIndexs)
+                            {
+                                ICell cell = row.GetCell(dic.Value);
+                                workbook.GetCreationHelper().CreateFormulaEvaluator().EvaluateFormulaCell(cell);
+                            }
+                        }
+                    }
 
                     FileStream xlsFile = new FileStream(toPath, FileMode.Create, FileAccess.Write);
                     workbook.Write(xlsFile);
@@ -514,22 +482,33 @@ namespace MyEPA
         }
 
         /// <summary>
-        /// 車輛(環境清理機具)全部
+        /// 車輛(環境清理機具)全部 加總統計
         /// </summary>
         /// <returns></returns>
-        public static List<CarsModel> GetCars()
+        public static List<CarsModel> GetCarsTotal()
         {
             VehicleTypeRepository VehicleTypeRepository = new VehicleTypeRepository();
-            VehicleService VehicleService = new VehicleService();
 
             var carTypes = VehicleTypeRepository.GetList();
-            var carDatas = VehicleService.GetCarsCountByCity();
+            var carDatas = GetCarsByCity();
             var Totals = carTypes.GroupJoin(carDatas, a => a.Name, b => b.VehicleName, (o, c) => new CarsModel
             {
                 Type = o.Type.Trim(),
                 TypeName = o.Name.Trim(),
                 Count = c.Sum(a => a.Count),
             }).ToList();
+
+            return Totals;
+        }
+
+        /// <summary>
+        /// 車輛(環境清理機具)全部 縣市統計
+        /// </summary>
+        /// <returns></returns>
+        public static List<VehicleCountModel> GetCarsByCity()
+        {
+            VehicleService VehicleService = new VehicleService();
+            var Totals = VehicleService.GetCarsCountByCity();
 
             return Totals;
         }
