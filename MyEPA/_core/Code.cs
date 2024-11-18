@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MyEPA.Repositories;
+using NPOI.SS.Formula.Functions;
 
 namespace MyEPA
 {
@@ -133,6 +134,26 @@ namespace MyEPA
             {
                 new KeyValuePair<int, string>(1, "低於閥值"),
                 new KeyValuePair<int, string>(2, "高於閥值(正常)"),
+            };
+
+            return result;
+        }
+
+        /// <summary>
+        /// 台灣各區分類(縣市)
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<KeyValuePair<int, string>> GetTWTypeCity()
+        {
+            List<KeyValuePair<int, string>> result = new List<KeyValuePair<int, string>>()
+            {
+                new KeyValuePair<int, string>(1, "1,2,3,19"),//北基宜地區
+                new KeyValuePair<int, string>(2, "4,5,6,7"),//桃竹苗地區
+                new KeyValuePair<int, string>(3, "8,9,10"),//中彰投地區
+                new KeyValuePair<int, string>(4, "11,12,13,14"),//雲嘉南地區
+                new KeyValuePair<int, string>(5, "15,16"),//高屏地區
+                new KeyValuePair<int, string>(6, "17,18"),//花東地區
+                new KeyValuePair<int, string>(7, "20,21,22"),//澎金馬地區
             };
 
             return result;

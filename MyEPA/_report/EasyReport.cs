@@ -1,4 +1,5 @@
-﻿using MyEPA.Enums;
+﻿
+using MyEPA.Enums;
 using MyEPA.Models;
 using MyEPA.Models.FilterParameter;
 using MyEPA.Repositories;
@@ -262,7 +263,58 @@ namespace MyEPA
                     //--6."花東地區：[$OrA6$] [$AntA6S$] [$OrA6L$]
                     //--7."澎金馬地區：[$OrA7$] [$AntA7S$] [$OrA7L$]
 
+                    var typeCitys = Code.GetTWTypeCity();
 
+                    //消毒設備
+                    var disinfectorDatas = GetDisinfector();
+
+                    foreach (var type in typeCitys)
+                    {
+                        List<int> tCitys = type.Value.Split(',').Select(int.Parse).ToList();
+                        var tmp2Disinfector = disinfectorDatas.Where(a => tCitys.Contains(a.CityId));
+
+                        //消毒設備
+                        int OrAsum = tmp2Disinfector.Sum(a => a.SprayerCount + a.DisinfectorCount + a.HotSmokeSachineCount
+                                                + a.PressureWasherCount + a.SprayerCAR + a.SprayeSrHI
+                                                + a.SprayeSrLO + a.SMOK + a.OtherCount);
+
+                        //北基宜地區
+                        //遍歷每一列中的每一個Cell
+                        for (int rowIndex = 0; rowIndex <= sheet.LastRowNum; rowIndex++)
+                        {
+                            IRow row = sheet.GetRow(rowIndex);
+                            if (row == null)
+                                continue;
+
+                            for (int cellIndex = 0; cellIndex < row.LastCellNum; cellIndex++)
+                            {
+
+                                var cell = row.GetCell(cellIndex);
+
+                                if (cell == null)
+                                    continue;
+
+                                // Get the cell value as a string
+                                string cellValue = cell.ToString();
+
+                                //消毒設備 [$OrA7$]
+                                var repStr = "[$OrA" + type.Key.ToString() + "$]";
+                                if (cellValue.IndexOf(repStr) > -1)
+                                {
+                                    string strSum = OrAsum.ToString();
+
+                                    var text = cellValue.Replace(repStr, strSum);  // 替换段落中的文字
+                                    cell.SetCellValue(text);
+
+                                    //改變部分文字(CellStyle)
+                                    XSSFFont font1 = (XSSFFont)workbook.CreateFont();
+                                    font1.Color = IndexedColors.Red.Index;
+                                    int start = text.IndexOf(strSum);
+                                    cell.RichStringCellValue.ApplyFont(start, start + strSum.Length, font1);
+                                }
+                            }
+                        }
+                    }
 
 
                     FileStream xlsFile = new FileStream(toPath, FileMode.Create, FileAccess.Write);
