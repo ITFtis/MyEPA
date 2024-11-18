@@ -220,6 +220,60 @@ namespace MyEPA
         }
 
         /// <summary>
+        /// 簡報產製2_台灣地圖
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        public static string Export2_TaiwanMap()
+        {
+            string result = "";
+
+            try
+            {
+                //匯出Excel
+                //我要下載的檔案位置
+                string filefolder = HttpContext.Current.Server.MapPath("~/FileDatas/Template/");
+                string fileName = "(範本)簡報產製2_台灣地圖.xlsx";
+                string path = filefolder + fileName;
+
+                //取得檔案名稱
+                string filename = System.IO.Path.GetFileName(path);
+
+                StringBuilder sb = new StringBuilder();
+                string toFolder = HttpContext.Current.Server.MapPath("~/FileDatas/Temp/");
+                string toFileName = fileName + DateTime.Now.ToString("yyyy-MM-dd") + ".xlsx";
+                string toPath = toFolder + toFileName.Replace("(範本)", "");
+
+                using (FileStream stream = System.IO.File.OpenRead(path))
+                {
+                    XSSFWorkbook workbook = new XSSFWorkbook(stream);
+                    XSSFSheet sheet = (XSSFSheet)workbook.GetSheetAt(0);
+                    workbook.SetSheetName(workbook.GetSheetIndex(sheet), "台灣地圖");
+
+
+                    //oooooooooooooooooooo
+                    //內容處理
+                   
+
+                    FileStream xlsFile = new FileStream(toPath, FileMode.Create, FileAccess.Write);
+                    workbook.Write(xlsFile);
+                    xlsFile.Close();
+                    workbook.Close();
+
+                    result = toPath;
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error("執行錯誤：簡報產製2_台灣地圖");
+                logger.Error(ex.Message);
+                logger.Error(ex.StackTrace);
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// 簡報產製4_環境清理機具
         /// </summary>
         /// <param name="query"></param>
