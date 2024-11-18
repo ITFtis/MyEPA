@@ -253,7 +253,17 @@ namespace MyEPA
 
                     //oooooooooooooooooooo
                     //內容處理
-                   
+                    //--總計[$ValEnvS$][$ValEnvL$][$ValDengueS$][$VaDenguelL$]
+                    //--1."北基宜地區：[$OrA1$] [$AntA1S$] [$OrA1L$]
+                    //--2."桃竹苗地區：[$OrA2$] [$AntA2S$] [$OrA2L$]
+                    //--3."中彰投地區：[$OrA3$] [$AntA3S$] [$OrA3L$]
+                    //--4."雲嘉南地區：[$OrA4$] [$AntA4S$] [$OrA4L$]
+                    //--5."高屏地區：[$OrA5$] [$AntA5S$] [$OrA5L$]
+                    //--6."花東地區：[$OrA6$] [$AntA6S$] [$OrA6L$]
+                    //--7."澎金馬地區：[$OrA7$] [$AntA7S$] [$OrA7L$]
+
+
+
 
                     FileStream xlsFile = new FileStream(toPath, FileMode.Create, FileAccess.Write);
                     workbook.Write(xlsFile);
