@@ -297,6 +297,21 @@ namespace MyEPA
                             //片段文字顏色
                             List<string> list = new List<string>();
 
+                            //環境消毒設備 [$ValOr$]
+                            string repOr = "[$ValOr$]";
+                            double ValOr = disinfectorDatas.Sum(a => a.SprayerCount + a.DisinfectorCount + a.HotSmokeSachineCount
+                                                + a.PressureWasherCount + a.SprayerCAR + a.SprayeSrHI
+                                                + a.SprayeSrLO + a.SMOK + a.OtherCount);
+                            if (cellValue.IndexOf(repOr) > -1)
+                            {
+                                string strSum = ValOr.ToString();
+                                var text = cellValue.Replace(repOr, strSum);  // 替换段落中的文字
+                                cell.SetCellValue(text);
+
+                                cellValue = cell.ToString();
+                                list.Add(strSum);
+                            }
+
                             //1.1 (液態)環境消毒藥劑 [$ValEnvL$]
                             string rep1 = "[$ValEnvL$]";
                             double ValEnvL = double.Parse(d22_disinfectants.Where(a => a.DrugState != "固體").Sum(a => a.Amount).ToString());
