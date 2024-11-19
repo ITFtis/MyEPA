@@ -36,10 +36,22 @@ namespace MyEPA.Controllers.Report
         //}
 
         /// <summary>
-        /// 緊急應變統計表
+        /// 緊急應變簡報
         /// </summary>
         /// <returns></returns>
         public ActionResult DisasterResponseReport()
+        {
+            if (!GetIsAdmin())
+                return RedirectToAction("LoginRedirect", "Home");
+
+            return View();
+        }
+
+        /// <summary>
+        /// 災害事件簡報
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult DisasterEventReport()
         {
             if (!GetIsAdmin())
                 return RedirectToAction("LoginRedirect", "Home");

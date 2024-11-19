@@ -2026,6 +2026,7 @@
     <Content Include="Views\EPA\A9x3_New.cshtml" />
     <Content Include="Views\LogDisinfector\Index.cshtml" />
     <Content Include="Views\LogDisinfectant\Index.cshtml" />
+    <Content Include="Views\EasyReport\DisasterEventReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="C:\NuGetPackages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.7\analyzers\dotnet\cs\Microsoft.CodeAnalysis.VersionCheckAnalyzer.resources.dll" />

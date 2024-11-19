@@ -16,16 +16,7 @@
         </li>
         <li class="">
             <a href="@Url.Action("Index", "RecResource")">資源調度</a>
-        </li>
-        <li class="">
-            <a href="@Url.Action("Index", "LogDisinfector")">(閥值)消毒設備</a>
-        </li>
-        <li class="">
-            <a href="@Url.Action("Index", "LogDisinfectant")">(閥值)消毒藥劑</a>
-        </li>
-        <li class="">
-            <a href="@Url.Action("DisasterResponseReport", "EasyReport")">緊急應變統計表</a>
-        </li>
+        </li>               
     </ul>
 </li>
 
@@ -56,10 +47,10 @@
                     <b class="arrow"></b>
                 </li>
                 <!--
-                    <li class="">
-                        <a href="#">資源通報時間查詢</a>
-                    </li>
-                -->
+                <li class="">
+                    <a href="#">資源通報時間查詢</a>
+                </li>
+            -->
             </ul>
         </li>
         <li class="">
@@ -128,6 +119,12 @@
                 </li>
             </ul>
         </li>
+        <li class="">
+            <a href="@Url.Action("Index", "LogDisinfector")">(閥值)消毒設備</a>
+        </li>
+        <li class="">
+            <a href="@Url.Action("Index", "LogDisinfectant")">(閥值)消毒藥劑</a>
+        </li>
     </ul>
 </li>
 
@@ -187,6 +184,12 @@
                     <a href="@Url.Action("Statistics", "ToiletLocation")">流動廁所佈點</a>
                 </li>
             </ul>
+        </li>
+        <li class="">
+            <a href="@Url.Action("DisasterResponseReport", "EasyReport")">緊急應變簡報</a>
+        </li>
+        <li class="">
+            <a href="@Url.Action("DisasterEventReport", "EasyReport")">災害事件簡報</a>
         </li>
     </ul>
 </li>
