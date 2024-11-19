@@ -285,9 +285,13 @@ namespace MyEPA
                                                 + a.PressureWasherCount + a.SprayerCAR + a.SprayeSrHI
                                                 + a.SprayeSrLO + a.SMOK + a.OtherCount);
 
-                        //環境消毒 + 登革熱
+                        //(固體)環境消毒 + 登革熱
                         double antSumS = double.Parse(d22_disinfectants.Where(a => tCitys.Contains(a.CityId)).Where(a => a.DrugState == "固體").Sum(a => a.Amount).ToString())
                                         + double.Parse(d23_disinfectants.Where(a => tCitys.Contains(a.CityId)).Where(a => a.DrugState == "固體").Sum(a => a.Amount).ToString());
+
+                        //(液體)環境消毒 + 登革熱
+                        double antSumL = double.Parse(d22_disinfectants.Where(a => tCitys.Contains(a.CityId)).Where(a => a.DrugState != "固體").Sum(a => a.Amount).ToString())
+                                        + double.Parse(d23_disinfectants.Where(a => tCitys.Contains(a.CityId)).Where(a => a.DrugState != "固體").Sum(a => a.Amount).ToString());
 
                         //北基宜地區
                         //遍歷每一列中的每一個Cell
@@ -325,12 +329,24 @@ namespace MyEPA
                                     list.Add(strSum);
                                 }
 
-                                //2、環境消毒藥劑跟登革熱藥劑 [$AntA1S$] 固體
+                                //2.1(固體)環境消毒藥劑跟登革熱藥劑 [$AntA1S$]
                                 var repStr2 = "[$AntA" + type.Key.ToString() + "S$]";
                                 if (cellValue.IndexOf(repStr2) > -1)
                                 {
                                     string strSum = antSumS.ToString();
                                     var text = cellValue.Replace(repStr2, strSum);  // 替换段落中的文字
+                                    cell.SetCellValue(text);
+
+                                    cellValue = cell.ToString();
+                                    list.Add(strSum);
+                                }
+
+                                //2.2(液體)環境消毒藥劑跟登革熱藥劑 [$AntA1S$]
+                                var repStr3 = "[$AntA" + type.Key.ToString() + "L$]";
+                                if (cellValue.IndexOf(repStr3) > -1)
+                                {
+                                    string strSum = antSumL.ToString();
+                                    var text = cellValue.Replace(repStr3, strSum);  // 替换段落中的文字
                                     cell.SetCellValue(text);
 
                                     cellValue = cell.ToString();
