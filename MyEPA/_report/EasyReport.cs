@@ -538,7 +538,7 @@ namespace MyEPA
         }
 
         /// <summary>
-        /// 簡報產製4_環境清理機具
+        /// 簡報產製4_環境清潔車輛
         /// </summary>
         /// <param name="query"></param>
         /// <returns></returns>
@@ -551,7 +551,7 @@ namespace MyEPA
                 //匯出Excel
                 //我要下載的檔案位置
                 string filefolder = HttpContext.Current.Server.MapPath("~/FileDatas/Template/");
-                string fileName = "(範本)簡報產製4_環境清理機具.xlsx";
+                string fileName = "(範本)簡報產製4_環境清潔車輛.xlsx";
                 string path = filefolder + fileName;
 
                 //取得檔案名稱
@@ -566,7 +566,7 @@ namespace MyEPA
                 {
                     XSSFWorkbook workbook = new XSSFWorkbook(stream);
                     XSSFSheet sheet = (XSSFSheet)workbook.GetSheetAt(0);
-                    workbook.SetSheetName(workbook.GetSheetIndex(sheet), "環境清理機具");
+                    workbook.SetSheetName(workbook.GetSheetIndex(sheet), "環境清潔車輛");
 
 
                     //oooooooooooooooooooo
@@ -644,7 +644,7 @@ namespace MyEPA
             }
             catch (Exception ex)
             {
-                logger.Error("執行錯誤：簡報產製4_環境清理機具");
+                logger.Error("執行錯誤：簡報產製4_環境清潔車輛");
                 logger.Error(ex.Message);
                 logger.Error(ex.StackTrace);
             }
@@ -800,7 +800,7 @@ namespace MyEPA
         }
 
         /// <summary>
-        /// 車輛(環境清理機具)全部 加總統計
+        /// 車輛(環境清潔車輛)全部 加總統計
         /// </summary>
         /// <returns></returns>
         public static List<CarsModel> GetCarsTotal()
@@ -820,7 +820,7 @@ namespace MyEPA
         }
 
         /// <summary>
-        /// 車輛(環境清理機具)全部 縣市統計
+        /// 車輛(環境清潔車輛)全部 縣市統計
         /// </summary>
         /// <returns></returns>
         public static List<VehicleCountModel> GetCarsByCity()

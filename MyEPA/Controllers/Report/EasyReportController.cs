@@ -123,7 +123,7 @@ namespace MyEPA.Controllers.Report
         }
 
         /// <summary>
-        /// 匯出(簡報產製4_環境清理機具)
+        /// 匯出(簡報產製4_環境清潔車輛)
         /// </summary>
         public ActionResult Export4_Cars()
         {
@@ -138,7 +138,7 @@ namespace MyEPA.Controllers.Report
             }
             else
             {
-                ViewBag.Msg = "執行失敗：" + "簡報產製4_環境清理機具";
+                ViewBag.Msg = "執行失敗：" + "簡報產製4_環境清潔車輛";
                 return View("DisasterResponseReport");
             }
         }
