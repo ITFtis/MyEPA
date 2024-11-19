@@ -46,6 +46,10 @@ namespace MyEPA.Repositories
             {
                 whereSQL += " AND Recheck IN @Rechecks";
             }
+            if (filter.Status.IsNotEmpty())
+            {
+                whereSQL += " AND Status IN @Status";
+            }
             if (filter.UpdateUsers.IsNotEmpty())
             {
                 whereSQL += " AND UpdateUser IN @UpdateUsers";

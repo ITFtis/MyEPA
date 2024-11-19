@@ -10,6 +10,8 @@ namespace MyEPA.Models.FilterParameter
 
         public List<WaterCheckDetailRecheckEnum> Rechecks { get; set; }
 
+        public List<WaterCheckDetailStatusEnum> Status { get; set; }
+
         public List<string> UpdateUsers { get; set; }
     }
 }

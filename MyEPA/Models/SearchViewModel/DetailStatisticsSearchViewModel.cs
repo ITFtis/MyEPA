@@ -13,5 +13,7 @@ namespace MyEPA.Models.SearchViewModel
         public int? DiasterId { get; set; }
         public int? CityId { get; set; }
         public WaterCheckDetailRecheckEnum? Recheck { get; set; }
+
+        public WaterCheckDetailStatusEnum? Status { get; set; }
     }
 }

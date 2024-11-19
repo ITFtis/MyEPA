@@ -268,8 +268,8 @@ namespace MyEPA.Services
             return WaterCheckDetailRepository.GetByFilter(new WaterCheckDetailFilterParameter
             {
                 WaterCheckIds = waterChecks.Select(e => e.Id).ToList(),
-                CityIds = cityIds,
-                Rechecks = search.Recheck.HasValue ? search.Recheck.Value.ToListCollection() : new List<WaterCheckDetailRecheckEnum>()
+                CityIds = cityIds,               
+                Status = search.Status.HasValue ? search.Status.Value.ToListCollection() : new List<WaterCheckDetailStatusEnum>(),
             });
         }
 

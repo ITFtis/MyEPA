@@ -86,13 +86,13 @@
                 <a href="@Url.Action("DetailStatistics","WaterCheck",new { item.CityId, diasterId,Type = WaterCheckTypeEnum.EPPersonnel })">@item.EPsCount</a>
             </td>
             <td class="table_td">                
-                <a href="@Url.Action("DetailStatistics","WaterCheck",new { item.CityId, diasterId,Type = WaterCheckTypeEnum.EPPersonnel,Recheck =WaterCheckDetailRecheckEnum.Disqualified })">@item.EPsDisqualifiedCount</a>
+                <a href="@Url.Action("DetailStatistics","WaterCheck",new { item.CityId, diasterId,Type = WaterCheckTypeEnum.EPPersonnel,Status=WaterCheckDetailStatusEnum.Failed.GetHashCode()})">@item.EPsDisqualifiedCount</a>
             </td>
             <td class="table_td">                
                 <a href="@Url.Action("DetailStatistics","WaterCheck",new { item.CityId, diasterId,type = WaterCheckTypeEnum.Water })">@item.WaterCount</a>
             </td>
             <td class="table_td">                
-                <a href="@Url.Action("DetailStatistics","WaterCheck",new { item.CityId, diasterId,Type = WaterCheckTypeEnum.Water,Recheck =WaterCheckDetailRecheckEnum.Disqualified })">@item.WaterDisqualifiedCount</a>
+                <a href="@Url.Action("DetailStatistics","WaterCheck",new { item.CityId, diasterId,Type = WaterCheckTypeEnum.Water,Status=WaterCheckDetailStatusEnum.Failed.GetHashCode() })">@item.WaterDisqualifiedCount</a>
             </td>
             <td class="table_td">
                 @item.WaterDivision
