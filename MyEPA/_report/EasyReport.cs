@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
+using Xceed.Pdf;
 using Xceed.Words.NET;
 
 namespace MyEPA
@@ -268,15 +269,25 @@ namespace MyEPA
                     //消毒設備
                     var disinfectorDatas = GetDisinfector();
 
+                    //2.2 消毒藥劑 => 環境消毒
+                    var d22_disinfectants = GetDisinfectantEnumEnvironment();
+
+                    //2.3 => 登革熱
+                    var d23_disinfectants = GetDisinfectantEnumDengue();
+
                     foreach (var type in typeCitys)
                     {
                         List<int> tCitys = type.Value.Split(',').Select(int.Parse).ToList();
                         var tmp2Disinfector = disinfectorDatas.Where(a => tCitys.Contains(a.CityId));
 
                         //消毒設備
-                        int OrAsum = tmp2Disinfector.Sum(a => a.SprayerCount + a.DisinfectorCount + a.HotSmokeSachineCount
+                        int orAsum = tmp2Disinfector.Sum(a => a.SprayerCount + a.DisinfectorCount + a.HotSmokeSachineCount
                                                 + a.PressureWasherCount + a.SprayerCAR + a.SprayeSrHI
                                                 + a.SprayeSrLO + a.SMOK + a.OtherCount);
+
+                        //環境消毒 + 登革熱
+                        double antSumS = double.Parse(d22_disinfectants.Where(a => tCitys.Contains(a.CityId)).Where(a => a.DrugState == "固體").Sum(a => a.Amount).ToString())
+                                        + double.Parse(d23_disinfectants.Where(a => tCitys.Contains(a.CityId)).Where(a => a.DrugState == "固體").Sum(a => a.Amount).ToString());
 
                         //北基宜地區
                         //遍歷每一列中的每一個Cell
@@ -297,21 +308,40 @@ namespace MyEPA
                                 // Get the cell value as a string
                                 string cellValue = cell.ToString();
 
-                                //消毒設備 [$OrA7$]
+                                //一、環境消毒藥劑跟登革熱藥劑分開
+
+                                //二、環境消毒藥劑跟登革熱藥劑合併
+                                List<string> list = new List<string>();
+
+                                //1.消毒設備 [$OrA7$]
                                 var repStr = "[$OrA" + type.Key.ToString() + "$]";
                                 if (cellValue.IndexOf(repStr) > -1)
                                 {
-                                    string strSum = OrAsum.ToString();
-
+                                    string strSum = orAsum.ToString();
                                     var text = cellValue.Replace(repStr, strSum);  // 替换段落中的文字
                                     cell.SetCellValue(text);
 
-                                    //改變部分文字(CellStyle)
-                                    XSSFFont font1 = (XSSFFont)workbook.CreateFont();
-                                    font1.Color = IndexedColors.Red.Index;
-                                    int start = text.IndexOf(strSum);
-                                    cell.RichStringCellValue.ApplyFont(start, start + strSum.Length, font1);
+                                    cellValue = cell.ToString();
+                                    list.Add(strSum);
                                 }
+
+                                //2、環境消毒藥劑跟登革熱藥劑 [$AntA1S$] 固體
+                                var repStr2 = "[$AntA" + type.Key.ToString() + "S$]";
+                                if (cellValue.IndexOf(repStr2) > -1)
+                                {
+                                    string strSum = antSumS.ToString();
+                                    var text = cellValue.Replace(repStr2, strSum);  // 替换段落中的文字
+                                    cell.SetCellValue(text);
+
+                                    cellValue = cell.ToString();
+                                    list.Add(strSum);
+                                }
+
+                                //改變部分文字(CellStyle)
+                                XSSFFont font = (XSSFFont)workbook.CreateFont();
+                                font.Color = IndexedColors.Red.Index;
+                                NPOIHelper.ReplaceCellStyleF1(workbook, cell, list, font);
+
                             }
                         }
                     }
