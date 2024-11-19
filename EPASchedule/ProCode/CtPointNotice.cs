@@ -52,10 +52,10 @@ namespace EPASchedule
 
                 var diasterId = ds.FirstOrDefault().Id;
 
-                //閥值設備
+                //閾值設備
                 LogDisinfectorService LogDisinfectorService = new LogDisinfectorService();
 
-                //低於閥值設備
+                //低於閾值設備
                 LogDisinfectorFilterParameter filterOr = new LogDisinfectorFilterParameter()
                 {
                     DiasterIds = new List<int>() { diasterId },
@@ -63,11 +63,11 @@ namespace EPASchedule
                 };
 
                 var ors = LogDisinfectorService.GetLogDisinfectorCurrentByFilter(filterOr);
-                
-                //閥值藥劑
+
+                //閾值藥劑
                 LogDisinfectantService LogDisinfectantService = new LogDisinfectantService();
 
-                //低於閥值藥劑
+                //低於閾值藥劑
                 LogDisinfectantFilterParameter filterAnt = new LogDisinfectantFilterParameter()
                 {
                     DiasterIds = new List<int>() { diasterId },
@@ -129,7 +129,7 @@ namespace EPASchedule
         <th width='15%'>縣市</th>
         <th width='15%'>單位</th>
         <th width='20%' style='color:blue'>消毒設備</th>
-        <th width='10%'>閥值</th>
+        <th width='10%'>閾值</th>
         <th width='10%'>現有數量</th>
     </tr>";
 
@@ -168,7 +168,7 @@ namespace EPASchedule
         <th width='15%'>縣市</th>
         <th width='15%'>單位</th>
         <th width='20%'>消毒藥劑</th>
-        <th width='10%'>閥值</th>
+        <th width='10%'>閾值</th>
         <th width='10%'>現有數量</th>
     </tr>";
 
@@ -232,7 +232,7 @@ namespace EPASchedule
                     {
                         //寄發Mail
                         //v 資訊 + account 收件者帳號
-                        string subject = "(環保局)資源預警通報機制 - 數量低於閥值通知";
+                        string subject = "(環保局)資源預警通報機制 - 數量低於閾值通知";
 
 
                         string CityMsg = string.Join("<br/>", totals.Select(a => a.Msg));
@@ -240,7 +240,7 @@ namespace EPASchedule
 {0}，{1}您好：
 <br/><br/>
 
-貴局消毒藥劑數量低於預警閥值，<br/>
+貴局消毒藥劑數量低於預警閾值，<br/>
 請儘快採購消毒藥劑以因應環境消毒需求。
 <br/><br/>
 
@@ -264,7 +264,7 @@ CityMsg);
 
                     //寄發Mail
                     //v 資訊 + account 收件者帳號
-                    string subject = "(環境部)資源預警通報機制 - 數量低於閥值通知";
+                    string subject = "(環境部)資源預警通報機制 - 數量低於閾值通知";
 
                     UsersModel account = new UsersModel()
                     {
@@ -278,7 +278,7 @@ CityMsg);
 環境部環境管理署您好：
 <br/><br/>
 
-貴局消毒藥劑數量低於預警閥值，<br/>
+貴局消毒藥劑數量低於預警閾值，<br/>
 請儘快採購消毒藥劑以因應環境消毒需求。
 <br/><br/>
 

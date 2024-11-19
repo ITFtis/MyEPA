@@ -143,17 +143,17 @@ namespace MyEPA.Controllers
             {
                 try
                 {
-                    //(閥值)消毒設備資料建置(LogDisinfectorModel)
+                    //(閾值)消毒設備資料建置(LogDisinfectorModel)
                     LogDisinfectorService LogDisinfectorService = new LogDisinfectorService();
                     LogDisinfectorService.Create(user, id);
 
-                    //(閥值)消毒藥劑資料建置(LogDisinfectantModel)
+                    //(閾值)消毒藥劑資料建置(LogDisinfectantModel)
                     LogDisinfectantService LogDisinfectantService = new LogDisinfectantService();
                     LogDisinfectantService.Create(user, id);
                 }
                 catch (Exception ex)
                 {
-                    logger.Error("閥值資料建置錯誤");
+                    logger.Error("閾值資料建置錯誤");
                     logger.Error(ex.Message);
                     logger.Error(ex.StackTrace);
                 }

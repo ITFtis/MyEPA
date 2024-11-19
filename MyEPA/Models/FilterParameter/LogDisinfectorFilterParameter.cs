@@ -11,7 +11,7 @@ namespace MyEPA.Models.FilterParameter
 
         public List<int> CityIds { get; set; }
 
-        //1.高於閥值2.低於閥值
+        //1.高於閾值2.低於閾值
         public int? Ct { get; set; }
     }
 }

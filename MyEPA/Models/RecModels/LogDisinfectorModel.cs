@@ -41,7 +41,7 @@ namespace MyEPA.Models
         public DateTime? ConfirmTime { get; set; }
         public int? UseType { get; set; }
 
-        [DisplayName("閥值")]
+        [DisplayName("閾值")]
         public float CtPoint { get; set; }
 
         [DisplayName("Log建檔日")]

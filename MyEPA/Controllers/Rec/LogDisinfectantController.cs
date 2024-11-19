@@ -35,7 +35,7 @@ namespace MyEPA.Controllers.Rec
                 return View(new List<RecResourceModel>());
             }
 
-            //(閥值)正確災害編號，舊資料使用預設
+            //(閾值)正確災害編號，舊資料使用預設
             int YDiasterId = LogDisinfectantService.GetYDiasterId((int)diasterId);
             LogDisinfectantFilterParameter filter = new LogDisinfectantFilterParameter()
             {
@@ -50,12 +50,12 @@ namespace MyEPA.Controllers.Rec
 
             if (YDiasterId != LogDisinfectantService.iniDiasterId)
             {
-                //可更新閥值
+                //可更新閾值
                 ViewBag.CanUpdate = true;
             }
             else
             {
-                //不可更新閥值
+                //不可更新閾值
                 ViewBag.CanUpdate = false;
             }
 
@@ -79,7 +79,7 @@ namespace MyEPA.Controllers.Rec
 
             try
             {
-                //閥值資料建置(LogDisinfectantModel)
+                //閾值資料建置(LogDisinfectantModel)
                 LogDisinfectantService LogDisinfectantService = new LogDisinfectantService();
 
                 //刪除

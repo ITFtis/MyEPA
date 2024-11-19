@@ -3,7 +3,7 @@
 @using MyEPA.Enums;
 
 @{
-    ViewBag.Title = "(閥值)消毒設備";
+    ViewBag.Title = "(閾值)消毒設備";
     Layout = "~/Views/_Layout.cshtml";
 
     List<DiasterModel> diasters = ViewBag.Diasters;
@@ -17,7 +17,7 @@
 <div class="page-content">
     <div class="row">
         <div class="col-xs-12">
-            <h2> (閥值)消毒設備 </h2>
+            <h2> (閾值)消毒設備 </h2>
 
             <div>
                 @using (Html.BeginForm("Index", "LogDisinfector", new { }, FormMethod.Get, new { diasterId = @diasterId }))
@@ -36,10 +36,10 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td><h5>閥值：</h5></td>
+                                <td><h5>閾值：</h5></td>
                                 <td>
                                     <select id="selectDDLCt" name="selectDDLCt">
-                                        <option value="">請選擇閥值</option>
+                                        <option value="">請選擇閾值</option>
                                         @foreach (var item in Code.GetDDLCt())
                                         {
                                             <option value="@item.Key" @(item.Key == selectDDLCt ? "selected" : string.Empty)>@item.Value</option>
@@ -51,7 +51,7 @@
                             <tr align="center">
                                 <td colspan="2">
                                     <button type="submit" class="btn btn-primary" href=""><i class="fa fa-search"></i>&nbsp;查詢</button>
-                                    <input id="divUpdate" style="display:none" value="更新閥值" class="btn btn-danger align-center" onclick="Update()" />
+                                    <input id="divUpdate" style="display:none" value="更新閾值" class="btn btn-danger align-center" onclick="Update()" />
                                 </td>
                             </tr>
                         </tbody>
@@ -71,9 +71,9 @@
                         購買年份(民國)
                     </th>
                     <th>數量紀錄</th>
-                    <th>閥值</th>
-                    <th>閥值建置時間</th>
-                    <th>閥值更新人員</th>
+                    <th>閾值</th>
+                    <th>閾值建置時間</th>
+                    <th>閾值更新人員</th>
                     <th>現有數量</th>
                 </tr>
                 @foreach (var Item in Model)
@@ -116,7 +116,7 @@
         });
 
         function Update() {
-            if (!window.confirm('「更新設備閥值」即會刪除全部舊有閥值，再重新抓取新閥值，請確定要更新閥值!!')) {
+            if (!window.confirm('「更新設備閾值」即會刪除全部舊有閾值，再重新抓取新閾值，請確定要更新閾值!!')) {
                 return;
             };
 
@@ -130,15 +130,15 @@
                 success: function (data) {
                     if (data.IsSuccess) {
                         isChanged = false;
-                        alert('閥值更新成功');
+                        alert('閾值更新成功');
                         location.reload();
                     }
                     else {
-                        alert('閥值更新失敗,' + data.ErrorMessage);
+                        alert('閾值更新失敗,' + data.ErrorMessage);
                     }
                 },
                 error: function (data) {
-                    alert('閥值更新失敗');
+                    alert('閾值更新失敗');
                 }
             });
 

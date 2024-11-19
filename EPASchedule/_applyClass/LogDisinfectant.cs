@@ -19,7 +19,7 @@ namespace EPASchedule
         public String ContactUnit { get; set; }
         [DisplayName("消毒設備名稱")]
         public String DrugName { get; set; }
-        [DisplayName("閥值")]
+        [DisplayName("閾值")]
         public float CtPoint { get; set; }
         [DisplayName("現有設備數量")]
         public float? CurAmount { get; set; }

@@ -11,7 +11,7 @@ namespace MyEPA.Services
 {
     public class LogDisinfectantService
     {
-        //初始閥值(對應災害編號)
+        //初始閾值(對應災害編號)
         public const int iniDiasterId = 999999999;
 
         LogDisinfectantRepository LogDisinfectantRepository = new LogDisinfectantRepository();
@@ -19,7 +19,7 @@ namespace MyEPA.Services
         DisinfectantRepository DisinfectantRepository = new DisinfectantRepository();
 
         /// <summary>
-        /// (閥值)正確災害編號，舊資料使用預設
+        /// (閾值)正確災害編號，舊資料使用預設
         /// </summary>
         /// <param name="diasterId"></param>
         /// <returns></returns>
@@ -40,7 +40,7 @@ namespace MyEPA.Services
         }
 
         /// <summary>
-        /// (閥值)消毒藥品，當下數量比較
+        /// (閾值)消毒藥品，當下數量比較
         /// </summary>
         /// <param name="filter"></param>
         /// <returns></returns>
@@ -100,7 +100,7 @@ namespace MyEPA.Services
 
 
         /// <summary>
-        /// 閥值資料建置
+        /// 閾值資料建置
         /// </summary>
         /// <param name="user"></param>
         /// <param name="diasterId">災害id</param>

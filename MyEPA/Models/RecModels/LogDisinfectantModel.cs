@@ -55,7 +55,7 @@ namespace MyEPA.Models
         public string ActiveIngredients1 { get; set; }
         public string ActiveIngredients2 { get; set; }
 
-        [DisplayName("閥值")]
+        [DisplayName("閾值")]
         public float CtPoint { get; set; }
 
         [DisplayName("Log建檔日")]

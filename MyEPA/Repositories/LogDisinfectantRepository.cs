@@ -45,7 +45,7 @@ namespace MyEPA.Repositories
         }
 
         /// <summary>
-        /// (閥值)消毒藥品，當下數量比較
+        /// (閾值)消毒藥品，當下數量比較
         /// </summary>
         /// <param name="filter"></param>
         /// <returns></returns>
@@ -86,12 +86,12 @@ Where 1=1
             {
                 if (filter.Ct == 1)
                 {
-                    //低於閥值
+                    //低於閾值
                     sql += " AND (a.CtPoint > b.CurAmount Or a.CtPoint Is Null Or b.CurAmount Is Null)";
                 }
                 else if (filter.Ct == 2)
                 {
-                    //高於閥值(正常)
+                    //高於閾值(正常)
                     sql += " AND a.CtPoint <= b.CurAmount";
                 }
             }

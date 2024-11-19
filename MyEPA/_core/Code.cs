@@ -125,15 +125,15 @@ namespace MyEPA
         }
 
         /// <summary>
-        /// 閥值
+        /// 閾值
         /// </summary>
         /// <returns></returns>
         public static IEnumerable<KeyValuePair<int, string>> GetDDLCt()
         {
             List<KeyValuePair<int, string>> result = new List<KeyValuePair<int, string>>()
             {
-                new KeyValuePair<int, string>(1, "低於閥值"),
-                new KeyValuePair<int, string>(2, "高於閥值(正常)"),
+                new KeyValuePair<int, string>(1, "低於閾值"),
+                new KeyValuePair<int, string>(2, "高於閾值(正常)"),
             };
 
             return result;
