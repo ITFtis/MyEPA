@@ -275,7 +275,7 @@ namespace MyEPA.Services
 
         public List<WaterCheckStatisticsViewModel> Statistics(int diasterId)
         {
-            var waterDivisionsGroupBy = CityRepository.GetWaterDivisions().GroupBy(e => new { e.WaterDivisionId ,e.WaterDivision}, e => e);
+            var citys = CityRepository.GetWaterDivisions();
 
             var waterCheckStatistics =
                 WaterCheckRepository.GetWaterCheckStatistics(diasterId)
@@ -284,42 +284,26 @@ namespace MyEPA.Services
 
             var result = new List<WaterCheckStatisticsViewModel>();
 
-            foreach (var waterDivisions in waterDivisionsGroupBy)
+            //每個縣市都有管理處(故可用管理處做foreach)
+            foreach (var city in citys)
             {
-                var waterCount = 0;
-                var waterDisqualifiedCount = 0;
+                //自來水人員
+                var water = waterCheckStatistics.GetValue(city.CityId, WaterCheckTypeEnum.Water, new List<WaterCheckStatisticsQueryModel>());
 
-                foreach (var cityId in waterDivisions.Select(e => e.CityId))
-                {
-                    var water = waterCheckStatistics.GetValue(cityId, WaterCheckTypeEnum.Water, new List<WaterCheckStatisticsQueryModel>());
+                //環保人員
+                var ep = waterCheckStatistics.GetValue(city.CityId, WaterCheckTypeEnum.EPPersonnel, new List<WaterCheckStatisticsQueryModel>());
 
-                    waterCount += water.Sum(e => e.Count);
-                    waterDisqualifiedCount += water.Where(f => f.Status == WaterCheckDetailStatusEnum.Failed).Sum(e => e.Count);
-                }
-               
                 WaterCheckStatisticsViewModel waterCheck = new WaterCheckStatisticsViewModel
                 {
-                    EPs = new List<WaterCheckRecheckCountEPViewModel> { },
-                    Water = new WaterCheckRecheckCountViewModel
-                    {
-                        Count = waterCount,
-                        DisqualifiedCount = waterDisqualifiedCount
-                    },
-                    WaterDivision = waterDivisions.Key.WaterDivision,
-                    WaterDivisionId = waterDivisions.Key.WaterDivisionId
+                    WaterDivision = city.WaterDivision,
+                    WaterDivisionId = city.WaterDivisionId,
+                    City = city.City,
+                    CityId = city.CityId,
+                    WaterCount = water.Sum(e => e.Count),
+                    WaterDisqualifiedCount = water.Where(f => f.Status == WaterCheckDetailStatusEnum.Failed).Sum(e => e.Count),
+                    EPsCount = ep.Sum(e => e.Count),
+                    EPsDisqualifiedCount = ep.Where(f => f.Status == WaterCheckDetailStatusEnum.Failed).Sum(e => e.Count),
                 };
-
-                foreach (var waterDivision in waterDivisions)
-                {
-                    var ep = waterCheckStatistics.GetValue(waterDivision.CityId, WaterCheckTypeEnum.EPPersonnel, new List<WaterCheckStatisticsQueryModel>());
-                    waterCheck.EPs.Add(new WaterCheckRecheckCountEPViewModel
-                    {
-                        City = waterDivision.City,
-                        CityId = waterDivision.CityId,
-                        Count = ep.Sum(e => e.Count),
-                        DisqualifiedCount = ep.Where(f => f.Status == WaterCheckDetailStatusEnum.Failed).Sum(e => e.Count)
-                    });
-                }
 
                 result.Add(waterCheck);
             }
