@@ -275,6 +275,96 @@ namespace MyEPA
                     //2.3 => 登革熱
                     var d23_disinfectants = GetDisinfectantEnumDengue();
 
+                    //一、環境消毒藥劑跟登革熱藥劑分開
+                    //遍歷每一列中的每一個Cell
+                    for (int rowIndex = 0; rowIndex <= sheet.LastRowNum; rowIndex++)
+                    {
+                        IRow row = sheet.GetRow(rowIndex);
+                        if (row == null)
+                            continue;
+
+                        for (int cellIndex = 0; cellIndex < row.LastCellNum; cellIndex++)
+                        {
+
+                            var cell = row.GetCell(cellIndex);
+
+                            if (cell == null)
+                                continue;
+
+                            // Get the cell value as a string
+                            string cellValue = cell.ToString();
+
+                            //片段文字顏色
+                            List<string> list = new List<string>();
+
+                            //1.1 (液態)環境消毒藥劑 [$ValEnvL$]
+                            string rep1 = "[$ValEnvL$]";
+                            double ValEnvL = double.Parse(d22_disinfectants.Where(a => a.DrugState != "固體").Sum(a => a.Amount).ToString());
+                            if (cellValue.IndexOf(rep1) > -1)
+                            {
+                                string strSum = ValEnvL.ToString();
+                                var text = cellValue.Replace(rep1, strSum);  // 替换段落中的文字
+                                cell.SetCellValue(text);
+
+                                cellValue = cell.ToString();
+                                list.Add(strSum);
+                            }
+
+                            //1.2 (固環)環境消毒藥劑 [$ValEnvS$]
+                            string rep2 = "[$ValEnvS$]";
+                            double ValEnvS = double.Parse(d22_disinfectants.Where(a => a.DrugState == "固體").Sum(a => a.Amount).ToString());
+                            if (cellValue.IndexOf(rep2) > -1)
+                            {
+                                string strSum = ValEnvS.ToString();
+                                var text = cellValue.Replace(rep2, strSum);  // 替换段落中的文字
+                                cell.SetCellValue(text);
+
+                                cellValue = cell.ToString();
+                                list.Add(strSum);
+                            }
+
+                            //2.1 (液態)登革熱藥劑 [$ValDengueL$]
+                            string rep3 = "[$ValDengueL$]";
+                            double ValDengueL = double.Parse(d23_disinfectants.Where(a => a.DrugState != "固體").Sum(a => a.Amount).ToString());
+                            if (cellValue.IndexOf(rep3) > -1)
+                            {
+                                string strSum = ValDengueL.ToString();
+                                var text = cellValue.Replace(rep3, strSum);  // 替换段落中的文字
+                                cell.SetCellValue(text);
+
+                                cellValue = cell.ToString();
+                                list.Add(strSum);
+                            }
+
+                            //2.2 (固態)登革熱藥劑 [$ValDengueS$]
+                            string rep4 = "[$ValDengueS$]";
+                            double ValDengueS = double.Parse(d23_disinfectants.Where(a => a.DrugState == "固體").Sum(a => a.Amount).ToString());
+                            if (cellValue.IndexOf(rep4) > -1)
+                            {
+                                string strSum = ValDengueS.ToString();
+                                var text = cellValue.Replace(rep4, strSum);  // 替换段落中的文字
+                                cell.SetCellValue(text);
+
+                                cellValue = cell.ToString();
+                                list.Add(strSum);
+                            }
+
+                            //片段文字顏色(CellStyle)
+                            XSSFFont font = (XSSFFont)workbook.CreateFont();
+                            font.Color = IndexedColors.Red.Index;
+                            NPOIHelper.ReplaceCellStyleF1(workbook, cell, list, font);
+
+                            if (list.Count > 0)
+                            {
+                                //跳出迴圈，只有一個欄位取代
+                                rowIndex = sheet.LastRowNum;
+                                break;
+                            }
+                        }
+                    }
+
+                    //二、環境消毒藥劑跟登革熱藥劑合併
+                    //北基宜地區...
                     foreach (var type in typeCitys)
                     {
                         List<int> tCitys = type.Value.Split(',').Select(int.Parse).ToList();
@@ -293,7 +383,6 @@ namespace MyEPA
                         double antSumL = double.Parse(d22_disinfectants.Where(a => tCitys.Contains(a.CityId)).Where(a => a.DrugState != "固體").Sum(a => a.Amount).ToString())
                                         + double.Parse(d23_disinfectants.Where(a => tCitys.Contains(a.CityId)).Where(a => a.DrugState != "固體").Sum(a => a.Amount).ToString());
 
-                        //北基宜地區
                         //遍歷每一列中的每一個Cell
                         for (int rowIndex = 0; rowIndex <= sheet.LastRowNum; rowIndex++)
                         {
@@ -312,9 +401,7 @@ namespace MyEPA
                                 // Get the cell value as a string
                                 string cellValue = cell.ToString();
 
-                                //一、環境消毒藥劑跟登革熱藥劑分開
-
-                                //二、環境消毒藥劑跟登革熱藥劑合併
+                                //片段文字顏色
                                 List<string> list = new List<string>();
 
                                 //1.消毒設備 [$OrA7$]
@@ -353,7 +440,7 @@ namespace MyEPA
                                     list.Add(strSum);
                                 }
 
-                                //改變部分文字(CellStyle)
+                                //片段文字顏色(CellStyle)
                                 XSSFFont font = (XSSFFont)workbook.CreateFont();
                                 font.Color = IndexedColors.Red.Index;
                                 NPOIHelper.ReplaceCellStyleF1(workbook, cell, list, font);
