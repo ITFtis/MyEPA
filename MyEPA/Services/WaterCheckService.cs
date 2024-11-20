@@ -310,6 +310,37 @@ namespace MyEPA.Services
             return result;
         }
 
+        public List<WaterCheckStatisticsDetailViewModel> StatisticsDetail(int diasterId)
+        {
+            var citys = CityRepository.GetWaterDivisions();
+
+            var details = WaterCheckRepository.GetWaterCheckStatisticsDetail(diasterId);
+
+            var result = new List<WaterCheckStatisticsDetailViewModel>();
+
+            //每個縣市都有管理處(故可用管理處做foreach)
+            details = details.Where(a => a.Type == WaterCheckTypeEnum.Water || a.Type == WaterCheckTypeEnum.EPPersonnel).ToList();
+            foreach (var city in citys)
+            {
+                var datas = details.Where(a => a.CityId == city.CityId).ToList();
+
+                //自來水人員 + 環保人員
+                WaterCheckStatisticsDetailViewModel waterCheck = new WaterCheckStatisticsDetailViewModel
+                {
+                    City = city.City,
+                    CityId = city.CityId,
+                    Count = datas.Count,
+                    DisqualifiedCount = datas.Where(f => f.Status == WaterCheckDetailStatusEnum.Failed).Count(),
+                    DisqualifiedAddress = string.Join("\n", datas.Where(f => f.Status == WaterCheckDetailStatusEnum.Failed)
+                                                                .Select((a, index) => "(" + (index + 1).ToString() + ")" + a.Address))
+                };
+
+                result.Add(waterCheck);
+            }
+
+            return result;
+        }
+
         public AdminResultModel UpdateStatus(UserBriefModel user, WaterCheckModel waterCheck)
         {
             WaterCheckModel model = WaterCheckRepository.Get(waterCheck.Id);

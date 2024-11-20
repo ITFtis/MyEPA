@@ -2,8 +2,10 @@
 using MyEPA.Enums;
 using MyEPA.Models;
 using MyEPA.Models.FilterParameter;
+using MyEPA.Models.QueryModel;
 using MyEPA.Repositories;
 using MyEPA.Services;
+using MyEPA.ViewModels;
 using NPOI.HSSF.UserModel;
 using NPOI.OpenXml4Net.OPC.Internal;
 using NPOI.SS.UserModel;
@@ -517,7 +519,50 @@ namespace MyEPA
 
                     //oooooooooooooooooooo
                     //內容處理
-                    
+                    var waters = GetWaterTotal(diasterId);
+
+                    //遍歷每一列中的每一個Cell
+                    for (int rowIndex = 0; rowIndex <= sheet.LastRowNum; rowIndex++)
+                    {
+                        IRow row = sheet.GetRow(rowIndex);
+                        if (row == null)
+                            continue;
+
+                        var cell = row.GetCell(0);
+                        if (cell == null)
+                            continue;
+
+                        // Get the cell value as a string
+                        string cellValue = cell.ToString();
+
+                        //當下列的行高數量
+                        int heightNum = 1;
+
+                        //第1欄：縣市
+                        var f = waters.Where(a => a.City == cellValue).FirstOrDefault();
+                        if (f == null)
+                            continue;
+
+                        //第2欄：抽驗件數
+                        cell = row.GetCell(1);
+                        cell.SetCellValue(f.Count);
+
+                        //第3欄：合格件數
+
+                        //第4欄：不合格件數
+                        cell = row.GetCell(3);
+                        cell.SetCellValue(f.DisqualifiedCount);
+                        heightNum = f.DisqualifiedCount;
+
+                        //第5欄：檢驗中件數
+
+                        //第6欄：說明(不合格淨水場、項目)
+                        cell = row.GetCell(5);
+                        cell.SetCellValue(f.DisqualifiedAddress);
+
+                        //设置行高自适应
+                        row.HeightInPoints = float.Parse((22.5 + (15 * heightNum)).ToString());
+                    }
 
                     FileStream xlsFile = new FileStream(toPath, FileMode.Create, FileAccess.Write);
                     workbook.Write(xlsFile);
@@ -897,6 +942,18 @@ namespace MyEPA
             });
 
             return Dengues;
+        }
+
+        /// <summary>
+        /// 水質抽驗全部
+        /// </summary>
+        /// <returns></returns>
+        public static List<WaterCheckStatisticsDetailViewModel> GetWaterTotal(int diasterId)
+        {
+            WaterCheckService WaterCheckService = new WaterCheckService();
+            var Totals = WaterCheckService.StatisticsDetail(diasterId);
+
+            return Totals;
         }
 
         public class CarsModel

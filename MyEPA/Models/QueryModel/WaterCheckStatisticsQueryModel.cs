@@ -8,5 +8,6 @@ namespace MyEPA.Models.QueryModel
         public WaterCheckTypeEnum Type { get; set; }
         public WaterCheckDetailStatusEnum Status { get; set; }
         public int Count { get; set; }
+        public string Address { get; set; }
     }
 }

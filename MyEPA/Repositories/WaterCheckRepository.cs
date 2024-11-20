@@ -57,5 +57,16 @@ WHERE WC.DiasterId = @DiasterId
 GROUP BY WCD.CityId,WC.Type,WCD.Status";
             return GetListBySQL<WaterCheckStatisticsQueryModel>(sql, new { diasterId });
         }
+
+        public List<WaterCheckStatisticsQueryModel> GetWaterCheckStatisticsDetail(int diasterId)
+        {
+            string sql = @"
+SELECT WCD.CityId,WC.Type,WCD.Status,
+       WCD.WaterCheckId, WCD.[Address]
+FROM WaterCheck  WC
+JOIN WaterCheckDetail WCD ON WC.Id = WCD.WaterCheckId
+WHERE WC.DiasterId = @DiasterId";
+            return GetListBySQL<WaterCheckStatisticsQueryModel>(sql, new { diasterId });
+        }
     }
 }

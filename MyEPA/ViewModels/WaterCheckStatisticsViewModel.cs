@@ -25,4 +25,21 @@ namespace MyEPA.ViewModels
         [DisplayName("不合格件數")]
         public int EPsDisqualifiedCount { get; set; }
     }
+
+    public class WaterCheckStatisticsDetailViewModel
+    {
+        public int CityId { get; set; }
+
+        [DisplayName("單位別")]
+        public string City { get; set; }
+
+        [DisplayName("抽驗件數")]
+        public int Count { get; set; }
+
+        [DisplayName("不合格件數")]
+        public int DisqualifiedCount { get; set; }
+
+        [DisplayName("不合格淨水廠")]
+        public string DisqualifiedAddress { get; set; }
+    }
 }
