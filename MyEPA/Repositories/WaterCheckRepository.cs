@@ -58,7 +58,7 @@ GROUP BY WCD.CityId,WC.Type,WCD.Status";
             return GetListBySQL<WaterCheckStatisticsQueryModel>(sql, new { diasterId });
         }
 
-        public List<WaterCheckStatisticsQueryModel> GetWaterCheckStatisticsDetail(int diasterId)
+        public List<WaterCheckStatisticsQueryModel> GetWaterCheckStatisticsEasy(int diasterId)
         {
             string sql = @"
 SELECT WCD.CityId,WC.Type,WCD.Status,

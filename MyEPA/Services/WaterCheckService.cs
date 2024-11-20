@@ -310,13 +310,13 @@ namespace MyEPA.Services
             return result;
         }
 
-        public List<WaterCheckStatisticsDetailViewModel> StatisticsDetail(int diasterId)
+        public List<WaterCheckStatisticsEasyViewModel> StatisticsEasy(int diasterId)
         {
             var citys = CityRepository.GetWaterDivisions();
 
-            var details = WaterCheckRepository.GetWaterCheckStatisticsDetail(diasterId);
+            var details = WaterCheckRepository.GetWaterCheckStatisticsEasy(diasterId);
 
-            var result = new List<WaterCheckStatisticsDetailViewModel>();
+            var result = new List<WaterCheckStatisticsEasyViewModel>();
 
             //每個縣市都有管理處(故可用管理處做foreach)
             details = details.Where(a => a.Type == WaterCheckTypeEnum.Water || a.Type == WaterCheckTypeEnum.EPPersonnel).ToList();
@@ -325,7 +325,7 @@ namespace MyEPA.Services
                 var datas = details.Where(a => a.CityId == city.CityId).ToList();
 
                 //自來水人員 + 環保人員
-                WaterCheckStatisticsDetailViewModel waterCheck = new WaterCheckStatisticsDetailViewModel
+                WaterCheckStatisticsEasyViewModel waterCheck = new WaterCheckStatisticsEasyViewModel
                 {
                     City = city.City,
                     CityId = city.CityId,

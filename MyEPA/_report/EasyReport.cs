@@ -951,10 +951,10 @@ namespace MyEPA
         /// 水質抽驗全部
         /// </summary>
         /// <returns></returns>
-        public static List<WaterCheckStatisticsDetailViewModel> GetWaterTotal(int diasterId)
+        public static List<WaterCheckStatisticsEasyViewModel> GetWaterTotal(int diasterId)
         {
             WaterCheckService WaterCheckService = new WaterCheckService();
-            var Totals = WaterCheckService.StatisticsDetail(diasterId);
+            var Totals = WaterCheckService.StatisticsEasy(diasterId);
 
             return Totals;
         }

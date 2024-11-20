@@ -26,7 +26,7 @@ namespace MyEPA.ViewModels
         public int EPsDisqualifiedCount { get; set; }
     }
 
-    public class WaterCheckStatisticsDetailViewModel
+    public class WaterCheckStatisticsEasyViewModel
     {
         public int CityId { get; set; }
 
