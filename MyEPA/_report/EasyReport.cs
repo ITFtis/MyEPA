@@ -488,7 +488,7 @@ namespace MyEPA
         /// </summary>
         /// <param name="query"></param>
         /// <returns></returns>
-        public static string Export3_TestWater()
+        public static string Export3_TestWater(int diasterId)
         {
             string result = "";
 

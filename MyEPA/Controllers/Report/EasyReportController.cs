@@ -118,9 +118,9 @@ namespace MyEPA.Controllers.Report
         /// <summary>
         /// 匯出(簡報產製3_飲用水質)
         /// </summary>
-        public ActionResult Export3_TestWater()
+        public ActionResult Export3_TestWater(int diasterId)
         {
-            string toPath = EasyReport.Export3_TestWater();
+            string toPath = EasyReport.Export3_TestWater(diasterId);
 
             if (toPath != "")
             {
@@ -132,7 +132,7 @@ namespace MyEPA.Controllers.Report
             else
             {
                 ViewBag.Msg = "執行失敗：" + "簡報產製3_飲用水質";
-                return View("DisasterResponseReport");
+                return View("DisasterEventReport");
             }
         }
 
@@ -176,6 +176,6 @@ namespace MyEPA.Controllers.Report
                 ViewBag.Msg = "執行失敗：" + "(範本)簡報產製5_環境消毒物資.xlsx";
                 return View("DisasterResponseReport");
             }
-        }
+        } 
     }
 }
