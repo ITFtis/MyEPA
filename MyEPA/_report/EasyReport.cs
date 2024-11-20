@@ -533,41 +533,53 @@ namespace MyEPA
                             continue;
 
                         // Get the cell value as a string
-                        string cellValue = cell.ToString();
+                        string h0_string = cell.ToString();
 
                         //當下列的行高數量
                         int heightNum = 1;
 
                         //第1欄：縣市
-                        var f = waters.Where(a => a.City == cellValue).FirstOrDefault();
-                        if (f == null)
-                            continue;
-
-                        //第2欄：抽驗件數
-                        cell = row.GetCell(1);
-                        cell.SetCellValue(f.Count);
-
-                        //第3欄：合格件數
-                        cell = row.GetCell(2);
-                        cell.SetCellValue(f.SuccessCount);
-
-                        //第4欄：不合格件數
-                        cell = row.GetCell(3);
-                        cell.SetCellValue(f.DisqualifiedCount);
-                        heightNum = f.DisqualifiedCount;
-
-                        //第5欄：檢驗中件數
-                        cell = row.GetCell(4);
-                        cell.SetCellValue(f.TestingCount);
-
-                        //第6欄：說明(不合格淨水場、項目)
-                        cell = row.GetCell(5);
-                        cell.SetCellValue(f.DisqualifiedAddress);
-
-                        //設定行高
-                        if (heightNum > 0)
+                        var f = waters.Where(a => a.City == h0_string).FirstOrDefault();
+                        if (f != null)
                         {
-                            row.HeightInPoints = float.Parse((22.5 + (18 * (heightNum - 1))).ToString());
+                            //第2欄：抽驗件數
+                            cell = row.GetCell(1);
+                            cell.SetCellValue(f.Count);
+
+                            //第3欄：合格件數
+                            cell = row.GetCell(2);
+                            cell.SetCellValue(f.SuccessCount);
+
+                            //第4欄：不合格件數
+                            cell = row.GetCell(3);
+                            cell.SetCellValue(f.DisqualifiedCount);
+                            heightNum = f.DisqualifiedCount;
+
+                            //第5欄：檢驗中件數
+                            cell = row.GetCell(4);
+                            cell.SetCellValue(f.TestingCount);
+
+                            //第6欄：說明(不合格淨水場、項目)
+                            cell = row.GetCell(5);
+                            cell.SetCellValue(f.DisqualifiedAddress);
+
+                            //設定行高
+                            if (heightNum > 0)
+                            {
+                                row.HeightInPoints = float.Parse((22.5 + (18 * (heightNum - 1))).ToString());
+                            }
+                        }
+
+                        //執行公式
+                        if (h0_string == "合計")
+                        {
+                            //修改第一欄名稱
+                            row.Cells[0].SetCellValue("合計");
+                            
+                            workbook.GetCreationHelper().CreateFormulaEvaluator().EvaluateFormulaCell(row.GetCell(1));
+                            workbook.GetCreationHelper().CreateFormulaEvaluator().EvaluateFormulaCell(row.GetCell(2));
+                            workbook.GetCreationHelper().CreateFormulaEvaluator().EvaluateFormulaCell(row.GetCell(3));
+                            workbook.GetCreationHelper().CreateFormulaEvaluator().EvaluateFormulaCell(row.GetCell(4));
                         }
                     }
 
