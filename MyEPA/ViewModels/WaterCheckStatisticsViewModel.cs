@@ -41,5 +41,11 @@ namespace MyEPA.ViewModels
 
         [DisplayName("不合格淨水廠")]
         public string DisqualifiedAddress { get; set; }
+
+        [DisplayName("合格件數")]
+        public int SuccessCount { get; set; }
+
+        [DisplayName("檢驗中件數")]
+        public int TestingCount { get; set; }
     }
 }

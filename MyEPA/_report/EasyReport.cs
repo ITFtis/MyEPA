@@ -548,6 +548,8 @@ namespace MyEPA
                         cell.SetCellValue(f.Count);
 
                         //第3欄：合格件數
+                        cell = row.GetCell(2);
+                        cell.SetCellValue(f.SuccessCount);
 
                         //第4欄：不合格件數
                         cell = row.GetCell(3);
@@ -555,6 +557,8 @@ namespace MyEPA
                         heightNum = f.DisqualifiedCount;
 
                         //第5欄：檢驗中件數
+                        cell = row.GetCell(4);
+                        cell.SetCellValue(f.TestingCount);
 
                         //第6欄：說明(不合格淨水場、項目)
                         cell = row.GetCell(5);

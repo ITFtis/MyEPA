@@ -332,7 +332,9 @@ namespace MyEPA.Services
                     Count = datas.Count,
                     DisqualifiedCount = datas.Where(f => f.Status == WaterCheckDetailStatusEnum.Failed).Count(),
                     DisqualifiedAddress = string.Join("\n", datas.Where(f => f.Status == WaterCheckDetailStatusEnum.Failed)
-                                                                .Select((a, index) => "(" + (index + 1).ToString() + ")" + a.Address))
+                                                                .Select((a, index) => "(" + (index + 1).ToString() + ")" + a.Address)),
+                    SuccessCount = datas.Where(f => f.Status == WaterCheckDetailStatusEnum.Success).Count(),
+                    TestingCount = datas.Where(f => f.Status == WaterCheckDetailStatusEnum.Testing).Count(),
                 };
 
                 result.Add(waterCheck);
