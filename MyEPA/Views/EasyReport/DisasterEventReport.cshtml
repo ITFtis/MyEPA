@@ -1,7 +1,28 @@
-﻿@{
+﻿@using MyEPA.Models;
+
+@{
     ViewBag.Title = "災害事件簡報";
     Layout = "~/Views/_Layout.cshtml";
+
+    List<DiasterModel> diasters = ViewBag.Diasters;
+
+    //querystring
+    int diasterId = ViewBag.DiasterId;
 }
+
+<div class="btn-group">
+    <button data-toggle="dropdown" class="btn btn-primary btn-white dropdown-toggle" aria-expanded="false">
+        @(diasters.FirstOrDefault(e => e.Id == diasterId).DiasterName)<i class="ace-icon fa fa-angle-down icon-on-right"></i>
+    </button>
+    <ul class="dropdown-menu">
+        @foreach (DiasterModel Item in diasters)
+        {
+            <li>
+                <a href="@Url.Action("DisasterEventReport", new { diasterId = Item.Id })">@Item.DiasterName</a>
+            </li>
+        }
+    </ul>
+</div>
 
 <div class="form-horizontal">
     <hr />

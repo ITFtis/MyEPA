@@ -35,6 +35,8 @@ namespace MyEPA.Controllers.Report
         //    return View();
         //}
 
+        DiasterService DiasterService = new DiasterService();
+
         /// <summary>
         /// 緊急應變簡報
         /// </summary>
@@ -51,10 +53,22 @@ namespace MyEPA.Controllers.Report
         /// 災害事件簡報
         /// </summary>
         /// <returns></returns>
-        public ActionResult DisasterEventReport()
+        public ActionResult DisasterEventReport(int? diasterId = null)
         {
             if (!GetIsAdmin())
                 return RedirectToAction("LoginRedirect", "Home");
+
+            List<DiasterModel> diasters = DiasterService.GetAll();
+
+            if (diasterId.HasValue == false)
+            {
+                diasterId = diasters.Select(e => e.Id).FirstOrDefault();
+            }
+
+            ViewBag.Diasters = diasters;
+
+            //querystring
+            ViewBag.DiasterId = diasterId;
 
             return View();
         }
