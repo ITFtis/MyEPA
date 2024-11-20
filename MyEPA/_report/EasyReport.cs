@@ -560,8 +560,11 @@ namespace MyEPA
                         cell = row.GetCell(5);
                         cell.SetCellValue(f.DisqualifiedAddress);
 
-                        //设置行高自适应
-                        row.HeightInPoints = float.Parse((22.5 + (15 * heightNum)).ToString());
+                        //設定行高
+                        if (heightNum > 0)
+                        {
+                            row.HeightInPoints = float.Parse((22.5 + (18 * (heightNum - 1))).ToString());
+                        }
                     }
 
                     FileStream xlsFile = new FileStream(toPath, FileMode.Create, FileAccess.Write);
