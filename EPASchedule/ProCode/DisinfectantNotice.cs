@@ -167,24 +167,46 @@ DateFormat.ToDate14(info.ServiceLife), info.ServiceLifeDiffDay, alertStyle);
                     {
                         //寄發Mail
                         //v 資訊 + account 收件者帳號
-                        string subject = "(清潔隊)資源預警通報機制 - 使用期限到期通知";
 
-                        string content = string.Format(@"
-{0}{1}，{2}您好：
-<br/><br/>
+                        string subject = "";
+                        string content = "";
 
-貴局尚有消毒藥劑使用期限即將到期，<br/>
-請優先使用以下藥劑以避免逾期藥效失效。
-<br/><br/>
+                        if(validDay <= 0)
+                        {                            
+                            subject = "(清潔隊)資源預警通報機制—使用期限逾期通知";
 
+                            content = string.Format(@"
+{0}{1}，{2}您好：<br/>
+
+貴單位尚有消毒藥劑已逾使用期限，<br/>
+請檢核該藥劑是否仍可使用或優先使用以避免藥效失效。<br/>
 「如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）」
 <br/><br/>
 
 {3}",
-v.City,
-v.Town,
-account.Name,
-v.Msg);
+    v.City,
+    v.Town,
+    account.Name,
+    v.Msg);
+                        }
+                        else
+                        {
+                            subject = "(清潔隊)資源預警通報機制—使用期限到期通知";
+
+                            content = string.Format(@"
+{0}{1}，{2}您好：<br/>
+
+貴單位尚有消毒藥劑使用期限即將到期，<br/>
+請優先使用該消毒藥劑以避免逾期藥效失效。<br/>
+「如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）」
+<br/><br/>
+
+{3}",
+    v.City,
+    v.Town,
+    account.Name,
+    v.Msg);
+                        }
 
                         bool done = ToSend(subject, content, account);
                     }
@@ -212,25 +234,47 @@ v.Msg);
                     {
                         //寄發Mail
                         //v 資訊 + account 收件者帳號
-                        string subject = "(環保局)資源預警通報機制 - 使用期限到期通知";
 
+                        string subject = "";
+                        string content = "";
 
                         string CityMsg = string.Join("<br/>", totals.Select(a => a.Msg));
-                        string content = string.Format(@"
-{0}，{1}您好：
-<br/><br/>
+                        if (validDay <= 0)
+                        {
+                            subject = "(環保局)資源預警通報機制—使用期限逾期通知";
 
-以下清潔隊尚有消毒藥劑使用期限即將到期，<br/>
-請優先使用以下藥劑以避免逾期藥效失效。
-<br/><br/>
+                            content = string.Format(@"
+{0}{1}您好：<br/>
 
+貴局尚有消毒藥劑已逾使用期限，<br/>
+請檢核該藥劑是否仍可使用或優先使用以避免藥效失效。<br/>
 「如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）」
 <br/><br/>
 
 {2}",
-city.City,
-account.Name,
-CityMsg);
+    city.City,
+    account.Name,
+    CityMsg);
+                        }
+                        else
+                        {
+                            subject = "(環保局)資源預警通報機制—使用期限到期通知";
+
+                            content = string.Format(@"
+{0}{1}您好：<br/>
+
+貴局尚有消毒藥劑使用期限即將到期，<br/>
+請優先使用該消毒藥劑以避免逾期藥效失效。<br/>
+「如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）」
+<br/><br/>
+
+{2}",
+    city.City,
+    account.Name,
+    CityMsg);
+                        }
+
+                        
 
                         bool done = ToSend(subject, content, account);
                     }
@@ -244,25 +288,49 @@ CityMsg);
 
                     //寄發Mail
                     //v 資訊 + account 收件者帳號
-                    string subject = "(環境部)資源預警通報機制 - 使用期限到期通知";
+
+                    string subject = "";
+                    string content = "";
+
+                    string GovMsg = string.Join("<br/>", totalMsgs.Select(a => a.Msg));
+                    if (validDay <= 0)
+                    {                        
+                        subject = "(環境部)資源預警通報機制—使用期限逾期通知";
+
+                        content = string.Format(@"
+
+環境部環境管理署您好：<br/>
+
+以下為各縣市環保機關已逾使用期限之消毒藥劑，<br/>
+EMIS系統已通知該單位檢核該藥劑是否仍可使用或優先使用以避免藥效失效。<br/>
+「如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）」
+<br/><br/>
+
+{0}",
+    GovMsg);
+                    }
+                    else
+                    {
+                        subject = "(環境部)資源預警通報機制—使用期限到期通知";
+
+                        content = string.Format(@"
+
+環境部環境管理署您好：<br/>
+
+以下為各縣市環保機關使用期限即將到期之消毒藥劑，<br/>
+EMIS系統已通知該單位優先使用該消毒藥劑以避免逾期藥效失效。<br/>
+「如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）」
+<br/><br/>
+
+{0}",
+    GovMsg);
+                    }
 
                     UsersModel account = new UsersModel()
                     {
                         Name = addr,
                         Email = addr
                     };
-
-                    string GovMsg = string.Join("<br/>", totalMsgs.Select(a => a.Msg));
-                    string content = string.Format(@"
-環境部環境管理署，您好：
-<br/><br/>
-
-以下清潔隊尚有消毒藥劑使用期限即將到期，<br/>
-請優先使用以下藥劑以避免逾期藥效失效。
-<br/><br/>
-
-{0}",
-                    GovMsg);
 
                     bool done = ToSend(subject, content, account);
                 }
