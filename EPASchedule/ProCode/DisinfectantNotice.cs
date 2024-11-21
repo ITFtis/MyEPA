@@ -50,9 +50,11 @@ namespace EPASchedule
                 //所有藥劑
                 var ants = DisinfectantService.GetAll();
 
-                ////////測試 xxxxxxxxxxxxxxx
-                //////ants = ants.Where(a => a.City == "宜蘭縣").ToList();
-                ////////xxxxxxxxxxxxxxx
+                ////測試 xxxxxxxxxxxxxxx
+                //ants = ants.Where(a => a.City == "新北市")
+                //            .Where(a => a.Town == "平溪區")
+                //            .ToList();
+                ////xxxxxxxxxxxxxxx
 
                 //City, Town, ContactUnit(聯繫單位名稱), DrugName
                 var tmp = ants.Select(a => new
@@ -162,8 +164,7 @@ DateFormat.ToDate14(info.ServiceLife), info.ServiceLifeDiffDay, alertStyle);
                         logger.Error(errors);
                         continue;
                     }
-
-                    foreach(var account in townAccounts)
+                    else
                     {
                         //寄發Mail
                         //v 資訊 + account 收件者帳號
@@ -186,7 +187,7 @@ DateFormat.ToDate14(info.ServiceLife), info.ServiceLifeDiffDay, alertStyle);
 {3}",
     v.City,
     v.Town,
-    account.Name,
+    string.Join(",", townAccounts.Select(a => a.Name)),
     v.Msg);
                         }
                         else
@@ -204,11 +205,16 @@ DateFormat.ToDate14(info.ServiceLife), info.ServiceLifeDiffDay, alertStyle);
 {3}",
     v.City,
     v.Town,
-    account.Name,
+    string.Join(",", townAccounts.Select(a => a.Name)),
     v.Msg);
                         }
 
-                        bool done = ToSend(subject, content, account);
+                        List<UsersModel> sendUsers = townAccounts.Select(a => new UsersModel { 
+                            Name = a.Name,
+                            Email = a.Email,
+                        }).ToList();
+
+                        bool done = ToSend(subject, content, sendUsers);
                     }
                 }
 
@@ -276,9 +282,12 @@ DateFormat.ToDate14(info.ServiceLife), info.ServiceLifeDiffDay, alertStyle);
     CityMsg);
                         }
 
-                        
+                        List<UsersModel> sendUsers = new List<UsersModel>()
+                        {
+                            new UsersModel { Name = account.Name, Email = account.Email }
+                        };
 
-                        bool done = ToSend(subject, content, account);
+                        bool done = ToSend(subject, content, sendUsers);
                     }
                 }
 
@@ -330,13 +339,12 @@ EMIS系統{0}已通知該單位優先使用該消毒藥劑以避免逾期藥效�
 , GovMsg);
                     }
 
-                    UsersModel account = new UsersModel()
+                    List<UsersModel> sendUsers = new List<UsersModel>()
                     {
-                        Name = addr,
-                        Email = addr
+                        new UsersModel { Name = addr, Email = addr }
                     };
 
-                    bool done = ToSend(subject, content, account);
+                    bool done = ToSend(subject, content, sendUsers);
                 }
                 
 
@@ -354,7 +362,7 @@ EMIS系統{0}已通知該單位優先使用該消毒藥劑以避免逾期藥效�
             return true;
         }
 
-        private bool ToSend(string subject, string content, UsersModel account)
+        private bool ToSend(string subject, string content, List<UsersModel> sendUsers)
         {
             bool result = false;
 
@@ -375,15 +383,28 @@ EMIS系統{0}已通知該單位優先使用該消毒藥劑以避免逾期藥效�
                 emailHelper.Body = content;
 
                 //收件者
-                string addr1 = AppConfig.TestEmailAddress != "" ? AppConfig.TestEmailAddress : account.Email;
-                //addr1 = "123";  //xxxxxxxxxxxxxxxxxxxxxxxxx
-                emailHelper.AddTo(addr1, account.Name);
+                int n = 0;
+                foreach (var account in sendUsers)
+                {                 
+                    if (n == 0)
+                    {
+                        string addr1 = AppConfig.TestEmailAddress != "" ? AppConfig.TestEmailAddress : account.Email;
+                        emailHelper.AddTo(addr1, account.Name);
+                        n++;
+                    }
+                    else
+                    {
+                        //string addr1 = "";
+                        string addr1 = AppConfig.TestEmailAddress != "" ? AppConfig.TestEmailAddress2 : account.Email;
+                        emailHelper.AddTo(addr1, account.Name);
+                    }
+                }
 
                 foreach (string addr in AppConfig.EmailAddressResp.Split(','))
                 {
                     if (addr != "")
                     {
-                        emailHelper.AddTo(addr, "");
+                        emailHelper.AddCC(addr, "");
                     }
                 }
 

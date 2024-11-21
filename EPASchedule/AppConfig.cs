@@ -14,6 +14,7 @@ namespace EPASchedule
         private static string _rootPath;
         private static int _validDay;
         private static string _testEmailAddress;
+        private static string _testEmailAddress2;
         private static string _emailAddressCC;
         private static string _emailAddressResp;
         private static string _emailAddressGov;
@@ -28,6 +29,7 @@ namespace EPASchedule
             _rootPath = ConfigurationManager.AppSettings["RootPath"].ToString();
             _validDay = ConfigurationManager.AppSettings["ValidDay"] == null ? 0 : int.Parse(ConfigurationManager.AppSettings["ValidDay"].ToString());
             _testEmailAddress = ConfigurationManager.AppSettings["TestEmailAddress"].ToString();
+            _testEmailAddress2 = ConfigurationManager.AppSettings["TestEmailAddress2"].ToString();
             _emailAddressCC = ConfigurationManager.AppSettings["EmailAddressCC"] == null ? "" : ConfigurationManager.AppSettings["EmailAddressCC"].ToString();
             _emailAddressResp = ConfigurationManager.AppSettings["EmailAddressResp"] == null ? "" : ConfigurationManager.AppSettings["EmailAddressResp"].ToString();
             _emailAddressGov = ConfigurationManager.AppSettings["EmailAddressGov"] == null ? "" : ConfigurationManager.AppSettings["EmailAddressGov"].ToString();
@@ -60,6 +62,14 @@ namespace EPASchedule
         public static string TestEmailAddress
         {
             get { return _testEmailAddress; }
+        }
+
+        /// <summary>
+        /// 測試用的收件者Email 2
+        /// </summary>
+        public static string TestEmailAddress2
+        {
+            get { return _testEmailAddress2; }
         }
 
         /// <summary>
