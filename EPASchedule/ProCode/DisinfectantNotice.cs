@@ -152,18 +152,18 @@ DateFormat.ToDate14(info.ServiceLife), info.ServiceLifeDiffDay, alertStyle);
                 //(1)清潔隊信件
                 foreach (var v in totalMsgs)
                 {
-                    var account = accounts.Where(a => a.DutyId == 1)
-                                    .Where(a => a.City == v.City && a.Town == v.Town).FirstOrDefault();
+                    var townAccounts = accounts.Where(a => a.DutyId == 1)
+                                   .Where(a => a.City == v.City && a.Town == v.Town);
 
-                    //紀錄查無主要聯絡人資訊
-                    if (account == null)
+                    if (townAccounts.Count() == 0)
                     {
                         //(\r換行)
                         string errors = string.Format("***(清潔隊)無法通知，無此單位聯絡人：{0}{1}***", v.City, v.Town);
                         logger.Error(errors);
                         continue;
                     }
-                    else
+
+                    foreach(var account in townAccounts)
                     {
                         //寄發Mail
                         //v 資訊 + account 收件者帳號
@@ -171,8 +171,8 @@ DateFormat.ToDate14(info.ServiceLife), info.ServiceLifeDiffDay, alertStyle);
                         string subject = "";
                         string content = "";
 
-                        if(validDay <= 0)
-                        {                            
+                        if (validDay <= 0)
+                        {
                             subject = "(清潔隊)資源預警通報機制—消毒藥劑使用期限逾期通知";
 
                             content = string.Format(@"
