@@ -181,7 +181,7 @@ DateFormat.ToDate14(info.ServiceLife), info.ServiceLifeDiffDay, alertStyle);
 
 貴單位尚有消毒藥劑已逾使用期限，<br/>
 請檢核該藥劑是否仍可使用或優先使用以避免藥效失效。<br/>
-「如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）」
+如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）
 <br/><br/>
 
 {3}",
@@ -192,14 +192,14 @@ DateFormat.ToDate14(info.ServiceLife), info.ServiceLifeDiffDay, alertStyle);
                         }
                         else
                         {
-                            subject = "(清潔隊)資源預警通報機制—消毒藥劑使用期限到期通知";
+                            subject = "(清潔隊)資源預警通報機制—消毒藥劑使用期限即將到期通知";
 
                             content = string.Format(@"
 {0}{1}，{2}您好：<br/>
 
 貴單位尚有消毒藥劑使用期限即將到期，<br/>
 請優先使用該消毒藥劑以避免逾期藥效失效。<br/>
-「如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）」
+如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）
 <br/><br/>
 
 {3}",
@@ -246,6 +246,16 @@ DateFormat.ToDate14(info.ServiceLife), info.ServiceLifeDiffDay, alertStyle);
 
                         string subject = "";
                         string content = "";
+                        
+                        string cityName = "";
+                        if (city.Id == 22)
+                        {
+                            cityName = city.City + "環資局";
+                        }
+                        else
+                        {
+                            cityName = city.City + "環保局";
+                        }
 
                         string CityMsg = string.Join("<br/>", totals.Select(a => a.Msg));
                         if (validDay <= 0)
@@ -257,28 +267,28 @@ DateFormat.ToDate14(info.ServiceLife), info.ServiceLifeDiffDay, alertStyle);
 
 貴局尚有消毒藥劑已逾使用期限，<br/>
 請檢核該藥劑是否仍可使用或優先使用以避免藥效失效。<br/>
-「如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）」
+如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）
 <br/><br/>
 
 {2}",
-    city.City,
+    cityName,
     account.Name,
     CityMsg);
                         }
                         else
                         {
-                            subject = "(環保局)資源預警通報機制—消毒藥劑使用期限到期通知";
+                            subject = "(環保局)資源預警通報機制—消毒藥劑使用期限即將到期通知";
 
                             content = string.Format(@"
 {0}{1}您好：<br/>
 
 貴局尚有消毒藥劑使用期限即將到期，<br/>
 請優先使用該消毒藥劑以避免逾期藥效失效。<br/>
-「如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）」
+如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）
 <br/><br/>
 
 {2}",
-    city.City,
+    cityName,
     account.Name,
     CityMsg);
                         }
@@ -313,7 +323,7 @@ DateFormat.ToDate14(info.ServiceLife), info.ServiceLifeDiffDay, alertStyle);
 
 以下為各縣市環保機關已逾使用期限之消毒藥劑，<br/>
 EMIS系統{0}已通知該單位檢核該藥劑是否仍可使用或優先使用以避免藥效失效。<br/>
-「如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）」
+如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）
 <br/><br/>
 
 {1}"
@@ -322,7 +332,7 @@ EMIS系統{0}已通知該單位檢核該藥劑是否仍可使用或優先使用�
                     }
                     else
                     {
-                        subject = "(環境部)資源預警通報機制—消毒藥劑使用期限到期通知";
+                        subject = "(環境部)資源預警通報機制—消毒藥劑使用期限即將到期通知";
 
                         content = string.Format(@"
 
@@ -330,7 +340,7 @@ EMIS系統{0}已通知該單位檢核該藥劑是否仍可使用或優先使用�
 
 以下為各縣市環保機關使用期限即將到期之消毒藥劑，<br/>
 EMIS系統{0}已通知該單位優先使用該消毒藥劑以避免逾期藥效失效。<br/>
-「如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）」
+如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）
 <br/><br/>
 
 {1}"
