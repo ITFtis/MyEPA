@@ -85,7 +85,7 @@ namespace EPASchedule
                 var units = datas.Select(a => new { a.City, a.Town, a.ContactUnit }).Distinct().OrderBy(a => a.City);
 
                 //鄉鎮帳號
-                var accounts = new UsersService().GetAll().Where(a => a.MainContacter == "是").ToList();
+                var accounts = new UsersService().GetAll().ToList();
 
                 //信件內容
                 List<TotalUnitMsg> totalMsgs = new List<TotalUnitMsg>();
@@ -159,7 +159,7 @@ DateFormat.ToDate14(info.ServiceLife), info.ServiceLifeDiffDay, alertStyle);
                     if (account == null)
                     {
                         //(\r換行)
-                        string errors = string.Format("***(清潔隊)無法通知，無此單位主要聯絡人：{0}{1}***", v.City, v.Town);
+                        string errors = string.Format("***(清潔隊)無法通知，無此單位聯絡人：{0}{1}***", v.City, v.Town);
                         logger.Error(errors);
                         continue;
                     }
@@ -221,7 +221,9 @@ DateFormat.ToDate14(info.ServiceLife), info.ServiceLifeDiffDay, alertStyle);
                     if (totals.Count() == 0)
                         continue;
 
-                    var account = accounts.Where(a => a.DutyId == 2)
+                    //環保局限定主要聯絡人
+                    var account = accounts.Where(a => a.MainContacter == "是")
+                                    .Where(a => a.DutyId == 2)
                                     .Where(a => a.City == city.City).FirstOrDefault();
                     //紀錄查無主要聯絡人資訊
                     if (account == null)
