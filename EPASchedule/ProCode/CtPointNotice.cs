@@ -85,7 +85,8 @@ namespace EPASchedule
                     DrugName = a.DisinfectInstrument,
                     CtPoint = a.CtPoint,
                     CurAmount = a.CurAmount,
-                }).ToList();
+                }).Take(0)  //暫時不寄發設備通知
+                .ToList();
                 var tmp2 = ants.Select(a => new LogDisinfectant
                 {
                     Type = "藥劑",
@@ -232,24 +233,31 @@ namespace EPASchedule
                     {
                         //寄發Mail
                         //v 資訊 + account 收件者帳號
-                        string subject = "(環保局)資源預警通報機制 - 數量低於閾值通知";
+                        string subject = "(環保局)資源預警通報機制—消毒藥劑數量低於閾值通知";
 
+                        string cityName = "";
+                        if (city.Id == 22)
+                        {
+                            cityName = city.City + "環資局";
+                        }
+                        else
+                        {
+                            cityName = city.City + "環保局";
+                        }
 
                         string CityMsg = string.Join("<br/>", totals.Select(a => a.Msg));
                         string content = string.Format(@"
-{0}，{1}您好：
+
+{0}，{1}您好：<br/>
+貴局{2}消毒藥劑數量低於預警閾值，<br/>
+請儘快採購消毒藥劑以因應環境消毒需求。<br/>
+如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）。
 <br/><br/>
 
-貴局消毒藥劑數量低於預警閾值，<br/>
-請儘快採購消毒藥劑以因應環境消毒需求。
-<br/><br/>
-
-「如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）」
-<br/><br/>
-
-{2}",
-city.City,
+{3}",
+cityName,
 account.Name,
+DateFormat.ToDate4(DateTime.Now),
 CityMsg);
 
                         bool done = ToSend(subject, content, account);
@@ -264,7 +272,7 @@ CityMsg);
 
                     //寄發Mail
                     //v 資訊 + account 收件者帳號
-                    string subject = "(環境部)資源預警通報機制 - 數量低於閾值通知";
+                    string subject = "(環境部)資源預警通報機制—消毒藥劑數量低於閾值通知";
 
                     UsersModel account = new UsersModel()
                     {
@@ -275,18 +283,16 @@ CityMsg);
                     string GovMsg = string.Join("<br/>", totalMsgs.Select(a => a.Msg));
 
                     string content = string.Format(@"
-環境部環境管理署您好：
+
+環境部環境管理署您好：<br/>
+以下為各縣市環保機關消毒藥劑數量低於預警閾值，<br/>
+EMIS系統{0}已通知該縣市環保局儘快採購消毒藥劑以因應環境消毒需求。<br/>
+如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）。
 <br/><br/>
 
-貴局消毒藥劑數量低於預警閾值，<br/>
-請儘快採購消毒藥劑以因應環境消毒需求。
-<br/><br/>
-
-「如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）」
-<br/><br/>
-
-{0}",
-                    GovMsg);
+{1}",
+DateFormat.ToDate4(DateTime.Now),
+GovMsg);
 
                     bool done = ToSend(subject, content, account);
                 }
