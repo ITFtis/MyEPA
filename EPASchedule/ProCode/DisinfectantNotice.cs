@@ -209,7 +209,8 @@ DateFormat.ToDate14(info.ServiceLife), info.ServiceLifeDiffDay, alertStyle);
     v.Msg);
                         }
 
-                        List<UsersModel> sendUsers = townAccounts.Select(a => new UsersModel { 
+                        List<UsersModel> sendUsers = townAccounts.Select(a => new UsersModel
+                        {
                             Name = a.Name,
                             Email = a.Email,
                         }).ToList();
@@ -292,11 +293,9 @@ DateFormat.ToDate14(info.ServiceLife), info.ServiceLifeDiffDay, alertStyle);
                 }
 
                 //(3).環境部(環衛組與綜規組)信件
-                foreach (string addr in AppConfig.EmailAddressGov.Split(','))
+                List<string> addrGovs = AppConfig.EmailAddressGov.Split(',').ToList();
+                if (addrGovs.Count() > 0)
                 {
-                    if (addr == "")
-                        continue;
-
                     //寄發Mail
                     //v 資訊 + account 收件者帳號
 
@@ -339,10 +338,11 @@ EMIS系統{0}已通知該單位優先使用該消毒藥劑以避免逾期藥效�
 , GovMsg);
                     }
 
-                    List<UsersModel> sendUsers = new List<UsersModel>()
+                    List<UsersModel> sendUsers = addrGovs.Select(a => new UsersModel
                     {
-                        new UsersModel { Name = addr, Email = addr }
-                    };
+                        Name = a,
+                        Email = a,
+                    }).ToList();
 
                     bool done = ToSend(subject, content, sendUsers);
                 }
@@ -421,7 +421,7 @@ EMIS系統{0}已通知該單位優先使用該消毒藥劑以避免逾期藥效�
 
                 if (!success)
                 {
-                    logger.Error("ToSend - 信件寄發失敗:" + emailHelper.ToMails);
+                    logger.Error("ToSend - 信件寄發失敗，Email位置:" + emailHelper.ToMails);
                 }
 
                 result = true;
