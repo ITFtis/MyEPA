@@ -34,7 +34,7 @@ namespace EPASchedule
             {
                 //呼叫這個網站的隨便一個網頁，使得IIS在重新啟動它，這樣Global又會跑了
                 start_time = DateTime.Now;
-                logger.Info("1.2 消毒藥劑到期通知(到期前通知)" + ": starting...");
+                logger.Info("1.2 消毒藥劑到期通知(即將到期通知)" + ": starting...");
                 DisinfectantNotice DalDisinfectantNotice = new DisinfectantNotice();
                 DalDisinfectantNotice.Execute(AppConfig.ValidDay);
                 logger.Info(@"Execution time(sec)=" + DateTime.Now.Subtract(start_time).TotalSeconds);

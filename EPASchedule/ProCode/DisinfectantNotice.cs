@@ -20,7 +20,7 @@ namespace EPASchedule
         /// <summary>
         /// 消毒藥劑通知
         /// </summary>
-        /// <param name="validDay">(0)逾期通知,(N天)到期前通知</param>
+        /// <param name="validDay">(0)逾期通知,(N天)即將到期通知</param>
         public void Execute(int validDay = 0)
         {
             try
@@ -78,7 +78,7 @@ namespace EPASchedule
                 }
                 else
                 {
-                    //到期前通知
+                    //即將到期通知
                     tmp = tmp.Where(a => a.ServiceLifeDiffDay >= 0 && a.ServiceLifeDiffDay <= AppConfig.ValidDay).ToList();
                 }
                 var datas = tmp;
