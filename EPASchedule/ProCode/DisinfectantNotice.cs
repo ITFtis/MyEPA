@@ -17,11 +17,15 @@ namespace EPASchedule
         //private EsdmsModelContextExt _dbContextEsdms = new EsdmsModelContextExt();
         //private MisModelContext _dbContextMis = new MisModelContext();
 
-        public void Execute()
+        /// <summary>
+        /// 消毒藥劑通知
+        /// </summary>
+        /// <param name="validDay">(0)逾期通知,(N天)到期前通知</param>
+        public void Execute(int validDay = 0)
         {
             try
             {
-                if (!Do())
+                if (!Do(validDay))
                 {
                     logger.Error("執行失敗");
                 }
@@ -37,7 +41,7 @@ namespace EPASchedule
             }
         }
 
-        private bool Do()
+        private bool Do(int validDay)
         {
             try
             {
@@ -64,7 +68,18 @@ namespace EPASchedule
 
                 //1.資料
                 //待警示藥劑(母體)
-                var datas = tmp.Where(a => a.ServiceLifeDiffDay <= AppConfig.ValidDay).ToList();
+                if (validDay <= 0)
+                {
+                    //逾期通知
+                    validDay = 0;
+                    tmp = tmp.Where(a => a.ServiceLifeDiffDay < 0).ToList();
+                }
+                else
+                {
+                    //到期前通知
+                    tmp = tmp.Where(a => a.ServiceLifeDiffDay >= 0 && a.ServiceLifeDiffDay <= AppConfig.ValidDay).ToList();
+                }
+                var datas = tmp;
 
                 //待警示藥劑單位
                 var units = datas.Select(a => new { a.City, a.Town, a.ContactUnit }).Distinct().OrderBy(a => a.City);
