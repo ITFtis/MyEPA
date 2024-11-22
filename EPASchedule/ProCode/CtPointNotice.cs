@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MyEPA.Repositories;
 using MyEPA.Models.FilterParameter;
+using System.Web.UI.WebControls;
 
 namespace EPASchedule
 {
@@ -85,7 +86,7 @@ namespace EPASchedule
                     DrugName = a.DisinfectInstrument,
                     CtPoint = a.CtPoint,
                     CurAmount = a.CurAmount,
-                }).Take(0)  //暫時不寄發設備通知
+                })//.Take(0)  //暫時不寄發設備通知 ooooooooooooooooooooooooooo
                 .ToList();
                 var tmp2 = ants.Select(a => new LogDisinfectant
                 {
@@ -98,6 +99,12 @@ namespace EPASchedule
                     CurAmount = a.CurAmount,
                 }).ToList();
                 var tmp = tmp1.Concat(tmp2);
+
+                ////測試 xxxxxxxxxxxxxxx
+                //tmp = tmp.Where(a => a.City == "桃園市")
+                //            .Where(a => a.Town == "環保局")
+                //            .ToList();
+                ////xxxxxxxxxxxxxxx
 
                 //2.資料
                 //待警示藥劑(母體)
@@ -205,7 +212,12 @@ namespace EPASchedule
                         citySort = city.Sort;
                     }
 
-                    totalMsgs.Add(new TotalUnitMsg { City = unit.City, Town = unit.ContactUnit, Msg = msg, CitySort = citySort });
+                    List<string> types = new List<string>();
+                    if (msg1 != "") types.Add("設備");
+                    if (msg2 != "") types.Add("藥劑");
+
+                    totalMsgs.Add(new TotalUnitMsg { Types = types, 
+                                        City = unit.City, Town = unit.ContactUnit, Msg = msg, CitySort = citySort });
                 }
 
                 //2.通知(totalMsgs)
@@ -233,7 +245,8 @@ namespace EPASchedule
                     {
                         //寄發Mail
                         //v 資訊 + account 收件者帳號
-                        string subject = "(環保局)資源預警通報機制—消毒藥劑數量低於閾值通知";
+                        string subject = "";
+                        string content = "";
 
                         string cityName = "";
                         if (city.Id == 22)
@@ -246,7 +259,44 @@ namespace EPASchedule
                         }
 
                         string CityMsg = string.Join("<br/>", totals.Select(a => a.Msg));
-                        string content = string.Format(@"
+
+                        if (totals.Any(a => a.Types.Contains("設備")) && totals.Any(a => a.Types.Contains("藥劑")))
+                        {
+                            subject = "(環保局)資源預警通報機制—設備+藥劑....低於閾值通知";
+                            content = string.Format(@"
+
+{0}，{1}您好：<br/>
+設備+藥劑..................<br/>
+如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）。
+<br/><br/>
+
+{3}",
+cityName,
+account.Name,
+DateFormat.ToDate4(DateTime.Now),
+CityMsg);
+                        }
+                        else if (totals.Any(a => a.Types.Contains("設備")))
+                        {
+                            subject = "(環保局)資源預警通報機制—消毒設備數量低於閾值通知";
+                            content = string.Format(@"
+
+{0}，{1}您好：<br/>
+貴局{2}消毒設備數量低於預警閾值，<br/>
+請儘快採購消毒設備以因應環境消毒需求。<br/>
+如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）。
+<br/><br/>
+
+{3}",
+cityName,
+account.Name,
+DateFormat.ToDate4(DateTime.Now),
+CityMsg);
+                        }
+                        else if (totals.Any(a => a.Types.Contains("藥劑")))
+                        {
+                            subject = "(環保局)資源預警通報機制—消毒藥劑數量低於閾值通知";
+                            content = string.Format(@"
 
 {0}，{1}您好：<br/>
 貴局{2}消毒藥劑數量低於預警閾值，<br/>
@@ -259,6 +309,12 @@ cityName,
 account.Name,
 DateFormat.ToDate4(DateTime.Now),
 CityMsg);
+                        }
+                        else
+                        {
+                            logger.Info("無種類(a.Types)資料，無法寄信");
+                            continue;
+                        }
 
                         bool done = ToSend(subject, content, account);
                     }
