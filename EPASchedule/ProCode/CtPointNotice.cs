@@ -175,7 +175,7 @@ namespace EPASchedule
         <th width='10%'>項次</th>
         <th width='15%'>縣市</th>
         <th width='15%'>單位</th>
-        <th width='20%'>消毒藥劑</th>
+        <th width='20%' style='color:green'>消毒藥劑</th>
         <th width='10%'>閾值</th>
         <th width='10%'>現有數量</th>
     </tr>";
