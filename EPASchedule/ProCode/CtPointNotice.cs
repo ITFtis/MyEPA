@@ -86,7 +86,7 @@ namespace EPASchedule
                     DrugName = a.DisinfectInstrument,
                     CtPoint = a.CtPoint,
                     CurAmount = a.CurAmount,
-                })//.Take(0)  //暫時不寄發設備通知 ooooooooooooooooooooooooooo
+                }).Take(0)  //暫時不寄發設備通知 ooooooooooooooooooooooooooo
                 .ToList();
                 var tmp2 = ants.Select(a => new LogDisinfectant
                 {
