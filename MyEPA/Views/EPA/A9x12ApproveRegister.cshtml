@@ -37,6 +37,6 @@
         grid.Column("HumanType","人員類別"),
         grid.Column("MainContacter","主要聯絡人"),
         grid.Column("ReportPriority","通報優先順序"),
-        grid.Column("","審核",format: @<button type="submit" name="RegisterId" class="btn btn-success" value=@item.Id>核可</button>),
-        grid.Column("","",format: @<button type="submit" name="RejectId" class="btn btn-success" value=@item.Id>退回</button>),
+        grid.Column("","審核",format: @<button type="submit" name="RegisterId" class="btn btn-success" value='@item.Id'>核可</button>),
+        grid.Column("","",format: @<button type="submit" name="RejectId" class="btn btn-success" value='@item.Id'>退回</button>),
     })}
