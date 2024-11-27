@@ -52,6 +52,7 @@ namespace EPASchedule
                 }
 
                 var diasterId = ds.FirstOrDefault().Id;
+                var diasterName = ds.FirstOrDefault().DiasterName;
 
                 //閾值設備
                 LogDisinfectorService LogDisinfectorService = new LogDisinfectorService();
@@ -268,13 +269,15 @@ namespace EPASchedule
 {0}{1}您好：<br/>
 貴局{2}消毒設備及消毒藥劑數量低於預警閾值，<br/>
 請儘快採購以因應環境消毒需求。<br/>
+閾值為{3}災害時，貴局消毒設備及消毒藥劑整備數量的一半。<br/>
 如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）。
 <br/><br/>
 
-{3}",
+{4}",
 cityName,
 account.Name,
 DateFormat.ToDate4(DateTime.Now),
+diasterName,
 CityMsg);
                         }
                         else if (totals.Any(a => a.Types.Contains("設備")))
@@ -285,13 +288,15 @@ CityMsg);
 {0}{1}您好：<br/>
 貴局{2}消毒設備數量低於預警閾值，<br/>
 請儘快採購消毒設備以因應環境消毒需求。<br/>
+閾值為{3}災害時，貴局消毒設備整備數量的一半。<br/>
 如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）。
 <br/><br/>
 
-{3}",
+{4}",
 cityName,
 account.Name,
 DateFormat.ToDate4(DateTime.Now),
+diasterName,
 CityMsg);
                         }
                         else if (totals.Any(a => a.Types.Contains("藥劑")))
@@ -302,13 +307,15 @@ CityMsg);
 {0}{1}您好：<br/>
 貴局{2}消毒藥劑數量低於預警閾值，<br/>
 請儘快採購消毒藥劑以因應環境消毒需求。<br/>
+閾值為{3}災害時，貴局消毒藥劑整備數量的一半。<br/>
 如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）。
 <br/><br/>
 
-{3}",
+{4}",
 cityName,
 account.Name,
 DateFormat.ToDate4(DateTime.Now),
+diasterName,
 CityMsg);
                         }
                         else
@@ -344,11 +351,13 @@ CityMsg);
 環境部環境管理署您好：<br/>
 以下為各縣市環保機關消毒藥劑數量低於預警閾值，<br/>
 EMIS系統{0}已通知該縣市環保局儘快採購消毒藥劑以因應環境消毒需求。<br/>
+閾值為{1}災害時，該局消毒設備及消毒藥劑整備數量的一半。<br/>
 如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）。
 <br/><br/>
 
-{1}",
+{2}",
 DateFormat.ToDate4(DateTime.Now),
+diasterName,
 GovMsg);
 
                     bool done = ToSend(subject, content, account);
