@@ -29,11 +29,13 @@ namespace MyEPA.Controllers
             string Town = Session["AuthenticateTown"].ToString().Trim();
 
             bool isSupportCity = Request["IsSupportCity"].ToString() == "" ? false : bool.Parse(Request["IsSupportCity"]);
-            int supportCityNum = Request["SupportCityNum"].ToString() == "" ? 0 : int.Parse(Request["SupportCityNum"]);
+            int? supportCityNum = null;
 
-            if (!isSupportCity)
+            if (isSupportCity)
             {
-                supportCityNum = 0;
+                //有跨縣市才會有數量
+                if (Request["SupportCityNum"].ToString() != "")
+                    supportCityNum = int.Parse(Request["SupportCityNum"]);
             }
 
             DisinfectorRepository.Create(new DisinfectorModel
@@ -155,11 +157,13 @@ namespace MyEPA.Controllers
             int? UseType = Request["EditUseType"].TryToInt();
             string UserName = user.UserName;
             bool IsSupportCity = Request["IsSupportCity"].ToString() == "" ? false : bool.Parse(Request["IsSupportCity"]);
-            int SupportCityNum = Request["SupportCityNum"].ToString() == "" ? 0 : int.Parse(Request["SupportCityNum"]);
-
-            if (!IsSupportCity)
+            int? SupportCityNum = null;
+            
+            if (IsSupportCity)
             {
-                SupportCityNum = 0;
+                //有跨縣市才會有數量
+                if (Request["SupportCityNum"].ToString() != "")
+                    SupportCityNum = int.Parse(Request["SupportCityNum"]);
             }
 
             string Msg = Disinfector.Update(Id, City, Town, ContactUnit, Instrument, Standard, Amount, ROCyear, UseType, UserName, IsSupportCity, SupportCityNum);

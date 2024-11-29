@@ -78,7 +78,14 @@ where Id=@Id";
                 Q.Parameters.AddWithValue("@UseType", UseType);
                 Q.Parameters.AddWithValue("@UpdateUser", UserName);
                 Q.Parameters.AddWithValue("@IsSupportCity", IsSupportCity);
-                Q.Parameters.AddWithValue("@SupportCityNum", SupportCityNum);
+                if (SupportCityNum == null)
+                {
+                    Q.Parameters.AddWithValue("@SupportCityNum", DBNull.Value);
+                }
+                else
+                {
+                    Q.Parameters.AddWithValue("@SupportCityNum", SupportCityNum);
+                }             
                 Q.ExecuteNonQuery();
                 X.Close();
                 StatisticsModel Statistics = new StatisticsModel();
