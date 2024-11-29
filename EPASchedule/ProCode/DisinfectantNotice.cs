@@ -107,7 +107,7 @@ namespace EPASchedule
         <th width='15%'>縣市</th>
         <th width='15%'>單位</th>
         <th width='20%'>消毒藥劑</th>
-        <th width='10%'>數量</th>
+        <th width='10%'>數量(公升/公斤)</th>
         <th width='10%'>到期日</th>
         <th width='10%'>剩餘天數</th>
     </tr>";

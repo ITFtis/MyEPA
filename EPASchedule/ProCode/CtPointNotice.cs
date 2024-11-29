@@ -138,8 +138,8 @@ namespace EPASchedule
         <th width='15%'>縣市</th>
         <th width='15%'>單位</th>
         <th width='20%' style='color:blue'>消毒設備</th>
-        <th width='10%'>閾值</th>
-        <th width='10%'>現有數量</th>
+        <th width='10%'>閾值(台)</th>
+        <th width='10%'>現有數量(台)</th>
     </tr>";
 
                         int index = 0;
@@ -177,8 +177,8 @@ namespace EPASchedule
         <th width='15%'>縣市</th>
         <th width='15%'>單位</th>
         <th width='20%' style='color:green'>消毒藥劑</th>
-        <th width='10%'>閾值</th>
-        <th width='10%'>現有數量</th>
+        <th width='10%'>閾值(公升/公斤)</th>
+        <th width='10%'>現有數量(公升/公斤)</th>
     </tr>";
 
                         int index = 0;
