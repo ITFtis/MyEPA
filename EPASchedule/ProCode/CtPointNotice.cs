@@ -132,14 +132,14 @@ namespace EPASchedule
                     if (v1s.Count() > 0)
                     {
                         msg1 = @"
-<table border='1' Cellpadding='3' Cellspacing='3' width='70%'>
+<table border='1' Cellpadding='3' Cellspacing='3' width='75%'>
      <tr>
         <th width='10%'>項次</th>
         <th width='15%'>縣市</th>
         <th width='15%'>單位</th>
         <th width='20%' style='color:blue'>消毒設備</th>
-        <th width='10%'>閾值(台)</th>
-        <th width='10%'>現有數量(台)</th>
+        <th width='12%'>閾值(台)</th>
+        <th width='15%'>現有數量(台)</th>
     </tr>";
 
                         int index = 0;
@@ -171,14 +171,14 @@ namespace EPASchedule
                     if (v2s.Count() > 0)
                     {
                         msg2 = @"
-<table border='1' Cellpadding='3' Cellspacing='3' width='70%'>
+<table border='1' Cellpadding='3' Cellspacing='3' width='75%'>
      <tr>
         <th width='10%'>項次</th>
         <th width='15%'>縣市</th>
         <th width='15%'>單位</th>
         <th width='20%' style='color:green'>消毒藥劑</th>
-        <th width='10%'>閾值(公升/公斤)</th>
-        <th width='10%'>現有數量(公升/公斤)</th>
+        <th width='12%'>閾值(公升/公斤)</th>
+        <th width='15%'>現有數量(公升/公斤)</th>
     </tr>";
 
                         int index = 0;

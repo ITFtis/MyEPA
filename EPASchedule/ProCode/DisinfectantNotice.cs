@@ -101,13 +101,13 @@ namespace EPASchedule
                     string msg = "";
 
                     msg = @"
-<table border='1' Cellpadding='3' Cellspacing='3' width='70%'>
+<table border='1' Cellpadding='3' Cellspacing='3' width='75%'>
      <tr>
         <th width='10%'>項次</th>
-        <th width='15%'>縣市</th>
-        <th width='15%'>單位</th>
+        <th width='12%'>縣市</th>
+        <th width='12%'>單位</th>
         <th width='20%'>消毒藥劑</th>
-        <th width='10%'>數量(公升/公斤)</th>
+        <th width='16%'>數量(公升/公斤)</th>
         <th width='10%'>到期日</th>
         <th width='10%'>剩餘天數</th>
     </tr>";
