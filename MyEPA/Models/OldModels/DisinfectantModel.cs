@@ -82,8 +82,15 @@ where Id=@Id";
                 Q.Parameters.AddWithValue("@UseType", UseType);
                 Q.Parameters.AddWithValue("@ActiveIngredients1", ActiveIngredients1);
                 Q.Parameters.AddWithValue("@ActiveIngredients2", ActiveIngredients2);
-                Q.Parameters.AddWithValue("@IsSupportCity", IsSupportCity);
-                Q.Parameters.AddWithValue("@SupportCityNum", SupportCityNum);
+                Q.Parameters.AddWithValue("@IsSupportCity", IsSupportCity);                
+                if (SupportCityNum == null)
+                {
+                    Q.Parameters.AddWithValue("@SupportCityNum", DBNull.Value);
+                }
+                else
+                {
+                    Q.Parameters.AddWithValue("@SupportCityNum", SupportCityNum);
+                }
                 // HH表示24小時，hh表示12小時
                 // 之前網站上傳到 gear.host之後，會呈現主機的美國時間
                 // 以下方法讓網站上傳到哪，都呈現臺北時間

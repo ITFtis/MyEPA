@@ -26,11 +26,13 @@ namespace MyEPA.Controllers
             var user = GetUserBrief();
 
             bool isSupportCity = Request["IsSupportCity"].ToString() == "" ? false : bool.Parse(Request["IsSupportCity"]);
-            int supportCityNum = Request["SupportCityNum"].ToString() == "" ? 0 : int.Parse(Request["SupportCityNum"]);
+            int? supportCityNum = null;
 
-            if (!isSupportCity)
+            if (isSupportCity)
             {
-                supportCityNum = 0;
+                //有跨縣市才會有數量
+                if (Request["SupportCityNum"].ToString() != "")
+                    supportCityNum = int.Parse(Request["SupportCityNum"]);
             }
 
             model.UpdateUser = user.UserName;
@@ -150,11 +152,13 @@ namespace MyEPA.Controllers
             string ActiveIngredients2 = Request["ActiveIngredients2"];
             int UseType = Request["EditUseType"].TryToInt().GetValueOrDefault();
             bool IsSupportCity = Request["IsSupportCity"].ToString() == "" ? false : bool.Parse(Request["IsSupportCity"]);
-            int SupportCityNum = Request["SupportCityNum"].ToString() == "" ? 0 : int.Parse(Request["SupportCityNum"]);
+            int? SupportCityNum = null;
 
-            if (!IsSupportCity)
+            if (IsSupportCity)
             {
-                SupportCityNum = 0;
+                //有跨縣市才會有數量
+                if (Request["SupportCityNum"].ToString() != "")
+                    SupportCityNum = int.Parse(Request["SupportCityNum"]);
             }
 
             string Msg = Disinfectant.Update(Id, City, Town, ContactUnit, DrugName, DrugType, DrugState, Amount, Density, Area, ServiceLife, UseType, ActiveIngredients1, ActiveIngredients2, UserName, IsSupportCity, SupportCityNum);
