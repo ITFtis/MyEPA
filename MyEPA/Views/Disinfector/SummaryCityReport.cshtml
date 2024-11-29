@@ -79,16 +79,20 @@
             <th>
                 @Html.DisplayNameFor(model => model.OtherCount)
             </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.UpdateTime)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ConfirmTime)
             </th>
+            <th>
+                合計
+            </th>
         </tr>
         <tr>
             <th colspan="2">
-                合計
+                總計
             </th>
             <th>
                 @Model.Sum(e => e.SprayerCount)
@@ -134,6 +138,10 @@
             </th>
             <th colspan="2">
 
+            </th>
+            <th>
+                @Model.Sum(e => e.SprayerCount + e.DisinfectorCount + e.HotSmokeSachineCount + e.PressureWasherCount + e.SprayerCAR 
+                                          + e.SprayeSrHI + e.SprayeSrLO + e.SMOK + e.OtherCount)
             </th>
         </tr>
     </thead>
@@ -193,6 +201,10 @@
             </td>
             <td>
                 @(item.ConfirmTime.HasValue ? item.ConfirmTime.Value.ToString("yyyy/MM/dd HH:mm") : string.Empty)
+            </td>
+            <td>
+                @(item.SprayerCount + item.DisinfectorCount + item.HotSmokeSachineCount + item.PressureWasherCount + item.SprayerCAR
+                    + item.SprayeSrHI + item.SprayeSrLO + item.SMOK + item.OtherCount)
             </td>
         </tr>
     }
@@ -261,10 +273,13 @@
             <th>
                 @Html.DisplayNameFor(model => model.ConfirmTime)
             </th>
+            <th>
+                合計
+            </th>
         </tr>
         <tr>
             <th colspan="2">
-                合計
+                總計
             </th>
             <th>
                 @SupportCitys.Sum(e => e.SprayerCount)
@@ -310,6 +325,10 @@
             </th>
             <th colspan="2">
 
+            </th>
+            <th>
+                @SupportCitys.Sum(e => e.SprayerCount + e.DisinfectorCount + e.HotSmokeSachineCount + e.PressureWasherCount + e.SprayerCAR
+                                          + e.SprayeSrHI + e.SprayeSrLO + e.SMOK + e.OtherCount)
             </th>
         </tr>
     </thead>
@@ -379,6 +398,10 @@
             </td>
             <td>
                 @(item.ConfirmTime.HasValue ? item.ConfirmTime.Value.ToString("yyyy/MM/dd HH:mm") : string.Empty)
+            </td>
+            <td>
+                @(item.SprayerCount + item.DisinfectorCount + item.HotSmokeSachineCount + item.PressureWasherCount + item.SprayerCAR
+                    + item.SprayeSrHI + item.SprayeSrLO + item.SMOK + item.OtherCount)
             </td>
         </tr>
     }
