@@ -422,8 +422,8 @@ GovMsg);
                 bool success = emailHelper.SendBySmtp();
 
                 if (!success)
-                {
-                    logger.Error("ToSend - 信件寄發失敗:" + emailHelper.ToMails);
+                {                    
+                    logger.Error("ToSend - 信件寄發失敗，Email內容:" + emailHelper.Body.Substring(0, emailHelper.Body.Length / 3));
                 }
 
                 result = true;

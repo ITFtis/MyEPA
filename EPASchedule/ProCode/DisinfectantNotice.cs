@@ -430,8 +430,8 @@ EMIS系統{0}已通知該單位優先使用該消毒藥劑以避免逾期藥效�
                 bool success = emailHelper.SendBySmtp();
 
                 if (!success)
-                {
-                    logger.Error("ToSend - 信件寄發失敗，Email位置:" + emailHelper.ToMails);
+                {                    
+                    logger.Error("ToSend - 信件寄發失敗，Email內容:" + emailHelper.Body.Substring(0, emailHelper.Body.Length / 3));
                 }
 
                 result = true;
