@@ -16,12 +16,12 @@ namespace EPASchedule
 
             DateTime start_time = DateTime.Now;
 
-            //1.1 消毒藥劑到期通知
-            if (AppConfig.OnlyStep.IndexOf("消毒藥劑到期通知") > -1)
+            //消毒藥劑逾期通知
+            if (AppConfig.OnlyStep.IndexOf("消毒藥劑逾期通知") > -1)
             {
                 //呼叫這個網站的隨便一個網頁，使得IIS在重新啟動它，這樣Global又會跑了
                 start_time = DateTime.Now;
-                logger.Info("1.1 消毒藥劑到期通知(逾期通知)" + ": starting...");
+                logger.Info("消毒藥劑逾期通知" + ": starting...");
                 DisinfectantNotice DalDisinfectantNotice = new DisinfectantNotice();
                 DalDisinfectantNotice.Execute();
                 logger.Info(@"Execution time(sec)=" + DateTime.Now.Subtract(start_time).TotalSeconds);
@@ -29,12 +29,12 @@ namespace EPASchedule
                 logger.Info("");
             }
 
-            //1.2 消毒藥劑到期通知
-            if (AppConfig.OnlyStep.IndexOf("消毒藥劑到期通知") > -1)
+            //消毒藥劑即將到期通知
+            if (AppConfig.OnlyStep.IndexOf("消毒藥劑即將到期通知") > -1)
             {
                 //呼叫這個網站的隨便一個網頁，使得IIS在重新啟動它，這樣Global又會跑了
                 start_time = DateTime.Now;
-                logger.Info("1.2 消毒藥劑到期通知(即將到期通知)" + ": starting...");
+                logger.Info("消毒藥劑即將到期通知" + ": starting...");
                 DisinfectantNotice DalDisinfectantNotice = new DisinfectantNotice();
                 DalDisinfectantNotice.Execute(AppConfig.ValidDay);
                 logger.Info(@"Execution time(sec)=" + DateTime.Now.Subtract(start_time).TotalSeconds);
