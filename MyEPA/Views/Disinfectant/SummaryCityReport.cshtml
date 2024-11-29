@@ -57,11 +57,14 @@
             <th>
                 @Html.DisplayNameFor(model => model.ConfirmTime)
             </th>
+            <th>
+                合計
+            </th>
         </tr>
 
         <tr>
             <th colspan="2">
-                合計
+                總計
             </th>
             <th>
                 @Model.Sum(e => e.EnvironmentCount)
@@ -80,6 +83,9 @@
             </th>
             <th colspan="2">
 
+            </th>
+            <th>
+                @Model.Sum(e => e.EnvironmentCount + e.DengueCount + e.RIFACount + e.TessaratomaPapillosaDruryCount + e.OtherCount)
             </th>
         </tr>
     </thead>
@@ -112,6 +118,9 @@
             </td>
             <td>
                 @(item.ConfirmTime.HasValue ? item.ConfirmTime.Value.ToString("yyyy/MM/dd HH:mm") : string.Empty)
+            </td>
+            <td>
+                @(item.EnvironmentCount + item.DengueCount + item.RIFACount + item.TessaratomaPapillosaDruryCount + item.OtherCount)
             </td>
         </tr>
     }
@@ -151,11 +160,14 @@
             <th>
                 @Html.DisplayNameFor(model => model.ConfirmTime)
             </th>
+            <th>
+                合計
+            </th>
         </tr>
 
         <tr>
             <th colspan="2">
-                合計
+                總計
             </th>
             <th>
                 @SupportCitys.Sum(e => e.EnvironmentCount)
@@ -174,6 +186,9 @@
             </th>
             <th colspan="2">
 
+            </th>
+            <th>
+                @SupportCitys.Sum(e => e.EnvironmentCount + e.DengueCount + e.RIFACount + e.TessaratomaPapillosaDruryCount + e.OtherCount)
             </th>
         </tr>
     </thead>
@@ -212,6 +227,9 @@
             </td>
             <td>
                 @(item.ConfirmTime.HasValue ? item.ConfirmTime.Value.ToString("yyyy/MM/dd HH:mm") : string.Empty)
+            </td>
+            <td>
+                @(item.EnvironmentCount + item.DengueCount + item.RIFACount + item.TessaratomaPapillosaDruryCount + item.OtherCount)
             </td>
         </tr>
     }
