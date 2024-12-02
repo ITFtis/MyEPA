@@ -148,7 +148,7 @@
                     </tr>
                     <tr>
                         <td>數量：</td>
-                        <td>@Html.TextBox("EditAmount", (string)ViewBag.EditAmount, new { style = "width:50%;align:left" }) (公升、公斤)</td>
+                        <td>@Html.TextBox("EditAmount", (string)ViewBag.EditAmount, new { style = "width:50%;align:left", required = "required" }) (公升、公斤)</td>
                     </tr>
                     <tr>
                         <td>濃度：</td>
@@ -182,7 +182,7 @@
                                })
 
                             <span id="spnSupportCityNum">
-                                @Html.TextBox("SupportCityNum", "", new { type = "number" })
+                                @Html.TextBox("SupportCityNum", "", new { type = "number", required = "required" })
                                 (公升、公斤)
                             </span>
                         </td>
@@ -327,7 +327,7 @@
                     </tr>
                     <tr>
                         <td>數量</td>
-                        <td> @Html.TextBox("Amount", "", new { style = "width:50%;align:left" }) (公升、公斤)</td>
+                        <td> @Html.TextBox("Amount", "", new { style = "width:50%;align:left", required = "required" }) (公升、公斤)</td>
                     </tr>
                     <tr>
                         <td>濃度</td>
@@ -353,7 +353,7 @@
                                })
 
                             <span id="spnSupportCityNum">
-                                @Html.TextBox("SupportCityNum", "", new { type = "number" })
+                                @Html.TextBox("SupportCityNum", "", new { type = "number", required = "required" })
                                 (公升、公斤)
                             </span>
                         </td>
@@ -516,9 +516,11 @@
                 var isSupportCity = $(this).val();
                 if (isSupportCity == 'true') {
                     $(this).parent().find('#spnSupportCityNum').show();
+                    $(this).parent().find("#SupportCityNum").attr('required', true);
                 }
                 else {
                     $(this).parent().find('#spnSupportCityNum').hide();
+                    $(this).parent().find("#SupportCityNum").attr('required', false);
                 }
             });
 
@@ -527,9 +529,11 @@
                 var isSupportCity = $(this).val();
                 if (isSupportCity == 'true') {
                     $(this).parent().find('#spnSupportCityNum').show();
+                    $(this).parent().find("#SupportCityNum").attr('required', true);
                 }
                 else {
                     $(this).parent().find('#spnSupportCityNum').hide();
+                    $(this).parent().find("#SupportCityNum").attr('required', false);
                 }
             });
         });
