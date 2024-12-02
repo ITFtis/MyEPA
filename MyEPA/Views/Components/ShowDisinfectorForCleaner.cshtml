@@ -41,7 +41,8 @@
             <th>消毒設備名稱</th>
             <th>規格</th>
             <th>數量</th>
-            <th>購買年份(民國)</th>            
+            <th>購買年份(民國)</th>
+            <th>跨縣市調度</th>
             <th>確認時間</th>
             <th>確認人員</th>
         </tr>
@@ -59,7 +60,11 @@
                 <td>@Item.DisinfectInstrument</td>
                 <td>@Item.Standard</td>
                 <td>@Item.Amount</td>
-                <td>@Item.ROCyear</td>                
+                <td>@Item.ROCyear</td>
+                <td>
+                    @(Item.IsSupportCity ?? false ? "是" : "否")
+                    (@Item.SupportCityNum)
+                </td>
                 <td>@Item.ConfirmTime</td>
                 <td>@Item.UpdateUser</td>
             </tr>

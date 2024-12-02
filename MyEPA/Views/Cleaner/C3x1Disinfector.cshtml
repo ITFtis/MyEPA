@@ -71,11 +71,11 @@
 
                     <tr>
                         <td>數量：</td>
-                        <td>@Html.TextBox("EditAmount")台</td>
+                        <td>@Html.TextBox("EditAmount", "", new { required = "required" })台</td>
                     </tr>
                     <tr>
                         <td>購買年份(民國)：</td>
-                        <td>民國 @Html.TextBox("EditROCyear", "", new { @maxlength = "3" })年</td>
+                        <td>民國 @Html.TextBox("EditROCyear", "", new { @maxlength = "3", required = "required" })年</td>
                     </tr>
                     <tr>
                         <td>是否跨縣市調度：</td>
@@ -87,7 +87,7 @@
                                })
 
                             <span id="spnSupportCityNum">
-                                @Html.TextBox("SupportCityNum", "", new { type = "number" })
+                                @Html.TextBox("SupportCityNum", "", new { type = "number", required = "required" })
                                 台
                             </span>
                         </td>
@@ -149,14 +149,14 @@
                     <tr>
                         <td>數量：</td>
                         <td>
-                            @Html.TextBox("Amount")台
+                            @Html.TextBox("Amount", "", new { required = "required" })台
                         </td>
                     </tr>
                     <tr>
                         <td>購買年份(民國)：</td>
                         <td>
                             民國&nbsp;
-                            @Html.TextBox("ROCyear", "", new { @maxlength = "3" })年
+                            @Html.TextBox("ROCyear", "", new { @maxlength = "3", required = "required" })年
                         </td>
                     </tr>
                     <tr>
@@ -169,7 +169,7 @@
                                })
 
                             <span id="spnSupportCityNum">
-                                @Html.TextBox("SupportCityNum", "", new { type = "number" })
+                                @Html.TextBox("SupportCityNum", "", new { type = "number", required = "required" })
                                 台
                             </span>
                         </td>
@@ -281,9 +281,11 @@
                 var isSupportCity = $(this).val();
                 if (isSupportCity == 'true') {
                     $(this).parent().find('#spnSupportCityNum').show();
+                    $(this).parent().find("#SupportCityNum").attr('required', true);
                 }
                 else {
                     $(this).parent().find('#spnSupportCityNum').hide();
+                    $(this).parent().find("#SupportCityNum").attr('required', false);
                 }
             });
 
@@ -292,9 +294,11 @@
                 var isSupportCity = $(this).val();
                 if (isSupportCity == 'true') {
                     $(this).parent().find('#spnSupportCityNum').show();
+                    $(this).parent().find("#SupportCityNum").attr('required', true);
                 }
                 else {
                     $(this).parent().find('#spnSupportCityNum').hide();
+                    $(this).parent().find("#SupportCityNum").attr('required', false);
                 }
             });
         });
