@@ -642,10 +642,12 @@ namespace MyEPA.Services
             }
             return damage;
         }
-        public DamageModel UpdateCorpsHandlingSituation(CorpsHandlingSituationViewModel model)
+        public DamageModel UpdateCorpsHandlingSituation(CorpsHandlingSituationViewModel model, UserBriefModel user)
         {
             DamageModel damage = GetDamage(model.DamageId);
             damage.ProcessDesc = model.CorpsHandlingSituation;
+            damage.ProcessUpdateUser = user.UserName;
+            damage.ProcessUpdateDate = DateTime.Now;
             DamageRepository.Update(damage);
             return damage;
         }
@@ -656,6 +658,8 @@ namespace MyEPA.Services
             return new CorpsHandlingSituationViewModel 
             {
                 CorpsHandlingSituation = damage.ProcessDesc,
+                ProcessUpdateUser = damage.ProcessUpdateUser,
+                ProcessUpdateDate = damage.ProcessUpdateDate,
                 DamageId = damage.Id,
                 Type = type
             };

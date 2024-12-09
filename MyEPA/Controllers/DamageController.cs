@@ -572,9 +572,8 @@ namespace MyEPA.Controllers
         [HttpPost]
         public ActionResult CorpsHandlingSituation(CorpsHandlingSituationViewModel model)
         {
-            DamageModel damage = DamageService.UpdateCorpsHandlingSituation(model);
-
             var user = GetUserBrief();
+            DamageModel damage = DamageService.UpdateCorpsHandlingSituation(model, user);            
 
             //照片(三區回報處理情形)
             Dictionary<string, List<HttpPostedFileBase>> files = GetUploadFiles();

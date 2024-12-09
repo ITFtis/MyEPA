@@ -168,6 +168,16 @@ namespace MyEPA.Models
         [DisplayName("環管署處理情形")]
         public string ProcessDesc { get; set; }
         /// <summary>
+        /// 環管署處理情形_更新者
+        /// </summary>
+        [DisplayName("環管署處理情形_更新者")]
+        public string ProcessUpdateUser { get; set; }
+        /// <summary>
+        /// 環管署處理情形_更新日
+        /// </summary>
+        [DisplayName("環管署處理情形_更新日")]
+        public DateTime ProcessUpdateDate { get; set; }
+        /// <summary>
         /// 備註
         /// </summary>
         [DisplayName("備註")]
