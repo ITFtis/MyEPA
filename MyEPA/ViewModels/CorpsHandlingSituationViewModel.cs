@@ -24,7 +24,7 @@ namespace MyEPA.ViewModels
         /// 環管署處理情形_更新日
         /// </summary>
         [DisplayName("環管署處理情形_更新日")]
-        public DateTime ProcessUpdateDate { get; set; }
+        public DateTime? ProcessUpdateDate { get; set; }
         public FacilityDamageTypeEnum Type { get; set; }
     }
     public class DamageMemoViewModel
