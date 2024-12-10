@@ -125,14 +125,16 @@
             <label class="control-label col-md-3">照片上傳</label>
             <div class="col-md-9">
                 <button type="button" onclick="addimg()">新增</button>
-                <input class="imgs" type="file" name="DamageCCImage" accept="image/*" />
+                <input class="imgs" type="file" name="DamageCCImage" accept=".jpg, .jpeg, .png" />
+                <span class="text-primary mt-2">限定(.jpg, .jpeg, .png)</span>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-3">檔案上傳</label>
             <div class="col-md-9">
                 <button type="button" onclick="add()">新增</button>
-                <input class="files" type="file" name="DamageCCFile" />
+                <input class="files" type="file" name="DamageCCFile" accept=".png, .pdf, .jpg, .jpeg, .docx, .mp4" />
+                <span class="text-primary mt-2">限定(.png, .pdf, .jpg, .jpeg, .docx, .mp4)</span>
             </div>
             <br />
         </div>
