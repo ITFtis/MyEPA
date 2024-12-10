@@ -6,7 +6,9 @@
 @using (Html.BeginForm("Upload", "Files", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div id="ContentPlaceHolder1_div_up" class="tong_upload1">
-        <input type="file" name="file" id="ContentPlaceHolder1_File1" class="tong_upload2"><br>
+        <input type="file" name="file" id="ContentPlaceHolder1_File1" class="tong_upload2" accept=".png, .pdf, .jpg, .jpeg, .docx, .mp4">
+        <span class="text-primary mt-2">限定(.png, .pdf, .jpg, .jpeg, .docx, .mp4)</span>
+        <br><br>
         <textarea name="filetext" rows="2" cols="20" id="filetext" class="tong_upload3"></textarea><br />
         <span id="ContentPlaceHolder1_RadioButtonList1" class="tong_upload4">
             <input id="ContentPlaceHolder1_RadioButtonList1_0" type="radio" name="DOWNADMIN" value="all" checked="checked"><label for="ContentPlaceHolder1_RadioButtonList1_0">全部層級</label>
