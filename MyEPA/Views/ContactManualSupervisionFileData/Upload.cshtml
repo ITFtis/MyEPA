@@ -34,7 +34,9 @@
         <div class="form-group">
             <label class="control-label col-md-2">檔案上傳</label>
             <div class="col-md-10">
-                <input type="file" name="file"><br>
+                <input type="file" name="file" accept=".png, .pdf, .jpg, .jpeg, .docx, .mp4">
+                <span class="text-primary mt-2">限定(.png, .pdf, .jpg, .jpeg, .docx, .mp4)</span>
+                <br>
                 @if (string.IsNullOrWhiteSpace(Model.UserFileName) == false)
                 {
                     @:檔案下載: @Html.ActionLink(Model.UserFileName, "Download", "FileData", new { id = Model.Id }, new { })

@@ -76,7 +76,9 @@
                     <br />
                     <span>鄉鎮市區：</span> @Html.TextBox("Town3", (string)ViewBag.Town, new { @readonly = "readonly", @style = "border:none" })
                     <br />
-                    <input type="file" name="file" id="file" /><br><br>
+                    <input type="file" name="file" id="file" accept=".jpg, .jpeg, .png" />
+                    <span class="text-primary mt-2">限定(.jpg, .jpeg, .png)</span>
+                    <br><br>
                     <br />
                     <br />
                     <br />
@@ -98,7 +100,9 @@
                     <br />
                     <span>鄉鎮市區：</span> @Html.TextBox("Town4", (string)ViewBag.Town, new { @readonly = "readonly", @style = "border:none" })
                     <br />
-                    <input type="file" name="file" id="file" /><br><br>
+                    <input type="file" name="file" id="file" accept=".png, .pdf, .jpg, .jpeg, .docx, .mp4" />
+                    <span class="text-primary mt-2">限定(.png, .pdf, .jpg, .jpeg, .docx, .mp4)</span>
+                    <br><br>
                     <br />
                     <br />
                     <br />

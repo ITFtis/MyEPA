@@ -57,7 +57,8 @@
         <span style="font-size:small">
             說明：1.上傳照片(限JPG檔)請按"瀏覽"鈕，待全部欄位填寫完成後按下方”新增”或”修改”鈕，統一上傳   2.下方提供照片說明填寫(限100字)。
         </span>
-        <input type="file" name="file" id="file" />
+        <input type="file" name="file" id="file" accept=".jpg, .jpeg, .png" />
+        <span class="text-primary mt-2">限定(.jpg, .jpeg, .png)</span>
         <br>
         <span>說明:</span>
         <br />
@@ -70,8 +71,8 @@
             <span>聯絡手機：</span> @Html.TextBox("ReportMobilePhone", (string)Item.ReportMobilePhone, new { style = "width:100px" })
         </h6>
     }
-<input type="submit" class="btn btn-danger" style="margin:10px" value="儲存確認" />
-@Html.ActionLink("取消", "B2", "EPBxApply", "", new { @class = "btn btn-basic fa fa-arrow-circle-left", @style = "color:white;padding:4px" })
+    <input type="submit" class="btn btn-danger" style="margin:10px" value="儲存確認" />
+    @Html.ActionLink("取消", "B2", "EPBxApply", "", new { @class = "btn btn-basic fa fa-arrow-circle-left", @style = "color:white;padding:4px" })
 
 }
 

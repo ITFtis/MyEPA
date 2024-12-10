@@ -34,7 +34,9 @@
         <div class="form-group">
             <label class="control-label col-md-2">檔案上傳</label>
             <div class="col-md-10">
-                <input accept=".docx" type="file" name="file"><br>
+                <input accept=".png, .pdf, .jpg, .jpeg, .docx, .mp4" type="file" name="file">
+                <span class="text-primary mt-2">限定(.png, .pdf, .jpg, .jpeg, .docx, .mp4)</span>
+                <br>
                 @Html.ValidationMessageFor(model => model.File, "", new { @class = "text-danger" })
                 @if (string.IsNullOrWhiteSpace(Model.UserFileName) == false)
                 {

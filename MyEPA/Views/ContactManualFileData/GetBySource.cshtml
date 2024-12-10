@@ -10,7 +10,8 @@
 @using (Html.BeginForm("Upload", "FileData", new { sourceType = SourceType }, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div id="ContentPlaceHolder1_div_up" class="tong_upload1">
-        <input type="file" name="file" id="ContentPlaceHolder1_File1" class="tong_upload2"><br>
+        <input type="file" name="file" id="ContentPlaceHolder1_File1" accept=".png, .pdf, .jpg, .jpeg, .docx, .mp4" class="tong_upload2"><br>
+        <span class="text-primary mt-2">限定(.png, .pdf, .jpg, .jpeg, .docx, .mp4)</span>
         <textarea name="description" rows="2" cols="20" id="description" class="tong_upload3"></textarea><br />
         <br>
         <input type="submit" name="file" value="上傳檔案"><br>
