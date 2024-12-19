@@ -1350,7 +1350,6 @@
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.6.0.min.js" />
     <Content Include="Scripts\jquery.selectboxes.js" />
-    <Content Include="Scripts\jQueryAssets\jquery-1.11.1.min.js" />
     <Content Include="Scripts\jQueryAssets\jquery.ui-1.10.4.tabs.min.js" />
     <Content Include="Scripts\jQueryAssets\jquery.ui.core.min.css" />
     <Content Include="Scripts\jQueryAssets\jquery.ui.tabs.min.css" />
