@@ -61,6 +61,6 @@ namespace EPASchedule.Models.Deds
         public string VhlRecRegYear { get; set; }
         public string VhlRecCatID { get; set; }
         public string VhlRecUseCondition { get; set; }
-        public DateTime? WriteTime { get; set; }
+        public DateTime WriteTime { get; set; }
     }
 }

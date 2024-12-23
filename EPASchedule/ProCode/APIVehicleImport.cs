@@ -14,6 +14,7 @@ using System.Xml;
 using System.Web.UI.WebControls;
 using static System.Data.Entity.Infrastructure.Design.Executor;
 using log4net;
+using System.Security.Cryptography;
 
 namespace EPASchedule
 {
@@ -64,14 +65,13 @@ namespace EPASchedule
                 //步驟2匯入Epaemis_local
                 using (var dbMyData = new MyData())
                 {
-                    //(1)刪除暫存表(z_AR4, z_AR5)，Copy至暫存表(z_AR4, z_AR5)
+                    //(1)刪除暫存表(z_AR4, z_AR5)，Copy至暫存表(z_AR4_newCarKind, z_AR5_newCarKind)
                     string sql = @"
                             TRUNCATE TABLE z_AR4_newCarKind 
                             TRUNCATE TABLE z_AR5_newCarKind 
-                            
-
                         ";
 
+                    //暫存表z_AR4_newCarKind 測試(AR4_newCarKind.Take(100))
                     foreach (var v in AR4_newCarKind)
                     {
                         string _dataSql = string.Format(@"
@@ -115,9 +115,90 @@ namespace EPASchedule
                             " + _dataSql;
                     }
 
+                    //暫存表z_AR5_newCarKind 測試(AR5_newCarKind.Take(100))
+                    foreach (var v in AR5_newCarKind)
+                    {
+                        string _dataSql = string.Format(@"
+                                Insert Into z_AR5_newCarKind(id, VhlRecUptDate, VhlRecCmpRecID, CityName, TownName, VhlRecCarNo, VhlRecModel, VhlRecCompany, VhlRecVhlBotCmpID, VhlRecBotOtCountry, VhlRecBotOtManufacturer, VhlRecVhlBdyCmpID, VhlRecBdyOtCountry, VhlRecBotOtManufacturer1, VhlRecPrdDate, VhlRecBuyDate, VhlRecRptCarKindID, VhlRecCapacity, VhlRecCapOtNote, VhlRecGear, VhlRecGearCountF, VhlRecExhaust, VhlRecFuel, VhlRecFuelAdd, VhlRecSeat, VhlRecLoad, VhlRecGrossWeight, VhlRecAdditionItem, VhlRecAdditionItemOtNote, VhlRecBuyCompany, VhlRecRealBuyDate, VhlRecBuyPrice, VhlRecWarrantyDate, VhlRecBuyWayID, VhlRecBuyWayOtNote, VhlRecBuyMoneyFrom, VhlRecBuyMoneyFromOtNote, VhlRecDiscardDate, VhlRecDiscardReason, VhlRecDiscardReasonNote, VhlRecDiscard, VhlRecDiscardMoney, R_Year, R_NewCarNo, R_RenewYear, VhlRecRemark, VhlRecCanSupportEpa, VhlRecCanSupportCity, VhlRecTWD97_X, VhlRecTWD97_Y, VhlRecRegYear, VhlRecCatID, VhlRecUseCondition, WriteTime)
+                                Select  {0} AS id, '{1}' AS VhlRecUptDate, '{2}' AS VhlRecCmpRecID, '{3}' AS CityName, '{4}' AS TownName, 
+                                        '{5}' AS VhlRecCarNo, '{6}' AS VhlRecModel, '{7}' AS VhlRecCompany, '{8}' AS VhlRecVhlBotCmpID, 
+                                        '{9}' AS VhlRecBotOtCountry, '{10}' AS VhlRecBotOtManufacturer, '{11}' AS VhlRecVhlBdyCmpID, 
+                                        '{12}' AS VhlRecBdyOtCountry, '{13}' AS VhlRecBotOtManufacturer1, '{14}' AS VhlRecPrdDate, 
+                                        '{15}' AS VhlRecBuyDate, '{16}' AS VhlRecRptCarKindID, '{17}' AS VhlRecCapacity, '{18}' AS VhlRecCapOtNote, 
+                                        '{19}' AS VhlRecGear, '{20}' AS VhlRecGearCountF, '{21}' AS VhlRecExhaust, '{22}' AS VhlRecFuel, 
+                                        '{23}' AS VhlRecFuelAdd, '{24}' AS VhlRecSeat, '{25}' AS VhlRecLoad, '{26}' AS VhlRecGrossWeight, 
+                                        '{27}' AS VhlRecAdditionItem, '{28}' AS VhlRecAdditionItemOtNote, '{29}' AS VhlRecBuyCompany, 
+                                        '{30}' AS VhlRecRealBuyDate, '{31}' AS VhlRecBuyPrice, '{32}' AS VhlRecWarrantyDate, 
+                                        '{33}' AS VhlRecBuyWayID, '{34}' AS VhlRecBuyWayOtNote, '{35}' AS VhlRecBuyMoneyFrom, 
+                                        '{36}' AS VhlRecBuyMoneyFromOtNote, '{37}' AS VhlRecDiscardDate, '{38}' AS VhlRecDiscardReason, 
+                                        '{39}' AS VhlRecDiscardReasonNote, '{40}' AS VhlRecDiscard, '{41}' AS VhlRecDiscardMoney, 
+                                        '{42}' AS R_Year, '{43}' AS R_NewCarNo, '{44}' AS R_RenewYear, '{45}' AS VhlRecRemark, 
+                                        '{46}' AS VhlRecCanSupportEpa, '{47}' AS VhlRecCanSupportCity, 
+                                        '{48}' AS VhlRecTWD97_X, '{49}' AS VhlRecTWD97_Y, '{50}' AS VhlRecRegYear, 
+                                        '{51}' AS VhlRecCatID, '{52}' AS VhlRecUseCondition, '{53}' AS WriteTime
+                            ",
+                            v.id,
+                            v.VhlRecUptDate,
+                            v.VhlRecCmpRecID,
+                            v.CityName,
+                            v.TownName,
+                            v.VhlRecCarNo,
+                            v.VhlRecModel,
+                            v.VhlRecCompany,
+                            v.VhlRecVhlBotCmpID,
+                            v.VhlRecBotOtCountry,
+                            v.VhlRecBotOtManufacturer,
+                            v.VhlRecVhlBdyCmpID,
+                            v.VhlRecBdyOtCountry,
+                            v.VhlRecBotOtManufacturer1,
+                            v.VhlRecPrdDate,
+                            v.VhlRecBuyDate,
+                            v.VhlRecRptCarKindID,
+                            v.VhlRecCapacity,
+                            v.VhlRecCapOtNote,
+                            v.VhlRecGear,
+                            v.VhlRecGearCountF,
+                            v.VhlRecExhaust,
+                            v.VhlRecFuel,
+                            v.VhlRecFuelAdd,
+                            v.VhlRecSeat,
+                            v.VhlRecLoad,
+                            v.VhlRecGrossWeight,
+                            v.VhlRecAdditionItem,
+                            v.VhlRecAdditionItemOtNote,
+                            v.VhlRecBuyCompany,
+                            v.VhlRecRealBuyDate,
+                            v.VhlRecBuyPrice,
+                            v.VhlRecWarrantyDate,
+                            v.VhlRecBuyWayID,
+                            v.VhlRecBuyWayOtNote,
+                            v.VhlRecBuyMoneyFrom,
+                            v.VhlRecBuyMoneyFromOtNote,
+                            v.VhlRecDiscardDate,
+                            v.VhlRecDiscardReason,
+                            v.VhlRecDiscardReasonNote,
+                            v.VhlRecDiscard,
+                            v.VhlRecDiscardMoney,
+                            v.R_Year,
+                            v.R_NewCarNo,
+                            v.R_RenewYear,
+                            v.VhlRecRemark,
+                            v.VhlRecCanSupportEpa,
+                            v.VhlRecCanSupportCity,
+                            v.VhlRecTWD97_X,
+                            v.VhlRecTWD97_Y,
+                            v.VhlRecRegYear,
+                            v.VhlRecCatID,
+                            v.VhlRecUseCondition,
+                            v.WriteTime.ToShortDateString());
+
+                        sql += @"
+                            " + _dataSql;
+                    }
+
                     dbMyData.Database.ExecuteSqlCommand(sql);
 
-                    //(2)Copy至暫存表(z_AR4, z_AR5)
+                    
 
                 }
 
