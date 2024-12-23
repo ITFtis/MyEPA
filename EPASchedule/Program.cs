@@ -54,6 +54,18 @@ namespace EPASchedule
                 logger.Info(typeof(Program).FullName + ": done....");
                 logger.Info("");
             }
+
+            //4.API車輛匯入
+            if (AppConfig.OnlyStep.IndexOf("API車輛匯入") > -1)
+            {                
+                start_time = DateTime.Now;
+                logger.Info("API車輛匯入" + ": starting...");
+                APIVehicleImport DalAPIVehicleImport = new APIVehicleImport();
+                DalAPIVehicleImport.Execute();
+                logger.Info(@"Execution time(sec)=" + DateTime.Now.Subtract(start_time).TotalSeconds);
+                logger.Info(typeof(Program).FullName + ": done....");
+                logger.Info("");
+            }
         }
     }
 }
