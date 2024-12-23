@@ -66,6 +66,8 @@
     <Compile Include="Models\Deds\AR4_newCarKind.cs" />
     <Compile Include="Models\Deds\AR5_newCarKind.cs" />
     <Compile Include="Models\DouModelContextExt.cs" />
+    <Compile Include="Models\Epaemis_local\z_AR4_newCarKind.cs" />
+    <Compile Include="Models\Epaemis_local\z_AR5_newCarKind.cs" />
     <Compile Include="ProCode\APIVehicleImport.cs" />
     <Compile Include="ProCode\CtPointNotice.cs" />
     <Compile Include="ProCode\DisinfectantNotice.cs" />

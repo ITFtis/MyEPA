@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EPASchedule.Models.Deds
+namespace EPASchedule.Models.Epaemis_local
 {
-    internal class AR4_newCarKind
+    internal class z_AR4_newCarKind
     {
         public int id { get; set; }
         public string updDate { get; set; }
@@ -34,6 +34,6 @@ namespace EPASchedule.Models.Deds
         public string TWD97_Y { get; set; }
         public string IsDeleted { get; set; }
         public string DeletedDate { get; set; }
-        public DateTime WriteTime { get; set; }
+        public DateTime? WriteTime { get; set; }
     }
 }
