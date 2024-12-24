@@ -65,12 +65,13 @@ namespace EPASchedule
                 //步驟2匯入Epaemis_local
                 using (var dbMyData = new MyData())
                 {
-                    //false 開發狀態，執行省時間
-                    bool IsGo = false;
+                    //(false)開發測試，省時間AR4,5匯入時間
+                    bool IsGo = true;  //false
                     
                     if (IsGo)
                     {
-                        //(1)刪除暫存表(z_AR4, z_AR5)，Copy至暫存表(z_AR4_newCarKind, z_AR5_newCarKind)
+                        //(1)刪除暫存表(z_AR4_newCarKind, z_AR5_newCarKind)
+                        //Copy至暫存表(z_AR4_newCarKind, z_AR5_newCarKind)
                         string sql = @"
                             TRUNCATE TABLE z_AR4_newCarKind 
                             TRUNCATE TABLE z_AR5_newCarKind 
