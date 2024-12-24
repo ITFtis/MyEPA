@@ -166,7 +166,7 @@ BEGIN
 			   'AR5' AS 'AddFrom', VhlRecCarNo AS 'AddKey', WriteTime
 		From z_AR5_newCarKind
 	)aaa
-	Left Join VehicleType bbb On aaa.VehicleName = bbb.Type
+	Left Join VehicleType bbb On aaa.VehicleName = (bbb.Type collate Chinese_Taiwan_Stroke_CI_AS)
 
 	--特殊空白符號(PlateNumber,Load,EnginePower,ROCyear)
 	--Update Vehicle Set xxxxx = '' Where xxxxx = @spec1 Or xxxxx = @spec2 Or xxxxx = @spec3 Or xxxxx = @spec4
