@@ -33,6 +33,7 @@
     <table class="table table-bordered table-striped">
         <tr>
             <th class="text-center">編輯</th>
+            <th>介接日期</th>
             <th>縣市</th>
             <th>鄉鎮區市</th>
             <th>聯絡單位</th>
@@ -49,6 +50,7 @@
             <button style="padding:0" class="btn btn-success" onclick="PickItemForPosition('@Item.PlateNumber','@Item.Xpos','@Item.Ypos')">定位</button>
             <button style="padding:0" class="btn btn-info" onclick="PickItemForBrowse('@Item.PlateNumber','@Item.City','@Item.Town','@Item.ContactUnit','@Item.VehicleName','@Item.VehicleState','@Item.UpdateTime','@Item.Load','@Item.EnginePower','@Item.ROCyear','@Item.EPAsubsidy','@Item.CrossCityUse','@Item.CrossTownUse','@Item.Note','@Item.Xpos','@Item.Ypos')">查閱</button>
         </td>
+        <td>@DateFormat.ToDate7_2(Item.WriteTime)</td>
         <td>@Item.City</td>
         <td>@Item.Town</td>
         <td>@Item.ContactUnit</td>
