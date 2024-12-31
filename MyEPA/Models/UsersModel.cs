@@ -68,6 +68,16 @@ namespace MyEPA.Models
         [DisplayName("機關類別(角色)")]
         public int? DutyId { get; set; }
     }
+
+    public class UserOverValidLoginViewModel : UsersModel
+    {
+        [DisplayName("登入時間")]
+        public DateTime? LoginTime { get; set; }
+
+        [DisplayName("未登入天數")]
+        public int? LoginRange { get; set; }
+    }
+
     public class UsersModel
     {
         [AutoKey]

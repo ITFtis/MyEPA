@@ -81,6 +81,18 @@ namespace MyEPA.Services
             return UsersRepository.GetUsersJoinPositionByFilter(filter);
         }
 
+        /// <summary>
+        /// 聯絡人未登入
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public List<UserOverValidLoginViewModel> GetUserOverValidLoginByFilter(UsersFilterParameter filter)
+        {
+            var model = UsersRepository.GetUserOverValidLoginByFilter(filter);
+
+            return model;
+        }
+
         public AdminResultModel UpdatePwd(int id,UsersEditPwdViewModel model)
         {
             if (!PwdHelper.ValidPassword(model.Pwd))

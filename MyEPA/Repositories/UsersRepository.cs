@@ -22,6 +22,40 @@ namespace MyEPA.Repositories
             var whereSQL = GetWhereSQLByFilter(usersFilter);
             return base.GetPageingEntitiesByWhereSQL(whereSQL, usersFilter.Pagination, usersFilter);
         }
+
+        /// <summary>
+        /// 聯絡人未登入
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public List<UserOverValidLoginViewModel> GetUserOverValidLoginByFilter(UsersFilterParameter filter)
+        {
+            string whereSQL = GetWhereSQLByFilter(filter);
+            string where2 = "";
+
+            string sql = $@"
+
+Select a.Name, b.LoginTime, b.LoginRange,
+       a.UserName, Pwd, VoicePwd, Duty, City, Town, MobilePhone, HumanType, MainContacter, ReportPriority, DepartmentId, PositionId, OfficePhone, FaxNumber, Email, Remark, HomeNumber, UpdateDate, CityId, TownId, DutyId, ConfirmTime, isadmin, ContactManualDuty, ContactManualDepartmentId, ISEnvironmentalProtectionAdministration, ISEnvironmentalProtectionDepartment, ISBook
+From  [Users] a
+Left Join (
+	Select Max(logintime) AS LoginTime, 
+		   DateDiff(Day, Max(logintime), GetDate()) AS LoginRange,
+		   UserName
+	From UserLoginLog
+	--Where UserName = '顏蕉香'
+	Group By UserName	
+)b On b.UserName COLLATE Chinese_Taiwan_Stroke_CI_AS = a.UserName
+    {whereSQL}
+";
+
+            sql += @"
+Order By loginrange Desc
+                ";
+
+            return GetListBySQL<UserOverValidLoginViewModel>(sql, filter);
+        }
+
         private string GetWhereSQLByFilter(UsersFilterParameter usersFilter)
         {
             string whereSQL = "Where 1=1";
