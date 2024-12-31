@@ -18,8 +18,7 @@ namespace MyEPA.Controllers.Rec
         {
             UsersFilterParameter filter = new UsersFilterParameter()
             {
-                ////DiasterIds = YDiasterId.ToListCollection(),
-                ////Ct = selectDDLCt,
+                LoginRange = 90
             };
             
             IEnumerable<UserOverValidLoginViewModel> iquery = UsersService.GetUserOverValidLoginByFilter(filter);

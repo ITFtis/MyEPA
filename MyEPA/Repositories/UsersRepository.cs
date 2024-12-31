@@ -101,6 +101,10 @@ Order By loginrange Desc
             {
                 whereSQL += " AND MainContacter = @MainContacter";
             }
+            if (usersFilter.LoginRange.HasValue)
+            {
+                whereSQL += " AND ISNULL(LoginRange, 0) > @LoginRange";
+            }
 
             return whereSQL;
         }

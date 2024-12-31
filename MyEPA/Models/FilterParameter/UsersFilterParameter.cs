@@ -15,5 +15,9 @@ namespace MyEPA.Models.FilterParameter
         public IEnumerable<int> ContactManualDutys { get; set; }
         public string MainContacter { get; set; }
         public string HumanType { get; set; }
+        /// <summary>
+        /// n天以上未登入(0=>有未登入天數)
+        /// </summary>
+        public int? LoginRange { get; set; }
     }
 }
