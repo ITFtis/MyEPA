@@ -15,7 +15,24 @@
 <div class="page-content">
     <div class="row">
         <div class="col-xs-12">
-            <table class="table">
+
+            <div>
+                @using (Html.BeginForm("ExportList", "UserLogin", new { }, FormMethod.Get))
+                {
+                    <table border="0">
+                        <tbody>
+                            <tr align="center">
+                                <td colspan="2">
+                                    <button type="submit" class="btn btn-primary" href=""><i class="fa fa-search"></i>&nbsp;匯出Excel</button>                                    
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
+                <br />
+            </div>
+
+            <table class="table table-bordered table-striped  text-center">
                 <tr>
                     <th width="10%">機關類別(角色)</th>
                     <th width="10%">機關名稱(縣市)</th>
