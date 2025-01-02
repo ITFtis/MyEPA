@@ -20,6 +20,8 @@ namespace MyEPA.Controllers.Rec
         {
             ViewBag.Msg = TempData["Msg"];
 
+            Session["UserLoginData"] = null;
+
             UsersFilterParameter filter = new UsersFilterParameter()
             {
             };
@@ -28,16 +30,24 @@ namespace MyEPA.Controllers.Rec
             iquery = iquery.OrderByDescending(a => a.Id);
             List<UserLoginViewModel> result = iquery.ToList();
 
+            Session["UserLoginData"] = result;
+
             return View(result);
         }
 
         /// <summary>
-        /// 匯出Excel_聯絡人登入
+        /// 匯出Excel_聯絡人登入清單
         /// </summary>
         public ActionResult ExportLoginList()
         {
-            //string toPath = "";
-            string toPath = UserReport.ExportLoginList();
+            List<UserLoginViewModel> UserLoginData = (List<UserLoginViewModel>)Session["UserLoginData"];
+            if(UserLoginData == null)
+            {
+                TempData["Msg"] = "session查無資料(UserLoginData)";
+                return RedirectToAction("Index");
+            }
+
+            string toPath = UserReport.ExportLoginList(UserLoginData);
 
             if (toPath != "")
             {
