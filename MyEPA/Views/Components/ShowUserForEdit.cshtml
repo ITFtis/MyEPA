@@ -23,6 +23,7 @@
             <th>機關類別(角色)</th>
             <th>機關名稱(縣市)</th>
             <th>單位名稱(鄉鎮市區)</th>
+            <th>帳號</th>
             <th>姓名</th>
             <th>人員類別</th>
             <th>職稱</th>
@@ -39,6 +40,7 @@
                 <td>@Item.Duty</td>
                 <td>@Item.City</td>
                 <td>@Item.Town</td>
+                <td>@Item.UserName</td>
                 <td class="field-Name">@Item.Name</td>
                 <td>@Item.HumanType</td>
                 <td>@(positions.ContainsKey(Item.PositionId) ? positions[(int)Item.PositionId].Name : string.Empty)</td>
