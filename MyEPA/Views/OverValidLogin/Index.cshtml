@@ -1,36 +1,40 @@
-﻿@model IEnumerable<MyEPA.Models.UserOverValidLoginViewModel>
+﻿@model IEnumerable<MyEPA.Models.UserLoginViewModel>
 @using MyEPA.Models;
 
 @{
-    ViewBag.Title = "聯絡人未登入三個月";
+    ViewBag.Title = "聯絡人登入查詢";
     Layout = "~/Views/_Layout.cshtml";
 }
+
+<div class="text-center">
+    <br />
+    <h3>@ViewBag.Title</h3>
+    <br />
+</div>
 
 <div class="page-content">
     <div class="row">
         <div class="col-xs-12">
-            <h2> 聯絡人未登入三個月 </h2>
-
             <table class="table">
                 <tr>
-                    <th width="15%">帳號</th>
                     <th width="10%">機關類別(角色)</th>
                     <th width="10%">機關名稱(縣市)</th>
                     <th width="10%">單位名稱(鄉鎮市區)</th>
+                    <th width="15%">帳號</th>
                     <th width="15%">姓名</th>
-                    <th width="10%">登入時間</th>
+                    <th width="10%">最後登入時間</th>
                     <th width="10%">未登入天數</th>
                 </tr>
                 @foreach (var Item in Model)
                 {
                     <tr>
-                        <td>@Item.UserName</td>
                         <td>@Item.Duty</td>
                         <td>@Item.City</td>
                         <td>@Item.Town</td>
+                        <td>@Item.UserName</td>
                         <td>@Item.Name.Trim()</td>
-                        <td>@DateFormat.ToDate7(Item.LoginTime)</td>
-                        <td>@Item.LoginRange</td>
+                        <td>@(Item.LoginTime == null ? "無" : DateFormat.ToDate7(Item.LoginTime))</td>
+                        <td>@(Item.LoginTime == null ? "無" : Item.LoginRange.ToString())</td>
                     </tr>
                 }
             </table>

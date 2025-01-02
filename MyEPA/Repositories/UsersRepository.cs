@@ -28,19 +28,19 @@ namespace MyEPA.Repositories
         /// </summary>
         /// <param name="filter"></param>
         /// <returns></returns>
-        public List<UserOverValidLoginViewModel> GetUserOverValidLoginByFilter(UsersFilterParameter filter)
+        public List<UserLoginViewModel> GetUserLoginByFilter(UsersFilterParameter filter)
         {
             string whereSQL = GetWhereSQLByFilter(filter);
             string where2 = "";
 
             string sql = $@"
 
-Select a.Name, b.LoginTime, b.LoginRange,
-       a.UserName, Pwd, VoicePwd, Duty, City, Town, MobilePhone, HumanType, MainContacter, ReportPriority, DepartmentId, PositionId, OfficePhone, FaxNumber, Email, Remark, HomeNumber, UpdateDate, CityId, TownId, DutyId, ConfirmTime, isadmin, ContactManualDuty, ContactManualDepartmentId, ISEnvironmentalProtectionAdministration, ISEnvironmentalProtectionDepartment, ISBook
+Select a.Name, a.UserName, Pwd, VoicePwd, Duty, City, Town, MobilePhone, HumanType, MainContacter, ReportPriority, DepartmentId, PositionId, OfficePhone, FaxNumber, Email, Remark, HomeNumber, UpdateDate, CityId, TownId, DutyId, ConfirmTime, isadmin, ContactManualDuty, ContactManualDepartmentId, ISEnvironmentalProtectionAdministration, ISEnvironmentalProtectionDepartment, ISBook,
+	   b.logintime, b.loginrange
 From  [Users] a
 Left Join (
-	Select Max(logintime) AS LoginTime, 
-		   DateDiff(Day, Max(logintime), GetDate()) AS LoginRange,
+	Select Max(logintime) AS logintime, 
+		   DateDiff(Day, Max(logintime), GetDate()) AS loginrange,
 		   UserName
 	From UserLoginLog
 	--Where UserName = '顏蕉香'
@@ -53,7 +53,7 @@ Left Join (
 Order By loginrange Desc
                 ";
 
-            return GetListBySQL<UserOverValidLoginViewModel>(sql, filter);
+            return GetListBySQL<UserLoginViewModel>(sql, filter);
         }
 
         private string GetWhereSQLByFilter(UsersFilterParameter usersFilter)
@@ -100,10 +100,6 @@ Order By loginrange Desc
             if (string.IsNullOrWhiteSpace(usersFilter.MainContacter) == false)
             {
                 whereSQL += " AND MainContacter = @MainContacter";
-            }
-            if (usersFilter.LoginRange.HasValue)
-            {
-                whereSQL += " AND ISNULL(LoginRange, 0) > @LoginRange";
             }
 
             return whereSQL;

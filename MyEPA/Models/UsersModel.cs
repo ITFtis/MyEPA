@@ -69,7 +69,7 @@ namespace MyEPA.Models
         public int? DutyId { get; set; }
     }
 
-    public class UserOverValidLoginViewModel : UsersModel
+    public class UserLoginViewModel : UsersModel
     {
         [DisplayName("登入時間")]
         public DateTime? LoginTime { get; set; }

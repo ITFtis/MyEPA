@@ -86,9 +86,9 @@ namespace MyEPA.Services
         /// </summary>
         /// <param name="filter"></param>
         /// <returns></returns>
-        public List<UserOverValidLoginViewModel> GetUserOverValidLoginByFilter(UsersFilterParameter filter)
+        public List<UserLoginViewModel> GetUserLoginByFilter(UsersFilterParameter filter)
         {
-            var model = UsersRepository.GetUserOverValidLoginByFilter(filter);
+            var model = UsersRepository.GetUserLoginByFilter(filter);
 
             return model;
         }

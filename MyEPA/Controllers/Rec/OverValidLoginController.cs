@@ -18,12 +18,11 @@ namespace MyEPA.Controllers.Rec
         {
             UsersFilterParameter filter = new UsersFilterParameter()
             {
-                LoginRange = 90
             };
             
-            IEnumerable<UserOverValidLoginViewModel> iquery = UsersService.GetUserOverValidLoginByFilter(filter);
+            IEnumerable<UserLoginViewModel> iquery = UsersService.GetUserLoginByFilter(filter);
             iquery = iquery.OrderByDescending(a => a.Id);
-            List<UserOverValidLoginViewModel> result = iquery.ToList();
+            List<UserLoginViewModel> result = iquery.ToList();
 
             return View(result);
         }
