@@ -32,12 +32,12 @@ namespace MyEPA.Controllers.Rec
         }
 
         /// <summary>
-        /// 匯出Excel
+        /// 匯出Excel_聯絡人登入
         /// </summary>
-        public ActionResult ExportList()
+        public ActionResult ExportLoginList()
         {
-            string toPath = "";
-            //string toPath = EasyReport.Export1_Urgent();
+            //string toPath = "";
+            string toPath = UserReport.ExportLoginList();
 
             if (toPath != "")
             {

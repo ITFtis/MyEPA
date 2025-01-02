@@ -949,12 +949,14 @@
     <Compile Include="_core\CommonFunc.cs" />
     <Compile Include="_core\DateFormat.cs" />
     <Compile Include="_core\EmailHelper.cs" />
+    <Compile Include="_core\ExcelSpecHelper.cs" />
     <Compile Include="_core\LoginHelper.cs" />
     <Compile Include="_core\NPOIHelper.cs" />
     <Compile Include="_core\PwdHelper.cs" />
     <Compile Include="_core\StringHelper.cs" />
     <Compile Include="_core\SysFunc.cs" />
     <Compile Include="_report\EasyReport.cs" />
+    <Compile Include="_report\UserReport.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\EPA.mdf" />
