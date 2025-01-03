@@ -383,8 +383,10 @@
     <Compile Include="Models\ContactManuals\ContactManualDateModel.cs" />
     <Compile Include="Models\ContactManuals\ContactManualDepartmentModel.cs" />
     <Compile Include="Models\ContactManuals\ContactManualDownloadRecordModel.cs" />
+    <Compile Include="Models\Deds\User.cs" />
     <Compile Include="Models\DisinfectantTypeModel.cs" />
     <Compile Include="Models\DisinfectorTypeModel.cs" />
+    <Compile Include="Models\DouModelContextExt.cs" />
     <Compile Include="Models\FilterParameter\LogDisinfectantFilterParameter.cs" />
     <Compile Include="Models\FilterParameter\LogDisinfectorFilterParameter.cs" />
     <Compile Include="Models\FilterParameter\RecResourceFilterParameter.cs" />

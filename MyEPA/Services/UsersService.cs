@@ -1,4 +1,5 @@
-﻿using MyEPA.Enums;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using MyEPA.Enums;
 using MyEPA.Extensions;
 using MyEPA.Models;
 using MyEPA.Models.FilterParameter;
@@ -13,6 +14,8 @@ namespace MyEPA.Services
 {
     public class UsersService
     {
+        private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         UsersRepository UsersRepository = new UsersRepository();
         public PagingResult<UsersViewModel> GetPagingList(UsersFilterPaginationParameter usersFilter)
         {
@@ -129,6 +132,9 @@ namespace MyEPA.Services
             //更新密碼資料
             HttpContext.Current.Session["PwdUpdateDate"] = users.PwdUpdateDate;
 
+            //DEDS 同步修改密碼
+            DedsUpdarePwd(users.UserName, users.Pwd);
+
             return new AdminResultModel
             {
                 IsSuccess = true                
@@ -144,6 +150,41 @@ namespace MyEPA.Services
         public void Delete(int id)
         {
             UsersRepository.Delete(id);
+        }
+
+        /// <summary>
+        /// DEDS 同步修改密碼
+        /// </summary>
+        /// <param name="id">帳號</param>
+        /// <param name="password">密碼</param>
+        public bool DedsUpdarePwd(string id, string password)
+        {
+            bool result = false;
+
+            try
+            {
+                using (var dbDEDS = new DedsModelContext())
+                {
+                    var vs = dbDEDS.User.Where(a => a.Id == id);
+                    if (vs.Count() == 1)
+                    {
+                        var v = vs.First();
+                        v.Password = password;
+
+                        dbDEDS.SaveChanges();
+                    }
+                }
+
+                result = true;
+            }
+            catch (Exception ex)
+            {
+                logger.Error("DEDS 同步修改密碼");
+                logger.Error(ex.Message);
+                logger.Error(ex.StackTrace);
+            }
+
+            return result;
         }
 
         public List<UsersInfoModel> GetUsersInfoByFilter(UsersInfoFilterParameter filter)
