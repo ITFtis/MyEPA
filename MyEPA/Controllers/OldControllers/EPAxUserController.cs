@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using DocumentFormat.OpenXml.Spreadsheet;
 using MyEPA.Enums;
 using MyEPA.Extensions;
 using MyEPA.Helper;
@@ -516,6 +517,9 @@ namespace MyEPA.Controllers
             }
 
             UsersRepository.Update(user);
+
+            //DEDS 同步修改密碼
+            new UsersService().DedsUpdarePwd(user.UserName, user.Pwd);
 
             //如果有權限先刪除
             if (UserAreaRepository.IsExistsByUserId(user.Id))
