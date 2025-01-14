@@ -28,7 +28,7 @@ namespace MyEPA
 
             try
             {
-                string fileTitle = "聯絡人登入清單" + DateTime.Now.ToString("yyyy-MM-dd") + ".xlsx";
+                string fileTitle = "聯絡人登入清單";
                 string folder = HttpContext.Current.Server.MapPath("~/FileDatas/Temp/");               
 
                 //產出Dynamic資料 (給Excel)
@@ -44,7 +44,8 @@ namespace MyEPA
                     f.機關名稱_縣市 = data.City;
                     f.單位名稱_鄉鎮 = data.Town;
                     f.帳號 = data.UserName;   //ooooooooooo
-                    f.姓名 = data.Name;   //ooooooooooo
+                    f.姓名 = data.Name == null ? "" : data.Name;   //ooooooooooo
+                    f.Email = data.Email == null ? "": data.Email;
                     f.最後登入時間 = data.LoginTime == null ? "無" : DateFormat.ToDate7(data.LoginTime);
                     f.未登入天數 = data.LoginTime == null ? "無" : data.LoginRange.ToString();
 
