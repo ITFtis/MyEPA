@@ -21,8 +21,8 @@ namespace MyEPA
         private static bool _enableSSL;
         private static bool _sendEmail;
         private static string _testEmailAddress;
-        private static string _EmailAddressCC;
-
+        private static string _EmailAddressCC;        
+        private static string _emailAddressResp;
 
         #endregion
 
@@ -42,6 +42,8 @@ namespace MyEPA
             _sendEmail = ConfigurationManager.AppSettings["SendEmail"].ToString() == "Y" ? true : false;
             _testEmailAddress = ConfigurationManager.AppSettings["TestEmailAddress"].ToString();
             _EmailAddressCC = ConfigurationManager.AppSettings["EmailAddressCC"].ToString();
+            _emailAddressResp = ConfigurationManager.AppSettings["EmailAddressResp"].ToString();
+
             _enableSSL = ConfigurationManager.AppSettings["EnableSSL"].ToString() == "Y" ? true : false;
             
         }
@@ -145,6 +147,14 @@ namespace MyEPA
         public static string EmailAddressCC
         {
             get { return _EmailAddressCC; }
+        }
+
+        /// <summary>
+        /// Email負責人 
+        /// </summary>
+        public static string EmailAddressResp
+        {
+            get { return _emailAddressResp; }
         }
 
         #endregion
