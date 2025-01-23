@@ -46,5 +46,8 @@ namespace MyEPA.Models
         public string OfficePhone { get; set; }
         [DisplayName("電子郵件信箱")]
         public string Email { get; set; }
+
+        [DisplayName("來源IP")]
+        public string SourceIP { get; set; }
     }
 }

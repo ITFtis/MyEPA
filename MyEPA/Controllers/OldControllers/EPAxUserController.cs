@@ -547,6 +547,8 @@ namespace MyEPA.Controllers
                 TempData["Msg"] = PwdHelper.ErrorMessage;
                 return RedirectToAction("Register", "EPAxUser", new { });
             }
+
+            model.SourceIP = LoginHelper.GetClientIP(Request);
             AdminResultModel result = new RegisterService().Register(model, humanType);
 
             TempData["Msg"] = result.ErrorMessage;

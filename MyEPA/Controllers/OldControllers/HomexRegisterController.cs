@@ -22,6 +22,7 @@ namespace MyEPA.Controllers
                 return RedirectToAction("Register");
             }
 
+            model.SourceIP = LoginHelper.GetClientIP(Request);
             AdminResultModel result = RegisterService.Register(model, humanType);
 
             ViewBag.Msg = result.ErrorMessage;
