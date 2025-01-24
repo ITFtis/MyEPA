@@ -132,11 +132,12 @@ namespace MyEPA.Controllers
                     return RedirectToAction("A9x12ApproveRegister", "EPAxUser", new { });
                 }
                 var user = GetUserBrief();
-                int userId = UsersRepository.CreateAndResultIdentity<int>(new UsersModel 
+
+                var uModel = new UsersModel
                 {
                     City = register.City,
                     IsAdmin = false,
-                    CityId = register.CityId,                    
+                    CityId = register.CityId,
                     DepartmentId = departmentId,
                     Duty = duty.GetDescription(),
                     DutyId = duty.ToInteger(),
@@ -156,12 +157,14 @@ namespace MyEPA.Controllers
                     OfficePhone = register.OfficePhone,
                     PositionId = register.PositionId,
                     Remark = string.Empty,
-                    ContactManualDuty= ContactManualDutyEnum.User,
+                    ContactManualDuty = ContactManualDutyEnum.User,
                     ReportPriority = register.ReportPriority,
                     UpdateDate = DateTimeHelper.GetCurrentTime(),
                     UpdateUser = user.UserName,
                     ConfirmTime = DateTimeHelper.GetCurrentTime(),
-                });
+                };
+
+                int userId = UsersRepository.CreateAndResultIdentity<int>(uModel);
                 if (areaEnum.HasValue)
                 {
                     UserAreaRepository.Create(new UserAreaModel
@@ -170,6 +173,10 @@ namespace MyEPA.Controllers
                         UserId = userId
                     });
                 }
+
+                uModel.Id = userId;
+                UsersRepository.AddUserLoginLog(uModel);
+
                 msg = new Registers().Remove(RegisterId);
                 msg += "\r\n審核成功";
             }
