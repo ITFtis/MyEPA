@@ -174,8 +174,21 @@ namespace MyEPA.Controllers
                     });
                 }
 
-                uModel.Id = userId;
-                UsersRepository.AddUserLoginLog(uModel);
+                //新增log
+                UserLoginLogModel logModel = new UserLoginLogModel()
+                {
+                    UserName = uModel.UserName,
+                    logintime = DateTime.Now,
+                    SourceIP = LoginHelper.GetClientIP(Request),
+                    PwdKeyIn = uModel.Pwd,
+                    Type = 1,
+                    IsOver = false,
+                    Id = userId,
+                };
+
+                //寫登入log
+                UserLoginLogService UserLoginLogService = new UserLoginLogService();
+                UserLoginLogService.Create(logModel);
 
                 msg = new Registers().Remove(RegisterId);
                 msg += "\r\n審核成功";
