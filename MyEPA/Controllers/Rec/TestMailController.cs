@@ -97,19 +97,25 @@ namespace MyEPA.Controllers.Rec
             email.Subject = subject;
             email.Body = body;
 
-            foreach (string addr in email.ToMails.Split(','))
+            if (!string.IsNullOrEmpty(email.ToMails))
             {
-                if (addr != "")
+                foreach (string addr in email.ToMails.Split(','))
                 {
-                    email.AddTo(addr, "");
+                    if (addr != "")
+                    {
+                        email.AddTo(addr, "");
+                    }
                 }
             }
 
-            foreach (string addr in email.BCCMails.Split(','))
+            if (!string.IsNullOrEmpty(email.BCCMails))
             {
-                if (addr != "")
+                foreach (string addr in email.BCCMails.Split(','))
                 {
-                    email.AddBCC(addr, "");
+                    if (addr != "")
+                    {
+                        email.AddBCC(addr, "");
+                    }
                 }
             }
 
