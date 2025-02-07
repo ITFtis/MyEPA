@@ -135,6 +135,9 @@ namespace MyEPA.Models
         public string ISEnvironmentalProtectionAdministration { get; set; }
         public string ISEnvironmentalProtectionDepartment { get; set; }
         public string ISBook { get; set; }
+        
+        [DisplayName("註冊來源IP")]
+        public string RegSourceIP { get; set; }
     }
 
     public class UsersInfoModel : UsersModel

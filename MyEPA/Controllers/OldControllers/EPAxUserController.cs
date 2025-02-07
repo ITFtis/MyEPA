@@ -159,6 +159,7 @@ namespace MyEPA.Controllers
                     Remark = string.Empty,
                     ContactManualDuty = ContactManualDutyEnum.User,
                     ReportPriority = register.ReportPriority,
+                    RegSourceIP = register.SourceIP,
                     UpdateDate = DateTimeHelper.GetCurrentTime(),
                     UpdateUser = user.UserName,
                     ConfirmTime = DateTimeHelper.GetCurrentTime(),

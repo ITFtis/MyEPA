@@ -28,6 +28,7 @@
             <th>人員類別</th>
             <th>職稱</th>
             <th>更新時間</th>
+            <th>註冊來源IP</th>
         </tr>
         @foreach (UsersModel Item in ViewBag.Data)
         {
@@ -45,6 +46,7 @@
                 <td>@Item.HumanType</td>
                 <td>@(positions.ContainsKey(Item.PositionId) ? positions[(int)Item.PositionId].Name : string.Empty)</td>
                 <td>@(Item.UpdateDate.HasValue ? Item.UpdateDate.Value.ToString("yyyy/MM/dd HH:mm:ss") : string.Empty)</td>
+                <td>@Item.RegSourceIP</td>
             </tr>
         }
     </table>
