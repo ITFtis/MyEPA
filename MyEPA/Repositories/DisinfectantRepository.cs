@@ -187,7 +187,7 @@ FROM
 	GROUP BY Town,City,DrugState,DrugName,UseType,DrugType,ActiveIngredients1,ActiveIngredients2
 ) AS D
 JOIN City c ON D.City = c.City
-JOIN Town t ON D.Town = T.Name AND C.Id = T.CityId
+Left JOIN Town t ON D.Town = T.Name AND C.Id = T.CityId
 ";
             return GetListBySQL<DisinfectantCityReportModel>(sql, filter);
         }
