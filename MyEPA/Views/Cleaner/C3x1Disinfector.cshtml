@@ -38,8 +38,8 @@
                         <td>@Html.TextBox("EditId", "", new { @readonly = "readonly" })</td>
                     </tr>
                     <tr>
-                        <td>聯繫單位名稱：</td>
-                        <td>@Html.TextBox("EditContactUnit")</td>
+                        <td><span class="text-danger">*</span>聯繫單位名稱：</td>
+                        <td>@Html.TextBox("EditContactUnit", "", new { required = "required" })</td>
                     </tr>
                     <tr>
                         <td>用途：</td>
@@ -70,11 +70,11 @@
                     </tr>
 
                     <tr>
-                        <td>數量：</td>
+                        <td><span class="text-danger">*</span>數量：</td>
                         <td>@Html.TextBox("EditAmount", "", new { required = "required" })台</td>
                     </tr>
                     <tr>
-                        <td>購買年份(民國)：</td>
+                        <td><span class="text-danger">*</span>購買年份(民國)：</td>
                         <td>民國 @Html.TextBox("EditROCyear", "", new { @maxlength = "3", required = "required" })年</td>
                     </tr>
                     <tr>
@@ -116,8 +116,8 @@
                         <td>@ViewBag.Town</td>
                     </tr>
                     <tr>
-                        <td>聯繫單位名稱：</td>
-                        <td>@Html.TextBox("ContactUnit", "")</td>
+                        <td><span class="text-danger">*</span>聯繫單位名稱：</td>
+                        <td>@Html.TextBox("ContactUnit", "", new { @required = "required" })</td>
                     </tr>
                     <tr>
                         <td>用途：</td>
@@ -147,13 +147,13 @@
                         <td>@Html.TextBox("Standard", "")</td>
                     </tr>
                     <tr>
-                        <td>數量：</td>
+                        <td><span class="text-danger">*</span>數量：</td>
                         <td>
                             @Html.TextBox("Amount", "", new { required = "required" })台
                         </td>
                     </tr>
                     <tr>
-                        <td>購買年份(民國)：</td>
+                        <td><span class="text-danger">*</span>購買年份(民國)：</td>
                         <td>
                             民國&nbsp;
                             @Html.TextBox("ROCyear", "", new { @maxlength = "3", required = "required" })年
