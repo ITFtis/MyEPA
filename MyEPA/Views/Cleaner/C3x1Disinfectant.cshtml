@@ -35,8 +35,8 @@
                         <td>@Html.TextBox("EditId", (string)ViewBag.EditId, new { @readonly = "readonly", @class = "form-control rounded-0" })</td>
                     </tr>
                     <tr>
-                        <td>聯繫單位名稱：</td>
-                        <td>@Html.TextBox("EditContactUnit", (string)ViewBag.EditContactUnit, new { @class = "form-control rounded-0" })</td>
+                        <td><span class="text-danger">*</span>聯繫單位名稱：</td>
+                        <td>@Html.TextBox("EditContactUnit", (string)ViewBag.EditContactUnit, new { @class = "form-control rounded-0", @required = "required" })</td>
                     </tr>
                     <tr>
                         <td>用途：</td>
@@ -147,7 +147,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>數量：</td>
+                        <td><span class="text-danger">*</span>數量：</td>
                         <td>@Html.TextBox("EditAmount", (string)ViewBag.EditAmount, new { style = "width:50%;align:left", required = "required" }) (公升、公斤)</td>
                     </tr>
                     <tr>
@@ -159,7 +159,7 @@
                         <td>@Html.TextBox("EditArea", (decimal?)ViewBag.EditArea, new { style = "width:50%;align:left" })公頃</td>
                     </tr>
                     <tr>
-                        <td>使用年限：</td>
+                        <td><span class="text-danger">*</span>使用年限：</td>
                         <td>
                             @if (ViewBag.EditServiceLife != null)
                             {
@@ -211,8 +211,8 @@
                         <td>@ViewBag.Town</td>
                     </tr>
                     <tr>
-                        <td>聯繫單位名稱</td>
-                        <td>@Html.TextBox("ContactUnit", "", new { style = "width:100%" })</td>
+                        <td><span class="text-danger">*</span>聯繫單位名稱</td>
+                        <td>@Html.TextBox("ContactUnit", "", new { style = "width:100%", @required = "required" })</td>
                     </tr>
                     <tr>
                         <td>用途：</td>
@@ -326,7 +326,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>數量</td>
+                        <td><span class="text-danger">*</span>數量</td>
                         <td> @Html.TextBox("Amount", "", new { style = "width:50%;align:left", required = "required" }) (公升、公斤)</td>
                     </tr>
                     <tr>
@@ -338,7 +338,7 @@
                         <td> @Html.TextBox("Area", "", new { style = "width:50%;align:left" }) 公頃</td>
                     </tr>
                     <tr>
-                        <td>使用年限</td>
+                        <td><span class="text-danger">*</span>使用年限</td>
                         <td>
                             <input id="ServiceLife" name="ServiceLife" required style="width:50%;align:left" type="date" value="">
                         </td>
