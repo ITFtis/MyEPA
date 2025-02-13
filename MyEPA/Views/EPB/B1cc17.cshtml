@@ -22,7 +22,7 @@
             <label>災害主題：@(diaster.DiasterName)</label>
             <span id="iptNote">
                 <br />
-                <label class="mt-30" style="font-size: 30px; background-color: #77FFCC">資料填寫數量，不含清潔隊</label>
+                <label class="mt-30" style="font-size: 30px; background-color: #FFFF33">資料填寫數量，不含清潔隊</label>
             </span>
         </div>
     </div>
@@ -158,7 +158,7 @@
 
         //清潔隊不提示
         if (!isCleaning) {
-            if (!confirm('請確認資料填寫數量，不含清潔隊？')) {
+            if (!confirm('請確認資料填寫數量，不含清潔隊')) {
                 return false;
             }
         }
