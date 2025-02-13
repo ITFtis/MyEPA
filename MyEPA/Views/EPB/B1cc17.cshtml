@@ -20,8 +20,10 @@
             <label>通報日期：@(ViewBag.CleanDay.ToString("yyyy/MM/dd"))</label>
             <br />
             <label>災害主題：@(diaster.DiasterName)</label>
-            <br />
-            <label class="mt-30" style="font-size: 30px; background-color: #77FFCC">資料填寫數量，不含清潔隊</label>
+            <span id="iptNote">
+                <br />
+                <label class="mt-30" style="font-size: 30px; background-color: #77FFCC">資料填寫數量，不含清潔隊</label>
+            </span>
         </div>
     </div>
 </div>
@@ -154,8 +156,11 @@
 <script>
     function ValidateInput(form) {
 
-        if (!confirm('請確認資料填寫數量，不含清潔隊？')) {
-            return false;
+        //清潔隊不提示
+        if (!isCleaning) {
+            if (!confirm('請確認資料填寫數量，不含清潔隊？')) {
+                return false;
+            }
         }
 
         if ($('#CLE_EquipmentNum').val() != '') {
@@ -197,6 +202,17 @@
 
     @section scripts{
         <script>
+
+            //是否為清潔隊
+            var isCleaning = '@(user.Duty == MyEPA.Enums.DutyEnum.Cleaning)'.toLowerCase() == 'true';
+
+            $(document).ready(function () {
+                //清潔隊不提示
+                if (isCleaning) {
+                    $('#iptNote').hide();
+                }
+            });
+
             function add() {
                 $('.files:last').clone().insertAfter('.files:last')
                 $('.files:last').val('');

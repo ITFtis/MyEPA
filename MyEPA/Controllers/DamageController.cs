@@ -155,6 +155,8 @@ namespace MyEPA.Controllers
             var user = GetUserBrief();
             var result = DamageService.Get(id);
 
+            ViewBag.User = user;
+
             //環境清理
             ViewBag.CCFiles = FileDataService.GetBySource(SourceTypeEnum.DamageCCFile, id);
             ViewBag.CCImages = FileDataService.GetBySource(SourceTypeEnum.DamageCCImage, id);
