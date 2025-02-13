@@ -129,6 +129,7 @@ namespace MyEPA.Controllers
                 City = user.City
             }).Select(e => new SelectListItem { Text = e.ContactUnit, Value = e.Id.ToString() }).ToList();
 
+            ViewBag.User = user;
             ViewBag.Incinerators = new IncineratorService().GetByFilter(new IncineratorFilterParameter
             {
                 City = user.City

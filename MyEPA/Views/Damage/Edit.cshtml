@@ -4,6 +4,7 @@
 @{
     ViewBag.Title = "災情通報 - 修改";
     Layout = "~/Views/_Layout.cshtml";
+    UserBriefModel user = ViewBag.User;
     //垃圾場
     List<SelectListItem> landfills = ViewBag.Landfills;
     //焚化廠
@@ -47,8 +48,10 @@
                 <br />
                 <label>鄉鎮：@Model.TownName</label>
             }
-            <br />
-            <label class="mt-30" style="font-size: 30px; background-color: #77FFCC">請勿重複填寫清潔隊災情通報內容</label>
+            <span id="iptNote">
+                <br />
+                <label class="mt-30" style="font-size: 30px; background-color: #77FFCC">請勿重複填寫清潔隊災情通報內容</label>
+            </span>
         </div>
     </div>
 </div>
@@ -224,14 +227,28 @@
 <script>
     function ValidateInput(form) {
 
-        if (!confirm('請勿重複填寫清潔隊災情通報內容？')) {
-            return false;
+        //清潔隊不提示
+        if (!isCleaning) {
+            if (!confirm('請勿重複填寫清潔隊災情通報內容？')) {
+                return false;
+            }
         }
     }
 </script>
 
 @section scripts{
     <script>
+
+        //是否為清潔隊
+        var isCleaning = '@(user.Duty == MyEPA.Enums.DutyEnum.Cleaning)'.toLowerCase() == 'true';
+
+        $(document).ready(function () {
+            //清潔隊不提示
+            if (isCleaning) {
+                $('#iptNote').hide();
+            }
+        });
+
         function del(item,id) {
 
             var url = '@Url.Action("Delete","FileData",new {sourceType=SourceTypeEnum.DamageFile})' + '&id=' + id;
