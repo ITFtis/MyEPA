@@ -47,11 +47,13 @@
                 <br />
                 <label>鄉鎮：@Model.TownName</label>
             }
+            <br />
+            <label class="mt-30" style="font-size: 30px; background-color: #77FFCC">請勿重複填寫清潔隊災情通報內容</label>
         </div>
     </div>
 </div>
 
-@using (Html.BeginForm("Edit", "Damage", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Edit", "Damage", FormMethod.Post, new { @enctype = "multipart/form-data", onsubmit = "return ValidateInput(this);" }))
 {
     @Html.AntiForgeryToken()
 
@@ -218,6 +220,16 @@
         </div>
     </div>
 }
+
+<script>
+    function ValidateInput(form) {
+
+        if (!confirm('請勿重複填寫清潔隊災情通報內容？')) {
+            return false;
+        }
+    }
+</script>
+
 @section scripts{
     <script>
         function del(item,id) {

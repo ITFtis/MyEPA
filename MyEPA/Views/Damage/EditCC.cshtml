@@ -42,6 +42,8 @@
                 <br />
                 <label>鄉鎮：@Model.TownName</label>
             }
+            <br />
+            <label class="mt-30" style="font-size: 30px; background-color: #77FFCC">資料填寫數量，不含清潔隊</label>
         </div>
     </div>
 </div>
@@ -233,6 +235,10 @@
 
 <script>
     function ValidateInput(form) {
+
+        if (!confirm('請確認資料填寫數量，不含清潔隊？')) {
+            return false;
+        }
 
         if ($('#CLE_EquipmentNum').val() != '') {
             //大於0判斷
