@@ -56,12 +56,18 @@ namespace MyEPA.Controllers
             }
 
             //細目
-            OpenContractDetailService OpenContractDetailService = new OpenContractDetailService();
-            var details = OpenContractDetailService.GetList2(id.Value);
+            int detailCount = 0;
+
+            if (id != null)
+            {
+                OpenContractDetailService OpenContractDetailService = new OpenContractDetailService();
+                var details = OpenContractDetailService.GetList2(id.Value);
+                detailCount = details.Count;
+            }
 
             ViewBag.Type = type;
             ViewBag.Id = id;
-            ViewBag.DetailCount = details.Count;
+            ViewBag.DetailCount = detailCount;
             ViewBag.Types = types;
             return View(result);
         }
