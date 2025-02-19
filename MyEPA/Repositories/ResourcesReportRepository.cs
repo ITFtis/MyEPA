@@ -76,7 +76,7 @@ SELECT
 	,C.City
 	,C.Sort
     ,Town.Id TownId
-	,Town.Name Town
+	,TownDesc + Town.Name  AS Town
 	,ISNULL(U.Count,0) UserCount							    --人員組織
 	,ISNULL(V.Count,0) VehicleCount							    --車輛設備
 	,ISNULL(Dfector.Count,0) DisinfectorCount				    --消毒設備
@@ -104,7 +104,14 @@ SELECT
 	,T.UpdateTime ToiletUpdateTime
 	,Vlt.ConfirmTime VolunteerConfirmTime
 	,Vlt.UpdateTime VolunteerUpdateTime
-FROM Town
+FROM 
+(
+	Select CityId, Id, Name, '' AS TownDesc
+	From Town
+	Union
+	Select CityId, TownId, Town, TownDesc
+	From vw_OutTown
+)Town
 JOIN City C ON Town.CityId = C.Id AND IsCounty = 1
 LEFT JOIN 
 	(

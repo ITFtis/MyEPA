@@ -46,6 +46,11 @@ namespace MyEPA.Services
                     result = result.OrderBy(orderBy).ToList();
                 }
             }
+            else
+            {
+                result = result.OrderBy(a => a.TownId).ToList();
+            }
+
             return result;
         }
     }
