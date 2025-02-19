@@ -38,7 +38,7 @@ namespace MyEPA.Models
         public decimal DisinfectantSolidAmount { get; set; }
         [DataTableSum]
         [DisplayName("消毒藥品(液體含乳劑與油劑)(公升")]
-        public int DisinfectantLiquidAmount { get; set; }
+        public decimal DisinfectantLiquidAmount { get; set; }
         [DataTableSum]
         [DisplayName("病媒防治業(家)")]
         public int PestCount { get; set; }

@@ -24,7 +24,7 @@ namespace MyEPA.Models.JsnoModel
         public string INFO_TIME { get; set; }
         public string site_id { get; set; }
         public decimal DisinfectorCount { get; set; }
-        public int DisinfectantLiquidAmount { get; set; }
+        public decimal DisinfectantLiquidAmount { get; set; }
         public int DisinfectantSolidAmount { get; set; }
         public int UserCount { get; set; }
         public int VehicleCount { get; set; }
