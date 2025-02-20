@@ -7,14 +7,12 @@
 
 <table class="table">
     <tr>
-        <th width="20%">合約名稱</th>
+        <th width="9%">合約種類</th>
+        <th width="19%">合約名稱</th>
         <th width="7%">簽約日期</th>
         <th width="7%">合約起始</th>
         <th width="7%">合約截止</th>
         <th width="8%">合約廠商</th>
-        <th width="8%">負責人</th>
-        <th width="11%">聯絡電話</th>
-        <th width="8%">行動電話</th>
         <th width="6%">跨縣市支援</th>
         <th width="8%"></th>
     </tr>
@@ -22,6 +20,9 @@
     @foreach (var item in Model)
     {
         <tr>
+            <td>
+                @item.ResourceTypeName
+            </td>
             <td>
                 @item.Name
             </td>
@@ -38,15 +39,6 @@
                 @Html.DisplayFor(modelItem => item.Fac)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Owner)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TEL)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MobileTEL)
-            </td>
-            <td>
                 @if (item.IsSupportCity != null)
                 {
                     @(item.IsSupportCity == true ? "是" : "否")
@@ -61,14 +53,14 @@
                 }
                 @Html.ActionLink("合約細目" + strDetailCount, "Index", "OpenContractNew", new { id = item.Id }, new { })
                 @*@if (item.Id == ViewBag.Id)
-        {
-            string strDetailCount = item.Id == ViewBag.Id ? "(" + ViewBag.DetailCount + ")" : "";
-            @Html.ActionLink("合約細目" + strDetailCount, "Index", "OpenContractNew", new { id = item.Id }, new { style = "color:blue;font-weight:bold" })
-        }
-        else
-        {
-            @Html.ActionLink("合約細目", "Index", "OpenContractNew", new { id = item.Id }, new { });
-        }*@
+            {
+                string strDetailCount = item.Id == ViewBag.Id ? "(" + ViewBag.DetailCount + ")" : "";
+                @Html.ActionLink("合約細目" + strDetailCount, "Index", "OpenContractNew", new { id = item.Id }, new { style = "color:blue;font-weight:bold" })
+            }
+            else
+            {
+                @Html.ActionLink("合約細目", "Index", "OpenContractNew", new { id = item.Id }, new { });
+            }*@
 
 
             </td>

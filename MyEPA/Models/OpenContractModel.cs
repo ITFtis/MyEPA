@@ -61,6 +61,14 @@ namespace MyEPA.Models
 
     public class OpenContractCountModel : OpenContractModel
     {
+        /// <summary>
+        /// 細目數量
+        /// </summary>
         public int? DetailCount { get; set; }
+
+        /// <summary>
+        /// 合約種類
+        /// </summary>
+        public string ResourceTypeName { get; set; }
     }
 }

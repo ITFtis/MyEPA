@@ -42,7 +42,8 @@ namespace MyEPA.Controllers.Rec
             var result = OpenContractService.GetCountListByFilter(filter);
 
             //排序
-            result = result.OrderByDescending(a => a.CreateDate).ToList();
+            result = result.OrderByDescending(a => a.CreateDate)                        
+                        .ToList();
 
             ViewBag.Types = ResourceTypeService.GetList();
 
