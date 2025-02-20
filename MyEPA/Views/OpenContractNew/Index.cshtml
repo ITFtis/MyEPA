@@ -1,72 +1,195 @@
 ﻿@model IEnumerable<MyEPA.Models.OpenContractCountModel>
 @using MyEPA.Models;
 @{
-    ViewBag.Title = "開口合約-查詢";
+    ViewBag.Title = "開口合約";
     Layout = "~/Views/_Layout.cshtml";
+
+    List<ResourceTypeModel> types = ViewBag.Types;
+    var citys = (List<CityModel>)ViewBag.Citys;
+    var towns = (List<TownModel>)ViewBag.Towns;
 }
 
-<table class="table">
-    <tr>
-        <th width="9%">合約種類</th>
-        <th width="19%">合約名稱</th>
-        <th width="7%">簽約日期</th>
-        <th width="7%">合約起始</th>
-        <th width="7%">合約截止</th>
-        <th width="8%">合約廠商</th>
-        <th width="6%">跨縣市支援</th>
-        <th width="8%"></th>
-    </tr>
+<div class="page-content">
+    <div class="row">
+        <div class="col-xs-12">
+            <h2> 開口合約 </h2>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @item.ResourceTypeName
-            </td>
-            <td>
-                @item.Name
-            </td>
-            <td>
-                @DateFormat.ToDate4(item.KeyInDate)
-            </td>
-            <td>
-                @DateFormat.ToDate4(item.OContractDateBegin)
-            </td>
-            <td>
-                @DateFormat.ToDate4(item.OContractDateEnd)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fac)
-            </td>
-            <td>
-                @if (item.IsSupportCity != null)
+            <div>
+                @using (Html.BeginForm("Index", "OpenContractNew", new { }, FormMethod.Get))
                 {
-                    @(item.IsSupportCity == true ? "是" : "否")
+                    <table border="0">
+                        <tbody>
+                            <tr>
+                                <td><h5>合約種類：</h5></td>
+                                <td>
+                                    <select id="diasterId" name="diasterId">
+                                        <option value="">請選擇種類</option>
+                                        @foreach (var item in types)
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><h5>簽約年度：</h5></td>
+                                <td>
+                                    <select id="selectDDLYear" name="selectDDLYear">
+                                        <option value="">請選擇年度</option>
+                                        @for (int i = DateTime.Now.Year; i > DateTime.Now.Year - 5; i--)
+                                        {
+                                            {
+                                                string selected = @i == DateTime.Now.Year ? "selected" : "";
+                                                <option value="@i" @selected>@i</option>
+                                            }
+                                        }
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><h5>縣市：</h5></td>
+                                <td>
+                                    <select id="City" Name="CityId">
+                                        <option value="">請選擇縣市</option>
+                                        @foreach (var city in citys)
+                                        {
+                                            string selected = city.Id == ViewBag.CityId ? "selected" : "";
+                                            <option value="@city.Id" @selected>@city.City</option>
+                                        }
+                                    </select>
+                                    <select id="Town" name="TownId">
+                                        <option value="">請選擇鄉鎮</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><h5>合約中：</h5></td>
+                                <td>
+                                    <input type="checkbox" name="IsEffective" id="IsEffective">
+                                </td>
+                            </tr>
+                            <tr><td>&nbsp;</td></tr>
+                            <tr>
+                                <td colspan="2">
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查詢</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 }
-            </td>
-            <td>
-                @Html.ActionLink("修改", "Edit", new { id = item.Id }) |
-                <a id="DeleteBtn" href="#" onclick="DeleteMain(@item.Id)">删除</a>
                 <br />
-                @{
-                    string strDetailCount = "(" + (item.DetailCount ?? 0).ToString() + ")";
+            </div>
+
+            <table class="table">
+                <tr>
+                    <th width="9%">合約種類</th>
+                    <th width="19%">合約名稱</th>
+                    <th width="7%">簽約日期</th>
+                    <th width="7%">合約起始</th>
+                    <th width="7%">合約截止</th>
+                    <th width="8%">合約廠商</th>
+                    <th width="6%">跨縣市支援</th>
+                    <th width="8%"></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.ResourceTypeName
+                        </td>
+                        <td>
+                            @item.Name
+                        </td>
+                        <td>
+                            @DateFormat.ToDate4(item.KeyInDate)
+                        </td>
+                        <td>
+                            @DateFormat.ToDate4(item.OContractDateBegin)
+                        </td>
+                        <td>
+                            @DateFormat.ToDate4(item.OContractDateEnd)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Fac)
+                        </td>
+                        <td>
+                            @if (item.IsSupportCity != null)
+                            {
+                                @(item.IsSupportCity == true ? "是" : "否")
+                            }
+                        </td>
+                        <td>
+                            @Html.ActionLink("修改", "Edit", new { id = item.Id }) |
+                            <a id="DeleteBtn" href="#" onclick="DeleteMain(@item.Id)">删除</a>
+                            <br />
+                            @{
+                                string strDetailCount = "(" + (item.DetailCount ?? 0).ToString() + ")";
+                            }
+                            @Html.ActionLink("合約細目" + strDetailCount, "Index", "OpenContractNew", new { id = item.Id }, new { })
+                            @*@if (item.Id == ViewBag.Id)
+                        {
+                            string strDetailCount = item.Id == ViewBag.Id ? "(" + ViewBag.DetailCount + ")" : "";
+                            @Html.ActionLink("合約細目" + strDetailCount, "Index", "OpenContractNew", new { id = item.Id }, new { style = "color:blue;font-weight:bold" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("合約細目", "Index", "OpenContractNew", new { id = item.Id }, new { });
+                        }*@
+
+
+                        </td>
+                    </tr>
+
+
                 }
-                @Html.ActionLink("合約細目" + strDetailCount, "Index", "OpenContractNew", new { id = item.Id }, new { })
-                @*@if (item.Id == ViewBag.Id)
-            {
-                string strDetailCount = item.Id == ViewBag.Id ? "(" + ViewBag.DetailCount + ")" : "";
-                @Html.ActionLink("合約細目" + strDetailCount, "Index", "OpenContractNew", new { id = item.Id }, new { style = "color:blue;font-weight:bold" })
-            }
-            else
-            {
-                @Html.ActionLink("合約細目", "Index", "OpenContractNew", new { id = item.Id }, new { });
-            }*@
+            </table>
+        </div>
+    </div>
+</div>
 
-
-            </td>
-        </tr>
-
-
+<script src="~/Scripts/assets/jquery-2.1.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var cityId = '@ViewBag.CityId';
+        if ($.trim(cityId).length > 0) {
+            GetTowns(cityId);
+        }
+        $('#City').change(function () { ChangeCity(); });
+    });
+    function ChangeCity() {
+        var selectedValue = $('#City option:selected').val();
+        if ($.trim(selectedValue).length > 0) {
+            GetTowns(selectedValue);
+        }
     }
-</table>
+    function GetTowns(cityId) {
+        $.ajax({
+            url: '@Url.Action("Towns", "Geolocation")'+'?cityId='+cityId,
+            type: 'get',
+            cache: false,
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                $('#Town').empty();
+                $('#Town').append($('<option></option>').val('').text('請選擇鄉鎮'));
+                if (data.length > 0) {
 
+                    $.each(data, function (i, item) {
+                        var townId = String(item.Id);
+                        if (townId === '@ViewBag.TownId') {
+                            $('#Town').append($('<option selected="selected"></option>').val(item.Id).text(item.Name));
+                        }
+                        else {
+                            $('#Town').append($('<option ></option>').val(item.Id).text(item.Name));
+                        }
+                    });
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(textStatus);
+            }
+
+        });
+    }
+</script>

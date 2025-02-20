@@ -42,10 +42,12 @@ namespace MyEPA.Controllers.Rec
             var result = OpenContractService.GetCountListByFilter(filter);
 
             //排序
-            result = result.OrderByDescending(a => a.CreateDate)                        
+            result = result.OrderByDescending(a => a.KeyInDate)                        
                         .ToList();
 
             ViewBag.Types = ResourceTypeService.GetList();
+            ViewBag.Citys = CityService.GetAll();
+            ViewBag.Towns = TownService.GetAll();
 
             return View(result);
         }
