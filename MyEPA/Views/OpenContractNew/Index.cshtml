@@ -73,10 +73,7 @@
                             <tr>
                                 <td><h5>狀態：</h5></td>
                                 <td>
-                                    @{ 
-                                        string strChecked = isEffective ? "checked" : "";
-                                    }
-                                    <input type="checkbox" name="IsEffective" id="IsEffective" value="true" @strChecked>
+                                    <input type="checkbox" name="IsEffective" id="IsEffective" value="true" @(isEffective ? "checked" : "")>
                                     <label for="IsEffective">合約中</label>
                                 </td>
                             </tr>
@@ -88,7 +85,7 @@
                             </tr>
                         </tbody>
                     </table>
-                                        }
+                }
                 <br />
             </div>
 
