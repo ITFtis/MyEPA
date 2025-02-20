@@ -59,4 +59,8 @@ namespace MyEPA.Models
         public int TownId { get; set; }
     }
 
+    public class OpenContractCountModel : OpenContractModel
+    {
+        public int? DetailCount { get; set; }
+    }
 }

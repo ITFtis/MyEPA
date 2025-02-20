@@ -55,6 +55,16 @@ namespace MyEPA.Services
             };
         }
 
+        /// <summary>
+        /// 有細目數量
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public List<OpenContractCountModel> GetCountListByFilter(OpenContractFilterParameter filter)
+        {
+            return OpenContractRepository.GetCountByFilter(filter);
+        }
+
         public void Create(UserBriefModel user, OpenContractModel model, HttpPostedFileBase file)
         {
             model.CreateDate = DateTimeHelper.GetCurrentTime();

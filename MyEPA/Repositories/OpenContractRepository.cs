@@ -26,6 +26,23 @@ namespace MyEPA.Repositories
             
             return GetListBySQL<OpenContractModel>(querySQL, filter);
         }
+
+        public List<OpenContractCountModel> GetCountByFilter(OpenContractFilterParameter filter)
+        {
+            string whereSql = GetWhereSQLByFilter(filter);
+            string querySQL = $@"SELECT a.*, b.DetailCount
+                                    FROM OpenContract a
+                                    Left Join
+                                    (
+	                                    SELECT OpenContractId, Count(1) AS DetailCount
+	                                    FROM OpenContractDetail
+	                                    Group By OpenContractId
+                                    )b On Id = b.OpenContractId
+                                 {whereSql}";
+
+            return GetListBySQL<OpenContractCountModel>(querySQL, filter);
+        }
+
         public List<OpenContractJoinDetailSearchModel> GetJoinDetailsByFilter(OpenContractFilterParameter filter)
         {
             string whereSql = GetWhereSQLByFilter(filter);
