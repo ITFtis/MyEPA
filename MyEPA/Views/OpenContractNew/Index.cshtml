@@ -7,6 +7,13 @@
     List<ResourceTypeModel> types = ViewBag.Types;
     var citys = (List<CityModel>)ViewBag.Citys;
     var towns = (List<TownModel>)ViewBag.Towns;
+
+
+    int? resourceTypeId = ViewBag.ResourceTypeId;
+    int? year = ViewBag.Year ?? DateTime.Now.Year;
+    int? cityId = ViewBag.CityId;
+    int? townId = ViewBag.TownId;
+    bool isEffective = ViewBag.IsEffective ?? false;
 }
 
 <div class="page-content">
@@ -22,11 +29,12 @@
                             <tr>
                                 <td><h5>合約種類：</h5></td>
                                 <td>
-                                    <select id="diasterId" name="diasterId">
+                                    <select id="resourceTypeId" name="resourceTypeId">
                                         <option value="">請選擇種類</option>
                                         @foreach (var item in types)
                                         {
-                                            <option value="@item.Id">@item.Name</option>
+                                            string selected = @item.Id == resourceTypeId ? "selected" : "";
+                                            <option value="@item.Id" @selected>@item.Name</option>
                                         }
                                     </select>
                                 </td>
@@ -34,12 +42,12 @@
                             <tr>
                                 <td><h5>簽約年度：</h5></td>
                                 <td>
-                                    <select id="selectDDLYear" name="selectDDLYear">
+                                    <select id="year" name="year">
                                         <option value="">請選擇年度</option>
                                         @for (int i = DateTime.Now.Year; i > DateTime.Now.Year - 5; i--)
                                         {
                                             {
-                                                string selected = @i == DateTime.Now.Year ? "selected" : "";
+                                                string selected = @i == year ? "selected" : "";
                                                 <option value="@i" @selected>@i</option>
                                             }
                                         }
@@ -63,9 +71,13 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td><h5>合約中：</h5></td>
+                                <td><h5>狀態：</h5></td>
                                 <td>
-                                    <input type="checkbox" name="IsEffective" id="IsEffective">
+                                    @{ 
+                                        string strChecked = isEffective ? "checked" : "";
+                                    }
+                                    <input type="checkbox" name="IsEffective" id="IsEffective" value="true" @strChecked>
+                                    <label for="IsEffective">合約中</label>
                                 </td>
                             </tr>
                             <tr><td>&nbsp;</td></tr>
@@ -76,7 +88,7 @@
                             </tr>
                         </tbody>
                     </table>
-                }
+                                        }
                 <br />
             </div>
 

@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Office2010.Excel;
+﻿using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using MyEPA.Enums;
 using MyEPA.Extensions;
 using MyEPA.Models;
@@ -19,8 +20,10 @@ namespace MyEPA.Controllers.Rec
         TownService TownService = new TownService();
 
         // GET: OpenContractNew
-        public ActionResult Index()
+        public ActionResult Index(int? resourceTypeId, int? year, int? cityId, int? townId)
         {
+            bool isEffective = Request.QueryString["isEffective"] == null ? false : bool.Parse(Request.QueryString["isEffective"].ToString());
+
             OpenContractFilterParameter filter = new OpenContractFilterParameter
             {
             };
@@ -48,6 +51,13 @@ namespace MyEPA.Controllers.Rec
             ViewBag.Types = ResourceTypeService.GetList();
             ViewBag.Citys = CityService.GetAll();
             ViewBag.Towns = TownService.GetAll();
+
+            //querystring
+            ViewBag.Year = year;
+            ViewBag.ResourceTypeId = resourceTypeId;
+            ViewBag.CityId = cityId;
+            ViewBag.TownId = townId;
+            ViewBag.IsEffective = isEffective;
 
             return View(result);
         }
