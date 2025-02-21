@@ -112,7 +112,14 @@ namespace MyEPA.Services
                     ErrorMessage = "資料不存在"
                 };
 
-            CheckUserCity(user.CityId, entity.CityId);
+            if (!CheckPermissions(user, entity.CityId, entity.TownId))
+            {
+                return new AdminResultModel
+                {
+                    IsSuccess = false,
+                    ErrorMessage = _errorMessage,
+                };
+            }
 
             OpenContractRepository.Delete(id);
 
@@ -136,7 +143,7 @@ namespace MyEPA.Services
                 return false;
 
             //確認是否有權限
-            if (!CheckUserCity(user.CityId, entity.CityId))
+            if (!CheckPermissions(user, entity.CityId, entity.TownId))
             {
                 return false;
             }
@@ -186,19 +193,23 @@ namespace MyEPA.Services
         /// <summary>
         /// 確認是否有權限
         /// </summary>
-        /// <param name="userCityId"></param>
+        /// <param name="user"></param>
         /// <param name="cityId"></param>
         /// <returns></returns>
-        private bool CheckUserCity(int userCityId,int cityId)
+        private bool CheckPermissions(UserBriefModel user, int cityId, int townId)
         {
             bool result = true;
 
-            if (userCityId != cityId)
+            if (user.CityId != cityId)
             {
-                _errorMessage = "沒有變更權限";
+                _errorMessage = "沒有變更權限(縣市不符)";
                 result = false;
             }
-
+            else if (user.TownId != townId)
+            {
+                _errorMessage = "沒有變更權限(鄉鎮不符)";
+                result = false;
+            }
             return result;
         }
     }

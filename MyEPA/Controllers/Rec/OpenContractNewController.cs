@@ -108,6 +108,13 @@ namespace MyEPA.Controllers.Rec
             return RedirectToAction("index");
         }
 
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+            AdminResultModel result = OpenContractService.Delete(GetUserBrief(), id);
+            return JsonResult(result);
+        }
+
         private RedirectToRouteResult RedirectToIndex()
         {
             return RedirectToAction("Index");

@@ -170,6 +170,31 @@
         }
         $('#City').change(function () { ChangeCity(); });
     });
+
+    function DeleteMain(id) {
+        if (!window.confirm('確定要刪除?')) {
+            return;
+        };
+        var root = '@Url.Action("Delete", "OpenContract")?id=' + id;
+        $.ajax({
+            url: root,
+            method: 'Post',
+            success: function (data) {
+                if (data.IsSuccess) {
+                    alert('刪除成功');
+                    //location.reload();
+                    location.href = '@Url.Action("Index")';
+                }
+                else {
+                    alert('刪除失敗,' + data.ErrorMessage);
+                }
+            },
+            error: function (data) {
+                alert('刪除失敗');
+            }
+        });
+    };
+
     function ChangeCity() {
         var selectedValue = $('#City option:selected').val();
         $('#Town').empty();
@@ -186,7 +211,7 @@
             cache: false,
             async: false,
             dataType: 'json',
-            success: function (data) {                
+            success: function (data) {
                 if (data.length > 0) {
 
                     $.each(data, function (i, item) {
