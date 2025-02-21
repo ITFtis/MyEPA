@@ -20,12 +20,17 @@ namespace MyEPA.Controllers.Rec
         TownService TownService = new TownService();
 
         // GET: OpenContractNew
-        public ActionResult Index(int? resourceTypeId, int? year, int? cityId, int? townId)
+        public ActionResult Index(int? cityId, int? townId, int? resourceTypeId, int? year)
         {
             bool isEffective = Request.QueryString["isEffective"] == null ? false : bool.Parse(Request.QueryString["isEffective"].ToString());
 
             OpenContractFilterParameter filter = new OpenContractFilterParameter
             {
+                CityIds = cityId.HasValue ? cityId.Value.ToListCollection() : null,
+                TownIds = townId.HasValue ? townId.Value.ToListCollection() : null,
+                ResourceTypeIds = resourceTypeId.HasValue ? resourceTypeId.Value.ToListCollection() : null,
+                Year = year,
+                IsEffective = isEffective,
             };
 
             var user = GetUserBrief();

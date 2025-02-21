@@ -30,16 +30,19 @@ namespace MyEPA.Repositories
         public List<OpenContractCountModel> GetCountByFilter(OpenContractFilterParameter filter)
         {
             string whereSql = GetWhereSQLByFilter(filter);
-            string querySQL = $@"SELECT a.*, 
-                                        b.DetailCount, c.Name AS ResourceTypeName
-                                    FROM OpenContract a
+            string querySQL = $@"SELECT oc.*, 
+                                        b.DetailCount, rt.Name AS ResourceTypeName,
+                                        c.City AS CityName, t.Name AS TownName
+                                    FROM OpenContract oc
                                     Left Join
                                     (
 	                                    SELECT OpenContractId, Count(1) AS DetailCount
 	                                    FROM OpenContractDetail
 	                                    Group By OpenContractId
                                     )b On Id = b.OpenContractId
-                                    Left Join ResourceType c On a.ResourceTypeId = c.Id
+                                    Left Join ResourceType rt On oc.ResourceTypeId = rt.Id
+                                    Left JOIN City c ON oc.CityId = c.Id
+                                    Left JOIN Town t ON oc.TownId = t.Id
                                  {whereSql}";
 
             return GetListBySQL<OpenContractCountModel>(querySQL, filter);

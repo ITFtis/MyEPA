@@ -62,6 +62,16 @@ namespace MyEPA.Models
     public class OpenContractCountModel : OpenContractModel
     {
         /// <summary>
+        /// 縣市
+        /// </summary>
+        public string CityName { get; set; }
+
+        /// <summary>
+        /// 鄉鎮
+        /// </summary>
+        public string TownName { get; set; }
+
+        /// <summary>
         /// 細目數量
         /// </summary>
         public int? DetailCount { get; set; }

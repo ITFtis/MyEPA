@@ -10,7 +10,7 @@
 
 
     int? resourceTypeId = ViewBag.ResourceTypeId;
-    int? year = ViewBag.Year ?? DateTime.Now.Year;
+    int? year = ViewBag.Year;
     int? cityId = ViewBag.CityId;
     int? townId = ViewBag.TownId;
     bool isEffective = ViewBag.IsEffective ?? false;
@@ -26,6 +26,22 @@
                 {
                     <table border="0">
                         <tbody>
+                            <tr>
+                                <td><h5>承辦單位：</h5></td>
+                                <td>
+                                    <select id="City" Name="CityId">
+                                        <option value="">請選擇縣市</option>
+                                        @foreach (var city in citys)
+                                        {
+                                            string selected = city.Id == ViewBag.CityId ? "selected" : "";
+                                            <option value="@city.Id" @selected>@city.City</option>
+                                        }
+                                    </select>
+                                    <select id="Town" name="TownId">
+                                        <option value="">請選擇鄉鎮</option>
+                                    </select>
+                                </td>
+                            </tr>
                             <tr>
                                 <td><h5>合約種類：</h5></td>
                                 <td>
@@ -55,23 +71,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td><h5>縣市：</h5></td>
-                                <td>
-                                    <select id="City" Name="CityId">
-                                        <option value="">請選擇縣市</option>
-                                        @foreach (var city in citys)
-                                        {
-                                            string selected = city.Id == ViewBag.CityId ? "selected" : "";
-                                            <option value="@city.Id" @selected>@city.City</option>
-                                        }
-                                    </select>
-                                    <select id="Town" name="TownId">
-                                        <option value="">請選擇鄉鎮</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><h5>狀態：</h5></td>
+                                <td><h5>合約狀態：</h5></td>
                                 <td>
                                     <input type="checkbox" name="IsEffective" id="IsEffective" value="true" @(isEffective ? "checked" : "")>
                                     <label for="IsEffective">合約中</label>
@@ -91,6 +91,7 @@
 
             <table class="table">
                 <tr>
+                    <th width="9%">承辦單位(建檔者)</th>
                     <th width="9%">合約種類</th>
                     <th width="19%">合約名稱</th>
                     <th width="7%">簽約日期</th>
@@ -104,6 +105,9 @@
                 @foreach (var item in Model)
                 {
                     <tr>
+                        <td>
+                            @(item.CityName + item.TownName)
+                        </td>
                         <td>
                             @item.ResourceTypeName
                         </td>
@@ -137,14 +141,14 @@
                             }
                             @Html.ActionLink("合約細目" + strDetailCount, "Index", "OpenContractNew", new { id = item.Id }, new { })
                             @*@if (item.Id == ViewBag.Id)
-                        {
-                            string strDetailCount = item.Id == ViewBag.Id ? "(" + ViewBag.DetailCount + ")" : "";
-                            @Html.ActionLink("合約細目" + strDetailCount, "Index", "OpenContractNew", new { id = item.Id }, new { style = "color:blue;font-weight:bold" })
-                        }
-                        else
-                        {
-                            @Html.ActionLink("合約細目", "Index", "OpenContractNew", new { id = item.Id }, new { });
-                        }*@
+            {
+                string strDetailCount = item.Id == ViewBag.Id ? "(" + ViewBag.DetailCount + ")" : "";
+                @Html.ActionLink("合約細目" + strDetailCount, "Index", "OpenContractNew", new { id = item.Id }, new { style = "color:blue;font-weight:bold" })
+            }
+            else
+            {
+                @Html.ActionLink("合約細目", "Index", "OpenContractNew", new { id = item.Id }, new { });
+            }*@
 
 
                         </td>
