@@ -30,7 +30,10 @@
                                 <td><h5>承辦單位：</h5></td>
                                 <td>
                                     <select id="City" Name="CityId">
-                                        <option value="">請選擇縣市</option>
+                                        @if (citys.Count > 1)
+                                        {
+                                            <option value="">請選擇縣市</option>
+                                        }                                        
                                         @foreach (var city in citys)
                                         {
                                             string selected = city.Id == ViewBag.CityId ? "selected" : "";
@@ -165,8 +168,8 @@
 <script src="~/Scripts/assets/jquery-2.1.4.min.js"></script>
 <script>
     $(document).ready(function () {
-        var cityId = '@ViewBag.CityId';
-        if ($.trim(cityId).length > 0) {
+        if ($('#City option').length == 1) {
+            cityId = $('#City option').val();
             GetTowns(cityId);
         }
         $('#City').change(function () { ChangeCity(); });

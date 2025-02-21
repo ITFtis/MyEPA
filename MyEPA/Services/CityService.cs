@@ -25,6 +25,29 @@ namespace MyEPA.Services
                 IsCounty = true
             }).OrderBy(e => e.Sort).ToList();
         }
+
+        /// <summary>
+        /// (權限)縣市清單
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public static List<CityModel> GetCitysF1(UserBriefModel user)
+        {
+            CityRepository CityRepository = new CityRepository();
+
+            List<CityModel> citys = new List<CityModel>();
+            if (!user.IsAdmin)
+            {
+                citys.Add(CityRepository.Get(user.CityId));
+            }
+            else
+            {
+                citys = CityRepository.GetList().ToList();
+            }
+
+            return citys;
+        }
+
         public List<CityWaterDivisionJoinModel> GetCountyOrderBySort(string town)
         {
             return CityRepository.GetWaterDivisions(town);
