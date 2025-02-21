@@ -54,6 +54,8 @@ namespace MyEPA.Services
                 OContractDateEnd = model.OContractDateEnd,
                 Owner = model.Owner,
                 TEL = model.TEL,
+                CityId = model.CityId,
+                TownId = model.TownId,
                 IsSupportCity = model.IsSupportCity,
                 ResourceTypeId = model.ResourceTypeId,
             };
@@ -164,6 +166,7 @@ namespace MyEPA.Services
             if (entity.CreateDate == DateTime.MinValue)
             {
                 entity.CreateDate = DateTime.Now;
+                entity.CreateUser = user.UserName;
             }
 
             entity.UpdateDate = DateTimeHelper.GetCurrentTime();
@@ -197,7 +200,7 @@ namespace MyEPA.Services
         /// <param name="user"></param>
         /// <param name="cityId"></param>
         /// <returns></returns>
-        private bool CheckPermissions(UserBriefModel user, int cityId, int townId)
+        public bool CheckPermissions(UserBriefModel user, int cityId, int townId)
         {
             bool result = true;
 

@@ -4,10 +4,12 @@
     ViewBag.Title = "開口合約";
     Layout = "~/Views/_Layout.cshtml";
 
+    MyEPA.Services.OpenContractService OpenContractService = new MyEPA.Services.OpenContractService();
+
     List<ResourceTypeModel> types = ViewBag.Types;
     var citys = (List<CityModel>)ViewBag.Citys;
     var towns = (List<TownModel>)ViewBag.Towns;
-
+    UserBriefModel user = ViewBag.User;
 
     int? resourceTypeId = ViewBag.ResourceTypeId;
     int? year = ViewBag.Year;
@@ -95,20 +97,39 @@
 
             <table class="table">
                 <tr>
+                    <th width="10%"></th>
                     <th width="9%">承辦單位(建檔者)</th>
                     <th width="9%">合約種類</th>
                     <th width="19%">合約名稱</th>
                     <th width="7%">簽約日期</th>
                     <th width="7%">合約起始</th>
                     <th width="7%">合約截止</th>
-                    <th width="8%">合約廠商</th>
-                    <th width="6%">跨縣市支援</th>
-                    <th width="8%"></th>
+                    <th width="7%">合約廠商</th>
+                    <th width="5%">跨縣市支援</th>
                 </tr>
 
                 @foreach (var item in Model)
                 {
                     <tr>
+                        <td>
+                            @{
+                                if (OpenContractService.CheckPermissions(user, item.CityId, item.TownId))
+                                {
+                                    @Html.ActionLink("修改", "Edit", new { id = item.Id })
+                                    <span>|</span>
+                                    <a id="DeleteBtn" href="#" onclick="DeleteMain(@item.Id)">删除</a>
+                                }
+                                else
+                                {
+                                    @Html.ActionLink("檢視", "Edit", new { id = item.Id })
+                                }
+                            }
+                            @*細目*@
+                            | @{
+                                string strDetailCount = "(" + (item.DetailCount ?? 0).ToString() + ")";
+                            }
+                            @Html.ActionLink("細目" + strDetailCount, "Index", "OpenContractNew", new { id = item.Id }, new { })
+                        </td>
                         <td>
                             @(item.CityName + item.TownName)
                         </td>
@@ -135,26 +156,6 @@
                             {
                                 @(item.IsSupportCity == true ? "是" : "否")
                             }
-                        </td>
-                        <td>
-                            @Html.ActionLink("修改", "Edit", new { id = item.Id }) |
-                            <a id="DeleteBtn" href="#" onclick="DeleteMain(@item.Id)">删除</a>
-                            <br />
-                            @{
-                                string strDetailCount = "(" + (item.DetailCount ?? 0).ToString() + ")";
-                            }
-                            @Html.ActionLink("合約細目" + strDetailCount, "Index", "OpenContractNew", new { id = item.Id }, new { })
-                            @*@if (item.Id == ViewBag.Id)
-                        {
-                            string strDetailCount = item.Id == ViewBag.Id ? "(" + ViewBag.DetailCount + ")" : "";
-                            @Html.ActionLink("合約細目" + strDetailCount, "Index", "OpenContractNew", new { id = item.Id }, new { style = "color:blue;font-weight:bold" })
-                        }
-                        else
-                        {
-                            @Html.ActionLink("合約細目", "Index", "OpenContractNew", new { id = item.Id }, new { });
-                        }*@
-
-
                         </td>
                     </tr>
 

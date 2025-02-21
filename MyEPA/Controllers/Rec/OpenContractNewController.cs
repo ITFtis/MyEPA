@@ -71,6 +71,7 @@ namespace MyEPA.Controllers.Rec
             ViewBag.CityId = cityId;
             ViewBag.TownId = townId;
             ViewBag.IsEffective = isEffective;
+            ViewBag.User = user;
 
             return View(result);
         }
@@ -104,6 +105,7 @@ namespace MyEPA.Controllers.Rec
             }
 
             var types = ResourceTypeService.GetList();
+            var user = GetUserBrief();
 
             var result = OpenContractService.Get(id.Value);
             if (result == null)
@@ -112,6 +114,7 @@ namespace MyEPA.Controllers.Rec
             }
 
             ViewBag.Types = ResourceTypeService.GetList();
+            ViewBag.User = user;
 
             return View(result);
         }
