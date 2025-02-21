@@ -20,7 +20,7 @@
     <div class="row">
         <div class="col-xs-12">
             <h2> 開口合約 </h2>
-
+            
             <div>
                 @using (Html.BeginForm("Index", "OpenContractNew", new { }, FormMethod.Get))
                 {
@@ -80,6 +80,7 @@
                             <tr><td>&nbsp;</td></tr>
                             <tr>
                                 <td colspan="2">
+                                    @Html.ActionLink("新增合約", "Create", null, new { @class = "btn btn-success" })
                                     <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;查詢</button>
                                 </td>
                             </tr>
@@ -141,14 +142,14 @@
                             }
                             @Html.ActionLink("合約細目" + strDetailCount, "Index", "OpenContractNew", new { id = item.Id }, new { })
                             @*@if (item.Id == ViewBag.Id)
-            {
-                string strDetailCount = item.Id == ViewBag.Id ? "(" + ViewBag.DetailCount + ")" : "";
-                @Html.ActionLink("合約細目" + strDetailCount, "Index", "OpenContractNew", new { id = item.Id }, new { style = "color:blue;font-weight:bold" })
-            }
-            else
-            {
-                @Html.ActionLink("合約細目", "Index", "OpenContractNew", new { id = item.Id }, new { });
-            }*@
+                        {
+                            string strDetailCount = item.Id == ViewBag.Id ? "(" + ViewBag.DetailCount + ")" : "";
+                            @Html.ActionLink("合約細目" + strDetailCount, "Index", "OpenContractNew", new { id = item.Id }, new { style = "color:blue;font-weight:bold" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("合約細目", "Index", "OpenContractNew", new { id = item.Id }, new { });
+                        }*@
 
 
                         </td>

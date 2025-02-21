@@ -2035,6 +2035,7 @@
     <Content Include="Views\UserLogin\Index.cshtml" />
     <Content Include="Views\OpenContractNew\Index.cshtml" />
     <Content Include="Views\OpenContractNew\Edit.cshtml" />
+    <Content Include="Views\OpenContractNew\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="C:\NuGetPackages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.7\analyzers\dotnet\cs\Microsoft.CodeAnalysis.VersionCheckAnalyzer.resources.dll" />

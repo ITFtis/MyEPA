@@ -2,6 +2,7 @@
 using DocumentFormat.OpenXml.Office2010.Excel;
 using MyEPA.Enums;
 using MyEPA.Extensions;
+using MyEPA.Helper;
 using MyEPA.Models;
 using MyEPA.Services;
 using MyEPA.ViewModels;
@@ -57,7 +58,7 @@ namespace MyEPA.Controllers.Rec
             var result = OpenContractService.GetCountListByFilter(filter);
 
             //排序
-            result = result.OrderByDescending(a => a.KeyInDate)                        
+            result = result.OrderByDescending(a => a.CreateDate)                        
                         .ToList();
 
             ViewBag.Types = ResourceTypeService.GetList();
@@ -72,6 +73,23 @@ namespace MyEPA.Controllers.Rec
             ViewBag.IsEffective = isEffective;
 
             return View(result);
+        }
+
+        public ActionResult Create()
+        {
+            return View(new OpenContractModel()
+            {
+                OContractDateBegin = DateTimeHelper.GetCurrentTime(),
+                OContractDateEnd = DateTimeHelper.GetCurrentTime(),
+                KeyInDate = DateTimeHelper.GetCurrentTime(),
+            });
+        }
+
+        [HttpPost]
+        public ActionResult Create(OpenContractModel model, HttpPostedFileBase file)
+        {
+            OpenContractService.Create(GetUserBrief(), model, file);
+            return RedirectToIndex();
         }
 
         public ActionResult Edit(int? id)
