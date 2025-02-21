@@ -151,6 +151,7 @@ namespace MyEPA.Services
             entity.Fac = model.Fac;
             entity.KeyInDate = model.KeyInDate;
             entity.MobileTEL = model.MobileTEL;
+            entity.ResourceTypeId = model.ResourceTypeId;
             entity.Name = model.Name; 
             entity.OContractDateBegin = model.OContractDateBegin;
             entity.OContractDateEnd = model.OContractDateEnd;

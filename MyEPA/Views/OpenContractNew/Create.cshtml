@@ -1,10 +1,12 @@
 ﻿@model MyEPA.Models.OpenContractModel
-
+@using MyEPA.Models;
 @{
     ViewBag.Title = "開口合約-新增";
     Layout = "~/Views/_Layout.cshtml";
-    var type = Request.QueryString["type"];
+
+    List<ResourceTypeModel> types = ViewBag.Types;
 }
+
 <link rel="stylesheet" href="~/Content/flatpickr.css">
 <link rel="stylesheet" href="~/Content/confirmDate.css">
 <h2>新增開口合約</h2>
@@ -15,9 +17,24 @@
 
     <div class="form-horizontal">
         <hr />
-        <input type="hidden" name="ResourceTypeId" value="@type">
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                <span class="text-danger">*</span>
+                合約種類
+            </label>
+            <div class="col-md-10">
+                <select id="ResourceTypeId" name="ResourceTypeId">
+                    @foreach (var item in types)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+        
         <div class="form-group">
             <label class="control-label col-md-2">
                 <span class="text-danger">*</span>

@@ -1,8 +1,11 @@
 ﻿@model MyEPA.ViewModels.OpenContractViewModel
+@using MyEPA.Models;
 
 @{
     ViewBag.Title = "開口合約-修改";
     Layout = "~/Views/_Layout.cshtml";
+
+    List<ResourceTypeModel> types = ViewBag.Types;
 
     int copyIdNew = ViewBag.CopyIdNew == null ? 0 : int.Parse(ViewBag.CopyIdNew.ToString());
     if (copyIdNew > 0)
@@ -25,9 +28,25 @@
 
         <div class="form-horizontal">
             <hr />
-            <input type="hidden" name="ResourceTypeId" value="@Model.ResourceTypeId">
+
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             @Html.HiddenFor(model => model.Id)
+
+            <div class="form-group">
+                <label class="control-label col-md-2">
+                    <span class="text-danger">*</span>
+                    合約種類
+                </label>
+                <div class="col-md-10">
+                    <select id="ResourceTypeId" name="ResourceTypeId">
+                        @foreach (var item in types)
+                        {
+                            string selected = @item.Id == Model.ResourceTypeId ? "selected" : "";
+                            <option value="@item.Id" @selected>@item.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
 
             <div class="form-group">
                 <label class="control-label col-md-2">

@@ -77,6 +77,10 @@ namespace MyEPA.Controllers.Rec
 
         public ActionResult Create()
         {
+            var types = ResourceTypeService.GetList();
+
+            ViewBag.Types = ResourceTypeService.GetList();
+
             return View(new OpenContractModel()
             {
                 OContractDateBegin = DateTimeHelper.GetCurrentTime(),
@@ -98,18 +102,24 @@ namespace MyEPA.Controllers.Rec
             {
                 return RedirectToIndex();
             }
+
+            var types = ResourceTypeService.GetList();
+
             var result = OpenContractService.Get(id.Value);
             if (result == null)
             {
                 return RedirectToIndex();
             }
+
+            ViewBag.Types = ResourceTypeService.GetList();
+
             return View(result);
         }
 
         [HttpPost]
         public ActionResult Edit(string submitButton, OpenContractViewModel model, HttpPostedFileBase file)
         {
-            int type = model.ResourceTypeId;
+            ////int type = model.ResourceTypeId;
 
             ////if (submitButton == "Copy")
             ////{
