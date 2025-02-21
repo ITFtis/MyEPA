@@ -4,6 +4,7 @@ using MyEPA.Enums;
 using MyEPA.Extensions;
 using MyEPA.Models;
 using MyEPA.Services;
+using MyEPA.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,12 @@ namespace MyEPA.Controllers.Rec
                 Year = year,
                 IsEffective = isEffective,
             };
+
+            //編輯或其他的錯誤訊息
+            if (TempData["Msg"] != null)
+            {
+                ViewBag.Msg = TempData["Msg"];
+            }
 
             var user = GetUserBrief();
             var duty = user.Duty;
@@ -65,6 +72,45 @@ namespace MyEPA.Controllers.Rec
             ViewBag.IsEffective = isEffective;
 
             return View(result);
+        }
+
+        public ActionResult Edit(int? id)
+        {
+            if (id.HasValue == false)
+            {
+                return RedirectToIndex();
+            }
+            var result = OpenContractService.Get(id.Value);
+            if (result == null)
+            {
+                return RedirectToIndex();
+            }
+            return View(result);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(string submitButton, OpenContractViewModel model, HttpPostedFileBase file)
+        {
+            int type = model.ResourceTypeId;
+
+            ////if (submitButton == "Copy")
+            ////{
+            ////    //複製來源主約Id
+            ////    return CopyOpenContractById(model.Id);
+            ////}
+
+            bool done = OpenContractService.Update(GetUserBrief(), model, file);
+            if(!done)
+            {
+                TempData["Msg"] = OpenContractService.ErrorMessage;
+            }
+
+            return RedirectToAction("index");
+        }
+
+        private RedirectToRouteResult RedirectToIndex()
+        {
+            return RedirectToAction("Index");
         }
     }
 }

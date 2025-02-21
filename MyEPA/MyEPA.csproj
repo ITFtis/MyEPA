@@ -2034,6 +2034,7 @@
     <Content Include="Views\EasyReport\DisasterEventReport.cshtml" />
     <Content Include="Views\UserLogin\Index.cshtml" />
     <Content Include="Views\OpenContractNew\Index.cshtml" />
+    <Content Include="Views\OpenContractNew\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="C:\NuGetPackages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.7\analyzers\dotnet\cs\Microsoft.CodeAnalysis.VersionCheckAnalyzer.resources.dll" />

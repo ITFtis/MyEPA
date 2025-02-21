@@ -13,6 +13,10 @@ namespace MyEPA.Services
 {
     public class OpenContractService
     {
+        private string _errorMessage = "";
+
+        public string ErrorMessage { get { return _errorMessage; } }
+
         OpenContractRepository OpenContractRepository = new OpenContractRepository();
         OpenContractDetailRepository OpenContractDetailRepository = new OpenContractDetailRepository();
         FileDataService FileService = new FileDataService();
@@ -122,14 +126,20 @@ namespace MyEPA.Services
             };
         }
 
-        public void Update(UserBriefModel user, OpenContractViewModel model, HttpPostedFileBase file)
+        public bool Update(UserBriefModel user, OpenContractViewModel model, HttpPostedFileBase file)
         {
+            bool result = false;
+
             var entity = OpenContractRepository.Get(model.Id);
 
             if (entity == null)
-                return;
+                return false;
 
-            CheckUserCity(user.CityId, entity.CityId);
+            //確認是否有權限
+            if (!CheckUserCity(user.CityId, entity.CityId))
+            {
+                return false;
+            }
 
             entity.Fac = model.Fac;
             entity.KeyInDate = model.KeyInDate;
@@ -167,14 +177,29 @@ namespace MyEPA.Services
                     User = user.UserName
                 });
             }
+        
+            result = true;
+
+            return result;
         }
 
-        private void CheckUserCity(int userCityId,int cityId)
+        /// <summary>
+        /// 確認是否有權限
+        /// </summary>
+        /// <param name="userCityId"></param>
+        /// <param name="cityId"></param>
+        /// <returns></returns>
+        private bool CheckUserCity(int userCityId,int cityId)
         {
-            if(userCityId != cityId)
+            bool result = true;
+
+            if (userCityId != cityId)
             {
-                throw new Exception("沒有變更權限");
+                _errorMessage = "沒有變更權限";
+                result = false;
             }
+
+            return result;
         }
     }
 }
