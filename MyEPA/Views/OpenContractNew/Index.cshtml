@@ -128,7 +128,7 @@
                             | @{
                                 string strDetailCount = "(" + (item.DetailCount ?? 0).ToString() + ")";
                             }
-                            @Html.ActionLink("細目" + strDetailCount, "Index", "OpenContractNew", new { id = item.Id }, new { })
+                            @Html.ActionLink("細目" + strDetailCount, "Index", "OpenContractNewDetail", new { openContractId = item.Id }, new { })
                         </td>
                         <td>
                             @(item.CityName + item.TownName)

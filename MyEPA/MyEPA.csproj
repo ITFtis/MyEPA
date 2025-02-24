@@ -328,6 +328,7 @@
     <Compile Include="Controllers\Rec\LogDisinfectantController.cs" />
     <Compile Include="Controllers\Rec\LogDisinfectorController.cs" />
     <Compile Include="Controllers\Rec\OpenContractNewController.cs" />
+    <Compile Include="Controllers\Rec\OpenContractNewDetailController.cs" />
     <Compile Include="Controllers\Rec\RecResourceController.cs" />
     <Compile Include="Controllers\Rec\RecResourceSetController.cs" />
     <Compile Include="Controllers\Rec\TestMailController.cs" />
@@ -2036,6 +2037,7 @@
     <Content Include="Views\OpenContractNew\Index.cshtml" />
     <Content Include="Views\OpenContractNew\Edit.cshtml" />
     <Content Include="Views\OpenContractNew\Create.cshtml" />
+    <Content Include="Views\OpenContractNewDetail\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="C:\NuGetPackages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.7\analyzers\dotnet\cs\Microsoft.CodeAnalysis.VersionCheckAnalyzer.resources.dll" />
