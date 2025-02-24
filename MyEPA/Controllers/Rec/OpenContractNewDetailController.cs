@@ -16,6 +16,7 @@ namespace MyEPA.Controllers.Rec
     {
         OpenContractService OpenContractService = new OpenContractService();
         OpenContractDetailService OpenContractDetailService = new OpenContractDetailService();
+        OpenContractDetailItemCategoryService OpenContractDetailItemCategoryService = new OpenContractDetailItemCategoryService();
 
         // GET: OpenContractNewDetail
         public ActionResult Index(int openContractId)
@@ -25,6 +26,54 @@ namespace MyEPA.Controllers.Rec
             var result = OpenContractDetailService.GetList(openContractId);
 
             return View(result);
+        }
+
+        public ActionResult Create(int openContractId)
+        {
+            ViewBag.OpenContractDetailItemCategorys = OpenContractDetailItemCategoryService.GetAll();
+            return View(new OpenContractDetailModel()
+            {
+                OpenContractId = openContractId
+            });
+        }
+        [HttpPost]
+        public ActionResult Create(OpenContractDetailModel model)
+        {
+            OpenContractDetailService.Create(GetUserName(), model);
+            return RedirectToOpenContract(model.OpenContractId);
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var result = OpenContractDetailService.Get(id);
+            if (result == null)
+            {
+                return RedirectToOpenContract(result.OpenContractId);
+            }
+
+            ViewBag.OpenContractDetailItemCategorys = OpenContractDetailItemCategoryService.GetAll();
+            
+            return View(result);
+        }
+        [HttpPost]
+        public ActionResult Edit(OpenContractDetailModel model)
+        {
+            OpenContractDetailService.Update(GetUserName(), model);
+
+            var result = OpenContractDetailService.Get(model.Id);
+            return RedirectToOpenContract(result.OpenContractId);
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int openContractId, int id)
+        {
+            AdminResultModel result = OpenContractDetailService.Delete(id);
+            return JsonResult(result);
+        }
+
+        private RedirectToRouteResult RedirectToOpenContract(int openContractId)
+        {
+            return RedirectToAction("Index", "OpenContractNewDetail", new { openContractId = openContractId });
         }
     }
 }
