@@ -71,7 +71,7 @@ namespace MyEPA.Controllers.Rec
         }
 
         [HttpPost]
-        public ActionResult Delete(int openContractId, int id)
+        public ActionResult Delete(int id)
         {
             AdminResultModel result = OpenContractDetailService.Delete(id);
             return JsonResult(result);

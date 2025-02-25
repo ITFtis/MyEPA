@@ -12,12 +12,14 @@
     <div class="row">
         <div class="col-xs-12">
             <h2> 
-                @openContract.Name 
-                (細目數量：<span class="text-primary">@Model.Count()</span>)
+                合約：@openContract.Name
             </h2>
 
             <div>
                 @Html.ActionLink("新增合約細目", "Create", new { OpenContractId = openContract.Id }, new { @class = "btn btn-success" })
+                <span style="font-size:medium">
+                    (數量：<span class="text-primary">@Model.Count()</span>)
+                </span>
                 <br /><br />
             </div>
 
@@ -83,7 +85,7 @@
         if (!window.confirm('確定要刪除?')) {
             return;
         };
-        var root = '@Url.Action("Delete", "OpenContractDetail")?openContractId='+openContractId+ '&id=' + id;
+        var root = '@Url.Action("Delete", "OpenContractNewDetail")?id=' + id;
         $.ajax({
             url: root,
             method: 'Post',
