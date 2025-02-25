@@ -7,15 +7,6 @@
 
     List<ResourceTypeModel> types = ViewBag.Types;
     UserBriefModel user = ViewBag.User;
-
-    int copyIdNew = ViewBag.CopyIdNew == null ? 0 : int.Parse(ViewBag.CopyIdNew.ToString());
-    if (copyIdNew > 0)
-    {
-        <script>
-        alert('合約複製成功');
-        location.href = '@Url.Action("Index", "OpenContract")';
-        </script>
-    }
 }
 <link rel="stylesheet" href="~/Content/flatpickr.css">
 <link rel="stylesheet" href="~/Content/confirmDate.css">

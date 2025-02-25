@@ -135,7 +135,16 @@
                             @item.ResourceTypeName
                         </td>
                         <td>
-                            @item.Name
+                            @{
+                                if (item.Name.IndexOf("oooo") > -1)
+                                {
+                                    <span class="text-danger">@item.Name</span>
+                                }
+                                else
+                                {
+                                    @item.Name
+                                }
+                            }
                         </td>
                         <td>
                             @DateFormat.ToDate4(item.KeyInDate)

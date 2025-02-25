@@ -115,7 +115,7 @@ namespace MyEPA.Repositories
                 return -1;
             }
 
-            oc.Name = "(複製)" + oc.Name;
+            oc.Name = "(複製)_oooo_" + oc.Name;
             oc.CreateDate = DateTimeHelper.GetCurrentTime();
             oc.UpdateDate = DateTimeHelper.GetCurrentTime();
             oc.CreateUser = user.UserName;

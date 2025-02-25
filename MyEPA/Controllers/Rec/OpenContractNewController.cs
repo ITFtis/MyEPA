@@ -106,6 +106,12 @@ namespace MyEPA.Controllers.Rec
             var types = ResourceTypeService.GetList();
             var user = GetUserBrief();
 
+            //Copy或其他的錯誤訊息
+            if (TempData["Msg"] != null)
+            {
+                ViewBag.Msg = TempData["Msg"];
+            }
+
             var result = OpenContractService.Get(id);
             if (result == null)
             {
@@ -165,7 +171,7 @@ namespace MyEPA.Controllers.Rec
                 OpenContractDetailService.Create(GetUserName(), detail);
             }
 
-            ViewBag.CopyIdNew = id;
+            TempData["Msg"] = "合約複製成功";
 
             return RedirectToAction("Edit", new { id = id });
             //return View();
