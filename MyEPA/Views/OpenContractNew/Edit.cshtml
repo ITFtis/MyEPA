@@ -173,7 +173,7 @@
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     @{
-                        if (OpenContractService.CheckPermissions(user, Model.CityId, Model.TownId))
+                        if (ViewBag.CanEdit)
                         {
                             <input type="submit" value="修改" class="btn btn-success" />
                         }

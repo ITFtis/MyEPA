@@ -113,7 +113,7 @@
                     <tr>
                         <td>
                             @{
-                                if (OpenContractService.CheckPermissions(user, item.CityId, item.TownId))
+                                if (item.CanEdit ?? false)
                                 {
                                     @Html.ActionLink("修改", "Edit", new { id = item.Id })
                                     <span>|</span>

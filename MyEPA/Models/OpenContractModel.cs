@@ -80,5 +80,10 @@ namespace MyEPA.Models
         /// 合約種類
         /// </summary>
         public string ResourceTypeName { get; set; }
+
+        /// <summary>
+        /// 是否有編輯權限
+        /// </summary>
+        public bool? CanEdit { get; set; }
     }
 }

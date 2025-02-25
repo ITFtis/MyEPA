@@ -16,7 +16,10 @@
             </h2>
 
             <div>
-                @Html.ActionLink("新增合約細目", "Create", new { OpenContractId = openContract.Id }, new { @class = "btn btn-success" })
+                @if (ViewBag.CanEdit)
+                {
+                    @Html.ActionLink("新增合約細目", "Create", new { OpenContractId = openContract.Id }, new { @class = "btn btn-success" })
+                }
                 <span style="font-size:medium">
                     (數量：<span class="text-primary">@Model.Count()</span>)
                 </span>
@@ -25,7 +28,10 @@
 
             <table class="table">
                 <tr>
-                    <th></th>
+                    @if (ViewBag.CanEdit)
+                    {
+                        <th></th>
+                    }
                     <th>
                         @Html.DisplayNameFor(model => model.Items)
                     </th>
@@ -49,10 +55,13 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>
-                            @Html.ActionLink("修改", "Edit", new { id = item.Id }) |
-                            <a href="#" onclick="DeleteDetail(@item.OpenContractId,@item.Id)">删除</a>
-                        </td>
+                        @if (ViewBag.CanEdit)
+                        {
+                            <td>
+                                @Html.ActionLink("修改", "Edit", new { id = item.Id }) |
+                                <a href="#" onclick="DeleteDetail(@item.OpenContractId,@item.Id)">删除</a>
+                            </td>
+                        }
                         <td>
                             @Html.DisplayFor(modelItem => item.Items)
                         </td>

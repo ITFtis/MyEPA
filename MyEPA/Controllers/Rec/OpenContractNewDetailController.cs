@@ -9,6 +9,7 @@ using MyEPA.ViewModels;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MyEPA.Models.Deds;
 
 namespace MyEPA.Controllers.Rec
 {
@@ -21,9 +22,12 @@ namespace MyEPA.Controllers.Rec
         // GET: OpenContractNewDetail
         public ActionResult Index(int openContractId)
         {
-            ViewBag.OpenContract = OpenContractService.Get(openContractId);
-
             var result = OpenContractDetailService.GetList(openContractId);
+
+            var openContract = OpenContractService.Get(openContractId);
+            var user = GetUserBrief();
+            ViewBag.OpenContract = openContract;
+            ViewBag.CanEdit = OpenContractService.CheckPermissions(user, openContract.CityId, openContract.TownId);
 
             return View(result);
         }
