@@ -4,8 +4,6 @@
     ViewBag.Title = "開口合約";
     Layout = "~/Views/_Layout.cshtml";
 
-    MyEPA.Services.OpenContractService OpenContractService = new MyEPA.Services.OpenContractService();
-
     List<ResourceTypeModel> types = ViewBag.Types;
     var citys = (List<CityModel>)ViewBag.Citys;
     var towns = (List<TownModel>)ViewBag.Towns;

@@ -2,7 +2,7 @@
 @model IEnumerable<MyEPA.ViewModels.OpenContractDetailViewModel>
 @using MyEPA.ViewModels;
 @{
-    ViewBag.Title = "合約資料細目";
+    ViewBag.Title = "合約細目";
     Layout = "~/Views/_Layout.cshtml";
 
     OpenContractViewModel openContract = ViewBag.OpenContract;
@@ -18,7 +18,7 @@
             <div>
                 @if (ViewBag.CanEdit)
                 {
-                    @Html.ActionLink("新增合約細目", "Create", new { OpenContractId = openContract.Id }, new { @class = "btn btn-success" })
+                    @Html.ActionLink("新增細目", "Create", new { OpenContractId = openContract.Id }, new { @class = "btn btn-success" })
                 }
                 <span style="font-size:medium">
                     (數量：<span class="text-primary">@Model.Count()</span>)
