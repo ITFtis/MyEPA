@@ -101,17 +101,12 @@ namespace MyEPA.Controllers.Rec
             return RedirectToIndex();
         }
 
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int id)
         {
-            if (id.HasValue == false)
-            {
-                return RedirectToIndex();
-            }
-
             var types = ResourceTypeService.GetList();
             var user = GetUserBrief();
 
-            var result = OpenContractService.Get(id.Value);
+            var result = OpenContractService.Get(id);
             if (result == null)
             {
                 return RedirectToIndex();
@@ -127,13 +122,11 @@ namespace MyEPA.Controllers.Rec
         [HttpPost]
         public ActionResult Edit(string submitButton, OpenContractViewModel model, HttpPostedFileBase file)
         {
-            ////int type = model.ResourceTypeId;
-
-            ////if (submitButton == "Copy")
-            ////{
-            ////    //複製來源主約Id
-            ////    return CopyOpenContractById(model.Id);
-            ////}
+            if (submitButton == "Copy")
+            {
+                //複製來源主約Id
+                return CopyOpenContractById(model.Id);
+            }
 
             bool done = OpenContractService.Update(GetUserBrief(), model, file);
             if(!done)
@@ -149,6 +142,33 @@ namespace MyEPA.Controllers.Rec
         {
             AdminResultModel result = OpenContractService.Delete(GetUserBrief(), id);
             return JsonResult(result);
+        }
+
+        /// <summary>
+        /// 複製來源主約Id
+        /// </summary>
+        /// <param name="copyId"></param>
+        /// <returns></returns>
+        public ActionResult CopyOpenContractById(int copyId)
+        {
+            var user = GetUserBrief();
+
+            //建置並取得主約Id
+            var id = OpenContractService.CopyOpenContractById(user, copyId);
+
+            //細目
+            OpenContractDetailService OpenContractDetailService = new OpenContractDetailService();
+            var details = OpenContractDetailService.GetList2(copyId);
+            foreach (var detail in details)
+            {
+                detail.OpenContractId = id;
+                OpenContractDetailService.Create(GetUserName(), detail);
+            }
+
+            ViewBag.CopyIdNew = id;
+
+            return RedirectToAction("Edit", new { id = id });
+            //return View();
         }
 
         private RedirectToRouteResult RedirectToIndex()
