@@ -24,6 +24,10 @@ namespace MyEPA.Controllers.Rec
         {
             var result = OpenContractDetailService.GetList(openContractId);
 
+            //排序
+            result = result.OrderByDescending(a => a.CreateDate)
+                        .ToList();
+
             var openContract = OpenContractService.Get(openContractId);
             var user = GetUserBrief();
             ViewBag.OpenContract = openContract;

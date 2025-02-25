@@ -33,5 +33,25 @@ namespace MyEPA.ViewModels
         public string ItemCategory { get; set; }
 
         public int Status { get; set; }
+
+        /// <summary>
+        /// 建立時間
+        /// </summary>
+        public DateTime CreateDate { get; set; }
+
+        /// <summary>
+        /// 建立者名稱
+        /// </summary>
+        public string CreateUser { get; set; }
+
+        /// <summary>
+        /// 更新時間
+        /// </summary>
+        public DateTime UpdateDate { get; set; }
+
+        /// <summary>
+        /// 建立者名稱
+        /// </summary>
+        public string UpdateUser { get; set; }
     }
 }

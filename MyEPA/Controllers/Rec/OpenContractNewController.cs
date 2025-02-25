@@ -57,10 +57,12 @@ namespace MyEPA.Controllers.Rec
 
             var result = OpenContractService.GetCountListByFilter(filter);
 
+            //是否有編輯權限
             result.ForEach(p => p.CanEdit = OpenContractService.CheckPermissions(user, p.CityId, p.TownId));
 
             //排序
-            result = result.OrderByDescending(a => a.CreateDate)                        
+            result = result.OrderByDescending(a => a.CanEdit)
+                        .ThenByDescending(a => a.CreateDate)
                         .ToList();
 
             ViewBag.Types = ResourceTypeService.GetList();
