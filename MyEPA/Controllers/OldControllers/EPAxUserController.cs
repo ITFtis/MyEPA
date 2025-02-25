@@ -512,7 +512,8 @@ namespace MyEPA.Controllers
             user.Town = model.EditingTown;
             user.Duty = duty.GetDescription();
             user.DutyId = duty.ToInteger();
-           
+
+            user.City = model.EditingCity;
             user.CityId = cityId;
             user.Name = model.EditingName;
             user.Pwd = model.EditingPwd;
