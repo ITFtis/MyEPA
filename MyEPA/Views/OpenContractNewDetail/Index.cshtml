@@ -11,18 +11,20 @@
 <div class="page-content">
     <div class="row">
         <div class="col-xs-12">
-            <h2> 
+            <h2>
                 合約：@openContract.Name
+                <br />
+                <span style="font-size:medium">
+                    (細目數量：<span class="text-primary">@Model.Count()</span>)
+                </span>
             </h2>
 
             <div>
                 @if (ViewBag.CanEdit)
                 {
-                    @Html.ActionLink("新增細目", "Create", new { OpenContractId = openContract.Id }, new { @class = "btn btn-success" })
+                    @Html.ActionLink("新增細目", "Create", new { OpenContractId = openContract.Id }, new { @class = "btn btn-danger" })
                 }
-                <span style="font-size:medium">
-                    (數量：<span class="text-primary">@Model.Count()</span>)
-                </span>
+                @Html.ActionLink("返回合約清單", "Index", "OpenContractNew", null, new { @class = "btn btn-success" })                
                 <br /><br />
             </div>
 
