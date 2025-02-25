@@ -31,10 +31,16 @@ namespace MyEPA.Controllers.Rec
         public ActionResult Create(int openContractId)
         {
             ViewBag.OpenContractDetailItemCategorys = OpenContractDetailItemCategoryService.GetAll();
-            return View(new OpenContractDetailModel()
+
+            //預設值
+            var result = new OpenContractDetailModel()
             {
-                OpenContractId = openContractId
-            });
+                OpenContractId = openContractId,
+                Count = "0",
+                Price = "0",
+            };
+
+            return View(result);
         }
         [HttpPost]
         public ActionResult Create(OpenContractDetailModel model)

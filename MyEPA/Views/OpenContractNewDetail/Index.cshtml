@@ -11,7 +11,10 @@
 <div class="page-content">
     <div class="row">
         <div class="col-xs-12">
-            <h2> @openContract.Name 合約資料細目 </h2>
+            <h2> 
+                @openContract.Name 
+                (細目數量：<span class="text-primary">@Model.Count()</span>)
+            </h2>
 
             <div>
                 @Html.ActionLink("新增合約細目", "Create", new { OpenContractId = openContract.Id }, new { @class = "btn btn-success" })
