@@ -23,7 +23,7 @@ namespace MyEPA.ViewModels
         [DisplayName("價錢")]
         public string Price { get; set; }
         [DisplayName("預算")]
-        public decimal Budge { get; set; }
+        public double Budge { get; set; }
         [DisplayName("項目類別")]
 
         public int? ItemCategoryId { get; set; }

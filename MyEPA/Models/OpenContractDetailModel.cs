@@ -25,7 +25,7 @@ namespace MyEPA.Models
         [Required]
         [DisplayName("預算")]
         
-        public decimal Budge { get; set; }
+        public double Budge { get; set; }
         [Required]
         [DisplayName("項目類別")]
         
