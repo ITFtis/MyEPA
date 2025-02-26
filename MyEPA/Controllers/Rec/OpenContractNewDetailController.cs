@@ -19,6 +19,8 @@ namespace MyEPA.Controllers.Rec
         OpenContractDetailService OpenContractDetailService = new OpenContractDetailService();
         OpenContractDetailItemCategoryService OpenContractDetailItemCategoryService = new OpenContractDetailItemCategoryService();
 
+        FileDataService FileDataService = new FileDataService();
+
         // GET: OpenContractNewDetail
         public ActionResult Index(int openContractId)
         {
@@ -51,9 +53,9 @@ namespace MyEPA.Controllers.Rec
             return View(result);
         }
         [HttpPost]
-        public ActionResult Create(OpenContractDetailModel model)
+        public ActionResult Create(OpenContractDetailModel model, HttpPostedFileBase file)
         {
-            OpenContractDetailService.Create(GetUserName(), model);
+            OpenContractDetailService.Create(GetUserBrief(), model, GetUploadFiles());
             return RedirectToOpenContract(model.OpenContractId);
         }
 
@@ -66,13 +68,15 @@ namespace MyEPA.Controllers.Rec
             }
 
             ViewBag.OpenContractDetailItemCategorys = OpenContractDetailItemCategoryService.GetAll();
-            
+
+            ViewBag.DetailFiles = FileDataService.GetBySource(SourceTypeEnum.OpenContractDetail, id);
+
             return View(result);
         }
         [HttpPost]
         public ActionResult Edit(OpenContractDetailModel model)
         {
-            OpenContractDetailService.Update(GetUserName(), model);
+            OpenContractDetailService.Update(GetUserBrief(), model, GetUploadFiles());
 
             var result = OpenContractDetailService.Get(model.Id);
             return RedirectToOpenContract(result.OpenContractId);

@@ -174,7 +174,7 @@ namespace MyEPA.Controllers.Rec
             foreach (var detail in details)
             {
                 detail.OpenContractId = id;
-                OpenContractDetailService.Create(GetUserName(), detail);
+                OpenContractDetailService.Create(GetUserBrief(), detail, null);
             }
 
             TempData["Msg"] = "合約複製成功";

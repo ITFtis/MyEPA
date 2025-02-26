@@ -32,7 +32,7 @@ namespace MyEPA.Controllers
         [HttpPost]
         public ActionResult Create(OpenContractDetailModel model)
         {
-            OpenContractDetailService.Create(GetUserName(),model);
+            OpenContractDetailService.Create(GetUserBrief(), model, GetUploadFiles());
             return RedirectToOpenContract(model.OpenContractId);
         }
 
@@ -53,7 +53,7 @@ namespace MyEPA.Controllers
         [HttpPost]
         public ActionResult Edit(OpenContractDetailModel model)
         {
-            OpenContractDetailService.Update(GetUserName(), model);
+            OpenContractDetailService.Update(GetUserBrief(), model, GetUploadFiles());
             return RedirectToOpenContract(model.OpenContractId);
         }
 

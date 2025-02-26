@@ -140,7 +140,7 @@ namespace MyEPA.Controllers
             foreach (var detail in details)
             {
                 detail.OpenContractId = id;
-                OpenContractDetailService.Create(GetUserName(), detail);
+                OpenContractDetailService.Create(GetUserBrief(), detail, GetUploadFiles());
             }
 
             ViewBag.CopyIdNew = id;
