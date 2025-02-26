@@ -21,6 +21,8 @@ namespace MyEPA.Controllers.Rec
         CityService CityService = new CityService();
         TownService TownService = new TownService();
 
+        FileDataService FileDataService = new FileDataService();
+
         // GET: OpenContractNew
         public ActionResult Index(int? cityId, int? townId, int? resourceTypeId, int? year)
         {
@@ -121,6 +123,10 @@ namespace MyEPA.Controllers.Rec
             ViewBag.Types = ResourceTypeService.GetList();
             ViewBag.User = user;
             ViewBag.CanEdit = OpenContractService.CheckPermissions(user, result.CityId, result.TownId);
+
+            ViewBag.CoverFiles = FileDataService.GetBySource(SourceTypeEnum.OpenContractCover, id);
+            ViewBag.SealImages = FileDataService.GetBySource(SourceTypeEnum.OpenContractSeal, id);
+            ViewBag.TargetImages = FileDataService.GetBySource(SourceTypeEnum.OpenContractTarget, id);
 
             return View(result);
         }

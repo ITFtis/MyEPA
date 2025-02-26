@@ -7,6 +7,10 @@
 
     List<ResourceTypeModel> types = ViewBag.Types;
     UserBriefModel user = ViewBag.User;
+
+    List<FileDataModel> coverFiles = ViewBag.CoverFiles;
+    List<FileDataModel> sealImages = ViewBag.SealImages;
+    List<FileDataModel> targetImages = ViewBag.TargetImages;
 }
 <link rel="stylesheet" href="~/Content/flatpickr.css">
 <link rel="stylesheet" href="~/Content/confirmDate.css">
@@ -146,18 +150,47 @@
             <div class="form-group">
                 <label class="control-label col-md-2">
                     <span class="text-danger">*</span>
-                    檔案
+                    檔案(契約書封面)
                 </label>
                 <div class="col-md-10">
-                    @if (Model.FileData != null)
+                    @foreach (var item in coverFiles)
                     {
-                        <a href="@Url.Action("Download", "FileData", new { id = Model.FileData.Id })">@Model.FileData.UserFileName</a>
+                        <a href="@Url.Action("Download", "FileData", new { id = item.Id })">@item.UserFileName</a>
                     }
                     <input type="file" name="CoverFile" id="file" accept=".png, .pdf, .jpg, .jpeg, .docx, .mp4" />
                     <span class="text-primary mt-2">限定(.png, .pdf, .jpg, .jpeg, .docx, .mp4)</span>
                 </div>
             </div>
 
+            <div class="form-group">
+                <label class="control-label col-md-2">
+                    <span class="text-danger">*</span>
+                    檔案(雙方用印)
+                </label>
+                <div class="col-md-10">
+                    @foreach (var item in sealImages)
+                    {
+                        <a href="@Url.Action("Download", "FileData", new { id = item.Id })">@item.UserFileName</a>
+                    }
+                    <input type="file" name="SealFile" id="file" accept=".png, .pdf, .jpg, .jpeg, .docx, .mp4" />
+                    <span class="text-primary mt-2">限定(.png, .pdf, .jpg, .jpeg, .docx, .mp4)</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">
+                    <span class="text-danger">*</span>
+                    檔案(履約標的)
+                </label>
+                <div class="col-md-10">
+                    @foreach (var item in targetImages)
+                    {
+                        <a href="@Url.Action("Download", "FileData", new { id = item.Id })">@item.UserFileName</a>
+                    }
+                    <input type="file" name="TargetFile" id="file" accept=".png, .pdf, .jpg, .jpeg, .docx, .mp4" />
+                    <span class="text-primary mt-2">限定(.png, .pdf, .jpg, .jpeg, .docx, .mp4)</span>
+                </div>
+            </div>
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">

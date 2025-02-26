@@ -86,6 +86,12 @@ namespace MyEPA.Services
             //契約書封面
             UploadFile(user, model, files, "CoverFile");
 
+            //雙方用印
+            UploadFile(user, model, files, "SealFile");
+
+            //履約標的
+            UploadFile(user, model, files, "TargetFile");
+
         }
 
         /// <summary>
@@ -174,6 +180,12 @@ namespace MyEPA.Services
             //契約書封面
             UploadFile(user, model, files, "CoverFile");
 
+            //雙方用印
+            UploadFile(user, model, files, "SealFile");
+
+            //履約標的
+            UploadFile(user, model, files, "TargetFile");
+
             result = true;
 
             return result;
@@ -190,6 +202,12 @@ namespace MyEPA.Services
             {
                 case "CoverFile":
                     sourceType = SourceTypeEnum.OpenContractCover;
+                    break;
+                case "SealFile":
+                    sourceType = SourceTypeEnum.OpenContractSeal;
+                    break;
+                case "TargetFile":
+                    sourceType = SourceTypeEnum.OpenContractTarget;
                     break;
                 default:
                     return false;
