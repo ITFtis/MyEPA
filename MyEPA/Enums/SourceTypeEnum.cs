@@ -10,10 +10,10 @@ namespace MyEPA.Enums
         None = 0,
 
         /// <summary>
-        /// 開放合約
+        /// 契約書封面(原.開放合約)
         /// </summary>
-        [Description("開放合約")]
-        OpenContract = 1,
+        [Description("契約書封面")]
+        OpenContractCover = 1,
 
         /// <summary>
         /// 支援協議
@@ -102,6 +102,25 @@ namespace MyEPA.Enums
         /// </summary>
         [Description("三區回報處理檔案")]
         DamageProcessFile = 26,
+
+        /// <summary>
+        /// 雙方用印
+        /// </summary>
+        [Description("雙方用印")]
+        OpenContractSeal = 27,
+
+        /// <summary>
+        /// 履約標的
+        /// </summary>
+        [Description("履約標的")]
+        OpenContractTarget = 28,
+
+        /// <summary>
+        /// 合約細目
+        /// </summary>
+        [Description("合約細目")]
+        OpenContractDetail = 29,
+
         /// <summary>
         /// 各業務單位春節因應環境污染事故緊急應變摘要
         /// </summary>

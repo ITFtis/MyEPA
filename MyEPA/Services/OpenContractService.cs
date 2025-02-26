@@ -40,7 +40,7 @@ namespace MyEPA.Services
                 return null;
             }
 
-            var file = FileService.GetBySource(SourceTypeEnum.OpenContract, id).FirstOrDefault();
+            var file = FileService.GetBySource(SourceTypeEnum.OpenContractCover, id).FirstOrDefault();
 
             return new OpenContractViewModel
             {
@@ -86,7 +86,7 @@ namespace MyEPA.Services
             {
                 File = file,
                 SourceId = id,
-                SourceType = SourceTypeEnum.OpenContract,
+                SourceType = SourceTypeEnum.OpenContractCover,
                 User = user.UserName
             });
         }
@@ -127,7 +127,7 @@ namespace MyEPA.Services
 
             OpenContractDetailRepository.DeleteByOpenContractId(id);
 
-            FileService.DeleteFileBySource(SourceTypeEnum.OpenContract, id);
+            FileService.DeleteFileBySource(SourceTypeEnum.OpenContractCover, id);
 
             return new AdminResultModel
             {
@@ -177,14 +177,14 @@ namespace MyEPA.Services
             if (file != null)
             {
                 //刪除檔案
-                FileService.DeleteFileBySource(SourceTypeEnum.OpenContract, model.Id);
+                FileService.DeleteFileBySource(SourceTypeEnum.OpenContractCover, model.Id);
 
                 //新增檔案
                 FileService.UploadFileByGuidName(new UploadFileBaseModel
                 {
                     File = file,
                     SourceId = entity.Id,
-                    SourceType = SourceTypeEnum.OpenContract,
+                    SourceType = SourceTypeEnum.OpenContractCover,
                     User = user.UserName
                 });
             }
