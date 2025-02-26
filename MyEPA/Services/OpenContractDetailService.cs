@@ -110,6 +110,9 @@ namespace MyEPA.Services
 
         private bool UploadFile(UserBriefModel user, OpenContractDetailModel model, Dictionary<string, List<HttpPostedFileBase>> files, string keyName)
         {
+            if (files == null)
+                return false;
+
             SourceTypeEnum sourceType;
             if (files.ContainsKey(keyName) == false)
             {
