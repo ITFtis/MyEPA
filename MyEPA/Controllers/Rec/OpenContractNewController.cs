@@ -97,7 +97,7 @@ namespace MyEPA.Controllers.Rec
         [HttpPost]
         public ActionResult Create(OpenContractModel model, HttpPostedFileBase file)
         {
-            OpenContractService.Create(GetUserBrief(), model, file);
+            OpenContractService.Create(GetUserBrief(), model, GetUploadFiles());
             return RedirectToIndex();
         }
 
@@ -126,7 +126,7 @@ namespace MyEPA.Controllers.Rec
         }
 
         [HttpPost]
-        public ActionResult Edit(string submitButton, OpenContractViewModel model, HttpPostedFileBase file)
+        public ActionResult Edit(string submitButton, OpenContractModel model, HttpPostedFileBase file)
         {
             if (submitButton == "Copy")
             {
@@ -134,7 +134,7 @@ namespace MyEPA.Controllers.Rec
                 return CopyOpenContractById(model.Id);
             }
 
-            bool done = OpenContractService.Update(GetUserBrief(), model, file);
+            bool done = OpenContractService.Update(GetUserBrief(), model, GetUploadFiles());
             if(!done)
             {
                 TempData["Msg"] = OpenContractService.ErrorMessage;

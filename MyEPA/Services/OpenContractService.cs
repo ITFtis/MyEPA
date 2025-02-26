@@ -71,7 +71,7 @@ namespace MyEPA.Services
             return OpenContractRepository.GetCountByFilter(filter);
         }
 
-        public void Create(UserBriefModel user, OpenContractModel model, HttpPostedFileBase file)
+        public void Create(UserBriefModel user, OpenContractModel model, Dictionary<string, List<HttpPostedFileBase>> files)
         {
             model.CreateDate = DateTimeHelper.GetCurrentTime();
             model.UpdateDate = DateTimeHelper.GetCurrentTime();
@@ -81,14 +81,11 @@ namespace MyEPA.Services
             model.TownId = user.TownId;
 
             var id = OpenContractRepository.CreateAndResultIdentity<int>(model);
+            model.Id = id;
 
-            FileService.UploadFileByGuidName(new UploadFileBaseModel
-            {
-                File = file,
-                SourceId = id,
-                SourceType = SourceTypeEnum.OpenContractCover,
-                User = user.UserName
-            });
+            //契約書封面
+            UploadFile(user, model, files, "CoverFile");
+
         }
 
         /// <summary>
@@ -135,7 +132,7 @@ namespace MyEPA.Services
             };
         }
 
-        public bool Update(UserBriefModel user, OpenContractViewModel model, HttpPostedFileBase file)
+        public bool Update(UserBriefModel user, OpenContractModel model, Dictionary<string, List<HttpPostedFileBase>> files)
         {
             bool result = false;
 
@@ -174,24 +171,47 @@ namespace MyEPA.Services
 
             OpenContractRepository.Update(entity);
 
-            if (file != null)
+            //契約書封面
+            UploadFile(user, model, files, "CoverFile");
+
+            result = true;
+
+            return result;
+        }
+
+        private bool UploadFile(UserBriefModel user, OpenContractModel model, Dictionary<string, List<HttpPostedFileBase>> files, string keyName)
+        {
+            SourceTypeEnum sourceType;
+            if (files.ContainsKey(keyName) == false)
+            {
+                return false;
+            }
+            switch (keyName)
+            {
+                case "CoverFile":
+                    sourceType = SourceTypeEnum.OpenContractCover;
+                    break;
+                default:
+                    return false;
+            }
+
+            List<HttpPostedFileBase> fileBases = files[keyName];
+
+            foreach (var file in fileBases)
             {
                 //刪除檔案
-                FileService.DeleteFileBySource(SourceTypeEnum.OpenContractCover, model.Id);
+                FileService.DeleteFileBySource(sourceType, model.Id);
 
                 //新增檔案
                 FileService.UploadFileByGuidName(new UploadFileBaseModel
                 {
                     File = file,
-                    SourceId = entity.Id,
-                    SourceType = SourceTypeEnum.OpenContractCover,
+                    SourceId = model.Id,
+                    SourceType = sourceType,
                     User = user.UserName
-                });
+                }, false);
             }
-        
-            result = true;
-
-            return result;
+            return fileBases.Any();
         }
 
         /// <summary>

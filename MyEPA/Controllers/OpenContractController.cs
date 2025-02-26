@@ -88,7 +88,7 @@ namespace MyEPA.Controllers
         [HttpPost]
         public ActionResult Create(OpenContractModel model, HttpPostedFileBase file)
         {
-            OpenContractService.Create(GetUserBrief(),model, file);
+            OpenContractService.Create(GetUserBrief(),model, GetUploadFiles());
             return RedirectToIndex();
         }
 
@@ -106,7 +106,7 @@ namespace MyEPA.Controllers
             return View(result);
         }
         [HttpPost]
-        public ActionResult Edit(string submitButton, OpenContractViewModel model, HttpPostedFileBase file)
+        public ActionResult Edit(string submitButton, OpenContractModel model, HttpPostedFileBase file)
         {
             int type = model.ResourceTypeId;
 
@@ -116,8 +116,9 @@ namespace MyEPA.Controllers
                 return CopyOpenContractById(model.Id);
             }
 
-            OpenContractService.Update(GetUserBrief() ,model, file);
-            
+            //OpenContractService.Update(GetUserBrief() ,model, file);
+            OpenContractService.Update(GetUserBrief(), model, GetUploadFiles());
+
             return RedirectToAction("index", new { type = type });
         }
 
