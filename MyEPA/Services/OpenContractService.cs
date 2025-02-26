@@ -209,7 +209,8 @@ namespace MyEPA.Services
                 _errorMessage = "沒有變更權限(縣市不符)";
                 result = false;
             }
-            else if (user.TownId != townId)
+            else if (user.TownId != townId
+                && !(user.Town == "環保局" && townId == 0))  //部分縣市環保局沒有TownId
             {
                 _errorMessage = "沒有變更權限(鄉鎮不符)";
                 result = false;

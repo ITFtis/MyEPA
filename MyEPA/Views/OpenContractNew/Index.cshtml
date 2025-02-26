@@ -176,11 +176,13 @@
 <script src="~/Scripts/assets/jquery-2.1.4.min.js"></script>
 <script>
     $(document).ready(function () {
-        if ($('#City option').length == 1) {
-            cityId = $('#City option').val();
-            GetTowns(cityId);
-        }
-        $('#City').change(function () { ChangeCity(); });
+        //選定縣市(ex.縣市下拉查詢)
+        GetTowns();
+
+        $('#City').change(function ()
+        {
+            GetTowns();
+        });
     });
 
     function DeleteMain(id) {
@@ -207,16 +209,20 @@
         });
     };
 
-    function ChangeCity() {
-        var selectedValue = $('#City option:selected').val();
+    function GetTowns() {
+
         $('#Town').empty();
         $('#Town').append($('<option></option>').val('').text('請選擇鄉鎮'));
 
-        if ($.trim(selectedValue).length > 0) {
-            GetTowns(selectedValue);
+        cityId = $('#City option:selected').val();
+        if (cityId == null) {
+            alert("cityId錯誤：null");
+            return;
         }
-    }
-    function GetTowns(cityId) {
+        else if (cityId == "") {
+            return;
+        }
+
         $.ajax({
             url: '@Url.Action("Towns", "Geolocation")'+'?cityId='+cityId,
             type: 'get',
