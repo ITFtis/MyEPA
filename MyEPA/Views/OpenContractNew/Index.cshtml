@@ -95,10 +95,11 @@
 
             <table class="table">
                 <tr>
-                    <th width="10%"></th>
+                    <th width="7%"></th>
                     <th width="9%">承辦單位(建檔者)</th>
                     <th width="9%">合約種類</th>
-                    <th width="19%">合約名稱</th>
+                    <th width="15%">合約名稱</th>
+                    <th width="7%">細目連結</th>
                     <th width="7%">簽約日期</th>
                     <th width="7%">合約起始</th>
                     <th width="7%">合約截止</th>
@@ -109,7 +110,7 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>
+                        <td align="center">
                             @{
                                 if (item.CanEdit ?? false)
                                 {
@@ -122,11 +123,6 @@
                                     @Html.ActionLink("檢視", "Edit", new { id = item.Id })
                                 }
                             }
-                            @*細目*@
-                            | @{
-                                string strDetailCount = "(" + (item.DetailCount ?? 0).ToString() + ")";
-                            }
-                            @Html.ActionLink("細目" + strDetailCount, "Index", "OpenContractNewDetail", new { openContractId = item.Id }, new { })
                         </td>
                         <td>
                             @(item.CityName + item.TownName)
@@ -138,13 +134,14 @@
                             @{
                                 if (item.Name.IndexOf("oooo") > -1)
                                 {
-                                    <span class="text-danger">@item.Name</span>
+                                    <span style="color:red">***</span>
                                 }
-                                else
-                                {
-                                    @item.Name
-                                }
+
+                                @item.Name
                             }
+                        </td>
+                        <td>
+                            @Html.ActionLink((item.DetailCount ?? 0).ToString(), "Index", "OpenContractNewDetail", new { openContractId = item.Id }, new { @style = "color:red;text-decoration: underline;" })
                         </td>
                         <td>
                             @DateFormat.ToDate4(item.KeyInDate)
