@@ -20,3 +20,14 @@ Inner Join
 Where a.TownId = 368
 
 --2.TownId Null
+Update OpenContract
+Set TownId = b.rTownId
+From OpenContract a
+Inner Join
+(
+	Select CityId, Id AS rTownId
+	From Town
+	Where Name = 'Àô«O§½'
+)b On a.CityId = b.CityId
+Where a.TownId Is Null Or a.TownId = 0
+
