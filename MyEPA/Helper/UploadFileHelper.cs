@@ -11,6 +11,8 @@ namespace MyEPA.Helper
 {
     public static class UploadFileHelper
     {
+        private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private static string _DefaultFolder = "UserFiles";
         public static string GetFileExtension(this HttpPostedFileBase file)
         {
@@ -137,9 +139,10 @@ namespace MyEPA.Helper
                     Status = FileDataEnum.Success
                 };
             }
-            catch
+            catch(Exception ex)
             {
-
+                logger.Error(ex.Message);
+                logger.Error(ex.StackTrace);
             }
             return new FileUploadResultBaseModels 
             {
