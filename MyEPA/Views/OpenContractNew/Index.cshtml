@@ -186,7 +186,7 @@
         if (!window.confirm('確定要刪除?')) {
             return;
         };
-        var root = '@Url.Action("Delete", "OpenContract")?id=' + id;
+        var root = '@Url.Action("Delete", "OpenContractNew")?id=' + id;
         $.ajax({
             url: root,
             method: 'Post',
