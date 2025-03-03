@@ -95,8 +95,8 @@ namespace MyEPA.Controllers.Rec
         public ActionResult CreateNext(OpenContractDetailModel model, HttpPostedFileBase file)
         {
             //合約(第一步)
-            OpenContractModel main = (OpenContractModel)Session["OpenContract"];
-            OpenContractService.Create(GetUserBrief(), main, GetUploadFiles());
+            OpenContractNextModel main = (OpenContractNextModel)Session["OpenContract"];            
+            OpenContractService.Create(GetUserBrief(), main, main.Files);
 
             Session["OpenContract"] = null;
 

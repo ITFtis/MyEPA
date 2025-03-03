@@ -105,10 +105,12 @@ namespace MyEPA.Controllers.Rec
         ////    return RedirectToIndex();
         ////}
 
-        //主表(合約)下一步
+        //(主表)合約下一步
         [HttpPost]
-        public ActionResult Next(OpenContractModel model, HttpPostedFileBase file)
+        public ActionResult Next(OpenContractNextModel model)
         {
+            model.Files = GetUploadFiles();
+
             Session["OpenContract"] = model;
             return RedirectToAction("CreateNext", "OpenContractNewDetail");
         }

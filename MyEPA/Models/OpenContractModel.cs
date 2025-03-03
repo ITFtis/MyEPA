@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+using System.Web;
 
 namespace MyEPA.Models
 {
@@ -85,5 +87,13 @@ namespace MyEPA.Models
         /// 是否有編輯權限
         /// </summary>
         public bool? CanEdit { get; set; }
+    }
+
+    /// <summary>
+    /// 下一步Model
+    /// </summary>
+    public class OpenContractNextModel : OpenContractModel
+    {
+        public Dictionary<string, List<HttpPostedFileBase>> Files { get; set; }
     }
 }
