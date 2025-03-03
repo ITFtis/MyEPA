@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyEPA.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -33,6 +34,9 @@ namespace MyEPA.ViewModels
         public string ItemCategory { get; set; }
 
         public int Status { get; set; }
+
+        [DisplayName("合約細目")]
+        public List<FileDataModel> DetailFiles { get; set; }
 
         /// <summary>
         /// 建立時間

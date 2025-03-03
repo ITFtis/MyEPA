@@ -52,6 +52,9 @@
                     <th>
                         @Html.DisplayNameFor(model => model.ItemCategory)
                     </th>
+                    <th>
+                        檔案(合約細目)
+                    </th>
                 </tr>
 
                 @foreach (var item in Model)
@@ -82,6 +85,14 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.ItemCategory)
                         </td>
+                        <th>
+                            @foreach (var file in item.DetailFiles)
+                            {
+                                <div class="imgDiv">
+                                    @Html.ActionLink(file.UserFileName, "Download", "FileData", new { id = file.Id }, new { })
+                                </div>
+                            }
+                        </th>
                     </tr>
                 }
 

@@ -157,7 +157,7 @@
                     {
                         <a href="@Url.Action("Download", "FileData", new { id = item.Id })">@item.UserFileName</a>
                     }
-                    <input type="file" name="CoverFile" id="file" accept=".png, .pdf, .jpg, .jpeg, .docx, .mp4" />
+                    <input type="file" name="CoverFile" id="file" @(coverFiles.Count == 0 ? "required": "") accept=".png, .pdf, .jpg, .jpeg, .docx, .mp4" />
                     <span class="text-primary mt-2">限定(.png, .pdf, .jpg, .jpeg, .docx, .mp4)</span>
                 </div>
             </div>
@@ -172,7 +172,7 @@
                     {
                         <a href="@Url.Action("Download", "FileData", new { id = item.Id })">@item.UserFileName</a>
                     }
-                    <input type="file" name="SealFile" id="file" accept=".png, .pdf, .jpg, .jpeg, .docx, .mp4" />
+                    <input type="file" name="SealFile" id="file" @(sealImages.Count == 0 ? "required": "") accept=".png, .pdf, .jpg, .jpeg, .docx, .mp4" />
                     <span class="text-primary mt-2">限定(.png, .pdf, .jpg, .jpeg, .docx, .mp4)</span>
                 </div>
             </div>
@@ -187,7 +187,7 @@
                     {
                         <a href="@Url.Action("Download", "FileData", new { id = item.Id })">@item.UserFileName</a>
                     }
-                    <input type="file" name="TargetFile" id="file" accept=".png, .pdf, .jpg, .jpeg, .docx, .mp4" />
+                    <input type="file" name="TargetFile" id="file" @(targetImages.Count == 0 ? "required": "") accept=".png, .pdf, .jpg, .jpeg, .docx, .mp4" />
                     <span class="text-primary mt-2">限定(.png, .pdf, .jpg, .jpeg, .docx, .mp4)</span>
                 </div>
             </div>

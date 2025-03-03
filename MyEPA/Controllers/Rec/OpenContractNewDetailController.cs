@@ -24,11 +24,26 @@ namespace MyEPA.Controllers.Rec
         // GET: OpenContractNewDetail
         public ActionResult Index(int openContractId)
         {
-            var result = OpenContractDetailService.GetList(openContractId);
+            var datas = OpenContractDetailService.GetList(openContractId);
 
             //排序
-            result = result.OrderByDescending(a => a.CreateDate)
+            datas = datas.OrderByDescending(a => a.CreateDate)
                         .ToList();
+
+            //環境清理
+            foreach (var data in datas)
+            {
+                //無資料，無圖檔
+                if (data.Id == 0)
+                {
+                    data.DetailFiles = new List<FileDataModel>();
+                    continue;
+                }
+
+                data.DetailFiles = FileDataService.GetBySource(SourceTypeEnum.OpenContractDetail, data.Id);                
+            }
+
+            var result = datas;
 
             var openContract = OpenContractService.Get(openContractId);
             var user = GetUserBrief();

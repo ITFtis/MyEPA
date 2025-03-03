@@ -141,7 +141,7 @@
                             }
                         </td>
                         <td>
-                            @Html.ActionLink((item.DetailCount ?? 0).ToString(), "Index", "OpenContractNewDetail", new { openContractId = item.Id }, new { @style = "color:red;text-decoration: underline;" })
+                            @Html.ActionLink((item.DetailCount ?? 0).ToString(), "Index", "OpenContractNewDetail", new { openContractId = item.Id }, new { @style = "color:blue;font-size:medium;text-decoration: underline;" })
                         </td>
                         <td>
                             @DateFormat.ToDate4(item.KeyInDate)
