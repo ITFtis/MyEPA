@@ -783,8 +783,6 @@
     <Compile Include="Controllers\OldControllers\EPBxWaterController.cs" />
     <Compile Include="Controllers\OldControllers\HomeController.cs" />
     <Compile Include="Controllers\OldControllers\HomexRegisterController.cs" />
-    <Compile Include="Controllers\OpenContractDetailController.cs" />
-    <Compile Include="Controllers\OpenContractController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Enums\FileDataEnum.cs" />
     <Compile Include="Enums\ResourceTypeEnum.cs" />
@@ -1619,12 +1617,6 @@
     <Content Include="Views\EPA\A2a1Apply.cshtml" />
     <Content Include="Views\EIT\EIT1c18.cshtml" />
     <Content Include="Views\Home\_ThirdLayout.cshtml" />
-    <Content Include="Views\OpenContract\Index.cshtml" />
-    <Content Include="Views\OpenContract\Create.cshtml" />
-    <Content Include="Views\OpenContract\Edit.cshtml" />
-    <Content Include="Views\OpenContractDetail\Index.cshtml" />
-    <Content Include="Views\OpenContractDetail\Create.cshtml" />
-    <Content Include="Views\OpenContractDetail\Edit.cshtml" />
     <Content Include="Scripts\_files\Control.Draw.js" />
     <Content Include="Scripts\_files\Draw.Circle.js" />
     <Content Include="Scripts\_files\Draw.Feature.js" />
@@ -1728,7 +1720,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Project_Readme.html" />
-    <Content Include="Views\OpenContract\Search.cshtml" />
     <Content Include="Views\MutualSupport\Index.cshtml" />
     <Content Include="Views\MutualSupport\Create.cshtml" />
     <Content Include="Views\MutualSupport\Edit.cshtml" />
