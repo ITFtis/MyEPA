@@ -2040,6 +2040,7 @@
     <Content Include="Views\OpenContractNewDetail\Index.cshtml" />
     <Content Include="Views\OpenContractNewDetail\Edit.cshtml" />
     <Content Include="Views\OpenContractNewDetail\Create.cshtml" />
+    <Content Include="Views\OpenContractNewDetail\CreateNext.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="C:\NuGetPackages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.7\analyzers\dotnet\cs\Microsoft.CodeAnalysis.VersionCheckAnalyzer.resources.dll" />

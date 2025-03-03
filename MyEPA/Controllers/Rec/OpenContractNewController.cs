@@ -26,6 +26,8 @@ namespace MyEPA.Controllers.Rec
         // GET: OpenContractNew
         public ActionResult Index(int? cityId, int? townId, int? resourceTypeId, int? year)
         {
+            Session["OpenContract"] = null;
+
             bool isEffective = Request.QueryString["isEffective"] == null ? false : bool.Parse(Request.QueryString["isEffective"].ToString());
 
             OpenContractFilterParameter filter = new OpenContractFilterParameter
@@ -96,11 +98,19 @@ namespace MyEPA.Controllers.Rec
             });
         }
 
+        ////[HttpPost]
+        ////public ActionResult Create(OpenContractModel model, HttpPostedFileBase file)
+        ////{
+        ////    OpenContractService.Create(GetUserBrief(), model, GetUploadFiles());
+        ////    return RedirectToIndex();
+        ////}
+
+        //主表(合約)下一步
         [HttpPost]
-        public ActionResult Create(OpenContractModel model, HttpPostedFileBase file)
+        public ActionResult Next(OpenContractModel model, HttpPostedFileBase file)
         {
-            OpenContractService.Create(GetUserBrief(), model, GetUploadFiles());
-            return RedirectToIndex();
+            Session["OpenContract"] = model;
+            return RedirectToAction("CreateNext", "OpenContractNewDetail");
         }
 
         public ActionResult Edit(int id)
