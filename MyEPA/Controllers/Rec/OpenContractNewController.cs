@@ -137,8 +137,8 @@ namespace MyEPA.Controllers.Rec
             ViewBag.CanEdit = OpenContractService.CheckPermissions(user, result.CityId, result.TownId);
 
             ViewBag.CoverFiles = FileDataService.GetBySource(SourceTypeEnum.OpenContractCover, id);
-            ViewBag.SealImages = FileDataService.GetBySource(SourceTypeEnum.OpenContractSeal, id);
-            ViewBag.TargetImages = FileDataService.GetBySource(SourceTypeEnum.OpenContractTarget, id);
+            ViewBag.SealFiles = FileDataService.GetBySource(SourceTypeEnum.OpenContractSeal, id);
+            ViewBag.TargetFiles = FileDataService.GetBySource(SourceTypeEnum.OpenContractTarget, id);
             ViewBag.DetailFiles = FileDataService.GetBySource(SourceTypeEnum.OpenContractDetail, id);
 
             return View(result);

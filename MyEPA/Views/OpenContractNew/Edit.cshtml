@@ -9,8 +9,8 @@
     UserBriefModel user = ViewBag.User;
 
     List<FileDataModel> coverFiles = ViewBag.CoverFiles;
-    List<FileDataModel> sealImages = ViewBag.SealImages;
-    List<FileDataModel> targetImages = ViewBag.TargetImages;
+    List<FileDataModel> sealFiles = ViewBag.SealFiles;
+    List<FileDataModel> targetFiles = ViewBag.TargetFiles;
     List<FileDataModel> detailFiles = ViewBag.DetailFiles;
 }
 <link rel="stylesheet" href="~/Content/flatpickr.css">
@@ -171,11 +171,11 @@
                     <span class="text-success">(上限20Mb)</span>
                 </label>
                 <div class="col-md-10">
-                    @foreach (var item in sealImages)
+                    @foreach (var item in sealFiles)
                     {
                         <a href="@Url.Action("Download", "FileData", new { id = item.Id })">@item.UserFileName</a>
                     }
-                    <input type="file" name="SealFile" id="file" @(sealImages.Count == 0 ? "required" : "") accept=".png, .pdf, .jpg, .jpeg, .docx" />
+                    <input type="file" name="SealFile" id="file" @(sealFiles.Count == 0 ? "required" : "") accept=".png, .pdf, .jpg, .jpeg, .docx" />
                     <span class="text-primary mt-2">限定(.png, .pdf, .jpg, .jpeg, .docx)</span>
                 </div>
             </div>
@@ -187,11 +187,11 @@
                     <span class="text-success">(上限20Mb)</span>
                 </label>
                 <div class="col-md-10">
-                    @foreach (var item in targetImages)
+                    @foreach (var item in targetFiles)
                     {
                         <a href="@Url.Action("Download", "FileData", new { id = item.Id })">@item.UserFileName</a>
                     }
-                    <input type="file" name="TargetFile" id="file" @(targetImages.Count == 0 ? "required" : "") accept=".png, .pdf, .jpg, .jpeg, .docx" />
+                    <input type="file" name="TargetFile" id="file" @(targetFiles.Count == 0 ? "required" : "") accept=".png, .pdf, .jpg, .jpeg, .docx" />
                     <span class="text-primary mt-2">限定(.png, .pdf, .jpg, .jpeg, .docx)</span>
                 </div>
             </div>
