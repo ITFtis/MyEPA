@@ -89,9 +89,6 @@ namespace MyEPA.Services
             //雙方用印
             UploadFile(user, model, files, "SealFile");
 
-            //履約標的
-            UploadFile(user, model, files, "TargetFile");
-
             //合約細目
             UploadFile(user, model, files, "DetailFile");
         }
@@ -185,9 +182,6 @@ namespace MyEPA.Services
             //雙方用印
             UploadFile(user, model, files, "SealFile");
 
-            //履約標的
-            UploadFile(user, model, files, "TargetFile");
-
             //合約細目
             UploadFile(user, model, files, "DetailFile");
 
@@ -210,9 +204,6 @@ namespace MyEPA.Services
                     break;
                 case "SealFile":
                     sourceType = SourceTypeEnum.OpenContractSeal;
-                    break;
-                case "TargetFile":
-                    sourceType = SourceTypeEnum.OpenContractTarget;
                     break;
                 case "DetailFile":
                     sourceType = SourceTypeEnum.OpenContractDetail;
