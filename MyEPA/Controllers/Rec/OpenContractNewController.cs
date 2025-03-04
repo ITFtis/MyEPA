@@ -25,9 +25,7 @@ namespace MyEPA.Controllers.Rec
 
         // GET: OpenContractNew
         public ActionResult Index(int? cityId, int? townId, int? resourceTypeId, int? year)
-        {
-            Session["OpenContract"] = null;
-
+        {            
             bool isEffective = Request.QueryString["isEffective"] == null ? false : bool.Parse(Request.QueryString["isEffective"].ToString());
 
             OpenContractFilterParameter filter = new OpenContractFilterParameter
@@ -109,6 +107,8 @@ namespace MyEPA.Controllers.Rec
         [HttpPost]
         public ActionResult Next(OpenContractNextModel model)
         {
+            Session["OpenContract"] = null;
+
             model.Files = GetUploadFiles();
 
             Session["OpenContract"] = model;
