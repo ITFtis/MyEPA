@@ -147,14 +147,8 @@ namespace MyEPA.Controllers.Rec
         }
 
         [HttpPost]
-        public ActionResult Edit(string submitButton, OpenContractModel model, HttpPostedFileBase file)
+        public ActionResult Edit(OpenContractModel model, HttpPostedFileBase file)
         {
-            if (submitButton == "Copy")
-            {
-                //複製來源主約Id
-                return CopyOpenContractById(model.Id);
-            }
-
             bool done = OpenContractService.Update(GetUserBrief(), model, GetUploadFiles());
             if(!done)
             {
@@ -162,6 +156,13 @@ namespace MyEPA.Controllers.Rec
             }
 
             return RedirectToAction("index");
+        }
+
+        [HttpPost]
+        public ActionResult Copy(int id)
+        {
+            //複製來源主約Id
+            return CopyOpenContractById(id);
         }
 
         [HttpPost]
