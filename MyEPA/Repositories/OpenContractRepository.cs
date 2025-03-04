@@ -88,9 +88,14 @@ namespace MyEPA.Repositories
             {
                 whereSQL += " AND oc.TownId IN @TownIds";
             }
-            if (filter.Year.HasValue)
+            if (filter.YearRange.HasValue)
             {
-                whereSQL += " AND (YEAR(oc.OContractDateBegin) = @Year OR YEAR(oc.OContractDateEnd) = @Year)";
+                whereSQL += @" AND 
+                            (
+                                @YearRange >= YEAR(oc.OContractDateBegin)
+                                AND 
+                                @YearRange <= YEAR(oc.OContractDateEnd)
+                            )";
             }
             if(filter.IsEffective.HasValue && filter.IsEffective.Value)
             {

@@ -24,7 +24,7 @@ namespace MyEPA.Controllers.Rec
         FileDataService FileDataService = new FileDataService();
 
         // GET: OpenContractNew
-        public ActionResult Index(int? cityId, int? townId, int? resourceTypeId, int? year)
+        public ActionResult Index(int? cityId, int? townId, int? resourceTypeId, int? yearRange)
         {            
             bool isEffective = Request.QueryString["isEffective"] == null ? false : bool.Parse(Request.QueryString["isEffective"].ToString());
 
@@ -33,7 +33,7 @@ namespace MyEPA.Controllers.Rec
                 CityIds = cityId.HasValue ? cityId.Value.ToListCollection() : null,
                 TownIds = townId.HasValue ? townId.Value.ToListCollection() : null,
                 ResourceTypeIds = resourceTypeId.HasValue ? resourceTypeId.Value.ToListCollection() : null,
-                Year = year,
+                YearRange = yearRange,
                 IsEffective = isEffective,
             };
 
@@ -72,7 +72,7 @@ namespace MyEPA.Controllers.Rec
             //ViewBag.Towns = TownService.GetAll();
 
             //querystring
-            ViewBag.Year = year;
+            ViewBag.YearRange = yearRange;
             ViewBag.ResourceTypeId = resourceTypeId;
             ViewBag.CityId = cityId;
             ViewBag.TownId = townId;

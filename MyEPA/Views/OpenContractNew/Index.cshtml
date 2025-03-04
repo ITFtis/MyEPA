@@ -10,7 +10,7 @@
     UserBriefModel user = ViewBag.User;
 
     int? resourceTypeId = ViewBag.ResourceTypeId;
-    int? year = ViewBag.Year;
+    int? yearRange = ViewBag.YearRange;
     int? cityId = ViewBag.CityId;
     int? townId = ViewBag.TownId;
     bool isEffective = ViewBag.IsEffective ?? false;
@@ -32,7 +32,7 @@
                                     <select id="City" Name="CityId">
                                         @if (citys.Count > 1)
                                         {
-                                            <option value="">請選擇縣市</option>
+                                            <option value="">全部縣市</option>
                                         }                                        
                                         @foreach (var city in citys)
                                         {
@@ -41,7 +41,7 @@
                                         }
                                     </select>
                                     <select id="Town" name="TownId">
-                                        <option value="">請選擇鄉鎮</option>
+                                        <option value="">全部鄉鎮</option>
                                     </select>
                                 </td>
                             </tr>
@@ -49,7 +49,7 @@
                                 <td><h5>合約種類：</h5></td>
                                 <td>
                                     <select id="resourceTypeId" name="resourceTypeId">
-                                        <option value="">請選擇種類</option>
+                                        <option value="">全部</option>
                                         @foreach (var item in types)
                                         {
                                             string selected = @item.Id == resourceTypeId ? "selected" : "";
@@ -59,14 +59,14 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td><h5>簽約年度：</h5></td>
+                                <td><h5>合約期間：</h5></td>
                                 <td>
-                                    <select id="year" name="year">
-                                        <option value="">請選擇年度</option>
+                                    <select id="yearRange" name="yearRange">
+                                        <option value="">全部年度</option>
                                         @for (int i = DateTime.Now.Year; i > DateTime.Now.Year - 5; i--)
                                         {
                                             {
-                                                string selected = @i == year ? "selected" : "";
+                                                string selected = @i == yearRange ? "selected" : "";
                                                 <option value="@i" @selected>@i</option>
                                             }
                                         }
@@ -209,7 +209,7 @@
     function GetTowns() {
 
         $('#Town').empty();
-        $('#Town').append($('<option></option>').val('').text('請選擇鄉鎮'));
+        $('#Town').append($('<option></option>').val('').text('全部鄉鎮'));
 
         cityId = $('#City option:selected').val();
         if (cityId == null) {

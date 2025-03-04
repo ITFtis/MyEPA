@@ -6,7 +6,7 @@ namespace MyEPA.Models
     {
         public List<int> CityIds { get; set; }
         public List<int> ResourceTypeIds { get; set; }
-        public int? Year { get; set; }
+        public int? YearRange { get; set; }
         public List<int> TownIds { get; set; }
         public bool? IsEffective { get; internal set; }
     }
