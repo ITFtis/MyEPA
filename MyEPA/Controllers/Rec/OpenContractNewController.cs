@@ -139,6 +139,7 @@ namespace MyEPA.Controllers.Rec
             ViewBag.CoverFiles = FileDataService.GetBySource(SourceTypeEnum.OpenContractCover, id);
             ViewBag.SealImages = FileDataService.GetBySource(SourceTypeEnum.OpenContractSeal, id);
             ViewBag.TargetImages = FileDataService.GetBySource(SourceTypeEnum.OpenContractTarget, id);
+            ViewBag.DetailFiles = FileDataService.GetBySource(SourceTypeEnum.OpenContractDetail, id);
 
             return View(result);
         }

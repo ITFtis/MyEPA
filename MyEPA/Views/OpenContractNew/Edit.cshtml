@@ -11,6 +11,7 @@
     List<FileDataModel> coverFiles = ViewBag.CoverFiles;
     List<FileDataModel> sealImages = ViewBag.SealImages;
     List<FileDataModel> targetImages = ViewBag.TargetImages;
+    List<FileDataModel> detailFiles = ViewBag.DetailFiles;
 }
 <link rel="stylesheet" href="~/Content/flatpickr.css">
 <link rel="stylesheet" href="~/Content/confirmDate.css">
@@ -196,6 +197,22 @@
             </div>
 
             <div class="form-group">
+                <label class="control-label col-md-2">
+                    <span class="text-danger">*</span>
+                    合約細目<br />
+                    <span class="text-success">(上限20Mb)</span>
+                </label>
+                <div class="col-md-10">
+                    @foreach (var item in detailFiles)
+                    {
+                        <a href="@Url.Action("Download", "FileData", new { id = item.Id })">@item.UserFileName</a>
+                    }
+                    <input type="file" name="DetailFile" id="file" @(detailFiles.Count == 0 ? "required" : "") accept=".png, .pdf, .jpg, .jpeg, .docx" />
+                    <span class="text-primary mt-2">限定(.png, .pdf, .jpg, .jpeg, .docx)</span>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     @if (ViewBag.CanEdit)
                     {
@@ -249,6 +266,17 @@
             var maxSize = mb * 1024 * 1024;  //mb(上限)
             if (this.files[0].size > maxSize) {
                 alert("(履約標的)檔案上限:" + mb.toString() + "MB");
+                $(this).val('');
+                return;
+            };
+        })
+
+        $('input[name="DetailFile"]').on("change", function () {
+            //限定檔案大小
+            var mb = 20;
+            var maxSize = mb * 1024 * 1024;  //mb(上限)
+            if (this.files[0].size > maxSize) {
+                alert("(合約細目)檔案上限:" + mb.toString() + "MB");
                 $(this).val('');
                 return;
             };

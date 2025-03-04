@@ -92,6 +92,8 @@ namespace MyEPA.Services
             //履約標的
             UploadFile(user, model, files, "TargetFile");
 
+            //合約細目
+            UploadFile(user, model, files, "DetailFile");
         }
 
         /// <summary>
@@ -186,6 +188,9 @@ namespace MyEPA.Services
             //履約標的
             UploadFile(user, model, files, "TargetFile");
 
+            //合約細目
+            UploadFile(user, model, files, "DetailFile");
+
             result = true;
 
             return result;
@@ -208,6 +213,9 @@ namespace MyEPA.Services
                     break;
                 case "TargetFile":
                     sourceType = SourceTypeEnum.OpenContractTarget;
+                    break;
+                case "DetailFile":
+                    sourceType = SourceTypeEnum.OpenContractDetail;
                     break;
                 default:
                     return false;
