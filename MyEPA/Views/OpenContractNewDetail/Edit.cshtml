@@ -96,8 +96,8 @@
             {
                 <a href="@Url.Action("Download", "FileData", new { id = item.Id })">@item.UserFileName</a>
             }
-            <input type="file" name="DetailFile" id="file" @(detailFiles.Count == 0 ? "required": "") accept=".png, .pdf, .jpg, .jpeg, .docx, .mp4" />
-            <span class="text-primary mt-2">限定(.png, .pdf, .jpg, .jpeg, .docx, .mp4)</span>
+            <input type="file" name="DetailFile" id="file" @(detailFiles.Count == 0 ? "required": "") accept=".png, .pdf, .jpg, .jpeg, .docx" />
+            <span class="text-primary mt-2">限定(.png, .pdf, .jpg, .jpeg, .docx)</span>
         </div>
     </div>
 
