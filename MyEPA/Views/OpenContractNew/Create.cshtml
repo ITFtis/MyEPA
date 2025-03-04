@@ -15,171 +15,215 @@
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <hr />
+    <div class="form-horizontal">
+        <hr />
 
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    <div class="form-group">
-        <label class="control-label col-md-2">
-            <span class="text-danger">*</span>
-            合約種類
-        </label>
-        <div class="col-md-10">
-            <select id="ResourceTypeId" name="ResourceTypeId">
-                @foreach (var item in types)
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                <span class="text-danger">*</span>
+                合約種類
+            </label>
+            <div class="col-md-10">
+                <select id="ResourceTypeId" name="ResourceTypeId">
+                    @foreach (var item in types)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                <span class="text-danger">*</span>
+                合約名稱
+            </label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                <span class="text-danger">*</span>
+                簽約日期
+            </label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.KeyInDate, new { htmlAttributes = new { @class = "form-control flatpickr flatpickr-input", @placeholder = "簽約日期", @required = "required" } })
+                @Html.ValidationMessageFor(model => model.KeyInDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                <span class="text-danger">*</span>
+                合約起始
+            </label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.OContractDateBegin, new { htmlAttributes = new { @class = "form-control flatpickr flatpickr-input", @placeholder = "開始日期", @required = "required" } })
+                @Html.ValidationMessageFor(model => model.OContractDateBegin, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                <span class="text-danger">*</span>
+                合約截止
+            </label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.OContractDateEnd, new { htmlAttributes = new { @class = "form-control flatpickr flatpickr-input", @placeholder = "結束日期", @required = "required" } })
+                @Html.ValidationMessageFor(model => model.OContractDateEnd, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                <span class="text-danger">*</span>
+                合約廠商
+            </label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Fac, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                @Html.ValidationMessageFor(model => model.Fac, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                <span class="text-danger">*</span>
+                負責人
+            </label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Owner, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                @Html.ValidationMessageFor(model => model.Owner, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                <span class="text-danger">*</span>
+                聯絡電話
+            </label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TEL, new { htmlAttributes = new { @class = "form-control", @pattern = RegexUtility.TEL, @required = "required" } })
+                @Html.ValidationMessageFor(model => model.TEL, "", new { @class = "text-danger" })
+                EX.012-34567890#12345
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                <span class="text-danger">*</span>
+                行動電話
+            </label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MobileTEL, new { htmlAttributes = new { @class = "form-control", @pattern = RegexUtility.Mobile, @required = "required" } })
+                @Html.ValidationMessageFor(model => model.MobileTEL, "", new { @class = "text-danger" })
+                EX.0912-345678
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsSupportCity, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("IsSupportCity", new List<SelectListItem>
                 {
-                    <option value="@item.Id">@item.Name</option>
-                }
-            </select>
-        </div>
-    </div>
+                    new SelectListItem{Text = "否", Value = "false"},
+                    new SelectListItem{Text = "是", Value = "true"},
+                })
+            </div>
 
-    <div class="form-group">
-        <label class="control-label col-md-2">
-            <span class="text-danger">*</span>
-            合約名稱
-        </label>
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
-            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="control-label col-md-2">
-            <span class="text-danger">*</span>
-            簽約日期
-        </label>
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.KeyInDate, new { htmlAttributes = new { @class = "form-control flatpickr flatpickr-input", @placeholder = "簽約日期", @required = "required" } })
-            @Html.ValidationMessageFor(model => model.KeyInDate, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="control-label col-md-2">
-            <span class="text-danger">*</span>
-            合約起始
-        </label>
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.OContractDateBegin, new { htmlAttributes = new { @class = "form-control flatpickr flatpickr-input", @placeholder = "開始日期", @required = "required" } })
-            @Html.ValidationMessageFor(model => model.OContractDateBegin, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="control-label col-md-2">
-            <span class="text-danger">*</span>
-            合約截止
-        </label>
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.OContractDateEnd, new { htmlAttributes = new { @class = "form-control flatpickr flatpickr-input", @placeholder = "結束日期", @required = "required" } })
-            @Html.ValidationMessageFor(model => model.OContractDateEnd, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="control-label col-md-2">
-            <span class="text-danger">*</span>
-            合約廠商
-        </label>
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Fac, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
-            @Html.ValidationMessageFor(model => model.Fac, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="control-label col-md-2">
-            <span class="text-danger">*</span>
-            負責人
-        </label>
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Owner, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
-            @Html.ValidationMessageFor(model => model.Owner, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="control-label col-md-2">
-            <span class="text-danger">*</span>
-            聯絡電話
-        </label>
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.TEL, new { htmlAttributes = new { @class = "form-control", @pattern = RegexUtility.TEL, @required = "required" } })
-            @Html.ValidationMessageFor(model => model.TEL, "", new { @class = "text-danger" })
-            EX.012-34567890#12345
-        </div>
-    </div>
-
-
-    <div class="form-group">
-        <label class="control-label col-md-2">
-            <span class="text-danger">*</span>
-            行動電話
-        </label>
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.MobileTEL, new { htmlAttributes = new { @class = "form-control", @pattern = RegexUtility.Mobile, @required = "required" } })
-            @Html.ValidationMessageFor(model => model.MobileTEL, "", new { @class = "text-danger" })
-            EX.0912-345678
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.IsSupportCity, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("IsSupportCity", new List<SelectListItem>
-            {
-                new SelectListItem{Text = "否", Value = "false"},
-                new SelectListItem{Text = "是", Value = "true"},
-            })
         </div>
 
-    </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" for="file">
+                <span class="text-danger">*</span>
+                契約書封面<br />
+                <span class="text-success">(上限20Mb)</span>
+            </label>
+            <div class="col-md-10">
+                <input type="file" name="CoverFile" id="file" required accept=".png, .pdf, .jpg, .jpeg, .docx" />
+                <span class="text-primary mt-2">限定(.png, .pdf, .jpg, .jpeg, .docx)</span>
+            </div>
+        </div>
 
-    <div class="form-group">
-        <label class="control-label col-md-2" for="file">
-            <span class="text-danger">*</span>
-            檔案(契約書封面)
-        </label>
-        <div class="col-md-10">
-            <input type="file" name="CoverFile" id="file" required accept=".png, .pdf, .jpg, .jpeg, .docx" />
-            <span class="text-primary mt-2">限定(.png, .pdf, .jpg, .jpeg, .docx)</span>
+        <div class="form-group">
+            <label class="control-label col-md-2" for="file">
+                <span class="text-danger">*</span>
+                雙方用印<br />
+                <span class="text-success">(上限20Mb)</span>
+            </label>
+            <div class="col-md-10">
+                <input type="file" name="SealFile" id="file" required accept=".png, .pdf, .jpg, .jpeg, .docx" />
+                <span class="text-primary mt-2">限定(.png, .pdf, .jpg, .jpeg, .docx)</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="file">
+                <span class="text-danger">*</span>
+                履約標的<br />
+                <span class="text-success">(上限20Mb)</span>
+            </label>
+            <div class="col-md-10">
+                <input type="file" name="TargetFile" id="file" required accept=".png, .pdf, .jpg, .jpeg, .docx" />
+                <span class="text-primary mt-2">限定(.png, .pdf, .jpg, .jpeg, .docx)</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="儲存" class="btn btn-danger" />
+                @Html.ActionLink("取消", "Index", new { }, new { @class = "btn btn-success" })
+            </div>
         </div>
     </div>
-
-    <div class="form-group">
-        <label class="control-label col-md-2" for="file">
-            <span class="text-danger">*</span>
-            檔案(雙方用印)
-        </label>
-        <div class="col-md-10">
-            <input type="file" name="SealFile" id="file" required accept=".png, .pdf, .jpg, .jpeg, .docx" />
-            <span class="text-primary mt-2">限定(.png, .pdf, .jpg, .jpeg, .docx)</span>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="control-label col-md-2" for="file">
-            <span class="text-danger">*</span>
-            檔案(履約標的)
-        </label>
-        <div class="col-md-10">
-            <input type="file" name="TargetFile" id="file" required accept=".png, .pdf, .jpg, .jpeg, .docx" />
-            <span class="text-primary mt-2">限定(.png, .pdf, .jpg, .jpeg, .docx)</span>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="儲存" class="btn btn-danger" />
-            @Html.ActionLink("取消", "Index", new { }, new { @class = "btn btn-success" })
-        </div>
-    </div>
-</div>
 }
 
 
 <script src="~/Scripts/confirmDate.js"></script>
 <script src="~/Scripts/flatpickr.js"></script>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+        });
+
+        $('input[name="CoverFile"]').on("change", function () {
+            //限定檔案大小
+            var mb = 20;
+            var maxSize = mb * 1024 * 1024;  //mb(上限)
+            if (this.files[0].size > maxSize) {
+                alert("(契約書封面)檔案上限:" + mb.toString() + "MB");
+                $(this).val('');
+                return;
+            };
+        })
+
+        $('input[name="SealFile"]').on("change", function () {
+            //限定檔案大小
+            var mb = 20;
+            var maxSize = mb * 1024 * 1024;  //mb(上限)
+            if (this.files[0].size > maxSize) {
+                alert("(雙方用印)檔案上限:" + mb.toString() + "MB");
+                $(this).val('');
+                return;
+            };
+        })
+
+        $('input[name="TargetFile"]').on("change", function () {
+            //限定檔案大小
+            var mb = 20;
+            var maxSize = mb * 1024 * 1024;  //mb(上限)
+            if (this.files[0].size > maxSize) {
+                alert("(履約標的)檔案上限:" + mb.toString() + "MB");
+                $(this).val('');
+                return;
+            };
+        })
+    </script>
+}

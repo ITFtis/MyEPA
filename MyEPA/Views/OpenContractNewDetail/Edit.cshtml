@@ -13,99 +13,119 @@
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.Id)
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
 
-    <div class="form-group">
-        <label class="control-label col-md-2">
-            <span class="text-danger">*</span>
-            項目
-        </label>
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Items, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
-            @Html.ValidationMessageFor(model => model.Items, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                <span class="text-danger">*</span>
+                項目
+            </label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Items, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                @Html.ValidationMessageFor(model => model.Items, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label class="control-label col-md-2">
-            <span class="text-danger">*</span>
-            單位
-        </label>
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Unit, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
-            @Html.ValidationMessageFor(model => model.Unit, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                <span class="text-danger">*</span>
+                單位
+            </label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Unit, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                @Html.ValidationMessageFor(model => model.Unit, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label class="control-label col-md-2">
-            <span class="text-danger">*</span>
-            數量
-        </label>
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Count, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @step = "1", @required = "required" } })
-            @Html.ValidationMessageFor(model => model.Count, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                <span class="text-danger">*</span>
+                數量
+            </label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Count, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @step = "1", @required = "required" } })
+                @Html.ValidationMessageFor(model => model.Count, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label class="control-label col-md-2">
-            <span class="text-danger">*</span>
-            價錢
-        </label>
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @step = "1", @required = "required" } })
-            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                <span class="text-danger">*</span>
+                價錢
+            </label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @step = "1", @required = "required" } })
+                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label class="control-label col-md-2">
-            <span class="text-danger">*</span>
-            預算
-        </label>
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Budge, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @step = "1", @required = "required" } })
-            @Html.ValidationMessageFor(model => model.Budge, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                <span class="text-danger">*</span>
+                預算
+            </label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Budge, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @step = "1", @required = "required" } })
+                @Html.ValidationMessageFor(model => model.Budge, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.ItemCategoryId, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            <select name="ItemCategoryId" id="ItemCategoryId" class="form-control">
-                @foreach (var item in (List<OpenContractDetailItemCategoryModel>)ViewBag.OpenContractDetailItemCategorys)
+        <div class="form-group">
+            @Html.LabelFor(model => model.ItemCategoryId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select name="ItemCategoryId" id="ItemCategoryId" class="form-control">
+                    @foreach (var item in (List<OpenContractDetailItemCategoryModel>)ViewBag.OpenContractDetailItemCategorys)
+                    {
+                        <option value="@item.Id" @(Model.ItemCategoryId == item.Id ? "selected" : "")>@item.Category</option>
+                    }
+                </select>
+                @Html.ValidationMessageFor(model => model.ItemCategoryId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                <span class="text-danger">*</span>
+                合約細目<br />
+                <span class="text-success">(上限20Mb)</span>
+            </label>
+            <div class="col-md-10">
+                @foreach (var item in detailFiles)
                 {
-                    <option value="@item.Id" @(Model.ItemCategoryId == item.Id ? "selected" : "")>@item.Category</option>
+                    <a href="@Url.Action("Download", "FileData", new { id = item.Id })">@item.UserFileName</a>
                 }
-            </select>
-            @Html.ValidationMessageFor(model => model.ItemCategoryId, "", new { @class = "text-danger" })
+                <input type="file" name="DetailFile" id="file" @(detailFiles.Count == 0 ? "required" : "") accept=".png, .pdf, .jpg, .jpeg, .docx" />
+                <span class="text-primary mt-2">限定(.png, .pdf, .jpg, .jpeg, .docx)</span>
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label class="control-label col-md-2">
-            <span class="text-danger">*</span>
-            檔案(合約細目)
-        </label>
-        <div class="col-md-10">
-            @foreach (var item in detailFiles)
-            {
-                <a href="@Url.Action("Download", "FileData", new { id = item.Id })">@item.UserFileName</a>
-            }
-            <input type="file" name="DetailFile" id="file" @(detailFiles.Count == 0 ? "required": "") accept=".png, .pdf, .jpg, .jpeg, .docx" />
-            <span class="text-primary mt-2">限定(.png, .pdf, .jpg, .jpeg, .docx)</span>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="修改" class="btn btn-danger" />
+                @Html.ActionLink("取消", "Index", "OpenContractNewDetail", new { openContractId = @Model.OpenContractId }, new { @class = "btn btn-success" })
+            </div>
         </div>
     </div>
+}
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="修改" class="btn btn-danger" />
-            @Html.ActionLink("取消", "Index", "OpenContractNewDetail", new { openContractId = @Model.OpenContractId }, new { @class = "btn btn-success" })
-        </div>
-    </div>
-</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+        });
+
+        $('input[name="DetailFile"]').on("change", function () {
+            //限定檔案大小
+            var mb = 20;
+            var maxSize = mb * 1024 * 1024;  //mb(上限)
+            if (this.files[0].size > maxSize) {
+                alert("(合約細目)檔案上限:" + mb.toString() + "MB");
+                $(this).val('');
+                return;
+            };
+        })
+    </script>
 }

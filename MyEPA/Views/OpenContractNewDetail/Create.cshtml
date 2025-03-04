@@ -88,7 +88,8 @@
         <div class="form-group">
             <label class="control-label col-md-2" for="file">
                 <span class="text-danger">*</span>
-                檔案(合約細目)
+                合約細目<br />
+                <span class="text-success">(上限20Mb)</span>
             </label>
             <div class="col-md-10">
                 <input type="file" name="DetailFile" id="file" required accept=".png, .pdf, .jpg, .jpeg, .docx" />
@@ -107,3 +108,22 @@
 
 <script src="~/Scripts/confirmDate.js"></script>
 <script src="~/Scripts/flatpickr.js"></script>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+        });
+
+        $('input[name="DetailFile"]').on("change", function () {
+            //限定檔案大小
+            var mb = 20;
+            var maxSize = mb * 1024 * 1024;  //mb(上限)
+            if (this.files[0].size > maxSize) {
+                alert("(合約細目)檔案上限:" + mb.toString() + "MB");
+                $(this).val('');
+                return;
+            };
+        })
+    </script>
+}
