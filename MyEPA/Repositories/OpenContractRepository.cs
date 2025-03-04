@@ -102,6 +102,10 @@ namespace MyEPA.Repositories
                 whereSQL += $" AND oc.OContractDateBegin <= '{now.ToString("yyyy/MM/dd HH:mm:ss")}'";
                 whereSQL += $" AND oc.OContractDateEnd > '{now.ToString("yyyy/MM/dd HH:mm:ss")}'";
             }
+            if (filter.IsEPB.HasValue && filter.IsEPB.Value)
+            {
+                whereSQL += " AND t.Name = '環保局'";
+            }
             return whereSQL;
         }
 

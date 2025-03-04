@@ -9,5 +9,6 @@ namespace MyEPA.Models
         public int? YearRange { get; set; }
         public List<int> TownIds { get; set; }
         public bool? IsEffective { get; internal set; }
+        public bool? IsEPB { get; internal set; }
     }
 }

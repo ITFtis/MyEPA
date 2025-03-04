@@ -13,7 +13,8 @@
     int? yearRange = ViewBag.YearRange;
     int? cityId = ViewBag.CityId;
     int? townId = ViewBag.TownId;
-    bool isEffective = ViewBag.IsEffective ?? false;
+    bool isEffective = ViewBag.IsEffective ?? false;    
+    bool isEPB = ViewBag.IsEPB ?? false;
 }
 
 <div class="page-content">
@@ -33,7 +34,7 @@
                                         @if (citys.Count > 1)
                                         {
                                             <option value="">全部縣市</option>
-                                        }                                        
+                                        }
                                         @foreach (var city in citys)
                                         {
                                             string selected = city.Id == ViewBag.CityId ? "selected" : "";
@@ -76,8 +77,15 @@
                             <tr>
                                 <td><h5>合約狀態：</h5></td>
                                 <td>
-                                    <input type="checkbox" name="IsEffective" id="IsEffective" value="true" @(isEffective ? "checked" : "")>
-                                    <label for="IsEffective">合約中</label>
+                                    <input type="checkbox" name="isEffective" id="isEffective" value="true" @(isEffective ? "checked" : "")>
+                                    <label for="isEffective">合約中</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><h5>環保局：</h5></td>
+                                <td>
+                                    <input type="checkbox" name="isEPB" id="isEPB" value="true" @(isEPB ? "checked" : "")>
+                                    <label for="isEPB">是</label>
                                 </td>
                             </tr>
                             <tr><td>&nbsp;</td></tr>

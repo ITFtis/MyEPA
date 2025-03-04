@@ -27,6 +27,7 @@ namespace MyEPA.Controllers.Rec
         public ActionResult Index(int? cityId, int? townId, int? resourceTypeId, int? yearRange)
         {            
             bool isEffective = Request.QueryString["isEffective"] == null ? false : bool.Parse(Request.QueryString["isEffective"].ToString());
+            bool isEPB = Request.QueryString["isEPB"] == null ? false : bool.Parse(Request.QueryString["isEPB"].ToString());
 
             OpenContractFilterParameter filter = new OpenContractFilterParameter
             {
@@ -35,6 +36,7 @@ namespace MyEPA.Controllers.Rec
                 ResourceTypeIds = resourceTypeId.HasValue ? resourceTypeId.Value.ToListCollection() : null,
                 YearRange = yearRange,
                 IsEffective = isEffective,
+                IsEPB = isEPB,
             };
 
             //編輯或其他的錯誤訊息
@@ -77,6 +79,7 @@ namespace MyEPA.Controllers.Rec
             ViewBag.CityId = cityId;
             ViewBag.TownId = townId;
             ViewBag.IsEffective = isEffective;
+            ViewBag.IsEPB = isEPB;
             ViewBag.User = user;
 
             return View(result);
