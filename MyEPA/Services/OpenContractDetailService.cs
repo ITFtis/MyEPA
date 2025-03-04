@@ -67,9 +67,6 @@ namespace MyEPA.Services
 
             var id = OpenContractDetailRepository.CreateAndResultIdentity<int>(model);
             model.Id = id;
-
-            //合約細目
-            UploadFile(user, model, files, "DetailFile");
         }
 
         public AdminResultModel Delete(int id)
@@ -103,47 +100,6 @@ namespace MyEPA.Services
                 entity.CreateDate = entity.UpdateDate;
 
             OpenContractDetailRepository.Update(entity);
-
-            //合約細目
-            UploadFile(user, model, files, "DetailFile");
-        }
-
-        private bool UploadFile(UserBriefModel user, OpenContractDetailModel model, Dictionary<string, List<HttpPostedFileBase>> files, string keyName)
-        {
-            if (files == null)
-                return false;
-
-            SourceTypeEnum sourceType;
-            if (files.ContainsKey(keyName) == false)
-            {
-                return false;
-            }
-            switch (keyName)
-            {
-                case "DetailFile":
-                    sourceType = SourceTypeEnum.OpenContractDetail;
-                    break;
-                default:
-                    return false;
-            }
-
-            List<HttpPostedFileBase> fileBases = files[keyName];
-
-            foreach (var file in fileBases)
-            {
-                //刪除檔案
-                FileService.DeleteFileBySource(sourceType, model.Id);
-
-                //新增檔案
-                FileService.UploadFileByGuidName(new UploadFileBaseModel
-                {
-                    File = file,
-                    SourceId = model.Id,
-                    SourceType = sourceType,
-                    User = user.UserName
-                }, false);
-            }
-            return fileBases.Any();
         }
     }
 }

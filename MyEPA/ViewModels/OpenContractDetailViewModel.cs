@@ -35,9 +35,6 @@ namespace MyEPA.ViewModels
 
         public int Status { get; set; }
 
-        [DisplayName("合約細目")]
-        public List<FileDataModel> DetailFiles { get; set; }
-
         /// <summary>
         /// 建立時間
         /// </summary>

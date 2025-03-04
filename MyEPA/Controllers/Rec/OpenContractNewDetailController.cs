@@ -30,19 +30,6 @@ namespace MyEPA.Controllers.Rec
             datas = datas.OrderByDescending(a => a.CreateDate)
                         .ToList();
 
-            //環境清理
-            foreach (var data in datas)
-            {
-                //無資料，無圖檔
-                if (data.Id == 0)
-                {
-                    data.DetailFiles = new List<FileDataModel>();
-                    continue;
-                }
-
-                data.DetailFiles = FileDataService.GetBySource(SourceTypeEnum.OpenContractDetail, data.Id);                
-            }
-
             var result = datas;
 
             var openContract = OpenContractService.Get(openContractId);
@@ -130,8 +117,6 @@ namespace MyEPA.Controllers.Rec
             }
 
             ViewBag.OpenContractDetailItemCategorys = OpenContractDetailItemCategoryService.GetAll();
-
-            ViewBag.DetailFiles = FileDataService.GetBySource(SourceTypeEnum.OpenContractDetail, id);
 
             return View(result);
         }
