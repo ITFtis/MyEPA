@@ -12,6 +12,8 @@ using System.Linq;
 using System.Security.Policy;
 using System.Web;
 using System.Web.Mvc;
+using System.Dynamic;
+using System.IO;
 
 namespace MyEPA.Controllers.Rec
 {
@@ -27,7 +29,7 @@ namespace MyEPA.Controllers.Rec
         FileDataService FileDataService = new FileDataService();
 
         // GET: OpenContractNew
-        public ActionResult Index(int? cityId, int? townId, int? resourceTypeId, int? yearRange)
+        public ActionResult Index(string submitButton, int? cityId, int? townId, int? resourceTypeId, int? yearRange)
         {            
             bool isEffective = Request.QueryString["isEffective"] == null ? false : bool.Parse(Request.QueryString["isEffective"].ToString());
             bool isEPB = Request.QueryString["isEPB"] == null ? false : bool.Parse(Request.QueryString["isEPB"].ToString());
@@ -64,14 +66,38 @@ namespace MyEPA.Controllers.Rec
 
             var result = OpenContractService.GetCountListByFilter(filter);
 
-            //是否有編輯權限
-            result.ForEach(p => p.CanEdit = OpenContractService.CheckPermissions(user, p.CityId, p.TownId));
-
             //排序
             result = result.OrderByDescending(a => a.CanEdit)
                         .ThenByDescending(a => a.CreateDate)
                         .ToList();
 
+            if (submitButton == "ExportList")
+            {
+                //匯出Excel
+                if (result.Count == 0)
+                {
+                    ViewBag.Msg = "無資料匯出";
+                }
+                else
+                {                    
+                    string toPath = ExportList(result);
+                    if (toPath != "")
+                    {
+                        //讀成串流
+                        var iStream = new FileStream(toPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                        //回傳出檔案
+                        return File(iStream, GetContentType("xlsx"), Path.GetFileName(toPath));
+                    }
+                    else
+                    {
+                        ViewBag.Msg = "執行失敗：匯出合約清單";
+                    }
+                }
+            }
+
+            //是否有編輯權限
+            result.ForEach(p => p.CanEdit = OpenContractService.CheckPermissions(user, p.CityId, p.TownId));
+           
             ViewBag.Types = ResourceTypeService.GetList();
             ViewBag.Citys = CityService.GetCitysF1(user);
             //ViewBag.Towns = TownService.GetAll();
@@ -202,7 +228,72 @@ namespace MyEPA.Controllers.Rec
         {
             AdminResultModel result = OpenContractService.Delete(GetUserBrief(), id);
             return JsonResult(result);
-        }        
+        }
+
+        /// <summary>
+        /// 匯出合約清單
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        public string ExportList(List<OpenContractCountModel> datas)
+        {
+            string result = "";
+
+            try
+            {
+                string fileTitle = "開口合約清單";
+                string folder = Server.MapPath("~/FileDatas/Temp/");
+
+                //產出Dynamic資料 (給Excel)
+                List<dynamic> list = new List<dynamic>();
+
+                int serial = 1;
+                foreach (var data in datas)
+                {
+                    dynamic f = new ExpandoObject();
+                    f.序號 = serial;
+                    serial++;
+                    f.合約名稱 = data.Name;
+                    f.簽約日期 = DateFormat.ToDate4(data.KeyInDate);
+                    f.合約起始 = DateFormat.ToDate4(data.OContractDateBegin);
+                    f.合約截止 = DateFormat.ToDate4(data.OContractDateEnd);
+                    f.合約廠商 = data.Fac;
+                    f.負責人 = data.Owner;
+                    f.聯絡電話 = data.TEL;
+                    f.行動電話 = data.MobileTEL;
+                    f.跨縣市支援 = data.IsSupportCity == true ? "是" : "否";                    
+
+                    f.SheetName = fileTitle;//sheep.名稱;
+                    list.Add(f);
+                }
+
+                //查無符合資料表數
+                if (list.Count == 0)
+                {                    
+                    return "";
+                }
+
+                List<string> titles = new List<string>();
+
+                //"0":不調整width,"1":自動調整長度(效能差:資料量多),"2":字串長度調整width,"3":字串長度調整width(展開)
+                int autoSizeColumn = 2;
+
+                //產出excel
+                string fileName = ExcelSpecHelper.GenerateExcelByLinqF1(fileTitle, titles, list, folder, autoSizeColumn);
+
+                string path = folder + fileName;
+
+                result = path;
+            }
+            catch (Exception ex)
+            {
+                logger.Error("執行錯誤：匯出Excel_開口合約");
+                logger.Error(ex.Message);
+                logger.Error(ex.StackTrace);
+            }
+
+            return result;
+        }
 
         private RedirectToRouteResult RedirectToIndex()
         {
