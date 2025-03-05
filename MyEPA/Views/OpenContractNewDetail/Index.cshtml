@@ -20,11 +20,18 @@
             </h2>
 
             <div>
-                @if (ViewBag.CanEdit)
+                @using (Html.BeginForm("Index", "OpenContractNewDetail", new { OpenContractId = openContract.Id }))
                 {
-                    @Html.ActionLink("新增細目", "Create", new { OpenContractId = openContract.Id }, new { @class = "btn btn-danger" })
+                    <div class="form-group">                        
+                        @if (ViewBag.CanEdit)
+                        {
+                            @Html.ActionLink("新增細目", "Create", new { OpenContractId = openContract.Id }, new { @class = "btn btn-danger" })
+                        }
+                        @Html.ActionLink("返回合約清單", "Index", "OpenContractNew", null, new { @class = "btn btn-success" })
+                        <button type="submit" class="btn btn-primary" name="submitButton" value="ExportDetailList"><i class="fa fa-angle-down"></i>&nbsp;匯出合約細目清單(.xlsx)</button>    
+                    </div>
+                    
                 }
-                @Html.ActionLink("返回合約清單", "Index", "OpenContractNew", null, new { @class = "btn btn-success" })                
                 <br /><br />
             </div>
 

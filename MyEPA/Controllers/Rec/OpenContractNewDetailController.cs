@@ -10,11 +10,15 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MyEPA.Models.Deds;
+using System.IO;
+using System.Dynamic;
 
 namespace MyEPA.Controllers.Rec
 {
     public class OpenContractNewDetailController : LoginBaseController
     {
+        private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         OpenContractService OpenContractService = new OpenContractService();
         OpenContractDetailService OpenContractDetailService = new OpenContractDetailService();
         OpenContractDetailItemCategoryService OpenContractDetailItemCategoryService = new OpenContractDetailItemCategoryService();
@@ -22,7 +26,7 @@ namespace MyEPA.Controllers.Rec
         FileDataService FileDataService = new FileDataService();
 
         // GET: OpenContractNewDetail
-        public ActionResult Index(int openContractId)
+        public ActionResult Index(string submitButton, int openContractId)
         {
             var datas = OpenContractDetailService.GetList(openContractId);
 
@@ -34,6 +38,31 @@ namespace MyEPA.Controllers.Rec
 
             var openContract = OpenContractService.Get(openContractId);
             var user = GetUserBrief();
+
+            if (submitButton == "ExportDetailList")
+            {
+                //匯出Excel
+                if (result.Count == 0)
+                {
+                    ViewBag.Msg = "無資料匯出";
+                }
+                else
+                {
+                    string toPath = ExportDetailList(openContract.Name, result);
+                    if (toPath != "")
+                    {
+                        //讀成串流
+                        var iStream = new FileStream(toPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                        //回傳出檔案
+                        return File(iStream, GetContentType("xlsx"), Path.GetFileName(toPath));
+                    }
+                    else
+                    {
+                        ViewBag.Msg = "執行失敗：匯出合約細目清單";
+                    }
+                }
+            }
+            
             ViewBag.OpenContract = openContract;
             ViewBag.CanEdit = OpenContractService.CheckPermissions(user, openContract.CityId, openContract.TownId);
 
@@ -134,6 +163,69 @@ namespace MyEPA.Controllers.Rec
         {
             AdminResultModel result = OpenContractDetailService.Delete(id);
             return JsonResult(result);
+        }
+
+        /// <summary>
+        /// 匯出合約細目清單
+        /// </summary>
+        /// <param name="name">合約名稱</param>
+        /// <param name="datas">細目</param>
+        /// <returns></returns>
+        public string ExportDetailList(string name, List<OpenContractDetailViewModel> datas)
+        {
+            string result = "";
+
+            try
+            {
+                string fileTitle = "合約細目清單";
+                string folder = Server.MapPath("~/FileDatas/Temp/");
+
+                //產出Dynamic資料 (給Excel)
+                List<dynamic> list = new List<dynamic>();
+
+                int serial = 1;
+                foreach (var data in datas)
+                {
+                    dynamic f = new ExpandoObject();
+                    f.序號 = serial;
+                    serial++;
+                    f.合約名稱 = name;
+                    f.項目 = data.Items;
+                    f.單位 = data.Unit;
+                    f.數量 = data.Count;
+                    f.價錢 = data.Price;
+                    f.預算 = data.Budge;
+
+                    f.SheetName = fileTitle;//sheep.名稱;
+                    list.Add(f);
+                }
+
+                //查無符合資料表數
+                if (list.Count == 0)
+                {
+                    return "";
+                }
+
+                List<string> titles = new List<string>();
+
+                //"0":不調整width,"1":自動調整長度(效能差:資料量多),"2":字串長度調整width,"3":字串長度調整width(展開)
+                int autoSizeColumn = 2;
+
+                //產出excel
+                string fileName = ExcelSpecHelper.GenerateExcelByLinqF1(fileTitle, titles, list, folder, autoSizeColumn);
+
+                string path = folder + fileName;
+
+                result = path;
+            }
+            catch (Exception ex)
+            {
+                logger.Error("執行錯誤：匯出Excel_合約細目");
+                logger.Error(ex.Message);
+                logger.Error(ex.StackTrace);
+            }
+
+            return result;
         }
 
         private RedirectToRouteResult RedirectToOpenContract(int openContractId)
