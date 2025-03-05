@@ -8,6 +8,13 @@ namespace MyEPA
 {
     public class DateFormat
     {
+        public static DateTime MinDate {
+            get
+            {
+                return DateTime.Parse("1911/01/01");
+            }
+        }
+
         /// <summary>
         /// 字串轉日期
         /// </summary>

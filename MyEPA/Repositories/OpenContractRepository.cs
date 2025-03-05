@@ -125,6 +125,9 @@ namespace MyEPA.Repositories
             }
 
             oc.Name = "(複製)_oooo_" + oc.Name;
+            oc.KeyInDate = DateFormat.MinDate;
+            oc.OContractDateBegin = DateFormat.MinDate;
+            oc.OContractDateEnd = DateFormat.MinDate;
             oc.CreateDate = DateTimeHelper.GetCurrentTime();
             oc.UpdateDate = DateTimeHelper.GetCurrentTime();
             oc.CreateUser = user.UserName;

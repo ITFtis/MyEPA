@@ -140,7 +140,11 @@
                         </td>
                         <td>
                             @{
-                                if (item.Name.IndexOf("oooo") > -1)
+                                if (item.Name.IndexOf("oooo") > -1
+                                     || item.KeyInDate.Year == DateFormat.MinDate.Year
+                                     || item.OContractDateBegin.Year == DateFormat.MinDate.Year
+                                     || item.OContractDateEnd.Year == DateFormat.MinDate.Year
+                                   )
                                 {
                                     <span style="color:red">***</span>
                                 }

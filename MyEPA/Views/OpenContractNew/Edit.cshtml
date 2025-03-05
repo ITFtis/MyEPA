@@ -218,7 +218,19 @@
 @section scripts{
     <script>
         $(document).ready(function () {
-
+            //日期不合理(ex.複製未修改)
+            if ((new Date($('#KeyInDate').val())).getFullYear() == @DateFormat.MinDate.Year) {
+                $('#KeyInDate').val('');
+                flatpickr("#KeyInDate", { defalutDate: "today" });
+            }
+            if ((new Date($('#OContractDateBegin').val())).getFullYear() == @DateFormat.MinDate.Year) {
+                $('#OContractDateBegin').val('');
+                flatpickr("#OContractDateBegin", { defalutDate: "today" });
+            }
+            if ((new Date($('#OContractDateEnd').val())).getFullYear() == @DateFormat.MinDate.Year) {
+                $('#OContractDateEnd').val('');
+                flatpickr("#OContractDateEnd", { defalutDate: "today" });
+            }
         });
 
         $('input[name="CoverFile"]').on("change", function () {
