@@ -255,7 +255,25 @@
         })
 
         function Copy() {
-            alert('123');
+            $.ajax({
+                url: '@Url.Action("Copy", "OpenContractNew")',
+                datatype: "json",
+                type: "Post",
+                data: { copyId: @Model.Id },
+                async: false,
+                success: function (data) {
+                    if (data.result) {
+                        alert("複製合約成功");
+                        location.href = '@Url.Action("Index")';
+                    } else {
+                        alert("複製合約失敗：\n" + data.errorMessage);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    var err = eval("(" + xhr.responseText + ")");
+                    alert(err.Message);
+                }
+            });
         }
 
     </script>

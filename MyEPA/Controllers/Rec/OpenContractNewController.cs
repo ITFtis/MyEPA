@@ -9,6 +9,7 @@ using MyEPA.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Web;
 using System.Web.Mvc;
 
@@ -16,6 +17,8 @@ namespace MyEPA.Controllers.Rec
 {
     public class OpenContractNewController : LoginBaseController
     {
+        private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         OpenContractService OpenContractService = new OpenContractService();
         ResourceTypeService ResourceTypeService = new ResourceTypeService();
         CityService CityService = new CityService();
@@ -157,12 +160,41 @@ namespace MyEPA.Controllers.Rec
 
             return RedirectToAction("index");
         }
-
+        
+        /// <summary>
+        /// 複製來源主約Id
+        /// </summary>
+        /// <param name="copyId"></param>
+        /// <returns></returns>
         [HttpPost]
-        public ActionResult Copy(int id)
+        public ActionResult Copy(int copyId)
         {
-            //複製來源主約Id
-            return CopyOpenContractById(id);
+            var user = GetUserBrief();
+
+            try
+            {
+                //建置並取得主約Id
+                var id = OpenContractService.CopyOpenContractById(user, copyId);
+
+                //細目
+                OpenContractDetailService OpenContractDetailService = new OpenContractDetailService();
+                var details = OpenContractDetailService.GetList2(copyId);
+                foreach (var detail in details)
+                {
+                    detail.OpenContractId = id;
+                    OpenContractDetailService.Create(GetUserBrief(), detail, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error("複製來源主約錯誤(copyId)：" + copyId);
+                logger.Error(ex.Message);
+                logger.Error(ex.StackTrace);
+
+                return Json(new { result = false, errorMessage = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new { result = true }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -170,34 +202,7 @@ namespace MyEPA.Controllers.Rec
         {
             AdminResultModel result = OpenContractService.Delete(GetUserBrief(), id);
             return JsonResult(result);
-        }
-
-        /// <summary>
-        /// 複製來源主約Id
-        /// </summary>
-        /// <param name="copyId"></param>
-        /// <returns></returns>
-        public ActionResult CopyOpenContractById(int copyId)
-        {
-            var user = GetUserBrief();
-
-            //建置並取得主約Id
-            var id = OpenContractService.CopyOpenContractById(user, copyId);
-
-            //細目
-            OpenContractDetailService OpenContractDetailService = new OpenContractDetailService();
-            var details = OpenContractDetailService.GetList2(copyId);
-            foreach (var detail in details)
-            {
-                detail.OpenContractId = id;
-                OpenContractDetailService.Create(GetUserBrief(), detail, null);
-            }
-
-            TempData["Msg"] = "合約複製成功";
-
-            return RedirectToAction("Edit", new { id = id });
-            //return View();
-        }
+        }        
 
         private RedirectToRouteResult RedirectToIndex()
         {
