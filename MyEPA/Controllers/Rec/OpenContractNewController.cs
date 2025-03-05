@@ -66,6 +66,9 @@ namespace MyEPA.Controllers.Rec
 
             var result = OpenContractService.GetCountListByFilter(filter);
 
+            //是否有編輯權限
+            result.ForEach(p => p.CanEdit = OpenContractService.CheckPermissions(user, p.CityId, p.TownId));
+
             //排序
             result = result.OrderByDescending(a => a.CanEdit)
                         .ThenByDescending(a => a.CreateDate)
@@ -94,10 +97,7 @@ namespace MyEPA.Controllers.Rec
                     }
                 }
             }
-
-            //是否有編輯權限
-            result.ForEach(p => p.CanEdit = OpenContractService.CheckPermissions(user, p.CityId, p.TownId));
-           
+            
             ViewBag.Types = ResourceTypeService.GetList();
             ViewBag.Citys = CityService.GetCitysF1(user);
             //ViewBag.Towns = TownService.GetAll();
@@ -252,7 +252,9 @@ namespace MyEPA.Controllers.Rec
                 {
                     dynamic f = new ExpandoObject();
                     f.序號 = serial;
-                    serial++;
+                    serial++;                    
+                    f.承辦縣市 = data.CityName;
+                    f.承辦鄉鎮 = data.TownName;
                     f.合約名稱 = data.Name;
                     f.簽約日期 = DateFormat.ToDate4(data.KeyInDate);
                     f.合約起始 = DateFormat.ToDate4(data.OContractDateBegin);
