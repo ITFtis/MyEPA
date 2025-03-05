@@ -126,11 +126,11 @@ namespace MyEPA.Controllers.Rec
             var types = ResourceTypeService.GetList();
             var user = GetUserBrief();
 
-            //Copy或其他的錯誤訊息
-            if (TempData["Msg"] != null)
-            {
-                ViewBag.Msg = TempData["Msg"];
-            }
+            //////Copy或其他的錯誤訊息
+            ////if (TempData["Msg"] != null)
+            ////{
+            ////    ViewBag.Msg = TempData["Msg"];
+            ////}
 
             var result = OpenContractService.Get(id);
             if (result == null)
