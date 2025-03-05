@@ -234,6 +234,14 @@
         });
 
         $('input[name="CoverFile"]').on("change", function () {
+
+            //限定副檔名(accept)
+            if (InputFileAccept(this) != true) {
+                alert("檔案格式錯誤(副檔名):" + this.files[0].name);
+                $(this).val('');
+                return;
+            }
+
             //限定檔案大小
             var mb = 20;
             var maxSize = mb * 1024 * 1024;  //mb(上限)
@@ -245,6 +253,14 @@
         })
 
         $('input[name="SealFile"]').on("change", function () {
+
+            //限定副檔名(accept)
+            if (InputFileAccept(this) != true) {
+                alert("檔案格式錯誤(副檔名):" + this.files[0].name);
+                $(this).val('');
+                return;
+            }
+
             //限定檔案大小
             var mb = 20;
             var maxSize = mb * 1024 * 1024;  //mb(上限)
@@ -256,6 +272,14 @@
         })
 
         $('input[name="DetailFile"]').on("change", function () {
+
+            //限定副檔名(accept)
+            if (InputFileAccept(this) != true) {
+                alert("檔案格式錯誤(副檔名):" + this.files[0].name);
+                $(this).val('');
+                return;
+            }
+
             //限定檔案大小
             var mb = 20;
             var maxSize = mb * 1024 * 1024;  //mb(上限)

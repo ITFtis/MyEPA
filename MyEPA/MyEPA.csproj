@@ -1344,6 +1344,7 @@
     <Content Include="Content\assets\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\assets\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\assets\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Scripts\baseb.js" />
     <Content Include="Scripts\bootstrap-3.4.1.js" />
     <Content Include="Scripts\bootstrap-4.3.1.js" />
     <Content Include="Scripts\confirmDate.js" />
