@@ -19,11 +19,11 @@ namespace MyEPA.Models
         [Required]
         [DisplayName("數量")]
         public string Count { get; set; }
-        [DisplayName("價錢")]
+        [DisplayName("單價")]
         [Required]
         public string Price { get; set; }
         [Required]
-        [DisplayName("預算")]
+        [DisplayName("金額")]
         
         public double Budge { get; set; }
         [Required]

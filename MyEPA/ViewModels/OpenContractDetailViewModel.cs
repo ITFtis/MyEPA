@@ -21,9 +21,9 @@ namespace MyEPA.ViewModels
         public string Unit { get; set; }
         [DisplayName("數量")]
         public string Count { get; set; }
-        [DisplayName("價錢")]
+        [DisplayName("單價")]
         public string Price { get; set; }
-        [DisplayName("預算")]
+        [DisplayName("金額")]
         public double Budge { get; set; }
         [DisplayName("項目類別")]
 
