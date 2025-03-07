@@ -193,8 +193,8 @@ namespace MyEPA.Controllers.Rec
                     f.項目 = data.Items;
                     f.單位 = data.Unit;
                     f.數量 = data.Count;
-                    f.價錢 = data.Price;
-                    f.預算 = data.Budge;
+                    f.單價 = data.Price;
+                    f.金額 = data.Budge;
 
                     f.SheetName = fileTitle;//sheep.名稱;
                     list.Add(f);
