@@ -177,7 +177,7 @@ namespace MyEPA.Controllers.Rec
 
             try
             {
-                string fileTitle = "合約細目清單";
+                string fileTitle = "合約(" + name + ")";
                 string folder = Server.MapPath("~/FileDatas/Temp/");
 
                 //產出Dynamic資料 (給Excel)
@@ -188,15 +188,15 @@ namespace MyEPA.Controllers.Rec
                 {
                     dynamic f = new ExpandoObject();
                     f.序號 = serial;
-                    serial++;
-                    f.合約名稱 = name;
+                    serial++;                    
                     f.項目 = data.Items;
                     f.單位 = data.Unit;
                     f.數量 = data.Count;
                     f.單價 = data.Price;
                     f.金額 = data.Budge;
+                    f.項目類別 = data.ItemCategory;
 
-                    f.SheetName = fileTitle;//sheep.名稱;
+                    f.SheetName = name;//sheep.名稱;
                     list.Add(f);
                 }
 

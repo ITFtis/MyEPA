@@ -255,6 +255,7 @@ namespace MyEPA.Controllers.Rec
                     serial++;                    
                     f.承辦縣市 = data.CityName;
                     f.承辦鄉鎮 = data.TownName;
+                    f.合約種類 = data.ResourceTypeName;
                     f.合約名稱 = data.Name;
                     f.簽約日期 = DateFormat.ToDate4(data.KeyInDate);
                     f.合約起始 = DateFormat.ToDate4(data.OContractDateBegin);
