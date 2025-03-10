@@ -31,7 +31,7 @@ namespace MyEPA.Services
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public static List<CityModel> GetCitysF1zzz(UserBriefModel user)
+        public static List<CityModel> GetCitysF1(UserBriefModel user)
         {
             CityRepository CityRepository = new CityRepository();
 

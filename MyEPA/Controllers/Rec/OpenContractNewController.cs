@@ -99,7 +99,7 @@ namespace MyEPA.Controllers.Rec
             }
             
             ViewBag.Types = ResourceTypeService.GetList();
-            ViewBag.Citys = CityService.GetCitysF1zzz(user);
+            ViewBag.Citys = CityService.GetCitysF1(user);
             //ViewBag.Towns = TownService.GetAll();
 
             //querystring
