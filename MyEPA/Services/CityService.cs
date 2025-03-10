@@ -27,23 +27,33 @@ namespace MyEPA.Services
         }
 
         /// <summary>
-        /// (權限)縣市清單
+        /// (權限)縣市清單 => 判斷單位(duty)
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public static List<CityModel> GetCitysF1(UserBriefModel user)
+        public static List<CityModel> GetCitysF1zzz(UserBriefModel user)
         {
             CityRepository CityRepository = new CityRepository();
 
             List<CityModel> citys = new List<CityModel>();
-            if (!user.IsAdmin)
-            {
-                citys.Add(CityRepository.Get(user.CityId));
-            }
-            else
+            if(user.Duty == Enums.DutyEnum.EPA
+                || user.Duty == Enums.DutyEnum.Team
+                )
             {
                 citys = CityRepository.GetList().ToList();
             }
+            else
+            {
+                citys.Add(CityRepository.Get(user.CityId));
+            }
+            ////if (!user.IsAdmin)
+            ////{
+            ////    citys.Add(CityRepository.Get(user.CityId));
+            ////}
+            ////else
+            ////{
+            ////    citys = CityRepository.GetList().ToList();
+            ////}
 
             return citys;
         }
