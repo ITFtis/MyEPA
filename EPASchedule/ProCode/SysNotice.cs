@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MyEPA.Models;
+using MyEPA.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,6 +28,15 @@ namespace EPASchedule
                 }
 
                 //2.xxxxxxxxxxx
+                OpenContractService OpenContractService = new OpenContractService();
+
+                OpenContractFilterParameter filter = new OpenContractFilterParameter() { 
+                    IsNotice = true,
+                };
+
+                List<OpenContractModel> datas = OpenContractService.GetListByFilter(filter);
+
+                string aa = "!23";
             }
             catch (Exception ex)
             {

@@ -106,6 +106,11 @@ namespace MyEPA.Repositories
             {
                 whereSQL += " AND t.Name = '環保局'";
             }
+            if (filter.IsNotice.HasValue && filter.IsNotice.Value)
+            {
+                whereSQL += " AND oc.Name like '%oooo%'";
+            }
+
             return whereSQL;
         }
 
