@@ -66,6 +66,19 @@ namespace EPASchedule
                 logger.Info(typeof(Program).FullName + ": done....");
                 logger.Info("");
             }
+
+            //5.系統一般通知
+            if (AppConfig.OnlyStep.IndexOf("系統一般通知") > -1)
+            {
+                start_time = DateTime.Now;
+                logger.Info("系統一般通知" + ": starting...");
+                SysNotice DalSysNotice = new SysNotice();
+                DalSysNotice.Execute();
+                logger.Info(@"Execution time(sec)=" + DateTime.Now.Subtract(start_time).TotalSeconds);
+                logger.Info(typeof(Program).FullName + ": done....");
+                logger.Info("");
+            }
+
         }
     }
 }

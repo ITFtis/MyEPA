@@ -71,6 +71,7 @@
     <Compile Include="ProCode\APIVehicleImport.cs" />
     <Compile Include="ProCode\CtPointNotice.cs" />
     <Compile Include="ProCode\DisinfectantNotice.cs" />
+    <Compile Include="ProCode\SysNotice.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="_applyClass\LogDisinfectant.cs" />
