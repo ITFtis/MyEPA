@@ -56,18 +56,7 @@ namespace EPASchedule
                 var accounts = new UsersService().GetAll().ToList();
 
                 foreach (OpenContractCountModel v in datas)
-                {
-                    string subject = "開口合約資料補齊通知";
-                    string content = string.Format(@"
-
-{0}{1}您好：<br/>
-開口合約「{2}」尚有資料未齊全，請儘快調整。<br/>
-如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）。
-",
-v.CityName,
-v.TownName,
-v.Name);
-
+                {                    
                     var account = accounts.Where(a => a.UserName == v.CreateUser).FirstOrDefault();                                    ;
                     //紀錄查無主要聯絡人資訊
                     if (account == null)
@@ -78,6 +67,19 @@ v.Name);
                     }
                     else
                     {
+                        string subject = "開口合約資料補齊通知";
+                        string content = string.Format(@"
+
+{0}{1}，{2}({3})您好：<br/>
+開口合約「{4}」尚有資料未齊全，請儘速補齊。<br/>
+如有問題請聯絡EMIS客服專員或曾淑俐小姐（02-2383-2389分機59906）。
+",
+v.CityName,
+v.TownName,
+account.Name,
+account.UserName,
+v.Name);
+
                         ToSendOpenContract(subject, content, account);
                     }
                 }
