@@ -18,7 +18,7 @@
 
 @if (Model != null)
 {
-    using (Html.BeginForm("Edit", "OpenContractNew", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+    using (Html.BeginForm("Edit", "OpenContractNew", FormMethod.Post, new { @enctype = "multipart/form-data", onsubmit = "return ValidateInput(this);" }))
     {
         @Html.AntiForgeryToken()
 
@@ -310,6 +310,15 @@
                     alert(err.Message);
                 }
             });
+        }
+
+        function ValidateInput(form) {
+            var begin = new Date($('#OContractDateBegin').val());
+            var end = new Date($('#OContractDateEnd').val());
+            if (begin > end) {
+                alert('合約起始日(' + $('#OContractDateBegin').val() + ')不可大於合約截止日(' + $('#OContractDateEnd').val() + ')');
+                return false;
+            }
         }
 
     </script>

@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="~/Content/confirmDate.css">
 <h2>新增開口合約</h2>
 
-@using (Html.BeginForm("Next", "OpenContractNew", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Next", "OpenContractNew", FormMethod.Post, new { @enctype = "multipart/form-data", onsubmit = "return ValidateInput(this);" }))
 {
     @Html.AntiForgeryToken()
 
@@ -249,5 +249,14 @@
                 return;
             };
         })
+
+        function ValidateInput(form) {
+            var begin = new Date($('#OContractDateBegin').val());
+            var end = new Date($('#OContractDateEnd').val());
+            if (begin > end) {
+                alert('合約起始日(' + $('#OContractDateBegin').val() + ')不可大於合約截止日(' + $('#OContractDateEnd').val() + ')');
+                return false;
+            }
+        }
     </script>
 }
