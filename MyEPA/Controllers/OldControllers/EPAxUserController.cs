@@ -101,7 +101,15 @@ namespace MyEPA.Controllers
                 AreaEnum? areaEnum = null;
                 if (duty == DutyEnum.EPA)
                 {
-                    if(register.Town.Contains("環境督察大隊"))
+                    if (register.Town.Contains("環境管理署北區環境管理中心")
+                        || register.Town.Contains("環境管理署中區環境管理中心")
+                        || register.Town.Contains("環境管理署南區環境管理中心"))
+                    {
+                        areaEnum = register.Town.GetValueFromDescription<AreaEnum>();
+
+                        duty = DutyEnum.Team;
+                    }
+                    else if (register.Town.Contains("環境督察大隊"))
                     {
                         areaEnum = register.Town.GetValueFromDescription<AreaEnum>();
 
