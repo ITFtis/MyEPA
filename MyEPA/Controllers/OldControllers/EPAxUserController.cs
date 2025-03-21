@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using DocumentFormat.OpenXml.Spreadsheet;
+using Microsoft.Win32;
 using MyEPA.Enums;
 using MyEPA.Extensions;
 using MyEPA.Helper;
@@ -489,7 +490,15 @@ namespace MyEPA.Controllers
             switch (duty)
             {
                 case DutyEnum.EPA:
-                    if (model.EditingTown.Contains("環境督察大隊"))
+                    if (model.EditingTown.Contains("環境管理署北區環境管理中心")
+                        || model.EditingTown.Contains("環境管理署中區環境管理中心")
+                        || model.EditingTown.Contains("環境管理署南區環境管理中心"))
+                    {
+                        areaEnum = model.EditingTown.GetValueFromDescription<AreaEnum>();
+
+                        duty = DutyEnum.Team;
+                    }
+                    else if (model.EditingTown.Contains("環境督察大隊"))
                     {
                         areaEnum = model.EditingTown.GetValueFromDescription<AreaEnum>();
 
