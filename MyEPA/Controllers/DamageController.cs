@@ -521,13 +521,39 @@ namespace MyEPA.Controllers
         {
             List<DiasterModel> diasters = DiasterService.GetAll();
 
+            //帳號權限(縣市)
+            List<int> cityIds = new List<int>();
+            var user = GetUserBrief();
+            var duty = user.Duty;
+
+            switch (duty)
+            {
+                case DutyEnum.EPA:
+                case DutyEnum.Corps:
+                case DutyEnum.Team:
+                    break;
+                default:
+                    cityIds.Add(user.CityId);
+                    break;
+            }
+
             if (diasterId.HasValue == false)
             {
                 diasterId = diasters.Select(e => e.Id).FirstOrDefault();
             }
+
+            DamageFilterParameter filter = new DamageFilterParameter()
+            {
+                DiasterIds = diasterId.Value.ToListCollection(),
+                Type = type,
+                CityIds = cityIds,
+                TownIds = townId.HasValue ? townId.Value.ToListCollection() : new List<int>(),
+                AreaId = areaId,
+            };
+
             ViewBag.Type = type;
-            ViewBag.Citys = CityService.GetAll();
-            ViewBag.Towns = TownService.GetAll();
+            ViewBag.Citys = CityService.GetCitysF1(user);
+            //ViewBag.Towns = TownService.GetAll();
             ViewBag.CityId = cityId;
             ViewBag.TownId = townId;
             ViewBag.DiasterId = diasterId;
@@ -535,17 +561,11 @@ namespace MyEPA.Controllers
             ViewBag.AreaId = areaId;
 
             ViewBag.FacilityDamageTypes = ExtensionsOfEnum.GetEnumAllValue<FacilityDamageTypeEnum>();
-            var filter = new DamageFilterParameter();
 
-
-            filter = new DamageFilterParameter()
+            if (cityId.HasValue)
             {
-                DiasterIds = diasterId.Value.ToListCollection(),
-                Type = type,
-                CityIds = cityId.HasValue ? cityId.Value.ToListCollection() : new List<int>(),
-                TownIds = townId.HasValue ? townId.Value.ToListCollection() : new List<int>(),
-                AreaId = areaId,
-            };
+                filter.CityIds.Add(cityId.Value);
+            }
 
             var datas = DamageService.GetFacilityDamages(filter, type);
             datas = datas.OrderBy(a => a.CitySort)

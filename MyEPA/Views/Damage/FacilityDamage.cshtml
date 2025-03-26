@@ -56,23 +56,18 @@
                         <td><h5>通報單位：</h5></td>
                         <td>
                             <select id="City" Name="CityId">
-                                <option value="">全部</option>
+                                @if (citys.Count > 1)
+                                {
+                                    <option value="">全部縣市</option>
+                                }
                                 @foreach (var city in citys)
                                 {
-                                    if (city.Id == ViewBag.CityId)
-                                    {
-                                        <option value="@city.Id" selected="selected">@city.City</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@city.Id">@city.City</option>
-                                    }
-
+                                    string selected = city.Id == ViewBag.CityId ? "selected" : "";
+                                    <option value="@city.Id" @selected>@city.City</option>
                                 }
-
                             </select>
                             <select id="Town" name="TownId">
-                                <option value="">全部</option>
+                                <option value="">全部鄉鎮</option>
                             </select>
                         </td>
                     </tr>
@@ -206,21 +201,29 @@
 @section Scripts{
     <script>
     $(document).ready(function () {
-        var cityId = '@ViewBag.CityId';
-        if ($.trim(cityId).length > 0) {
-            GetTowns(cityId);
-        }
-        $('#City').change(function () { ChangeCity(); });
+        //選定縣市(ex.縣市下拉查詢)
+        GetTowns();
+
+        $('#City').change(function ()
+        {
+            GetTowns();
+        });
     });
-    function ChangeCity() {
-        var selectedValue = $('#City option:selected').val();
-        $('#Town').empty();
-        $('#Town').append($('<option></option>').val('').text('全部'));
-        if ($.trim(selectedValue).length > 0) {
-            GetTowns(selectedValue);
-        }
-    }
+
     function GetTowns(cityId) {
+
+        $('#Town').empty();
+        $('#Town').append($('<option></option>').val('').text('全部鄉鎮'));
+
+        cityId = $('#City option:selected').val();
+        if (cityId == null) {
+            alert("cityId錯誤：null");
+            return;
+        }
+        else if (cityId == "") {
+            return;
+        }
+
         $.ajax({
             url: '@Url.Action("Towns", "Geolocation")'+'?cityId='+cityId,
             type: 'get',
