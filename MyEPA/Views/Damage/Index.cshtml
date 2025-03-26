@@ -45,16 +45,20 @@
             <tr>
                 <td><h5>通報單位：</h5></td>
                 <td>
-                    <select id="City" name="cityId">
-                        <option value="">全部縣市</option>
-                        @foreach (var item in citys)
+                    <select id="City" Name="CityId">
+                        @if (citys.Count > 1)
                         {
-                            <option value="@item.Id" @(cityId == item.Id ? "selected" : string.Empty)>@item.City</option>
+                            <option value="">全部縣市</option>
+                        }
+                        @foreach (var city in citys)
+                        {
+                            string selected = city.Id == ViewBag.CityId ? "selected" : "";
+                            <option value="@city.Id" @selected>@city.City</option>
                         }
                     </select>
-                    <label>鄉鎮市</label>
+
                     <select id="Town" name="TownId">
-                        <option value="">全部</option>
+                        <option value="">全部鄉鎮</option>
                     </select>
                 </td>
             </tr>
@@ -216,19 +220,28 @@
 <script src="~/Scripts/assets/jquery-2.1.4.min.js"></script>
 <script>
     $(document).ready(function () {
-        var cityId = '@cityId';
-        if ($.trim(cityId).length > 0) {
-            GetTowns(cityId);
-        }
-        $('#City').change(function () { ChangeCity(); });
+        //選定縣市(ex.縣市下拉查詢)
+        GetTowns();
+
+        $('#City').change(function ()
+        {
+            GetTowns();
+        });
     });
-    function ChangeCity() {
-        var selectedValue = $('#City option:selected').val();
-        if ($.trim(selectedValue).length > 0) {
-            GetTowns(selectedValue);
-        }
-    }
     function GetTowns(cityId) {
+
+        $('#Town').empty();
+        $('#Town').append($('<option></option>').val('').text('全部鄉鎮'));
+
+        cityId = $('#City option:selected').val();
+        if (cityId == null) {
+            alert("cityId錯誤：null");
+            return;
+        }
+        else if (cityId == "") {
+            return;
+        }
+
         $.ajax({
             url: '@Url.Action("Towns", "Geolocation")'+'?cityId='+cityId,
             type: 'get',
@@ -236,8 +249,6 @@
             async: false,
             dataType: 'json',
             success: function (data) {
-                $('#Town').empty();
-                $('#Town').append($('<option></option>').val('').text('全部'));
                 if (data.length > 0) {
 
                     $.each(data, function (i, item) {

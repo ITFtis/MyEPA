@@ -2,6 +2,7 @@
 using MyEPA.EPA.Attribute;
 using MyEPA.Extensions;
 using MyEPA.Models;
+using MyEPA.Models.Deds;
 using MyEPA.Models.FilterParameter;
 using MyEPA.Services;
 using MyEPA.ViewModels;
@@ -29,10 +30,26 @@ namespace MyEPA.Controllers
         public ActionResult Index(int? diasterId = null, int? cityId = null,int? townId = null, DateTime? cleanStartTime = null,DateTime? cleanEndTime = null, int? areaId = null)
         {
             List<DiasterModel> diasters = DiasterService.GetAll();
-            
+
+            //帳號權限(縣市)
+            List<int> cityIds = new List<int>();
+            var user = GetUserBrief();
+            var duty = user.Duty;
+
+            switch (duty)
+            {
+                case DutyEnum.EPA:
+                case DutyEnum.Corps:
+                case DutyEnum.Team:
+                    break;
+                default:
+                    cityIds.Add( user.CityId);
+                    break;
+            }
+
             DamageFilterParameter filter = new DamageFilterParameter()
             {
-                CityIds = new List<int>(),
+                CityIds = cityIds,
                 TownIds = new List<int>(),
                 DiasterIds = new List<int>(),
                 CleanEndTime = cleanEndTime,
@@ -54,7 +71,7 @@ namespace MyEPA.Controllers
             if (areaId.HasValue)
             {
                 filter.AreaId = areaId;
-            }
+            }            
 
             filter.DiasterIds.Add(diasterId.Value);
 
@@ -63,8 +80,8 @@ namespace MyEPA.Controllers
             ViewBag.TownId = townId;
             ViewBag.CleanStartTime = cleanStartTime;
             ViewBag.CleanEndTime = cleanEndTime;
-            ViewBag.Diasters = diasters;
-            ViewBag.Citys = CityService.GetCountyOrderBySort();
+            ViewBag.Diasters = diasters;            
+            ViewBag.Citys = CityService.GetCitysF1(user);
             ViewBag.AreaId = areaId;
 
             var datas = DamageService.GetCleanByFilter(filter);

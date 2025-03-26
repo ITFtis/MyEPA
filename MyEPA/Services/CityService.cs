@@ -34,18 +34,25 @@ namespace MyEPA.Services
         public static List<CityModel> GetCitysF1(UserBriefModel user)
         {
             CityRepository CityRepository = new CityRepository();
-
-            List<CityModel> citys = new List<CityModel>();
-            if(user.Duty == Enums.DutyEnum.EPA
+            
+            List<int> cityIds = new List<int>();
+            if (user.Duty == Enums.DutyEnum.EPA
                 || user.Duty == Enums.DutyEnum.Team
                 )
             {
-                citys = CityRepository.GetList().ToList();
+                //全部                
             }
             else
             {
-                citys.Add(CityRepository.Get(user.CityId));
+                cityIds.Add(user.CityId);
             }
+
+            List<CityModel> citys = CityRepository.GetListByFilter(new CityFilterParameter
+            {
+                IsCounty = true,
+                CityIds = cityIds,
+            }).OrderBy(e => e.Sort).ToList();
+
             ////if (!user.IsAdmin)
             ////{
             ////    citys.Add(CityRepository.Get(user.CityId));
