@@ -1,6 +1,7 @@
 ﻿using DocumentFormat.OpenXml.Bibliography;
 using Microsoft.Office.Interop.Excel;
 using Microsoft.Office.Interop.Word;
+using MyEPA.Enums;
 using MyEPA.Extensions;
 using MyEPA.Models;
 using MyEPA.Models.FilterParameter;
@@ -49,7 +50,17 @@ namespace MyEPA.Controllers
 
             if (diasterId.HasValue == false)
             {
-                diasterId = diasters.Select(e => e.Id).FirstOrDefault();
+                //未指定災害
+                var d = diasters.FirstOrDefault(e => e.Status == NormalActiveStatusEnum.Active.ToInteger());
+                if (d != null)
+                {
+                    //預設災害啟動中
+                    diasterId = d.Id;
+                }
+                else
+                {
+                    diasterId = diasters.Select(e => e.Id).FirstOrDefault();
+                }
             }
             
             ViewBag.Diasters = diasters;
