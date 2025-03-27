@@ -60,7 +60,17 @@ namespace MyEPA.Repositories
             {
                 whereSQL += " And City = @City";
             }
-            
+            if (filter.IsCity23.HasValue)
+            {
+                whereSQL += @" And 
+                (
+	                (IsCounty = 1)
+	                Or
+	                (IsCounty = 0 And Id = 23)
+                )
+";
+            }
+
             return whereSQL;
         }
 

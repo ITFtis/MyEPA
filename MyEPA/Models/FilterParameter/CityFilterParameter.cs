@@ -13,5 +13,10 @@ namespace MyEPA.Models.FilterParameter
         /// CityTypeEnum.cs
         /// </summary>
         public List<int> Types { get; set; }
+
+        /// <summary>
+        /// (23筆)22個縣市+1個環境部
+        /// </summary>
+        public bool? IsCity23 { get; set; }
     }
 }

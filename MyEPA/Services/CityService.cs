@@ -28,6 +28,7 @@ namespace MyEPA.Services
 
         /// <summary>
         /// (權限)縣市清單 => 判斷單位(duty)
+        /// (23筆)22個縣市+1個環境部
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
@@ -49,9 +50,9 @@ namespace MyEPA.Services
 
             List<CityModel> citys = CityRepository.GetListByFilter(new CityFilterParameter
             {
-                IsCounty = true,
+                IsCity23 = true,
                 CityIds = cityIds,
-            }).OrderBy(e => e.Sort).ToList();
+            }).OrderByDescending(a => a.IsCounty).ThenBy(e => e.Sort).ToList();
 
             ////if (!user.IsAdmin)
             ////{
