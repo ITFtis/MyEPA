@@ -39,6 +39,7 @@ namespace MyEPA.Services
             List<int> cityIds = new List<int>();
             if (user.Duty == Enums.DutyEnum.EPA
                 || user.Duty == Enums.DutyEnum.Team
+                || user.Duty == Enums.DutyEnum.Corps
                 )
             {
                 //全部                
