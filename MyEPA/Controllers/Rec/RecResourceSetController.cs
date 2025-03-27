@@ -7,6 +7,7 @@ using MyEPA.Repositories;
 using MyEPA.Services;
 using NPOI.OpenXmlFormats.Wordprocessing;
 using NPOI.XWPF.UserModel;
+using Org.BouncyCastle.Utilities.Collections;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -51,8 +52,19 @@ namespace MyEPA.Controllers.Rec
             ViewBag.DiasterName = diasterName;
             //三區中心開檢視
             bool isAll = GetUserDutyId() == DutyEnum.Team.GetHashCode();
-            ViewBag.IsTeam = GetUserDutyId() == DutyEnum.Team.GetHashCode();
-            ViewBag.Citys = SysFunc.GetCitysRecResource(GetUserBrief(), isAll);
+            //ViewBag.IsTeam = GetUserDutyId() == DutyEnum.Team.GetHashCode();
+            var user = GetUserBrief();
+            //編輯(admin + 環管署),檢視(環境部)
+            if(user.IsAdmin || user.Town.Equals("環境管理署"))
+            {
+                ViewBag.IsEdit = true;
+            }
+            else
+            {
+                ViewBag.IsEdit = false;
+            }
+            //ViewBag.Citys = SysFunc.GetCitysRecResource(GetUserBrief(), isAll);
+            ViewBag.Citys = CityService.GetAll();
             ViewBag.RecResourceId = recResourceId;
 
             var result = GetMasterList(diasterId, recResourceId, RecResourceNeed);

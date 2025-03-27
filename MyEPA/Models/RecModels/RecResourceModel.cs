@@ -107,7 +107,7 @@ namespace MyEPA.Models
         [DisplayName("使用期間(迄)")]
         public DateTime UEDate { get; set; }
 
-        [DisplayName("資源調度配置狀態")]
+        [DisplayName("資源調度配置狀態(1.未結案2.已結案)")]
         public int Status { get; set; }
 
         [DisplayName("建檔者")]

@@ -17,7 +17,7 @@
     int type = ViewBag.Type;
     int diasterId = ViewBag.DiasterId;
     List<CityModel> Citys = ViewBag.Citys;
-    bool IsTeam = ViewBag.IsTeam;
+    bool IsEdit = ViewBag.IsEdit;
 }
 
 <h2>調度審核情形</h2>
@@ -77,8 +77,8 @@
         </div>
     </div>
 
-    @*三區中心開檢視*@
-    @if (!IsTeam && RecResourceNeed.Status != 2)
+    @*有編輯權限且尚未結案*@
+    @if (IsEdit && RecResourceNeed.Status != 2)
     {
         <input type="submit" value="儲存" class="btn btn-danger align-center" onclick="Save()" />
     }
@@ -117,7 +117,7 @@
                     *@
                     <td>
                         @Html.Hidden("IdHelp", @Item.Id)
-                        <input name="SetQuantity" type="number" value="@Item.SetQuantity" @(IsTeam || RecResourceNeed.Status == 2 ? "disabled" : "")>
+                        <input name="SetQuantity" type="number" value="@Item.SetQuantity" @(IsEdit && RecResourceNeed.Status != 2 ? "" : "disabled")>
                     </td>
                     <td>
                         @Citys.Where(a => a.Id == Item.CityId).FirstOrDefault().City

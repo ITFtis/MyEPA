@@ -93,8 +93,19 @@ namespace MyEPA.Controllers
 
             ViewBag.Citys = CityService.GetAll();
             ////環衛組：視為admin
-            ViewBag.IsAdmin = user.Town.Trim() == "環境管理署".Trim() || user.IsAdmin;
-            ViewBag.IsTeam = user.Duty == Enums.DutyEnum.Team;
+            //ViewBag.IsAdmin = user.Town.Trim() == "環境管理署".Trim() || user.IsAdmin;
+            //ViewBag.IsTeam = user.Duty == Enums.DutyEnum.Team;
+            //編輯(admin + 環管署),檢視(環境部)
+            if (user.IsAdmin || user.Town.Equals("環境管理署"))
+            {
+                ViewBag.IsEdit = true;
+            }
+            else
+            {
+                ViewBag.IsEdit = false;
+            }
+            //三區只能檢視
+            ViewBag.IsTab3Show = user.Duty == Enums.DutyEnum.EPA || user.Duty == Enums.DutyEnum.Team;
             ViewBag.User = user;
             ViewBag.CountIdNeeds = countIdNeeds;
 

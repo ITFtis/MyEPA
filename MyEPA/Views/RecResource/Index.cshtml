@@ -20,8 +20,8 @@
     //querystring
     int type = ViewBag.Type ?? 0;
     int diasterId = ViewBag.DiasterId;
-    bool IsAdmin = ViewBag.IsAdmin;
-    bool IsTeam = ViewBag.IsTeam;
+    bool IsEdit = ViewBag.IsEdit;
+    bool IsTab3Show = ViewBag.IsTab3Show;
 }
 
 <div class="btn-group">
@@ -97,7 +97,7 @@
                         @{
                             @*1.調度需求(全部看，改自己)*@
                             IEnumerable<RecResourceModel> iquery1;
-                            if (!IsAdmin)
+                            if (!IsEdit)
                             {
                                 //自己縣市
                                 var a1 = Model.Where(a => a.CityId == user.CityId).OrderByDescending(a => a.Id);
@@ -117,8 +117,8 @@
                         {
                             <tr>
                                 <td>
-                                    @if (IsAdmin
-|| (!IsAdmin && item.CityId == user.CityId))
+                                    @if (IsEdit
+|| (!IsEdit && item.CityId == user.CityId))
                                     {
                                         <a href="@Url.Action("Edit", new { item.Id })">編輯</a>
                                         <a href="#" onclick="Delete(@item.Id, @diasterId)">删除</a>
@@ -241,11 +241,11 @@
                         @*2.提供需求(看自己，改自己)*@
                         @{
                             IEnumerable<RecResourceModel> iquery2;
-                            if (IsAdmin)
+                            if (IsEdit)
                             {
                                 iquery2 = Model;
                             }
-                            else if (IsTeam)
+                            else if (IsTab3Show)
                             {
                                 iquery2 = Model;
                             }
@@ -261,8 +261,8 @@
                         {
                             <tr>
                                 <td>
-                                    @if (IsAdmin
-|| (!IsAdmin && item.CityId == user.CityId))
+                                    @if (IsEdit
+|| (!IsEdit && item.CityId == user.CityId))
                                     {
                                         <a href="@Url.Action("Edit", new { item.Id })">編輯</a>
                                         <a href="#" onclick="Delete(@item.Id, @diasterId)">删除</a>
@@ -387,18 +387,23 @@
                                 <td>
                                     @{ 
                                         string btnText = "";
-                                        if (IsTeam)
+
+                                        if (item.Status == 2)
                                         {
-                                            //三區只能檢視
-                                            btnText = "檢視";
-                                        }
-                                        else if (item.Status == 2)
-                                        {
+                                            //已結案
                                             btnText = "檢視";
                                         }
                                         else
                                         {
-                                            btnText = "編輯";
+                                            //未結案
+                                            if(IsEdit)
+                                            {
+                                                btnText = "編輯";
+                                            }
+                                            else if (IsTab3Show)
+                                            {
+                                                btnText = "檢視";
+                                            }
                                         }
                                     }
                                     <a style="color:red" href="@Url.Action("List", "RecResourceSet", new { type = 3, diasterId = diasterId, recResourceId = item.Id })">
@@ -505,13 +510,13 @@
 
     <script>
 
-        var IsAdmin = '@IsAdmin'.toLowerCase() == 'true';
-        var IsTeam = '@IsTeam'.toLowerCase() == 'true';
+        var IsEdit = '@IsEdit'.toLowerCase() == 'true';
+        var IsTab3Show = '@IsTab3Show'.toLowerCase() == 'true';
 
         $(function () {
             $("#Tabs2").tabs();
 
-            if (!(IsAdmin) && !(IsTeam)) {
+            if (!(IsEdit) && !(IsTab3Show)) {
                 $('#tab3').hide();
             }
 
@@ -580,6 +585,11 @@
 
         //結案
         function UpdateStatus(id, diasterId, status) {
+
+            //無結案權限
+            if (!IsEdit) {
+                return;
+            }
 
             var act = '';
             if (status == '1') {
