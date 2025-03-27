@@ -382,12 +382,15 @@
     </a>
     <b class="arrow"></b>
     <ul class="submenu">
-        <li class="">
-            @Html.ActionLink("災害主題建置", "A9x1", "EPAxDiaster", "", new { })
-        </li>
-        <li class="">
-            @Html.ActionLink("災害預警區設定", "A9x2", "EPAxDiaster", "", new { })
-        </li>
+        @if (ViewBag.IsAdmin)
+        {
+            <li class="">
+                @Html.ActionLink("災害主題建置", "A9x1", "EPAxDiaster", "", new { })
+            </li>
+            <li class="">
+                @Html.ActionLink("災害預警區設定", "A9x2", "EPAxDiaster", "", new { })
+            </li>
+        }
         <li class="">
             <a href="@Url.Action("Index", "UserGroup",new { Type = "SMS"})">簡訊群組</a>
         </li>
@@ -412,9 +415,12 @@
         <li class="">
             @Html.ActionLink("相關資訊網站資料", "A9x9", "UserEPA", "", new { })
         </li>
-        <li class="">
-            @Html.ActionLink("線上註冊審查", "A9x12ApproveRegister", "EPAxUser", "", new { })
-        </li>
+        @if (ViewBag.IsAdmin)
+        { 
+            <li class="">
+                @Html.ActionLink("線上註冊審查", "A9x12ApproveRegister", "EPAxUser", "", new { })
+            </li>
+        }
     </ul>
 </li>
 <li class="">
