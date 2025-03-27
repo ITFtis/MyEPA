@@ -116,10 +116,11 @@ namespace MyEPA.Controllers
 
                         duty = DutyEnum.Team;                        
                     }
-                    else if(register.Town.Equals("環境管理署"))
-                    {
-                        duty = DutyEnum.Corps;
-                    }
+                    ////Brian_20250327：淑俐權限"環境管理署"已改為"環境部"
+                    ////else if(register.Town.Equals("環境管理署"))
+                    ////{
+                    ////    duty = DutyEnum.Corps;
+                    ////}
                     List<DepartmentModel> departments = new DepartmentRepository().GetList();
 
                     DepartmentModel department = 
