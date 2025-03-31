@@ -15,9 +15,9 @@
                         </a>
 
                         <div class="media-body">
-                            <h4>
+                            <h3>
                                 @post.Title<br /><small>〈發布時間&nbsp @(((DateTime)post.CreateDate).ToDateTimeString())〉</small>
-                            </h4>
+                            </h3>
                             <p class="pc">@Html.Raw(post.Content.ChangToUrlLink())</p>
                         </div>
                         </div>
