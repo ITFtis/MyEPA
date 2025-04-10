@@ -43,8 +43,15 @@ namespace MyEPA.Controllers.Report
         /// <returns></returns>
         public ActionResult DisasterResponseReport()
         {
-            if (!GetIsAdmin())
+            ////if (!GetIsAdmin())
+            ////    return RedirectToAction("LoginRedirect", "Home");
+
+            var user = GetUserBrief();
+            bool IsView = user.Duty == DutyEnum.EPA || user.Duty == DutyEnum.Corps || user.Duty == DutyEnum.Team;
+            if (!IsView)
+            {
                 return RedirectToAction("LoginRedirect", "Home");
+            }
 
             return View();
         }
@@ -55,8 +62,15 @@ namespace MyEPA.Controllers.Report
         /// <returns></returns>
         public ActionResult DisasterEventReport(int? diasterId = null)
         {
-            if (!GetIsAdmin())
+            ////if (!GetIsAdmin())
+            ////    return RedirectToAction("LoginRedirect", "Home");
+
+            var user = GetUserBrief();
+            bool IsView = user.Duty == DutyEnum.EPA || user.Duty == DutyEnum.Corps || user.Duty == DutyEnum.Team;
+            if (!IsView)
+            {
                 return RedirectToAction("LoginRedirect", "Home");
+            }
 
             List<DiasterModel> diasters = DiasterService.GetAll();
 
