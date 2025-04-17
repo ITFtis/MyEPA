@@ -212,7 +212,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">說明</h5>
+                    <h5 id="showTitleMessage" class="modal-title">說明</h5>
                 </div>
                 <div class="modal-body">                    
                     <span id="showMessage">aaaa</span>
@@ -241,6 +241,8 @@
         $aNotes.attr('style', 'cursor: pointer;');
         $aNotes.click(function () {            
             $('#NeedModal').modal('show');
+            
+            $('#NeedModal #showTitleMessage').text("備註");
             var fullNote = $(this).attr('fullNote');
             $('#NeedModal #showMessage').text(fullNote);
         });
