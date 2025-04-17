@@ -180,7 +180,7 @@
                                     if (@item.Note.Length > 5)
                                         note = @item.Note.Substring(0, 5) + "...";
 
-                                    <font>@note</font>
+                                    <a name="aNote" fullNote="@item.Note" >@note</a>
                                 }
 
                             </td>
@@ -206,6 +206,21 @@
             </div>
         </div>
     </div>
+
+    @*modal*@
+    <div class="modal fade" id="NeedModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">說明</h5>
+                </div>
+                <div class="modal-body">                    
+                    <span id="showMessage">aaaa</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 
@@ -219,6 +234,15 @@
         $('#City').change(function ()
         {
             GetTowns();
+        });
+
+        //Modal-備註
+        $aNotes = $('.widget-body .table').find('a[name=aNote]');
+        $aNotes.attr('style', 'cursor: pointer;');
+        $aNotes.click(function () {            
+            $('#NeedModal').modal('show');
+            var fullNote = $(this).attr('fullNote');
+            $('#NeedModal #showMessage').text(fullNote);
         });
     });
 
