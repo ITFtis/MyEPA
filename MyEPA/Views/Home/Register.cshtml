@@ -47,7 +47,7 @@
                 <tr>
                     <td style="text-align:center"><label for="Id">帳號</label></td>
                     <td>
-                        @Html.TextBoxFor(m => m.Id, "", new { style = "border-style:groove;width:200px;", @required = "required", @placeholder = "必填", oninput = "preventChineseInput(this);" })
+                        @Html.TextBoxFor(m => m.Id, "", new { style = "border-style:groove;width:200px;", @required = "required", @placeholder = "必填", maxlength = 14, oninput = "preventChineseInput(this);" })
                         @Html.ValidationMessageFor(m => m.Id, "", new { @style = "color:red" })
                         <span class="text-danger ps-3">*請輸入英文或數字</span>
                     </td>
