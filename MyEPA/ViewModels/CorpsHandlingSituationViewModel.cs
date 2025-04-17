@@ -2,6 +2,7 @@
 using MyEPA.Models;
 using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace MyEPA.ViewModels
 {
@@ -14,6 +15,7 @@ namespace MyEPA.ViewModels
         public int DamageId { get; set; }
         //環管署處理情形
         [DisplayName("處理情形")]
+        [DataType(DataType.MultilineText)]
         public string CorpsHandlingSituation { get; set; }
         /// <summary>
         /// 環管署處理情形_更新者

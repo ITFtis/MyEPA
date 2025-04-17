@@ -42,9 +42,12 @@
     @Html.HiddenFor(e => e.DamageId)
     @Html.HiddenFor(e => e.Type)
     <div class="form-group">
-        @Html.LabelFor(model => model.CorpsHandlingSituation, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.CorpsHandlingSituation, new { htmlAttributes = new { @class = "form-control" } })
+        <label class="control-label col-md-2">
+            <span class="text-danger">*</span>
+            處理情形
+        </label>        
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.CorpsHandlingSituation, new { htmlAttributes = new { @class = "form-control", @rows = 8 } })
             @Html.ValidationMessageFor(model => model.CorpsHandlingSituation, "", new { @class = "text-danger" })
         </div>
     </div>
