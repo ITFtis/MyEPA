@@ -71,7 +71,7 @@
                                                 new SelectListItem{Text = "環保局(地方機關)",Value = "環保局"},
                                                 new SelectListItem{Text = "清潔隊(地方機關)", Value = "清潔隊"},
                                                 new SelectListItem{Text = "自來水公司",Value = "自來水公司"},
-                                                }, new { onclick = "DutyChanged()", @required = "required" })
+                                                }, new { @required = "required" })
                         @Html.ValidationMessageFor(m => m.Duty, "", new { @style = "color:red" })
                     </td>
                 </tr>
@@ -81,7 +81,7 @@
                         @Html.DropDownList("City", new List<SelectListItem>
                                                  {
                                                        new SelectListItem{Text = "請選擇",Value = "",Selected=true}
-                                                 }, new { @disabled = "disabled", onclick = "CityChanged()", @required = "required" })
+                                                 }, new { @disabled = "disabled", @required = "required" })
                         @Html.ValidationMessageFor(m => m.City, "", new { @style = "color:red" })
                     </td>
                 </tr>
@@ -209,6 +209,15 @@
             } else {
                 requiredCheckboxes.attr('required', 'required');
             }
+        });
+        
+        $('#Duty').change(function () {
+            DutyChanged();
+            CityChanged();
+        });
+        
+        $('#City').change(function () {
+            CityChanged();
         });
     });
 
